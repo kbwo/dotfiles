@@ -41,18 +41,18 @@ Plug 'scrooloose/syntastic'
 "" delete white space
 Plug 'bronson/vim-trailing-whitespace'
 "" auto complete
-Plug 'sheerun/vim-polyglot'
 Plug 'Valloric/YouCompleteMe'
 Plug 'ervandew/supertab'
 "" html
 Plug 'hail2u/vim-css3-syntax'
 Plug 'gorodinskiy/vim-coloresque'
+Plug 'kyoz/purify', { 'rtp': 'vim' }
 Plug 'tpope/vim-haml'
 Plug 'mattn/emmet-vim'
 "" javascript
 Plug 'jelera/vim-javascript-syntax'
 "" php
-Plug 'arnaud-lb/vim-php-namespace'
+" Plug 'arnaud-lb/vim-php-namespace'
 "" python
 Plug 'davidhalter/jedi-vim'
 Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'}
@@ -63,7 +63,7 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
 ""HTML + PHP
-Plug 'captbaritone/better-indent-support-for-php-with-html'
+" Plug 'captbaritone/better-indent-support-for-php-with-html'
 
 ""commentout
 Plug 'tomtom/tcomment_vim'
@@ -74,8 +74,41 @@ Plug 'tpope/vim-obsession'
 ""PHP debugger
 Plug 'joonty/vdebug'
 
+""JSX
+" https://github.com/MaxMEllon/vim-jsx-pretty
+Plug 'maxmellon/vim-jsx-pretty'
+" Plug 'yuezk/vim-js'
+Plug 'HerringtonDarkholme/yats.vim'
+" or Plug 'leafgarland/typescript-vim'
 
+Plug 'Shougo/vimproc.vim', {'do' : 'make'}
+
+" typescript
+Plug 'Quramy/tsuquyomi'
+
+" Golang
+" Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'sheerun/vim-polyglot'
+
+Plug 'editorconfig/editorconfig-vim'
+
+" post install (yarn install | npm install) then load plugin only for editing supported files
+Plug 'prettier/vim-prettier', {
+  \ 'do': 'yarn install',
+  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
+
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
+Plug 'mattn/vim-lsp-icons'
+
+Plug 'hrsh7th/vim-vsnip'
+Plug 'hrsh7th/vim-vsnip-integ'
+
+Plug 'terryma/vim-multiple-cursors'
 call plug#end()
+
 filetype plugin indent on
 let mapleader="9<Space>"
 
@@ -88,7 +121,7 @@ let g:UltiSnipsEditSplit="vertical"
 "" youcompleteme
 " let g:ycm_server_python_interpreter = '/Users/kbohead/.pyenv/shims/python'
 "
-" let g:ycm_python_binary_path = '/usr/bin/python2.7'
+let g:ycm_python_binary_path = '/usr/bin/python2.7'
 let g:ycm_auto_trigger = 1
 let g:ycm_global_ycm_extra_conf = '~/.vim/plugged/YouCompleteMe/.ycm_extra_conf.py'
 let g:ycm_min_num_of_chars_for_completion = 1
@@ -115,6 +148,12 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tagbar#enabled = 1
 let g:airline_skip_empty_sections = 1
 
+""for vim-go
+" let g:go_highlight_fields = 1
+" let g:go_highlight_functions = 1
+" let g:go_highlight_methods = 1
+" let g:go_highlight_structs = 1
+
 "" emmet
 autocmd FileType html imap <buffer><expr><tab>
       \ emmet#isExpandable() ? "\<plug>(emmet-expand-abbr)" :
@@ -127,6 +166,7 @@ let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycach
 let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
 let g:NERDTreeShowBookmarks=1
 let g:nerdtree_tabs_focus_on_files=1
+let g:nerdtree_tabs_open_on_console_startup=1
 let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
 let g:NERDTreeWinSize = 30
 let NERDTreeShowHidden=1
@@ -325,9 +365,9 @@ set bomb
 set binary
 set ttyfast
 set backspace=indent,eol,start
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
 set expandtab
 set autoindent
 set splitright
@@ -342,7 +382,8 @@ set noswapfile
 set fileformats=unix,dos,mac
 syntax on
 :set t_Co=256
-colorscheme nord
+autocmd ColorScheme * highlight LineNr ctermfg=39
+colorscheme iceberg
 set ruler
 set number
 " set gcr=a:blinkon0
@@ -369,9 +410,49 @@ augroup END
 " snippet
 let g:UltiSnipsSnippetDirectories=["~/vim-snippets/"]
 
+
+"lsp
 "「%」による対応括弧へのカーソル移動機能を拡張
 source /usr/share/vim/vim81/macros/matchit.vim
 runtime macros/matchit.vim
 let b:match_words = "if:endif,foreach:endforeach,\<begin\>:\<end\>"
 
 :set guicursor=i:blinkwait700-blinkon400-blinkoff250
+
+" auto opening quickfix window using vim grep
+autocmd QuickFixCmdPost *grep* cwindow
+
+" don't comment out when go to next line
+autocmd FileType * setlocal formatoptions-=ro
+
+nnoremap <C-]> :tabnew %<CR>g<C-]>
+vnoremap <C-]> <Esc>:tabnew %<CR>gvg<C-]>
+
+if empty(globpath(&rtp, 'autoload/lsp.vim'))
+  finish
+endif
+
+function! s:on_lsp_buffer_enabled() abort
+  setlocal omnifunc=lsp#complete
+  setlocal signcolumn=yes
+  nmap <buffer> gd <plug>(lsp-definition)
+  nmap <buffer> <f2> <plug>(lsp-rename)
+  inoremap <expr> <cr> pumvisible() ? "\<c-y>\<cr>" : "\<cr>"
+endfunction
+
+augroup lsp_install
+  au!
+  autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
+command! LspDebug let lsp_log_verbose=1 | let lsp_log_file = expand('~/lsp.log')
+
+let g:lsp_diagnostics_enabled = 1
+let g:lsp_diagnostics_echo_cursor = 1
+let g:asyncomplete_auto_popup = 1
+let g:asyncomplete_auto_completeopt = 1
+let g:asyncomplete_popup_delay = 200
+let g:lsp_text_edit_enabled = 1
+
+set completeopt=menuone,noinsert,noselect,preview
+
+let g:lsp_settings = {'typescript-language-server':{'whitelist': ['typescript', 'typescriptreact']}}

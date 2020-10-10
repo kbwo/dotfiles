@@ -4,11 +4,6 @@
 # http://mollifier.mit-license.org/
 export PATH=$PATH:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
 #
-# pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-# export PATH="$HOME/opt/anaconda3/bin:$PATH"
 ########################################
 # 環境変数
 export LANG=ja_JP.UTF-8
@@ -184,8 +179,15 @@ export ANDROID_HOME=~/Library/Android/sdk
 # export PATH=$PATH:~/.npm-global/bin
 export PATH=$PATH:~/.npm-global/bin
 
+
 export GOPATH="$HOME/go"
-export GOENV_ROOT="$HOME/.goenv"
-export PATH="$GOENV_ROOT/bin:$PATH"
-eval "$(goenv init -)"
+# export GOENV_ROOT="$HOME/.goenv"
+# export PATH="$GOENV_ROOT/bin:$PATH"
+# eval "$(goenv init -)"
 export PATH="$PATH:$GOPATH/bin"
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/kbohead/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/kbohead/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/kbohead/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/kbohead/google-cloud-sdk/completion.zsh.inc'; fi
+export PATH=/usr/local/Cellar/git/X.XX.X/bin:/Users/kbohead/google-cloud-sdk/bin:/usr/local/bin:/Users/kbohead/.composer/vendor/bin:/Users/kbohead/google-cloud-sdk/bin:/usr/local/bin:/Users/kbohead/.composer/vendor/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/go/bin:/Library/Apple/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:./node_modules/.bin:/Users/kbohead/.npm-global/bin:/Users/kbohead/go/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:./node_modules/.bin:/Users/kbohead/.npm-global/bin:/Users/kbohead/go/bin
