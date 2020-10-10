@@ -383,7 +383,7 @@ set fileformats=unix,dos,mac
 syntax on
 :set t_Co=256
 autocmd ColorScheme * highlight LineNr ctermfg=39
-colorscheme iceberg
+colorscheme wombat256grf
 set ruler
 set number
 " set gcr=a:blinkon0
@@ -456,3 +456,18 @@ let g:lsp_text_edit_enabled = 1
 set completeopt=menuone,noinsert,noselect,preview
 
 let g:lsp_settings = {'typescript-language-server':{'whitelist': ['typescript', 'typescriptreact']}}
+
+
+let g:multi_cursor_use_default_mapping=0
+
+" Default mapping
+let g:multi_cursor_start_word_key      = '<C-j>'
+let g:multi_cursor_select_all_word_key = '<A-n>'
+let g:multi_cursor_start_key           = 'g<C-j>'
+let g:multi_cursor_select_all_key      = 'g<A-n>'
+let g:multi_cursor_next_key            = '<C-j>'
+let g:multi_cursor_prev_key            = '<C-k>'
+let g:multi_cursor_skip_key            = '<C-x>'
+let g:multi_cursor_quit_key            = '<Esc>'
+map <C-l> :LspNextError<CR>
+map <C-b> :LspDefinition<CR>
