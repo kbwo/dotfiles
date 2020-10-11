@@ -41,12 +41,12 @@ Plug 'scrooloose/syntastic'
 "" delete white space
 Plug 'bronson/vim-trailing-whitespace'
 "" auto complete
-Plug 'Valloric/YouCompleteMe'
+" Plug 'Valloric/YouCompleteMe'
 Plug 'ervandew/supertab'
 "" html
-Plug 'hail2u/vim-css3-syntax'
+" Plug 'hail2u/vim-css3-syntax'
 Plug 'gorodinskiy/vim-coloresque'
-Plug 'kyoz/purify', { 'rtp': 'vim' }
+" Plug 'kyoz/purify', { 'rtp': 'vim' }
 Plug 'tpope/vim-haml'
 Plug 'mattn/emmet-vim'
 "" javascript
@@ -84,7 +84,7 @@ Plug 'HerringtonDarkholme/yats.vim'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 
 " typescript
-Plug 'Quramy/tsuquyomi'
+" Plug 'Quramy/tsuquyomi'
 
 " Golang
 " Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
@@ -97,10 +97,12 @@ Plug 'prettier/vim-prettier', {
   \ 'do': 'yarn install',
   \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
 
+Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
+Plug 'mattn/vim-goimports'
 Plug 'mattn/vim-lsp-icons'
 
 Plug 'hrsh7th/vim-vsnip'
@@ -470,4 +472,5 @@ let g:multi_cursor_prev_key            = '<C-k>'
 let g:multi_cursor_skip_key            = '<C-x>'
 let g:multi_cursor_quit_key            = '<Esc>'
 map <C-l> :LspNextError<CR>
-map <C-b> :LspDefinition<CR>
+map <C-d> :LspDefinition<CR>
+map <C-s> :LspReferences<CR>
