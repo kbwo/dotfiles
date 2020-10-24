@@ -102,6 +102,8 @@ Plug 'hrsh7th/vim-vsnip-integ'
 Plug 'terryma/vim-multiple-cursors'
 
 Plug 'ghifarit53/tokyonight-vim'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'mattn/ctrlp-matchfuzzy'
 " Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 " Plug 'tpope/vim-dadbod'
 " Plug 'kristijanhusak/vim-dadbod-ui'
@@ -362,9 +364,6 @@ set nobackup
 set noswapfile
 set fileformats=unix,dos,mac
 syntax on
-:set t_Co=256
-autocmd ColorScheme * highlight LineNr ctermfg=39
-colorscheme wombat256grf
 
 let g:tokyonight_current_word = 'underline'
 let g:tokyonight_style = 'night' " available: night, storm
@@ -464,3 +463,8 @@ map <C-i> :LspCodeAction<CR>
 
 let g:SuperTabDefaultCompletionType = "<c-n>"
 let g:SuperTabContextDefaultCompletionType = "<c-n>"
+" let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:30,results:10'
+" let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
+let g:ctrlp_match_window = 'max:20'
+set switchbuf+=usetab,newtab
+
