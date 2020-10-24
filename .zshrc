@@ -6,7 +6,8 @@ export PATH=$PATH:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
 #
 ########################################
 # 環境変数
-export LANG=ja_JP.UTF-8
+# export LANG=js_JP.UTF-8
+export LANG=en_US.UTF-8
 export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/path/to/parent/dir
 
 # 色を使用出来るようにする
@@ -191,3 +192,6 @@ if [ -f '/Users/kbohead/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/kbohead
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/kbohead/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/kbohead/google-cloud-sdk/completion.zsh.inc'; fi
 export PATH=/usr/local/Cellar/git/X.XX.X/bin:/Users/kbohead/google-cloud-sdk/bin:/usr/local/bin:/Users/kbohead/.composer/vendor/bin:/Users/kbohead/google-cloud-sdk/bin:/usr/local/bin:/Users/kbohead/.composer/vendor/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/go/bin:/Library/Apple/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:./node_modules/.bin:/Users/kbohead/.npm-global/bin:/Users/kbohead/go/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:./node_modules/.bin:/Users/kbohead/.npm-global/bin:/Users/kbohead/go/bin
+
+# rust path
+export PATH=$HOME/.cargo/bin:$PATH

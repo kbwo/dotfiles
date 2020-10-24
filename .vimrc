@@ -41,7 +41,6 @@ Plug 'scrooloose/syntastic'
 "" delete white space
 Plug 'bronson/vim-trailing-whitespace'
 "" auto complete
-" Plug 'Valloric/YouCompleteMe'
 Plug 'ervandew/supertab'
 "" html
 " Plug 'hail2u/vim-css3-syntax'
@@ -60,7 +59,9 @@ Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'}
 Plug 'Shougo/vimshell.vim'
 "" snippet
 Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
+Plug 'thomasfaingnaert/vim-lsp-snippets'
+Plug 'thomasfaingnaert/vim-lsp-ultisnips'
+" Plug 'honza/vim-snippets'
 
 ""HTML + PHP
 " Plug 'captbaritone/better-indent-support-for-php-with-html'
@@ -74,20 +75,10 @@ Plug 'tpope/vim-obsession'
 ""PHP debugger
 Plug 'joonty/vdebug'
 
-""JSX
-" https://github.com/MaxMEllon/vim-jsx-pretty
 Plug 'maxmellon/vim-jsx-pretty'
-" Plug 'yuezk/vim-js'
 Plug 'HerringtonDarkholme/yats.vim'
-" or Plug 'leafgarland/typescript-vim'
-
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 
-" typescript
-" Plug 'Quramy/tsuquyomi'
-
-" Golang
-" Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'sheerun/vim-polyglot'
 
 Plug 'editorconfig/editorconfig-vim'
@@ -109,6 +100,14 @@ Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/vim-vsnip-integ'
 
 Plug 'terryma/vim-multiple-cursors'
+
+Plug 'ghifarit53/tokyonight-vim'
+" Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+" Plug 'tpope/vim-dadbod'
+" Plug 'kristijanhusak/vim-dadbod-ui'
+" Plug 'ryanoasis/vim-devicons'
+
+
 call plug#end()
 
 filetype plugin indent on
@@ -116,29 +115,9 @@ let mapleader="9<Space>"
 
 "" ultisnip
 let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+let g:UltiSnipsJumpForwardTrigger="<C-n>"
+let g:UltiSnipsJumpBackwardTrigger="<C-p>"
 let g:UltiSnipsEditSplit="vertical"
-
-"" youcompleteme
-" let g:ycm_server_python_interpreter = '/Users/kbohead/.pyenv/shims/python'
-"
-let g:ycm_python_binary_path = '/usr/bin/python2.7'
-let g:ycm_auto_trigger = 1
-let g:ycm_global_ycm_extra_conf = '~/.vim/plugged/YouCompleteMe/.ycm_extra_conf.py'
-let g:ycm_min_num_of_chars_for_completion = 1
-let g:ycm_autoclose_preview_window_after_insertion = 1
-let g:ycm_key_list_select_completion = ['<Down>']
-let g:ycm_key_list_previous_completion = ['<Up>']
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "ᐅ"
-let g:ycm_key_list_stop_completion = ['<C-y>', '<Enter>']
-let g:ycm_seed_identifiers_with_syntax = 1
-let g:SuperTabDefaultCompletionType = '<C-n>'
-let g:make = 'gmake'
-if exists('make')
-  let g:make = 'make'
-endif
-
 "" auto-format
 "" au BufWrite * :Autoformat
 
@@ -386,9 +365,17 @@ syntax on
 :set t_Co=256
 autocmd ColorScheme * highlight LineNr ctermfg=39
 colorscheme wombat256grf
+
+let g:tokyonight_current_word = 'underline'
+let g:tokyonight_style = 'night' " available: night, storm
+let g:tokyonight_current_word = 'bold'
+let g:tokyonight_disable_italic_comment = 1
+let g:tokyonight_menu_selection_background = 'WildMenu'
+" let g:tokyonight_enable_italic = 1
+"
+colorscheme tokyonight
 set ruler
 set number
-" set gcr=a:blinkon0
 set scrolloff=3
 set laststatus=2
 set modeline
@@ -410,8 +397,7 @@ augroup templateGroup
   autocmd BufNewFile *.html :0r ~/.vim/templates/t.html
 augroup END
 " snippet
-let g:UltiSnipsSnippetDirectories=["~/vim-snippets/"]
-
+let g:UltiSnipsSnippetDirectories=["~/.vim/UltiSnips"]
 
 "lsp
 "「%」による対応括弧へのカーソル移動機能を拡張
@@ -474,3 +460,7 @@ let g:multi_cursor_quit_key            = '<Esc>'
 map <C-l> :LspNextError<CR>
 map <C-d> :LspDefinition<CR>
 map <C-s> :LspReferences<CR>
+map <C-i> :LspCodeAction<CR>
+
+let g:SuperTabDefaultCompletionType = "<c-n>"
+let g:SuperTabContextDefaultCompletionType = "<c-n>"
