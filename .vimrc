@@ -365,12 +365,13 @@ set noswapfile
 set fileformats=unix,dos,mac
 syntax on
 
-let g:tokyonight_current_word = 'underline'
 let g:tokyonight_style = 'night' " available: night, storm
-let g:tokyonight_current_word = 'bold'
 let g:tokyonight_disable_italic_comment = 1
-let g:tokyonight_menu_selection_background = 'WildMenu'
-" let g:tokyonight_enable_italic = 1
+let g:tokyonight_current_word = 'bold'
+let g:tokyonight_transparent_background = 1
+let g:lightline = {'colorscheme' : 'tokyonight'}
+let g:airline_theme = "tokyonight"
+
 "
 colorscheme tokyonight
 set ruler
