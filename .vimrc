@@ -365,15 +365,22 @@ set noswapfile
 set fileformats=unix,dos,mac
 syntax on
 
+
+
 let g:tokyonight_style = 'night' " available: night, storm
-let g:tokyonight_disable_italic_comment = 1
-let g:tokyonight_current_word = 'bold'
-let g:tokyonight_transparent_background = 1
+let g:tokyonight_disable_italic_comment = 0
+" let g:tokyonight_current_word = 'bold'
+" let g:tokyonight_transparent_background = 0
 let g:lightline = {'colorscheme' : 'tokyonight'}
 let g:airline_theme = "tokyonight"
-
 "
+" set Vim-specific sequences for RGB colors
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+set termguicolors
 colorscheme tokyonight
+highlight Visual cterm=reverse ctermbg=NONE
+hi Visual  guifg=BLUE guibg=#FFFFFF gui=none
 set ruler
 set number
 set scrolloff=3
@@ -467,5 +474,3 @@ let g:SuperTabContextDefaultCompletionType = "<c-n>"
 " let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:30,results:10'
 " let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
 let g:ctrlp_match_window = 'max:20'
-set switchbuf+=usetab,newtab
-
