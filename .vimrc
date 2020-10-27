@@ -369,7 +369,7 @@ syntax on
 
 let g:tokyonight_style = 'night' " available: night, storm
 let g:tokyonight_disable_italic_comment = 0
-" let g:tokyonight_current_word = 'bold'
+" let g:tokyonight_current_word = 'italic'
 " let g:tokyonight_transparent_background = 0
 let g:lightline = {'colorscheme' : 'tokyonight'}
 let g:airline_theme = "tokyonight"
@@ -380,7 +380,7 @@ let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 set termguicolors
 colorscheme tokyonight
 highlight Visual cterm=reverse ctermbg=NONE
-hi Visual  guifg=BLUE guibg=#FFFFFF gui=none
+hi Visual  guifg=SlateBlue guibg=#FFFFFF gui=none
 set ruler
 set number
 set scrolloff=3
