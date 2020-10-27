@@ -295,7 +295,7 @@ autocmd FileType python setl tabstop=8 expandtab shiftwidth=4 softtabstop=4
 
 " shortcut leader=Space
 "" save
-map <C-n> :NERDTreeToggle<CR>
+map <C-n> :NERDTreeTabsToggle<CR>
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>qqq :q!<CR>
 nnoremap <Leader>eee :e<CR>
@@ -381,6 +381,7 @@ set termguicolors
 colorscheme tokyonight
 highlight Visual cterm=reverse ctermbg=NONE
 hi Visual  guifg=SlateBlue guibg=#FFFFFF gui=none
+hi LineNr term=bold cterm=NONE ctermfg=LightBlue ctermbg=NONE gui=NONE guifg=LightBlue guibg=NONE
 set ruler
 set number
 set scrolloff=3
