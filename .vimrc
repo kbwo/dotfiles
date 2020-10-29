@@ -96,7 +96,7 @@ let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycach
 let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
 let g:NERDTreeShowBookmarks=1
 let g:nerdtree_tabs_focus_on_files=1
-let g:nerdtree_tabs_open_on_console_startup=1
+" let g:nerdtree_tabs_open_on_console_startup=1
 let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
 let g:NERDTreeWinSize = 30
 let NERDTreeShowHidden=1
@@ -418,3 +418,4 @@ let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standar
 let g:ctrlp_working_path_mode = 0
 
 let g:vista_default_executive = 'vim_lsp'
+
