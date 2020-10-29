@@ -18,76 +18,41 @@ endif
 " plugin
 call plug#begin(expand('~/.vim/plugged'))
 Plug 'mattn/vim-starwars'
-"" space + ne -> sidebar
 Plug 'scrooloose/nerdtree'
 Plug 'jistr/vim-nerdtree-tabs'
-"" ga -> align
 Plug 'junegunn/vim-easy-align'
-"" space + qr -> exec script
 Plug 'thinca/vim-quickrun', {'on' : 'QuickRun'}
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
-"" gcc -> comment
 Plug 'tpope/vim-commentary'
-"" option bar
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-"" auto bracket
 Plug 'Raimondi/delimitMate'
 Plug 'tpope/vim-surround'
-"" auto format
 Plug 'Chiel92/vim-autoformat'
-"" error detect
 Plug 'scrooloose/syntastic'
-"" delete white space
 Plug 'bronson/vim-trailing-whitespace'
-"" auto complete
 Plug 'ervandew/supertab'
-"" html
-" Plug 'hail2u/vim-css3-syntax'
 Plug 'gorodinskiy/vim-coloresque'
-" Plug 'kyoz/purify', { 'rtp': 'vim' }
 Plug 'tpope/vim-haml'
 Plug 'mattn/emmet-vim'
-"" javascript
 Plug 'jelera/vim-javascript-syntax'
-"" php
-" Plug 'arnaud-lb/vim-php-namespace'
-"" python
 Plug 'davidhalter/jedi-vim'
 Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'}
-"" space + sh -> vimshell
 Plug 'Shougo/vimshell.vim'
-"" snippet
 Plug 'SirVer/ultisnips'
 Plug 'thomasfaingnaert/vim-lsp-snippets'
 Plug 'thomasfaingnaert/vim-lsp-ultisnips'
-" Plug 'honza/vim-snippets'
-
-""HTML + PHP
-" Plug 'captbaritone/better-indent-support-for-php-with-html'
-
-""commentout
 Plug 'tomtom/tcomment_vim'
-
-""tmux resurrect
 Plug 'tpope/vim-obsession'
-
-""PHP debugger
 Plug 'joonty/vdebug'
-
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
-
 Plug 'sheerun/vim-polyglot'
-
 Plug 'editorconfig/editorconfig-vim'
-
-" post install (yarn install | npm install) then load plugin only for editing supported files
 Plug 'prettier/vim-prettier', {
   \ 'do': 'yarn install',
   \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
-
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
@@ -95,47 +60,29 @@ Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
 Plug 'mattn/vim-goimports'
 Plug 'mattn/vim-lsp-icons'
-
 Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/vim-vsnip-integ'
-
 Plug 'terryma/vim-multiple-cursors'
-
 Plug 'ghifarit53/tokyonight-vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'mattn/ctrlp-matchfuzzy'
-" Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
-" Plug 'tpope/vim-dadbod'
-" Plug 'kristijanhusak/vim-dadbod-ui'
-" Plug 'ryanoasis/vim-devicons'
-
+Plug 'liuchengxu/vista.vim'
 
 call plug#end()
 
 filetype plugin indent on
 let mapleader="9<Space>"
 
-"" ultisnip
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<C-n>"
 let g:UltiSnipsJumpBackwardTrigger="<C-p>"
 let g:UltiSnipsEditSplit="vertical"
-"" auto-format
-"" au BufWrite * :Autoformat
 
-"" vim-airline
 let g:airline_theme = 'powerlineish'
 let g:airline#extensions#syntastic#enabled = 1
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tagbar#enabled = 1
 let g:airline_skip_empty_sections = 1
-
-""for vim-go
-" let g:go_highlight_fields = 1
-" let g:go_highlight_functions = 1
-" let g:go_highlight_methods = 1
-" let g:go_highlight_structs = 1
 
 "" emmet
 autocmd FileType html imap <buffer><expr><tab>
@@ -161,7 +108,6 @@ augroup NERD
   autocmd VimEnter * wincmd p
 augroup END
 
-"" quickrun
 nnoremap <Leader>go :QuickRun<CR>
 nnoremap <C-U>qr :QuickRun<CR>
 let g:quickrun_config={'*': {'split': ''}}
@@ -169,17 +115,11 @@ let g:quickrun_config.cpp = {
             \   'command': 'g++',
             \   'cmdopt': '-std=c++11'
             \ }
-"" vim-easy-align
-xmap ga <Plug>(EasyAlign)
-nmap ga <Plug>(EasyAlign)
 
-"" vimshell
-"" nnoremap <Leader>sh :VimShellPop<CR>
 nnoremap <Leader>sh :vertical terminal<CR>
 let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
 let g:vimshell_prompt =  '$ '
 
-"" syntastic
 let g:syntastic_always_populate_loc_list=1
 let g:syntastic_error_symbol='✗'
 let g:syntastic_warning_symbol='⚠'
@@ -188,7 +128,6 @@ let g:syntastic_style_warning_symbol = '⚠'
 let g:syntastic_auto_loc_list=1
 let g:syntastic_aggregate_errors = 1
 
-"" jedi-vim
 let g:jedi#popup_on_dot = 0
 let g:jedi#goto_assignments_command = "<leader>g"
 let g:jedi#goto_definitions_command = "<leader>d"
@@ -200,15 +139,13 @@ let g:jedi#completions_command = "<C-Space>"
 let g:jedi#smart_auto_mappings = 0
 let g:jedi#force_py_version = 3
 autocmd FileType python setlocal completeopt-=preview
-"" tidy
+
 let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute " ,"trimming empty <", "unescaped &" , "lacks \"action", "is not recognized!", "discarding unexpected"]
 
-"" syntastic
 let g:syntastic_python_checkers=['python', 'flake8']
 let g:polyglot_disabled = ['python']
 let python_highlight_all = 1
 
-"" vim-airline
 let g:airline#extensions#virtualenv#enabled = 1
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
@@ -242,8 +179,6 @@ else
   let g:airline_symbols.linenr = ''
 endif
 
-" function
-"" xaml
 augroup MyXML
   autocmd!
   autocmd Filetype xml inoremap <buffer> </ </<C-x><C-o>
@@ -296,6 +231,8 @@ autocmd FileType python setl tabstop=8 expandtab shiftwidth=4 softtabstop=4
 " shortcut leader=Space
 "" save
 map <C-n> :NERDTreeMirrorToggle<CR>
+map <C-m> :Vista!!<CR>
+
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>qqq :q!<CR>
 nnoremap <Leader>eee :e<CR>
@@ -307,8 +244,8 @@ nnoremap <Leader>s :<C-u>split<CR>
 nnoremap <Leader>v :<C-u>vsplit<CR>
 
 "" Tabs
-nnoremap <Tab> gt
-nnoremap <S-Tab> gT
+nnoremap <c-]> gt
+nnoremap <c-@> gT
 nnoremap <Leader>t :tabnew<CR>
 
 "" ignore wrap
@@ -421,9 +358,6 @@ autocmd QuickFixCmdPost *grep* cwindow
 " don't comment out when go to next line
 autocmd FileType * setlocal formatoptions-=ro
 
-nnoremap <C-]> :tabnew %<CR>g<C-]>
-vnoremap <C-]> <Esc>:tabnew %<CR>gvg<C-]>
-
 if empty(globpath(&rtp, 'autoload/lsp.vim'))
   finish
 endif
@@ -465,13 +399,22 @@ let g:multi_cursor_next_key            = '<C-j>'
 let g:multi_cursor_prev_key            = '<C-k>'
 let g:multi_cursor_skip_key            = '<C-x>'
 let g:multi_cursor_quit_key            = '<Esc>'
-map <C-l> :LspNextError<CR>
-map <C-d> :LspDefinition<CR>
-map <C-s> :LspReferences<CR>
-map <C-i> :LspCodeAction<CR>
+nmap <C-l> :LspNextError<CR>
+nmap <C-h> :LspPreviousError<CR>
+nmap <C-d> :LspDefinition<CR>
+nmap <C-s> :LspReferences<CR>
+nmap <C-i> :LspCodeAction<CR>
+nmap ldd :LspDocumentDiagnostics<CR>
+let g:ctrlp_match_func = {'match': 'ctrlp_matchfuzzy#matcher'}
 
 let g:SuperTabDefaultCompletionType = "<c-n>"
 let g:SuperTabContextDefaultCompletionType = "<c-n>"
-" let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:30,results:10'
-" let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
 let g:ctrlp_match_window = 'max:20'
+let g:ctrlp_max_files=0
+let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|DerivedData\|Pods'
+let g:ctrlp_max_depth=10
+" ignore following gitignore
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+let g:ctrlp_working_path_mode = 0
+
+let g:vista_default_executive = 'vim_lsp'
