@@ -1,6 +1,0 @@
-pane	0	1	:zsh	1	:*	1	:/Users/kbohead/memos	0	zsh	:
-pane	0	1	:zsh	1	:*	2	:/Applications/MAMP/htdocs/nexus/httpdocs	1	zsh	:
-pane	1	1	:zsh	1	:*	1	:/Users/kbohead	1	zsh	:
-window	0	1	1	:*	2927,236x65,0,0{118x65,0,0,0,117x65,119,0,1}
-window	1	1	1	:*	cc5f,236x57,0,0,2
-state	0	
