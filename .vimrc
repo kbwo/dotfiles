@@ -231,7 +231,7 @@ autocmd FileType python setl tabstop=8 expandtab shiftwidth=4 softtabstop=4
 " shortcut leader=Space
 "" save
 map <C-n> :NERDTreeMirrorToggle<CR>
-map <C-m> :Vista!!<CR>
+map mp :Vista!!<CR>
 
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>qqq :q!<CR>
@@ -418,4 +418,6 @@ let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standar
 let g:ctrlp_working_path_mode = 0
 
 let g:vista_default_executive = 'vim_lsp'
+let g:vista_update_on_text_changed = 1
+let g:vista#renderer#enable_icon = 0
 
