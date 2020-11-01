@@ -67,6 +67,7 @@ Plug 'ghifarit53/tokyonight-vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'mattn/ctrlp-matchfuzzy'
 Plug 'liuchengxu/vista.vim'
+Plug 'thosakwe/vim-flutter'
 
 call plug#end()
 
@@ -404,7 +405,7 @@ nmap <C-h> :LspPreviousError<CR>
 nmap <C-d> :LspDefinition<CR>
 nmap <C-s> :LspReferences<CR>
 nmap <C-i> :LspCodeAction<CR>
-nmap ldd :LspDocumentDiagnostics<CR>
+nmap sd :LspDocumentDiagnostics<CR>
 let g:ctrlp_match_func = {'match': 'ctrlp_matchfuzzy#matcher'}
 
 let g:SuperTabDefaultCompletionType = "<c-n>"
