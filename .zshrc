@@ -121,6 +121,7 @@ bindkey '^R' history-incremental-pattern-search-backward
 
 ########################################
 # エイリアス
+alias so='source'
 
 alias la='ls -a'
 alias ll='ls -l'
@@ -130,6 +131,37 @@ alias cp='cp -i'
 alias mv='mv -i'
 
 alias mkdir='mkdir -p'
+
+# react native
+alias rni='npx react-native run-ios'
+alias rna='npx react-native run-android'
+alias podi='pod install'
+alias podu='pod update'
+
+# yarn
+alias y='yarn'
+alias ya='yarn add'
+alias yi='yarn install'
+
+# docker
+alias dce='docker exec -it  bash'
+alias dcr='docker run'
+alias dcc='docker-compose'
+
+# git
+alias gta='git add -A'
+alias gtc='git commit'
+alias gtp='git push'
+alias gtb='git branch'
+alias gtch='git checkout'
+alias gtl='git log'
+alias gtd='git diff'
+alias gts='git status'
+alias gtpl='git pull'
+alias gtcl='git clone'
+alias gtf='git fetch'
+alias gtm='git merge'
+alias gtr='git reset'
 
 # sudo の後のコマンドでエイリアスを有効にする
 alias sudo='sudo '
@@ -174,12 +206,11 @@ export PATH=$PATH:./node_modules/.bin
 #python
 export PATH=/usr/local/bin:$PATH
 
-export ANDROID_HOME=~/Library/Android/sdk
+
 
 # NPM global installs
 # export PATH=$PATH:~/.npm-global/bin
 export PATH=$PATH:~/.npm-global/bin
-
 
 export GOPATH="$HOME/go"
 # export GOENV_ROOT="$HOME/.goenv"
@@ -195,3 +226,15 @@ export PATH=/usr/local/Cellar/git/X.XX.X/bin:/Users/kbohead/google-cloud-sdk/bin
 
 # rust path
 export PATH=$HOME/.cargo/bin:$PATH
+ctags=/usr/local/bin/ctags
+
+# flutter
+export PATH=$PATH:~/flutter/bin
+
+eval "$(gh completion -s zsh)"
+export ANDROID_HOME=~/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+export PATH=$PATH:$ANDROID_HOME/tools
+# export PATH=$PATH:/Users/kbohead/Library/Android/sdk/platform-tools
+export PATH="$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$PATH"
+
