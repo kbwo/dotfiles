@@ -422,4 +422,4 @@ let g:ctrlp_working_path_mode = 0
 let g:vista_default_executive = 'vim_lsp'
 let g:vista_update_on_text_changed = 1
 let g:vista#renderer#enable_icon = 0
-
+let g:vista_sidebar_width = 35
