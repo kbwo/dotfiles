@@ -232,7 +232,7 @@ autocmd FileType python setl tabstop=8 expandtab shiftwidth=4 softtabstop=4
 " shortcut leader=Space
 "" save
 map <C-n> :NERDTreeMirrorToggle<CR>
-map mp :Vista!!<CR>
+map @@ :Vista!!<CR>
 
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>qqq :q!<CR>
@@ -317,6 +317,7 @@ let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 set termguicolors
 colorscheme tokyonight
+highlight Comment guibg=#FFFFFF
 highlight Visual cterm=reverse ctermbg=NONE
 hi Visual  guifg=SlateBlue guibg=#FFFFFF gui=none
 hi LineNr term=bold cterm=NONE ctermfg=LightBlue ctermbg=NONE gui=NONE guifg=LightBlue guibg=NONE
@@ -405,7 +406,7 @@ nmap <C-h> :LspPreviousError<CR>
 nmap <C-d> :LspDefinition<CR>
 nmap <C-s> :LspReferences<CR>
 nmap <C-i> :LspCodeAction<CR>
-nmap sd :LspDocumentDiagnostics<CR>
+nmap tt :LspDocumentDiagnostics<CR>
 let g:ctrlp_match_func = {'match': 'ctrlp_matchfuzzy#matcher'}
 
 let g:SuperTabDefaultCompletionType = "<c-n>"

@@ -1,34 +1,14 @@
-
-# 少し凝った zshrc
-# License : MIT
-# http://mollifier.mit-license.org/
 export PATH=$PATH:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
-#
-########################################
-# 環境変数
-# export LANG=js_JP.UTF-8
 export LANG=en_US.UTF-8
 export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/path/to/parent/dir
-
-# 色を使用出来るようにする
 autoload -Uz colors
 colors
-
-# emacs 風キーバインドにする
-bindkey -v
-
-# ヒストリの設定
 HISTFILE=~/.zsh_history
 HISTSIZE=1000000
 SAVEHIST=1000000
 
-# プロンプト
-# 1行表示
-# PROMPT="%~ %# "
-# 2行表示
 PROMPT="%{${fg[green]}%}[%n@%m]%{${reset_color}%} %~
 %# "
-
 
 # 単語の区切り文字を指定する
 autoload -Uz select-word-style
@@ -40,7 +20,7 @@ zstyle ':zle:*' word-style unspecified
 
 ########################################
 # 補完
-# 補完機能を有効にする
+# 補完機能を有効に
 autoload -Uz compinit
 compinit
 
@@ -72,9 +52,6 @@ function _update_vcs_info_msg() {
 }
 add-zsh-hook precmd _update_vcs_info_msg
 
-
-########################################
-# オプション
 # 日本語ファイル名を表示可能にする
 setopt print_eight_bit
 
@@ -113,14 +90,9 @@ setopt hist_reduce_blanks
 # 高機能なワイルドカード展開を使用する
 setopt extended_glob
 
-########################################
-# キーバインド
-
 # ^R で履歴検索をするときに * でワイルドカードを使用出来るようにする
 bindkey '^R' history-incremental-pattern-search-backward
 
-########################################
-# エイリアス
 alias so='source'
 
 alias la='ls -a'
@@ -142,6 +114,10 @@ alias podu='pod update'
 alias y='yarn'
 alias ya='yarn add'
 alias yi='yarn install'
+
+# npm
+alias npi='npm install'
+alias npr='npm run'
 
 # docker
 alias dce='docker exec -it  bash'
@@ -165,6 +141,9 @@ alias gtr='git reset'
 
 alias gtbdm='gtf --prune && gtb --merged | egrep -v "\*|develop|master"|xargs git branch -d'
 
+#github
+alias ghw='gh repo view --web'
+
 # sudo の後のコマンドでエイリアスを有効にする
 alias sudo='sudo '
 
@@ -185,9 +164,6 @@ elif which putclip >/dev/null 2>&1 ; then
     alias -g C='| putclip'
 fi
 
-
-
-########################################
 # OS 別の設定
 case ${OSTYPE} in
     darwin*)
@@ -208,16 +184,10 @@ export PATH=$PATH:./node_modules/.bin
 #python
 export PATH=/usr/local/bin:$PATH
 
-
-
 # NPM global installs
-# export PATH=$PATH:~/.npm-global/bin
 export PATH=$PATH:~/.npm-global/bin
 
 export GOPATH="$HOME/go"
-# export GOENV_ROOT="$HOME/.goenv"
-# export PATH="$GOENV_ROOT/bin:$PATH"
-# eval "$(goenv init -)"
 export PATH="$PATH:$GOPATH/bin"
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/kbohead/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/kbohead/google-cloud-sdk/path.zsh.inc'; fi
