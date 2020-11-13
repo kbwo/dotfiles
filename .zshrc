@@ -143,11 +143,10 @@ alias gtf='git fetch'
 alias gtm='git merge'
 alias gtr='git reset'
 
-alias gtbdm='gtf --prune && gtb --merged | egrep -v "\*|develop|master"|xargs git branch -d'
+alias gtbdm='gtf --prune && gtb --merged | egrep -v "\*|develop|master|main"|xargs git branch -d'
 
 #github
 alias ghw='gh repo view --web'
-
 # sudo の後のコマンドでエイリアスを有効にする
 alias sudo='sudo '
 
