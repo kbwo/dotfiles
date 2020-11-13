@@ -52,6 +52,9 @@ function _update_vcs_info_msg() {
 }
 add-zsh-hook precmd _update_vcs_info_msg
 
+# vim key bindings
+set -o vi
+
 # 日本語ファイル名を表示可能にする
 setopt print_eight_bit
 
@@ -93,6 +96,7 @@ setopt extended_glob
 # ^R で履歴検索をするときに * でワイルドカードを使用出来るようにする
 bindkey '^R' history-incremental-pattern-search-backward
 
+alias ex='exit'
 alias so='source'
 
 alias la='ls -a'
