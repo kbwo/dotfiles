@@ -347,12 +347,6 @@ augroup END
 " snippet
 let g:UltiSnipsSnippetDirectories=["~/.vim/UltiSnips"]
 
-"lsp
-"「%」による対応括弧へのカーソル移動機能を拡張
-source /usr/share/vim/vim81/macros/matchit.vim
-runtime macros/matchit.vim
-let b:match_words = "if:endif,foreach:endforeach,\<begin\>:\<end\>"
-
 :set guicursor=i:blinkwait700-blinkon400-blinkoff250
 
 " auto opening quickfix window using vim grep
