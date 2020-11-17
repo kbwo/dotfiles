@@ -64,13 +64,18 @@ Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/vim-vsnip-integ'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'ghifarit53/tokyonight-vim'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'mattn/ctrlp-matchfuzzy'
 Plug 'liuchengxu/vista.vim'
 Plug 'thosakwe/vim-flutter'
 Plug 'jremmen/vim-ripgrep'
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
+Plug 'previm/previm'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 
 call plug#end()
+set wildmenu
+set wildmode=full
 
 filetype plugin indent on
 let mapleader="9<Space>"
@@ -318,9 +323,9 @@ let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 set termguicolors
 colorscheme tokyonight
-highlight Comment guibg=#FFFFFF
+highlight Comment guibg=#FFFFFF guifg=#3e5380
 highlight Visual cterm=reverse ctermbg=NONE
-hi Visual  guifg=SlateBlue guibg=#FFFFFF gui=none
+hi Visual guibg=#FFFFFF guifg=SlateBlue gui=none
 hi LineNr term=bold cterm=NONE ctermfg=LightBlue ctermbg=NONE gui=NONE guifg=LightBlue guibg=NONE
 set ruler
 set number
@@ -401,20 +406,19 @@ nmap <C-h> :LspPreviousError<CR>
 nmap <C-d> :LspDefinition<CR>
 nmap <C-s> :LspReferences<CR>
 nmap <C-i> :LspCodeAction<CR>
+nmap gh :LspHover<CR>
 nmap rt :LspDocumentDiagnostics<CR>
-let g:ctrlp_match_func = {'match': 'ctrlp_matchfuzzy#matcher'}
 
 let g:SuperTabDefaultCompletionType = "<c-n>"
 let g:SuperTabContextDefaultCompletionType = "<c-n>"
-let g:ctrlp_match_window = 'max:20'
-let g:ctrlp_max_files=0
-let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|DerivedData\|Pods'
-let g:ctrlp_max_depth=10
-" ignore following gitignore
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
-let g:ctrlp_working_path_mode = 0
 
 let g:vista_default_executive = 'vim_lsp'
 let g:vista_update_on_text_changed = 1
 let g:vista#renderer#enable_icon = 0
 let g:vista_sidebar_width = 35
+
+let g:previm_open_cmd = 'open -a open -a Google\ Chrome'
+
+set wildmenu
+set wildmode=full
+let g:lsp_documentation_float_docked = 1
