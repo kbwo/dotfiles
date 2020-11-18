@@ -40,8 +40,6 @@ Plug 'davidhalter/jedi-vim'
 Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'}
 Plug 'Shougo/vimshell.vim'
 Plug 'SirVer/ultisnips'
-Plug 'thomasfaingnaert/vim-lsp-snippets'
-Plug 'thomasfaingnaert/vim-lsp-ultisnips'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-obsession'
 Plug 'joonty/vdebug'
@@ -53,29 +51,30 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'prettier/vim-prettier', {
   \ 'do': 'yarn install',
   \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
-Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
-Plug 'prabirshrestha/vim-lsp'
-Plug 'mattn/vim-lsp-settings'
-Plug 'mattn/vim-goimports'
-Plug 'mattn/vim-lsp-icons'
 Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/vim-vsnip-integ'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'ghifarit53/tokyonight-vim'
+Plug 'mattn/ctrlp-matchfuzzy'
 Plug 'liuchengxu/vista.vim'
 Plug 'thosakwe/vim-flutter'
 Plug 'jremmen/vim-ripgrep'
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
 Plug 'previm/previm'
+" Plug 'itchyny/lightline.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+" if has('nvim')
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  " Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
+" else
+  " Plug 'Shougo/defx.nvim'
+  " Plug 'roxma/nvim-yarp'
+  " Plug 'roxma/vim-hug-neovim-rpc'
+" endif
 
 call plug#end()
-set wildmenu
-set wildmode=full
 
 filetype plugin indent on
 let mapleader="9<Space>"
@@ -97,13 +96,13 @@ autocmd FileType html imap <buffer><expr><tab>
       \ "\<tab>"
 let g:user_emmet_leader_key='<C-E>'
 
-"" nerdtree
+" "" nerdtree
 let g:NERDTreeChDirMode=2
 let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__']
 let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
 let g:NERDTreeShowBookmarks=1
 let g:nerdtree_tabs_focus_on_files=1
-" let g:nerdtree_tabs_open_on_console_startup=1
+let g:nerdtree_tabs_open_on_console_startup=1
 let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
 let g:NERDTreeWinSize = 30
 let NERDTreeShowHidden=1
@@ -303,20 +302,16 @@ syntax on
 
 let g:tokyonight_style = 'night' " available: night, storm
 let g:tokyonight_disable_italic_comment = 0
-" let g:tokyonight_current_word = 'italic'
-" let g:tokyonight_transparent_background = 0
-let g:lightline = {'colorscheme' : 'tokyonight'}
 let g:airline_theme = "tokyonight"
-"
-" set Vim-specific sequences for RGB colors
+
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 set termguicolors
 colorscheme tokyonight
-highlight Comment guibg=#FFFFFF guifg=#3e5380
+highlight Comment guibg=Grey guifg=#FFFFFF
 highlight Visual cterm=reverse ctermbg=NONE
-hi Visual guibg=#FFFFFF guifg=SlateBlue gui=none
-hi LineNr term=bold cterm=NONE ctermfg=LightBlue ctermbg=NONE gui=NONE guifg=LightBlue guibg=NONE
+highlight Visual guifg=#FFFFFF guibg=SlateBlue gui=none term=reverse cterm=reverse
+highlight LineNr term=bold cterm=NONE ctermfg=LightBlue ctermbg=NONE gui=NONE guifg=LightBlue guibg=NONE
 set ruler
 set number
 set scrolloff=3
@@ -329,7 +324,6 @@ set titlestring=%F
 set statusline=%F%m%r%h%w%=(%{&ff}/%Y)\ (line\ %l\/%L,\ col\ %c)\
 set autoread
 set noerrorbells visualbell t_vb=
-set clipboard+=unnamed,autoselect
 set mouse=a
 set whichwrap=b,s,h,l,<,>,[,]
 
@@ -350,34 +344,8 @@ autocmd QuickFixCmdPost *grep* cwindow
 " don't comment out when go to next line
 autocmd FileType * setlocal formatoptions-=ro
 
-if empty(globpath(&rtp, 'autoload/lsp.vim'))
-  finish
-endif
-
-function! s:on_lsp_buffer_enabled() abort
-  setlocal omnifunc=lsp#complete
-  setlocal signcolumn=yes
-  nmap <buffer> gd <plug>(lsp-definition)
-  nmap <buffer> <f2> <plug>(lsp-rename)
-  inoremap <expr> <cr> pumvisible() ? "\<c-y>\<cr>" : "\<cr>"
-endfunction
-
-augroup lsp_install
-  au!
-  autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
-augroup END
-command! LspDebug let lsp_log_verbose=1 | let lsp_log_file = expand('~/lsp.log')
-
-let g:lsp_diagnostics_enabled = 1
-let g:lsp_diagnostics_echo_cursor = 1
-let g:asyncomplete_auto_popup = 1
-let g:asyncomplete_auto_completeopt = 1
-let g:asyncomplete_popup_delay = 200
-let g:lsp_text_edit_enabled = 1
 
 set completeopt=menuone,noinsert,noselect,preview
-
-let g:lsp_settings = {'typescript-language-server':{'whitelist': ['typescript', 'typescriptreact']}}
 
 
 let g:multi_cursor_use_default_mapping=0
@@ -391,25 +359,29 @@ let g:multi_cursor_next_key            = '<C-j>'
 let g:multi_cursor_prev_key            = '<C-k>'
 let g:multi_cursor_skip_key            = '<C-x>'
 let g:multi_cursor_quit_key            = '<Esc>'
-nmap <C-l> :LspNextError<CR>
-nmap <C-h> :LspPreviousError<CR>
-nmap <C-d> :LspDefinition<CR>
-nmap <C-s> :LspReferences<CR>
-nmap <C-i> :LspCodeAction<CR>
-nmap gh :LspHover<CR>
-nmap rt :LspDocumentDiagnostics<CR>
-nmap <C-p> :FZF<CR>
 
-let g:SuperTabDefaultCompletionType = "<c-n>"
-let g:SuperTabContextDefaultCompletionType = "<c-n>"
-
-let g:vista_default_executive = 'vim_lsp'
 let g:vista_update_on_text_changed = 1
 let g:vista#renderer#enable_icon = 0
 let g:vista_sidebar_width = 35
 
 let g:previm_open_cmd = 'open -a open -a Google\ Chrome'
 
-set wildmenu
-set wildmode=full
-let g:lsp_documentation_float_docked = 1
+nmap <silent> <C-d> <Plug>(coc-definition)
+nmap <silent> <C-l> <Plug>(coc-diagnostic-next)
+nmap <silent> gr <Plug>(coc-references)
+nmap <silent> crn <Plug>(coc-rename)
+nmap <silent> cca <Plug>(coc-codeaction)
+nmap <silent> ccl <Plug>(coc-codeaction-line)
+
+autocmd BufWritePre *.ts,*.js,*.go :call CocAction('runCommand', 'editor.action.organizeImport') | sleep 100m
+nmap <C-p> :FZF<CR>
+
+let g:SuperTabDefaultCompletionType = "<c-n>"
+let g:SuperTabContextDefaultCompletionType = "<c-n>"
+
+"" go back from definition
+nnoremap <c-t> <c-o>
+
+set guicursor=a:blinkon0
+set clipboard+=unnamedplus
+
