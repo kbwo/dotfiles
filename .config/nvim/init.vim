@@ -66,6 +66,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 if has('nvim')
 Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
 else
   Plug 'Shougo/defx.nvim'
   Plug 'roxma/nvim-yarp'
@@ -289,7 +290,8 @@ let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 set termguicolors
 colorscheme tokyonight
-highlight Comment guibg=Grey guifg=#FFFFFF
+highlight CursorLine term=bold cterm=bold guibg=Grey40
+highlight Comment guibg=#3e5380 guifg=#FFFFFF
 highlight Visual cterm=reverse ctermbg=NONE
 highlight Visual guifg=#FFFFFF guibg=SlateBlue gui=none term=reverse cterm=reverse
 highlight LineNr term=bold cterm=NONE ctermfg=LightBlue ctermbg=NONE gui=NONE guifg=LightBlue guibg=NONE
@@ -371,7 +373,7 @@ set clipboard+=unnamedplus
 "cnoreabbrev sf Defx -listed -new
 "      \ -columns=indent:mark:icon:icons:filename:git:size
 "      \ -buffer-name=tab`tabpagenr()`<CR>
-nnoremap <silent>sf :<C-u>Defx -listed -resume
+nnoremap <silent><C-n> :<C-u>Defx -listed -resume
       \ -columns=indent:mark:icon:icons:filename:git:size
       \ -buffer-name=tab`tabpagenr()`
       \ `expand('%:p:h')` -search=`expand('%:p')`<CR>
@@ -390,6 +392,8 @@ autocmd FileType defx call s:defx_my_settings()
 	  \ defx#do_action('paste')
 	  nnoremap <silent><buffer><expr> l
 	  \ defx#do_action('open')
+	  nnoremap <silent><buffer><expr> t
+	  \ defx#do_action('open', 'tabnew')
 	  nnoremap <silent><buffer><expr> E
 	  \ defx#do_action('open', 'vsplit')
 	  nnoremap <silent><buffer><expr> P
@@ -458,3 +462,4 @@ call defx#custom#column('git', 'indicators', {
   \ 'Deleted'   : '✖',
   \ 'Unknown'   : '?'
   \ })
+

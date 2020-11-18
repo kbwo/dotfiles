@@ -96,6 +96,17 @@ setopt extended_glob
 # ^R で履歴検索をするときに * でワイルドカードを使用出来るようにする
 bindkey '^R' history-incremental-pattern-search-backward
 
+# nvim config
+alias nvimc='nvim ~/dotfiles/.config/nvim/init.vim'
+# vim config
+alias vimc='vim ~/dotfiles/.vimrc'
+# zsh config
+alias nvimzc='nvim ~/dotfiles/.zshrc'
+# cd dotfiles
+alias dotf='cd ~/dotfiles'
+# cd nvim
+alias cdnv='cd ~/.config/nvim'
+
 alias ex='exit'
 alias so='source'
 
@@ -213,3 +224,4 @@ export PATH=$PATH:$ANDROID_HOME/tools
 # export PATH=$PATH:/Users/kbohead/Library/Android/sdk/platform-tools
 export PATH="$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$PATH"
 export CLOUDSDK_PYTHON=python2
+export FZF_DEFAULT_COMMAND='rg --hidden --no-ignore --files'
