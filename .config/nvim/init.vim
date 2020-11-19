@@ -353,7 +353,7 @@ let g:previm_open_cmd = 'open -a open -a Google\ Chrome'
 nmap <silent> <C-d> <Plug>(coc-definition)
 nmap <silent> <C-l> <Plug>(coc-diagnostic-next)
 nmap <silent> gr <Plug>(coc-references)
-nmap <silent> crn <Plug>(coc-rename)
+nmap <silent> ccn <Plug>(coc-rename)
 nmap <silent> cca <Plug>(coc-codeaction)
 nmap <silent> ccl <Plug>(coc-codeaction-line)
 
