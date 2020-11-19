@@ -1,14 +1,13 @@
-export PATH=$PATH:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
-export LANG=en_US.UTF-8
-export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/path/to/parent/dir
 autoload -Uz colors
 colors
-HISTFILE=~/.zsh_history
-HISTSIZE=1000000
-SAVEHIST=1000000
-
 PROMPT="%{${fg[green]}%}[%n@%m]%{${reset_color}%} %~
 %# "
+export LANG=en_US.UTF-8
+export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/path/to/parent/dir
+# HISTFILE=~/.zsh_history
+# HISTSIZE=1000000
+# SAVEHIST=1000000
+
 
 # 単語の区切り文字を指定する
 autoload -Uz select-word-style
@@ -191,43 +190,13 @@ case ${OSTYPE} in
         ;;
 esac
 
-# vim:set ft=zsh:
-PATH="$HOME/.composer/vendor/bin:$PATH"
-export PATH=$PATH:./node_modules/.bin
-
-#python
-export PATH=/usr/local/bin:$PATH
-
-# NPM global installs
-export PATH=$PATH:~/.npm-global/bin
-
-export GOPATH="$HOME/go"
-export PATH="$PATH:$GOPATH/bin"
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/kbohead/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/kbohead/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/kbohead/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/kbohead/google-cloud-sdk/completion.zsh.inc'; fi
-export PATH=/usr/local/Cellar/git/X.XX.X/bin:/Users/kbohead/google-cloud-sdk/bin:/usr/local/bin:/Users/kbohead/.composer/vendor/bin:/Users/kbohead/google-cloud-sdk/bin:/usr/local/bin:/Users/kbohead/.composer/vendor/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/go/bin:/Library/Apple/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:./node_modules/.bin:/Users/kbohead/.npm-global/bin:/Users/kbohead/go/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:./node_modules/.bin:/Users/kbohead/.npm-global/bin:/Users/kbohead/go/bin
-
-# rust path
-export PATH=$HOME/.cargo/bin:$PATH
+source '/Users/kbohead/google-cloud-sdk/path.zsh.inc'
+source '/Users/kbohead/google-cloud-sdk/completion.zsh.inc'
 ctags=/usr/local/bin/ctags
 
-# flutter
-export PATH=$PATH:~/flutter/bin
-
-eval "$(gh completion -s zsh)"
-eval "$(rbenv init -)"
 export ANDROID_HOME=~/Library/Android/sdk
-export PATH=$PATH:$ANDROID_HOME/platform-tools
-export PATH=$PATH:$ANDROID_HOME/tools
-# export PATH=$PATH:/Users/kbohead/Library/Android/sdk/platform-tools
-export PATH="$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$PATH"
 export CLOUDSDK_PYTHON=python2
 export FZF_DEFAULT_COMMAND='rg --hidden --no-ignore --files'
-
-
 
 ### Added by Zinit's installer
 if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
@@ -242,20 +211,45 @@ source "$HOME/.zinit/bin/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
-# Load a few important annexes, without Turbo
-# (this is currently required for annexes)
-zinit light zsh-users/zsh-autosuggestions
+zinit wait lucid atload'_zsh_autosuggest_start' light-mode for \
+    zsh-users/zsh-autosuggestions
 zinit light zdharma/fast-syntax-highlighting
 zinit load zdharma/history-search-multi-word
 
-zinit ice from"gh-r" as"program"
-zinit load junegunn/fzf-bin
-
-zinit wait lucid atload"zicompinit; zicdreplay" blockf for zsh-users/zsh-completions
-zinit light-mode for \
-    zinit-zsh/z-a-rust \
-    zinit-zsh/z-a-as-monitor \
-    zinit-zsh/z-a-patch-dl \
-    zinit-zsh/z-a-bin-gem-node
-
 ### End of Zinit's installer chunk
+if [ -z $TMUX ]; then
+  export PATH=$PATH:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+  export PATH="${HOME}/local/bin:${PATH}"
+  export PATH=$PATH:$ANDROID_HOME/platform-tools
+  export PATH=$PATH:$ANDROID_HOME/tools
+  # export PATH=$PATH:/Users/kbohead/Library/Android/sdk/platform-tools
+  export PATH="$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$PATH"
+  # rust path
+  export PATH=$HOME/.cargo/bin:$PATH
+  # flutter
+  export PATH=$PATH:~/flutter/bin
+  # vim:set ft=zsh:
+  PATH="$HOME/.composer/vendor/bin:$PATH"
+  export PATH=$PATH:./node_modules/.bin
+
+  #python
+  export PATH=/usr/local/bin:$PATH
+
+  # NPM global installs
+  export PATH=$PATH:~/.npm-global/bin
+
+  export GOPATH="$HOME/go"
+  export PATH="$PATH:$GOPATH/bin"
+  export PATH=/usr/local/Cellar/git/X.XX.X/bin:/Users/kbohead/google-cloud-sdk/bin:/usr/local/bin:/Users/kbohead/.composer/vendor/bin:/Users/kbohead/google-cloud-sdk/bin:/usr/local/bin:/Users/kbohead/.composer/vendor/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/go/bin:/Library/Apple/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:./node_modules/.bin:/Users/kbohead/.npm-global/bin:/Users/kbohead/go/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:./node_modules/.bin:/Users/kbohead/.npm-global/bin:/Users/kbohead/go/bin
+fi
+rbenv() {
+  unfunction "$0"
+  source <(rbenv init -)
+  $0 "$@"
+}
+# eval "$(gh completion -s zsh)"
+ghenv() {
+  unfunction "$0"
+  source <(gh completion -s zsh)
+  $0 "$@"
+}
