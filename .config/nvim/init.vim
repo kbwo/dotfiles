@@ -74,6 +74,7 @@ else
 endif
 Plug 'jparise/vim-graphql'
 Plug 'tpope/vim-dadbod'
+Plug 'tpope/vim-fugitive'
 Plug 'kristijanhusak/vim-dadbod-ui'
 
 call plug#end()
