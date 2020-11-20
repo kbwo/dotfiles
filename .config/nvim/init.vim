@@ -126,10 +126,6 @@ let g:syntastic_aggregate_errors = 1
 
 let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute " ,"trimming empty <", "unescaped &" , "lacks \"action", "is not recognized!", "discarding unexpected"]
 
-let g:syntastic_python_checkers=['python', 'flake8']
-" let g:polyglot_disabled = ['python']
-let python_highlight_all = 1
-
 let g:airline#extensions#virtualenv#enabled = 1
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
