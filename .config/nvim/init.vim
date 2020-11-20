@@ -17,7 +17,6 @@ endif
 
 " plugin
 call plug#begin(expand('~/.vim/plugged'))
-Plug 'mattn/vim-starwars'
 Plug 'junegunn/vim-easy-align'
 Plug 'thinca/vim-quickrun', {'on' : 'QuickRun'}
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
@@ -465,4 +464,13 @@ call defx#custom#column('git', 'indicators', {
   \ 'Deleted'   : '✖',
   \ 'Unknown'   : '?'
   \ })
+call defx#custom#option('_', {
+      \ 'winwidth': 40,
+      \ 'direction': 'topleft',
+      \ 'show_ignored_files': 1,
+      \ 'buffer_name': 'exlorer',
+      \ })
 
+" redraw with buffer
+autocmd BufWritePost * call defx#redraw()
+autocmd BufEnter * call defx#redraw()
