@@ -73,6 +73,8 @@ else
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
 Plug 'jparise/vim-graphql'
+Plug 'tpope/vim-dadbod'
+Plug 'kristijanhusak/vim-dadbod-ui'
 
 call plug#end()
 
