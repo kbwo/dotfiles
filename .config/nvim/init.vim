@@ -17,29 +17,33 @@ endif
 
 " plugin
 call plug#begin(expand('~/.vim/plugged'))
-Plug 'junegunn/vim-easy-align'
+" for debug
 Plug 'thinca/vim-quickrun', {'on' : 'QuickRun'}
+Plug 'joonty/vdebug'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'tpope/vim-commentary'
+" UI
 Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+"automatic quotes, brackets, etc
 Plug 'Raimondi/delimitMate'
+"easy to change pair surroundings
 Plug 'tpope/vim-surround'
-Plug 'Chiel92/vim-autoformat'
+"vim to IDE
 Plug 'scrooloose/syntastic'
+"for space
 Plug 'bronson/vim-trailing-whitespace'
+"for tab
 Plug 'ervandew/supertab'
+"coloring
 Plug 'gorodinskiy/vim-coloresque'
-Plug 'tpope/vim-haml'
+"emmet
 Plug 'mattn/emmet-vim'
-Plug 'jelera/vim-javascript-syntax'
-Plug 'davidhalter/jedi-vim'
+" requirements
 Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'}
-Plug 'Shougo/vimshell.vim'
+" ultisnips
 Plug 'SirVer/ultisnips'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-obsession'
-Plug 'joonty/vdebug'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
@@ -48,8 +52,7 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'prettier/vim-prettier', {
   \ 'do': 'yarn install',
   \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
-Plug 'hrsh7th/vim-vsnip'
-Plug 'hrsh7th/vim-vsnip-integ'
+" multi cursor
 Plug 'terryma/vim-multiple-cursors'
 Plug 'ghifarit53/tokyonight-vim'
 Plug 'mattn/ctrlp-matchfuzzy'
@@ -121,18 +124,6 @@ let g:syntastic_style_warning_symbol = '⚠'
 let g:syntastic_auto_loc_list=1
 let g:syntastic_aggregate_errors = 1
 
-let g:jedi#popup_on_dot = 0
-let g:jedi#goto_assignments_command = "<leader>g"
-let g:jedi#goto_definitions_command = "<leader>d"
-let g:jedi#documentation_command = "K"
-let g:jedi#usages_command = "<leader>n"
-let g:jedi#rename_command = "<leader>r"
-let g:jedi#show_call_signatures = "0"
-let g:jedi#completions_command = "<C-Space>"
-let g:jedi#smart_auto_mappings = 0
-let g:jedi#force_py_version = 3
-autocmd FileType python setlocal completeopt-=preview
-
 let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute " ,"trimming empty <", "unescaped &" , "lacks \"action", "is not recognized!", "discarding unexpected"]
 
 let g:syntastic_python_checkers=['python', 'flake8']
@@ -183,37 +174,6 @@ augroup vimrc-remember-cursor-position
   autocmd!
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 augroup END
-
-"" txt
-augroup vimrc-wrapping
-  autocmd!
-  autocmd BufRead,BufNewFile *.txt call s:setupWrapping()
-augroup END
-if !exists('*s:setupWrapping')
-  function s:setupWrapping()
-    set wrap
-    set wm=2
-    set textwidth=79
-  endfunction
-endif
-
-"" make/cmake
-augroup vimrc-make-cmake
-  autocmd!
-  autocmd FileType make setlocal noexpandtab
-  autocmd BufNewFile,BufRead CMakeLists.txt setlocal filetype=cmake
-augroup END
-
-"" python
-augroup vimrc-python
-  autocmd!
-  autocmd FileType python setlocal
-        \ formatoptions+=croq softtabstop=2
-        \ cinwords=if,elif,else,for,while,try,except,finally,def,class,with
-augroup END
-autocmd FileType python setl autoindent
-autocmd FileType python setl smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
-autocmd FileType python setl tabstop=8 expandtab shiftwidth=4 softtabstop=4
 
 map @@ :Vista!!<CR>
 
@@ -312,12 +272,6 @@ set noerrorbells visualbell t_vb=
 set mouse=a
 set whichwrap=b,s,h,l,<,>,[,]
 
-" template
-augroup templateGroup
-  autocmd!
-  autocmd BufNewFile *.cpp :0r ~/.vim/templates/t.cpp
-  autocmd BufNewFile *.html :0r ~/.vim/templates/t.html
-augroup END
 " snippet
 let g:UltiSnipsSnippetDirectories=["~/.vim/UltiSnips"]
 
