@@ -139,7 +139,7 @@ alias dcr='docker run'
 alias dcc='docker-compose'
 
 # git
-alias gta='git add -A'
+alias gta='git add .'
 alias gtc='git commit'
 alias gtp='git push'
 alias gtb='git branch'
