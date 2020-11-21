@@ -84,16 +84,12 @@ call plug#end()
 filetype plugin indent on
 let mapleader="9<Space>"
 
+" ultisnips
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<C-n>"
 let g:UltiSnipsJumpBackwardTrigger="<C-p>"
 let g:UltiSnipsEditSplit="vertical"
-
-let g:airline_theme = 'powerlineish'
-let g:airline#extensions#syntastic#enabled = 1
-let g:airline#extensions#branch#enabled = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline_skip_empty_sections = 1
+let g:UltiSnipsSnippetDirectories=["~/.vim/UltiSnips"]
 
 "" emmet
 autocmd FileType html imap <buffer><expr><tab>
@@ -104,6 +100,7 @@ let g:user_emmet_leader_key='<C-E>'
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
 autocmd BufWritePre * :FixWhitespace
 
+"quickrun
 nnoremap <Leader>go :QuickRun<CR>
 nnoremap <C-U>qr :QuickRun<CR>
 let g:quickrun_config={'*': {'split': ''}}
@@ -112,6 +109,7 @@ let g:quickrun_config.cpp = {
             \   'cmdopt': '-std=c++11'
             \ }
 
+"vimshell
 nnoremap <Leader>sh :vertical terminal<CR>
 let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
 let g:vimshell_prompt =  '$ '
@@ -126,38 +124,6 @@ let g:syntastic_aggregate_errors = 1
 
 let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute " ,"trimming empty <", "unescaped &" , "lacks \"action", "is not recognized!", "discarding unexpected"]
 
-let g:airline#extensions#virtualenv#enabled = 1
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
-endif
-if !exists('g:airline_powerline_fonts')
-  let g:airline#extensions#tabline#left_sep = ' '
-  let g:airline#extensions#tabline#left_alt_sep = '|'
-  let g:airline_left_sep          = '▶'
-  let g:airline_left_alt_sep      = '»'
-  let g:airline_right_sep         = '◀'
-  let g:airline_right_alt_sep     = '«'
-  let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
-  let g:airline#extensions#readonly#symbol   = '⊘'
-  let g:airline#extensions#linecolumn#prefix = '¶'
-  let g:airline#extensions#paste#symbol      = 'ρ'
-  let g:airline_symbols.linenr    = '␊'
-  let g:airline_symbols.branch    = '⎇'
-  let g:airline_symbols.paste     = 'ρ'
-  let g:airline_symbols.paste     = 'Þ'
-  let g:airline_symbols.paste     = '∥'
-  let g:airline_symbols.whitespace = 'Ξ'
-else
-  let g:airline#extensions#tabline#left_sep = ''
-  let g:airline#extensions#tabline#left_alt_sep = ''
-  let g:airline_left_sep = ''
-  let g:airline_left_alt_sep = ''
-  let g:airline_right_sep = ''
-  let g:airline_right_alt_sep = ''
-  let g:airline_symbols.branch = ''
-  let g:airline_symbols.readonly = ''
-  let g:airline_symbols.linenr = ''
-endif
 
 "" The PC is fast enough, do syntax highlight syncing from start unless 200 lines
 augroup vimrc-sync-fromstart
@@ -240,19 +206,9 @@ set noswapfile
 set fileformats=unix,dos,mac
 syntax on
 
-let g:tokyonight_style = 'night' " available: night, storm
-let g:tokyonight_disable_italic_comment = 0
-let g:airline_theme = "tokyonight"
 
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-set termguicolors
-colorscheme tokyonight
-highlight CursorLine term=bold cterm=bold guibg=Grey40
-highlight Comment guibg=#3e5380 guifg=#FFFFFF
-highlight Visual cterm=reverse ctermbg=NONE
-highlight Visual guifg=#FFFFFF guibg=SlateBlue gui=none term=reverse cterm=reverse
-highlight LineNr term=bold cterm=NONE ctermfg=LightBlue ctermbg=NONE gui=NONE guifg=LightBlue guibg=NONE
 set ruler
 set number
 set scrolloff=3
@@ -267,9 +223,57 @@ set autoread
 set noerrorbells visualbell t_vb=
 set mouse=a
 set whichwrap=b,s,h,l,<,>,[,]
-
-" snippet
-let g:UltiSnipsSnippetDirectories=["~/.vim/UltiSnips"]
+if has('nvim')
+  set clipboard+=unnamedplus
+  set guicursor=a:blinkon0
+endif
+"UI
+set termguicolors
+let g:airline#extensions#syntastic#enabled = 1
+let g:airline#extensions#branch#enabled = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_skip_empty_sections = 1
+let g:airline#extensions#virtualenv#enabled = 1
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+if !exists('g:airline_powerline_fonts')
+  let g:airline#extensions#tabline#left_sep = ' '
+  let g:airline#extensions#tabline#left_alt_sep = '|'
+  let g:airline_left_sep          = '▶'
+  let g:airline_left_alt_sep      = '»'
+  let g:airline_right_sep         = '◀'
+  let g:airline_right_alt_sep     = '«'
+  let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
+  let g:airline#extensions#readonly#symbol   = '⊘'
+  let g:airline#extensions#linecolumn#prefix = '¶'
+  let g:airline#extensions#paste#symbol      = 'ρ'
+  let g:airline_symbols.linenr    = '␊'
+  let g:airline_symbols.branch    = '⎇'
+  let g:airline_symbols.paste     = 'ρ'
+  let g:airline_symbols.paste     = 'Þ'
+  let g:airline_symbols.paste     = '∥'
+  let g:airline_symbols.whitespace = 'Ξ'
+else
+  let g:airline#extensions#tabline#left_sep = ''
+  let g:airline#extensions#tabline#left_alt_sep = ''
+  let g:airline_left_sep = ''
+  let g:airline_left_alt_sep = ''
+  let g:airline_right_sep = ''
+  let g:airline_right_alt_sep = ''
+  let g:airline_symbols.branch = ''
+  let g:airline_symbols.readonly = ''
+  let g:airline_symbols.linenr = ''
+endif
+let g:tokyonight_style = 'night' " available: night, storm
+let g:tokyonight_disable_italic_comment = 0
+let g:airline_theme = "tokyonight"
+colorscheme tokyonight
+highlight CursorLine term=bold cterm=bold guibg=Grey40
+highlight Comment guibg=#3e5380 guifg=#FFFFFF
+highlight Visual cterm=reverse ctermbg=NONE
+highlight Visual guifg=#FFFFFF guibg=SlateBlue gui=none term=reverse cterm=reverse
+highlight LineNr term=bold cterm=NONE ctermfg=LightBlue ctermbg=NONE gui=NONE guifg=LightBlue guibg=NONE
 
 :set guicursor=i:blinkwait700-blinkon400-blinkoff250
 
@@ -279,13 +283,10 @@ autocmd QuickFixCmdPost *grep* cwindow
 " don't comment out when go to next line
 autocmd FileType * setlocal formatoptions-=ro
 
-
 set completeopt=menuone,noinsert,noselect,preview
 
-
+" multi cursor Default mapping
 let g:multi_cursor_use_default_mapping=0
-
-" Default mapping
 let g:multi_cursor_start_word_key      = '<C-j>'
 let g:multi_cursor_select_all_word_key = '<A-n>'
 let g:multi_cursor_start_key           = 'g<C-j>'
@@ -295,13 +296,16 @@ let g:multi_cursor_prev_key            = '<C-k>'
 let g:multi_cursor_skip_key            = '<C-x>'
 let g:multi_cursor_quit_key            = '<Esc>'
 
+"vista
 let g:vista_default_executive = 'coc'
 let g:vista_update_on_text_changed = 1
 let g:vista#renderer#enable_icon = 0
 let g:vista_sidebar_width = 35
 
+"previm
 let g:previm_open_cmd = 'open -a open -a Google\ Chrome'
 
+"coc.nvim
 nmap <silent> <C-d> <Plug>(coc-definition)
 nmap <silent> <C-l> <Plug>(coc-diagnostic-next)
 nmap <silent> gr <Plug>(coc-references)
@@ -309,22 +313,18 @@ nmap <silent> ccn <Plug>(coc-rename)
 nmap <silent> cca <Plug>(coc-codeaction)
 nmap <silent> ccl <Plug>(coc-codeaction-line)
 
+"FZF
 autocmd BufWritePre *.ts,*.js,*.go :call CocAction('runCommand', 'editor.action.organizeImport') | sleep 100m
 nmap <C-p> :FZF<CR>
 
+"supertab
 let g:SuperTabDefaultCompletionType = "<c-n>"
 let g:SuperTabContextDefaultCompletionType = "<c-n>"
 
 "" go back from definition
 nnoremap <c-t> <c-o>
 
-set guicursor=a:blinkon0
-set clipboard+=unnamedplus
-
-" Define mappings
-"cnoreabbrev sf Defx -listed -new
-"      \ -columns=indent:mark:icon:icons:filename:git:size
-"      \ -buffer-name=tab`tabpagenr()`<CR>
+" defx
 nnoremap <silent><C-n> :<C-u>Defx -listed -resume
       \ -columns=indent:mark:icon:icons:filename:git:size
       \ -buffer-name=tab`tabpagenr()`
