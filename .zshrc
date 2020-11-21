@@ -4,10 +4,6 @@ PROMPT="%{${fg[green]}%}[%n@%m]%{${reset_color}%} %~
 %# "
 export LANG=en_US.UTF-8
 export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/path/to/parent/dir
-# HISTFILE=~/.zsh_history
-# HISTSIZE=1000000
-# SAVEHIST=1000000
-
 
 # 単語の区切り文字を指定する
 autoload -Uz select-word-style
@@ -190,8 +186,8 @@ case ${OSTYPE} in
         ;;
 esac
 
-source '/Users/kbohead/google-cloud-sdk/path.zsh.inc'
-source '/Users/kbohead/google-cloud-sdk/completion.zsh.inc'
+source "$HOME/google-cloud-sdk/path.zsh.inc"
+source "$HOME/google-cloud-sdk/completion.zsh.inc"
 ctags=/usr/local/bin/ctags
 
 export ANDROID_HOME=~/Library/Android/sdk
@@ -222,7 +218,7 @@ if [ -z $TMUX ]; then
   export PATH="${HOME}/local/bin:${PATH}"
   export PATH=$PATH:$ANDROID_HOME/platform-tools
   export PATH=$PATH:$ANDROID_HOME/tools
-  # export PATH=$PATH:/Users/kbohead/Library/Android/sdk/platform-tools
+  # export PATH=$PATH:$HOME/Library/Android/sdk/platform-tools
   export PATH="$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$PATH"
   # rust path
   export PATH=$HOME/.cargo/bin:$PATH
@@ -240,7 +236,7 @@ if [ -z $TMUX ]; then
 
   export GOPATH="$HOME/go"
   export PATH="$PATH:$GOPATH/bin"
-  export PATH=/usr/local/Cellar/git/X.XX.X/bin:/Users/kbohead/google-cloud-sdk/bin:/usr/local/bin:/Users/kbohead/.composer/vendor/bin:/Users/kbohead/google-cloud-sdk/bin:/usr/local/bin:/Users/kbohead/.composer/vendor/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/go/bin:/Library/Apple/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:./node_modules/.bin:/Users/kbohead/.npm-global/bin:/Users/kbohead/go/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:./node_modules/.bin:/Users/kbohead/.npm-global/bin:/Users/kbohead/go/bin
+  export PATH=/usr/local/Cellar/git/X.XX.X/bin:$HOME/google-cloud-sdk/bin:/usr/local/bin:$HOME/.composer/vendor/bin:$HOME/google-cloud-sdk/bin:/usr/local/bin:$HOME/.composer/vendor/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/go/bin:/Library/Apple/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:./node_modules/.bin:$HOME/.npm-global/bin:$HOME/go/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:./node_modules/.bin:$HOME/.npm-global/bin:$HOME/go/bin
 fi
 rbenv() {
   unfunction "$0"
