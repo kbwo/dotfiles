@@ -17,34 +17,33 @@ endif
 
 " plugin
 call plug#begin(expand('~/.vim/plugged'))
-Plug 'mattn/vim-starwars'
-Plug 'scrooloose/nerdtree'
-Plug 'jistr/vim-nerdtree-tabs'
-Plug 'junegunn/vim-easy-align'
+" for debug
 Plug 'thinca/vim-quickrun', {'on' : 'QuickRun'}
+Plug 'joonty/vdebug'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'tpope/vim-commentary'
+" UI
 Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+"automatic quotes, brackets, etc
 Plug 'Raimondi/delimitMate'
+"easy to change pair surroundings
 Plug 'tpope/vim-surround'
-Plug 'Chiel92/vim-autoformat'
+"vim to IDE
 Plug 'scrooloose/syntastic'
+"for space
 Plug 'bronson/vim-trailing-whitespace'
+"for tab
 Plug 'ervandew/supertab'
+"coloring
 Plug 'gorodinskiy/vim-coloresque'
-Plug 'tpope/vim-haml'
+"emmet
 Plug 'mattn/emmet-vim'
-Plug 'jelera/vim-javascript-syntax'
-Plug 'davidhalter/jedi-vim'
+" requirements
 Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'}
-Plug 'Shougo/vimshell.vim'
+" ultisnips
 Plug 'SirVer/ultisnips'
-Plug 'thomasfaingnaert/vim-lsp-snippets'
-Plug 'thomasfaingnaert/vim-lsp-ultisnips'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-obsession'
-Plug 'joonty/vdebug'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
@@ -53,43 +52,43 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'prettier/vim-prettier', {
   \ 'do': 'yarn install',
   \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
-Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
-Plug 'prabirshrestha/vim-lsp'
-Plug 'mattn/vim-lsp-settings'
-Plug 'mattn/vim-goimports'
-Plug 'mattn/vim-lsp-icons'
-Plug 'hrsh7th/vim-vsnip'
-Plug 'hrsh7th/vim-vsnip-integ'
+" multi cursor
 Plug 'terryma/vim-multiple-cursors'
 Plug 'ghifarit53/tokyonight-vim'
+Plug 'mattn/ctrlp-matchfuzzy'
 Plug 'liuchengxu/vista.vim'
 Plug 'thosakwe/vim-flutter'
 Plug 'jremmen/vim-ripgrep'
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
 Plug 'previm/previm'
+" Plug 'itchyny/lightline.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+if has('nvim')
+Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/defx.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+Plug 'jparise/vim-graphql'
+Plug 'tpope/vim-dadbod'
+Plug 'tpope/vim-fugitive'
+Plug 'kristijanhusak/vim-dadbod-ui'
 
 call plug#end()
-set wildmenu
-set wildmode=full
 
 filetype plugin indent on
 let mapleader="9<Space>"
 
+" ultisnips
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<C-n>"
 let g:UltiSnipsJumpBackwardTrigger="<C-p>"
 let g:UltiSnipsEditSplit="vertical"
-
-let g:airline_theme = 'powerlineish'
-let g:airline#extensions#syntastic#enabled = 1
-let g:airline#extensions#branch#enabled = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline_skip_empty_sections = 1
+let g:UltiSnipsSnippetDirectories=["~/.vim/UltiSnips"]
 
 "" emmet
 autocmd FileType html imap <buffer><expr><tab>
@@ -97,24 +96,10 @@ autocmd FileType html imap <buffer><expr><tab>
       \ "\<tab>"
 let g:user_emmet_leader_key='<C-E>'
 
-"" nerdtree
-let g:NERDTreeChDirMode=2
-let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__']
-let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
-let g:NERDTreeShowBookmarks=1
-let g:nerdtree_tabs_focus_on_files=1
-" let g:nerdtree_tabs_open_on_console_startup=1
-let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
-let g:NERDTreeWinSize = 30
-let NERDTreeShowHidden=1
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
 autocmd BufWritePre * :FixWhitespace
-augroup NERD
-  au!
-  autocmd VimEnter * NERDTree
-  autocmd VimEnter * wincmd p
-augroup END
 
+"quickrun
 nnoremap <Leader>go :QuickRun<CR>
 nnoremap <C-U>qr :QuickRun<CR>
 let g:quickrun_config={'*': {'split': ''}}
@@ -123,6 +108,7 @@ let g:quickrun_config.cpp = {
             \   'cmdopt': '-std=c++11'
             \ }
 
+"vimshell
 nnoremap <Leader>sh :vertical terminal<CR>
 let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
 let g:vimshell_prompt =  '$ '
@@ -135,56 +121,8 @@ let g:syntastic_style_warning_symbol = '⚠'
 let g:syntastic_auto_loc_list=1
 let g:syntastic_aggregate_errors = 1
 
-let g:jedi#popup_on_dot = 0
-let g:jedi#goto_assignments_command = "<leader>g"
-let g:jedi#goto_definitions_command = "<leader>d"
-let g:jedi#documentation_command = "K"
-let g:jedi#usages_command = "<leader>n"
-let g:jedi#rename_command = "<leader>r"
-let g:jedi#show_call_signatures = "0"
-let g:jedi#completions_command = "<C-Space>"
-let g:jedi#smart_auto_mappings = 0
-let g:jedi#force_py_version = 3
-autocmd FileType python setlocal completeopt-=preview
-
 let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute " ,"trimming empty <", "unescaped &" , "lacks \"action", "is not recognized!", "discarding unexpected"]
 
-let g:syntastic_python_checkers=['python', 'flake8']
-" let g:polyglot_disabled = ['python']
-let python_highlight_all = 1
-
-let g:airline#extensions#virtualenv#enabled = 1
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
-endif
-if !exists('g:airline_powerline_fonts')
-  let g:airline#extensions#tabline#left_sep = ' '
-  let g:airline#extensions#tabline#left_alt_sep = '|'
-  let g:airline_left_sep          = '▶'
-  let g:airline_left_alt_sep      = '»'
-  let g:airline_right_sep         = '◀'
-  let g:airline_right_alt_sep     = '«'
-  let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
-  let g:airline#extensions#readonly#symbol   = '⊘'
-  let g:airline#extensions#linecolumn#prefix = '¶'
-  let g:airline#extensions#paste#symbol      = 'ρ'
-  let g:airline_symbols.linenr    = '␊'
-  let g:airline_symbols.branch    = '⎇'
-  let g:airline_symbols.paste     = 'ρ'
-  let g:airline_symbols.paste     = 'Þ'
-  let g:airline_symbols.paste     = '∥'
-  let g:airline_symbols.whitespace = 'Ξ'
-else
-  let g:airline#extensions#tabline#left_sep = ''
-  let g:airline#extensions#tabline#left_alt_sep = ''
-  let g:airline_left_sep = ''
-  let g:airline_left_alt_sep = ''
-  let g:airline_right_sep = ''
-  let g:airline_right_alt_sep = ''
-  let g:airline_symbols.branch = ''
-  let g:airline_symbols.readonly = ''
-  let g:airline_symbols.linenr = ''
-endif
 
 "" The PC is fast enough, do syntax highlight syncing from start unless 200 lines
 augroup vimrc-sync-fromstart
@@ -198,40 +136,6 @@ augroup vimrc-remember-cursor-position
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 augroup END
 
-"" txt
-augroup vimrc-wrapping
-  autocmd!
-  autocmd BufRead,BufNewFile *.txt call s:setupWrapping()
-augroup END
-if !exists('*s:setupWrapping')
-  function s:setupWrapping()
-    set wrap
-    set wm=2
-    set textwidth=79
-  endfunction
-endif
-
-"" make/cmake
-augroup vimrc-make-cmake
-  autocmd!
-  autocmd FileType make setlocal noexpandtab
-  autocmd BufNewFile,BufRead CMakeLists.txt setlocal filetype=cmake
-augroup END
-
-"" python
-augroup vimrc-python
-  autocmd!
-  autocmd FileType python setlocal
-        \ formatoptions+=croq softtabstop=2
-        \ cinwords=if,elif,else,for,while,try,except,finally,def,class,with
-augroup END
-autocmd FileType python setl autoindent
-autocmd FileType python setl smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
-autocmd FileType python setl tabstop=8 expandtab shiftwidth=4 softtabstop=4
-
-" shortcut leader=Space
-"" save
-map <C-n> :NERDTreeMirrorToggle<CR>
 map @@ :Vista!!<CR>
 
 nnoremap <Leader>w :w<CR>
@@ -301,22 +205,9 @@ set noswapfile
 set fileformats=unix,dos,mac
 syntax on
 
-let g:tokyonight_style = 'night' " available: night, storm
-let g:tokyonight_disable_italic_comment = 0
-" let g:tokyonight_current_word = 'italic'
-" let g:tokyonight_transparent_background = 0
-let g:lightline = {'colorscheme' : 'tokyonight'}
-let g:airline_theme = "tokyonight"
-"
-" set Vim-specific sequences for RGB colors
+
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-set termguicolors
-colorscheme tokyonight
-highlight Comment guibg=#FFFFFF guifg=#3e5380
-highlight Visual cterm=reverse ctermbg=NONE
-hi Visual guibg=#FFFFFF guifg=SlateBlue gui=none
-hi LineNr term=bold cterm=NONE ctermfg=LightBlue ctermbg=NONE gui=NONE guifg=LightBlue guibg=NONE
 set ruler
 set number
 set scrolloff=3
@@ -329,20 +220,70 @@ set titlestring=%F
 set statusline=%F%m%r%h%w%=(%{&ff}/%Y)\ (line\ %l\/%L,\ col\ %c)\
 set autoread
 set noerrorbells visualbell t_vb=
-set clipboard+=unnamed,autoselect
 set mouse=a
 set whichwrap=b,s,h,l,<,>,[,]
+if has('nvim')
+  set clipboard+=unnamedplus
+  set guicursor=a:blinkon0
+else
+  set guicursor=i:blinkwait700-blinkon400-blinkoff250
+  set clipboard+=unnamed,autoselect
+endif
+"UI
+set termguicolors
+let g:airline#extensions#syntastic#enabled = 1
+let g:airline#extensions#branch#enabled = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_skip_empty_sections = 1
+let g:airline#extensions#virtualenv#enabled = 1
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+if !exists('g:airline_powerline_fonts')
+  let g:airline#extensions#tabline#left_sep = ' '
+  let g:airline#extensions#tabline#left_alt_sep = '|'
+  let g:airline_left_sep          = '▶'
+  let g:airline_left_alt_sep      = '»'
+  let g:airline_right_sep         = '◀'
+  let g:airline_right_alt_sep     = '«'
+  let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
+  let g:airline#extensions#readonly#symbol   = '⊘'
+  let g:airline#extensions#linecolumn#prefix = '¶'
+  let g:airline#extensions#paste#symbol      = 'ρ'
+  let g:airline_symbols.linenr    = '␊'
+  let g:airline_symbols.branch    = '⎇'
+  let g:airline_symbols.paste     = 'ρ'
+  let g:airline_symbols.paste     = 'Þ'
+  let g:airline_symbols.paste     = '∥'
+  let g:airline_symbols.whitespace = 'Ξ'
+else
+  let g:airline#extensions#tabline#left_sep = ''
+  let g:airline#extensions#tabline#left_alt_sep = ''
+  let g:airline_left_sep = ''
+  let g:airline_left_alt_sep = ''
+  let g:airline_right_sep = ''
+  let g:airline_right_alt_sep = ''
+  let g:airline_symbols.branch = ''
+  let g:airline_symbols.readonly = ''
+  let g:airline_symbols.linenr = ''
+endif
+let g:tokyonight_style = 'night' " available: night, storm
+let g:tokyonight_disable_italic_comment = 0
+let g:airline_theme = "tokyonight"
+colorscheme tokyonight
 
-" template
-augroup templateGroup
-  autocmd!
-  autocmd BufNewFile *.cpp :0r ~/.vim/templates/t.cpp
-  autocmd BufNewFile *.html :0r ~/.vim/templates/t.html
-augroup END
-" snippet
-let g:UltiSnipsSnippetDirectories=["~/.vim/UltiSnips"]
-
-:set guicursor=i:blinkwait700-blinkon400-blinkoff250
+if has('nvim')
+  highlight CursorLine term=bold cterm=bold guibg=Grey40
+  highlight Comment guibg=#3e5380 guifg=#FFFFFF
+  highlight Visual cterm=reverse ctermbg=NONE
+  highlight Visual guifg=#FFFFFF guibg=SlateBlue gui=none term=reverse cterm=reverse
+  highlight LineNr term=bold cterm=NONE ctermfg=LightBlue ctermbg=NONE gui=NONE guifg=LightBlue guibg=NONE
+else
+  highlight Comment guibg=#FFFFFF guifg=#3e5380
+  highlight Visual cterm=reverse ctermbg=NONE
+  hi Visual guibg=#FFFFFF guifg=SlateBlue gui=none
+  hi LineNr term=bold cterm=NONE ctermfg=LightBlue ctermbg=NONE gui=NONE guifg=LightBlue guibg=NONE
+endif
 
 " auto opening quickfix window using vim grep
 autocmd QuickFixCmdPost *grep* cwindow
@@ -350,39 +291,10 @@ autocmd QuickFixCmdPost *grep* cwindow
 " don't comment out when go to next line
 autocmd FileType * setlocal formatoptions-=ro
 
-if empty(globpath(&rtp, 'autoload/lsp.vim'))
-  finish
-endif
-
-function! s:on_lsp_buffer_enabled() abort
-  setlocal omnifunc=lsp#complete
-  setlocal signcolumn=yes
-  nmap <buffer> gd <plug>(lsp-definition)
-  nmap <buffer> <f2> <plug>(lsp-rename)
-  inoremap <expr> <cr> pumvisible() ? "\<c-y>\<cr>" : "\<cr>"
-endfunction
-
-augroup lsp_install
-  au!
-  autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
-augroup END
-command! LspDebug let lsp_log_verbose=1 | let lsp_log_file = expand('~/lsp.log')
-
-let g:lsp_diagnostics_enabled = 1
-let g:lsp_diagnostics_echo_cursor = 1
-let g:asyncomplete_auto_popup = 1
-let g:asyncomplete_auto_completeopt = 1
-let g:asyncomplete_popup_delay = 200
-let g:lsp_text_edit_enabled = 1
-
 set completeopt=menuone,noinsert,noselect,preview
 
-let g:lsp_settings = {'typescript-language-server':{'whitelist': ['typescript', 'typescriptreact']}}
-
-
+" multi cursor Default mapping
 let g:multi_cursor_use_default_mapping=0
-
-" Default mapping
 let g:multi_cursor_start_word_key      = '<C-j>'
 let g:multi_cursor_select_all_word_key = '<A-n>'
 let g:multi_cursor_start_key           = 'g<C-j>'
@@ -391,25 +303,133 @@ let g:multi_cursor_next_key            = '<C-j>'
 let g:multi_cursor_prev_key            = '<C-k>'
 let g:multi_cursor_skip_key            = '<C-x>'
 let g:multi_cursor_quit_key            = '<Esc>'
-nmap <C-l> :LspNextError<CR>
-nmap <C-h> :LspPreviousError<CR>
-nmap <C-d> :LspDefinition<CR>
-nmap <C-s> :LspReferences<CR>
-nmap <C-i> :LspCodeAction<CR>
-nmap gh :LspHover<CR>
-nmap rt :LspDocumentDiagnostics<CR>
-nmap <C-p> :FZF<CR>
 
-let g:SuperTabDefaultCompletionType = "<c-n>"
-let g:SuperTabContextDefaultCompletionType = "<c-n>"
-
-let g:vista_default_executive = 'vim_lsp'
+"vista
+let g:vista_default_executive = 'coc'
 let g:vista_update_on_text_changed = 1
 let g:vista#renderer#enable_icon = 0
 let g:vista_sidebar_width = 35
 
+"previm
 let g:previm_open_cmd = 'open -a open -a Google\ Chrome'
 
-set wildmenu
-set wildmode=full
-let g:lsp_documentation_float_docked = 1
+"coc.nvim
+nmap <silent> <C-d> <Plug>(coc-definition)
+nmap <silent> <C-l> <Plug>(coc-diagnostic-next)
+nmap <silent> gr <Plug>(coc-references)
+nmap <silent> ccn <Plug>(coc-rename)
+nmap <silent> cca <Plug>(coc-codeaction)
+nmap <silent> ccl <Plug>(coc-codeaction-line)
+
+"FZF
+autocmd BufWritePre *.ts,*.js,*.go :call CocAction('runCommand', 'editor.action.organizeImport') | sleep 100m
+nmap <C-p> :FZF<CR>
+
+"supertab
+let g:SuperTabDefaultCompletionType = "<c-n>"
+let g:SuperTabContextDefaultCompletionType = "<c-n>"
+
+"" go back from definition
+nnoremap <c-t> <c-o>
+
+" defx
+nnoremap <silent><C-n> :<C-u>Defx -listed -resume
+      \ -columns=indent:mark:icon:icons:filename:git:size
+      \ -buffer-name=tab`tabpagenr()`
+      \ `expand('%:p:h')` -search=`expand('%:p')`<CR>
+nnoremap <silent>fi :<C-u>Defx -new `expand('%:p:h')` -search=`expand('%:p')`<CR>
+
+autocmd FileType defx call s:defx_my_settings()
+	function! s:defx_my_settings() abort
+	  " Define mappings
+	  nnoremap <silent><buffer><expr> <CR>
+	  \ defx#do_action('open')
+	  nnoremap <silent><buffer><expr> c
+	  \ defx#do_action('copy')
+	  nnoremap <silent><buffer><expr> m
+	  \ defx#do_action('move')
+	  nnoremap <silent><buffer><expr> p
+	  \ defx#do_action('paste')
+	  nnoremap <silent><buffer><expr> l
+	  \ defx#do_action('open')
+	  nnoremap <silent><buffer><expr> t
+	  \ defx#do_action('open', 'tabnew')
+	  nnoremap <silent><buffer><expr> E
+	  \ defx#do_action('open', 'vsplit')
+	  nnoremap <silent><buffer><expr> P
+	  \ defx#do_action('open', 'pedit')
+	  nnoremap <silent><buffer><expr> o
+	  \ defx#do_action('open_or_close_tree')
+	  nnoremap <silent><buffer><expr> K
+	  \ defx#do_action('new_directory')
+	  nnoremap <silent><buffer><expr> N
+	  \ defx#do_action('new_file')
+	  nnoremap <silent><buffer><expr> M
+	  \ defx#do_action('new_multiple_files')
+	  nnoremap <silent><buffer><expr> C
+	  \ defx#do_action('toggle_columns',
+	  \                'mark:indent:icon:filename:type:size:time')
+	  nnoremap <silent><buffer><expr> S
+	  \ defx#do_action('toggle_sort', 'time')
+	  nnoremap <silent><buffer><expr> d
+	  \ defx#do_action('remove')
+	  nnoremap <silent><buffer><expr> r
+	  \ defx#do_action('rename')
+	  nnoremap <silent><buffer><expr> !
+	  \ defx#do_action('execute_command')
+	  nnoremap <silent><buffer><expr> x
+	  \ defx#do_action('execute_system')
+	  nnoremap <silent><buffer><expr> yy
+	  \ defx#do_action('yank_path')
+	  nnoremap <silent><buffer><expr> .
+	  \ defx#do_action('toggle_ignored_files')
+	  nnoremap <silent><buffer><expr> ;
+	  \ defx#do_action('repeat')
+	  nnoremap <silent><buffer><expr> h
+	  \ defx#do_action('cd', ['..'])
+	  nnoremap <silent><buffer><expr> ~
+	  \ defx#do_action('cd')
+	  nnoremap <silent><buffer><expr> q
+	  \ defx#do_action('quit')
+	  nnoremap <silent><buffer><expr> <Space>
+	  \ defx#do_action('toggle_select') . 'j'
+	  nnoremap <silent><buffer><expr> *
+	  \ defx#do_action('toggle_select_all')
+	  nnoremap <silent><buffer><expr> j
+	  \ line('.') == line('$') ? 'gg' : 'j'
+	  nnoremap <silent><buffer><expr> k
+	  \ line('.') == 1 ? 'G' : 'k'
+	  nnoremap <silent><buffer><expr> <C-l>
+	  \ defx#do_action('redraw')
+	  nnoremap <silent><buffer><expr> <C-g>
+	  \ defx#do_action('print')
+	  nnoremap <silent><buffer><expr> cd
+	  \ defx#do_action('change_vim_cwd')
+	endfunction
+
+call defx#custom#column('icon', {
+      \ 'directory_icon': '▸',
+      \ 'opened_icon': '▾',
+      \ 'root_icon': ' ',
+      \ })
+call defx#custom#column('git', 'indicators', {
+  \ 'Modified'  : 'M',
+  \ 'Staged'    : '✚',
+  \ 'Untracked' : '✭',
+  \ 'Renamed'   : '➜',
+  \ 'Unmerged'  : '═',
+  \ 'Ignored'   : '☒',
+  \ 'Deleted'   : '✖',
+  \ 'Unknown'   : '?'
+  \ })
+call defx#custom#option('_', {
+      \ 'winwidth': 40,
+      \ 'direction': 'topleft',
+      \ 'show_ignored_files': 1,
+      \ 'buffer_name': 'exlorer',
+      \ })
+
+" redraw with buffer
+autocmd BufWritePost * call defx#redraw()
+autocmd BufEnter * call defx#redraw()
+
