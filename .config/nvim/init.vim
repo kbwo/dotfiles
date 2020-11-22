@@ -68,7 +68,6 @@ Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 if has('nvim')
 Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
 else
   Plug 'Shougo/defx.nvim'
   Plug 'roxma/nvim-yarp'
@@ -226,6 +225,9 @@ set whichwrap=b,s,h,l,<,>,[,]
 if has('nvim')
   set clipboard+=unnamedplus
   set guicursor=a:blinkon0
+else
+  set guicursor=i:blinkwait700-blinkon400-blinkoff250
+  set clipboard+=unnamed,autoselect
 endif
 "UI
 set termguicolors
@@ -269,13 +271,19 @@ let g:tokyonight_style = 'night' " available: night, storm
 let g:tokyonight_disable_italic_comment = 0
 let g:airline_theme = "tokyonight"
 colorscheme tokyonight
-highlight CursorLine term=bold cterm=bold guibg=Grey40
-highlight Comment guibg=#3e5380 guifg=#FFFFFF
-highlight Visual cterm=reverse ctermbg=NONE
-highlight Visual guifg=#FFFFFF guibg=SlateBlue gui=none term=reverse cterm=reverse
-highlight LineNr term=bold cterm=NONE ctermfg=LightBlue ctermbg=NONE gui=NONE guifg=LightBlue guibg=NONE
 
-:set guicursor=i:blinkwait700-blinkon400-blinkoff250
+if has('nvim')
+  highlight CursorLine term=bold cterm=bold guibg=Grey40
+  highlight Comment guibg=#3e5380 guifg=#FFFFFF
+  highlight Visual cterm=reverse ctermbg=NONE
+  highlight Visual guifg=#FFFFFF guibg=SlateBlue gui=none term=reverse cterm=reverse
+  highlight LineNr term=bold cterm=NONE ctermfg=LightBlue ctermbg=NONE gui=NONE guifg=LightBlue guibg=NONE
+else
+  highlight Comment guibg=#FFFFFF guifg=#3e5380
+  highlight Visual cterm=reverse ctermbg=NONE
+  hi Visual guibg=#FFFFFF guifg=SlateBlue gui=none
+  hi LineNr term=bold cterm=NONE ctermfg=LightBlue ctermbg=NONE gui=NONE guifg=LightBlue guibg=NONE
+endif
 
 " auto opening quickfix window using vim grep
 autocmd QuickFixCmdPost *grep* cwindow
