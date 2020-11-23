@@ -91,9 +91,9 @@ let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsSnippetDirectories=["~/.vim/UltiSnips"]
 
 "" emmet
-autocmd FileType html imap <buffer><expr><tab>
-      \ emmet#isExpandable() ? "\<plug>(emmet-expand-abbr)" :
-      \ "\<tab>"
+" autocmd FileType html imap <buffer><expr><tab>
+"       \ emmet#isExpandable() ? "\<plug>(emmet-expand-abbr)" :
+"       \ "\<tab>"
 let g:user_emmet_leader_key='<C-E>'
 
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite

@@ -148,6 +148,7 @@ alias gtcl='git clone'
 alias gtf='git fetch'
 alias gtm='git merge'
 alias gtr='git reset'
+alias gtrb='git rebase'
 
 alias gtbdm='gtf --prune && gtb --merged | egrep -v "\*|develop|master|main"|xargs git branch -d'
 
