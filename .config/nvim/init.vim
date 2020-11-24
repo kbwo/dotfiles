@@ -77,6 +77,7 @@ Plug 'jparise/vim-graphql'
 Plug 'tpope/vim-dadbod'
 Plug 'tpope/vim-fugitive'
 Plug 'kristijanhusak/vim-dadbod-ui'
+Plug 'junegunn/gv.vim'
 
 call plug#end()
 
