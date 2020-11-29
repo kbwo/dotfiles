@@ -1,3 +1,10 @@
+-I
+../include
+-I
+../vendor/include
+-std=c++14
+-stdlib=libc++
+-fPIC
 -isystem
 /usr/local/include
 -isystem

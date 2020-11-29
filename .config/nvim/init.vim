@@ -145,10 +145,6 @@ nnoremap <Leader>eee :e<CR>
 nnoremap <Leader>wq :wq<CR>
 nnoremap <Leader>nn :noh<CR>
 
-"" split
-nnoremap <Leader>s :<C-u>split<CR>
-nnoremap <Leader>v :<C-u>vsplit<CR>
-
 "" Tabs
 nnoremap <c-]> gt
 nnoremap <c-@> gT
@@ -355,7 +351,7 @@ autocmd FileType defx call s:defx_my_settings()
 	  \ defx#do_action('open')
 	  nnoremap <silent><buffer><expr> t
 	  \ defx#do_action('open', 'tabnew')
-	  nnoremap <silent><buffer><expr> E
+	  nnoremap <silent><buffer><expr> <C-v>
 	  \ defx#do_action('open', 'vsplit')
 	  nnoremap <silent><buffer><expr> P
 	  \ defx#do_action('open', 'pedit')
@@ -372,7 +368,7 @@ autocmd FileType defx call s:defx_my_settings()
 	  \                'mark:indent:icon:filename:type:size:time')
 	  nnoremap <silent><buffer><expr> S
 	  \ defx#do_action('toggle_sort', 'time')
-	  nnoremap <silent><buffer><expr> d
+	  nnoremap <silent><buffer><expr> dd
 	  \ defx#do_action('remove')
 	  nnoremap <silent><buffer><expr> r
 	  \ defx#do_action('rename')
@@ -433,3 +429,6 @@ call defx#custom#option('_', {
 " redraw with buffer
 autocmd BufWritePost * call defx#redraw()
 autocmd BufEnter * call defx#redraw()
+
+let g:extra_whitespace_ignored_filetypes = ['defx']
+
