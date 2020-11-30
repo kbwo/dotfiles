@@ -30,8 +30,6 @@ Plug 'Raimondi/delimitMate'
 Plug 'tpope/vim-surround'
 "vim to IDE
 Plug 'scrooloose/syntastic'
-"for space
-Plug 'bronson/vim-trailing-whitespace'
 "for tab
 Plug 'ervandew/supertab'
 "coloring
@@ -78,11 +76,12 @@ Plug 'tpope/vim-dadbod'
 Plug 'tpope/vim-fugitive'
 Plug 'kristijanhusak/vim-dadbod-ui'
 Plug 'junegunn/gv.vim'
+Plug 'easymotion/vim-easymotion'
 
 call plug#end()
 
 filetype plugin indent on
-let mapleader="9<Space>"
+let mapleader="\<Space>"
 
 " ultisnips
 let g:UltiSnipsExpandTrigger="<tab>"
@@ -98,7 +97,6 @@ let g:UltiSnipsSnippetDirectories=["~/.vim/UltiSnips"]
 let g:user_emmet_leader_key='<C-E>'
 
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
-autocmd BufWritePre * :FixWhitespace
 
 "quickrun
 nnoremap <Leader>go :QuickRun<CR>
@@ -252,7 +250,6 @@ if !exists('g:airline_powerline_fonts')
   let g:airline_symbols.paste     = 'ρ'
   let g:airline_symbols.paste     = 'Þ'
   let g:airline_symbols.paste     = '∥'
-  let g:airline_symbols.whitespace = 'Ξ'
 else
   let g:airline#extensions#tabline#left_sep = ''
   let g:airline#extensions#tabline#left_alt_sep = ''
@@ -430,5 +427,10 @@ call defx#custom#option('_', {
 autocmd BufWritePost * call defx#redraw()
 autocmd BufEnter * call defx#redraw()
 
-let g:extra_whitespace_ignored_filetypes = ['defx']
+" <Leader>f{char} to move to {char}
+map  <Leader>L <Plug>(easymotion-bd-f)
+nmap <Leader>L <Plug>(easymotion-overwin-f)
 
+" Move to word
+map  <Leader>f <Plug>(easymotion-bd-w)
+nmap <Leader>f <Plug>(easymotion-overwin-w)
