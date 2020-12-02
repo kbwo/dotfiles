@@ -428,9 +428,31 @@ autocmd BufWritePost * call defx#redraw()
 autocmd BufEnter * call defx#redraw()
 
 " <Leader>f{char} to move to {char}
-map  <Leader>L <Plug>(easymotion-bd-f)
-nmap <Leader>L <Plug>(easymotion-overwin-f)
+map  <Leader>o <Plug>(easymotion-bd-jk)
+nmap <Leader>o <Plug>(easymotion-overwin-line)
 
 " Move to word
 map  <Leader>f <Plug>(easymotion-bd-w)
-nmap <Leader>f <Plug>(easymotion-overwin-w)
+" nmap <Leader>f <Plug>(easymotion-overwin-w)
+
+map  <Leader>l <Plug>(easymotion-lineforward)
+map  <Leader>j <Plug>(easymotion-j)
+map  <Leader>k <Plug>(easymotion-k)
+map  <Leader>h <Plug>(easymotion-linebackward)
+
+" let g:EasyMotion_smartcase = 1
+
+let g:easymotion#is_active = 0
+function! EasyMotionCoc() abort
+  if EasyMotion#is_active()
+    let g:easymotion#is_active = 1
+    CocDisable
+  else
+    if g:easymotion#is_active == 1
+      let g:easymotion#is_active = 0
+      CocEnable
+    endif
+  endif
+endfunction
+autocmd TextChanged,CursorMoved * call EasyMotionCoc()
+let g:EasyMotion_use_upper = 1
