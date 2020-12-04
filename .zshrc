@@ -239,6 +239,9 @@ if [ -z $TMUX ]; then
   export PATH="$PATH:$GOPATH/bin"
   export PATH=/usr/local/Cellar/git/X.XX.X/bin:$HOME/google-cloud-sdk/bin:/usr/local/bin:$HOME/.composer/vendor/bin:$HOME/google-cloud-sdk/bin:/usr/local/bin:$HOME/.composer/vendor/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/go/bin:/Library/Apple/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:./node_modules/.bin:$HOME/.npm-global/bin:$HOME/go/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:./node_modules/.bin:$HOME/.npm-global/bin:$HOME/go/bin
 fi
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
 rbenv() {
   unfunction "$0"
   source <(rbenv init -)
@@ -250,3 +253,8 @@ ghenv() {
   source <(gh completion -s zsh)
   $0 "$@"
 }
+# pyenv() {
+#   unfunction "$0"
+#   source <(pyenv init -)
+#   $0 "$@"
+# }

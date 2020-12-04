@@ -30,8 +30,6 @@ Plug 'Raimondi/delimitMate'
 Plug 'tpope/vim-surround'
 "vim to IDE
 Plug 'scrooloose/syntastic'
-"for space
-Plug 'bronson/vim-trailing-whitespace'
 "for tab
 Plug 'ervandew/supertab'
 "coloring
@@ -77,11 +75,13 @@ Plug 'jparise/vim-graphql'
 Plug 'tpope/vim-dadbod'
 Plug 'tpope/vim-fugitive'
 Plug 'kristijanhusak/vim-dadbod-ui'
+Plug 'junegunn/gv.vim'
+Plug 'easymotion/vim-easymotion'
 
 call plug#end()
 
 filetype plugin indent on
-let mapleader="9<Space>"
+let mapleader="\<Space>"
 
 " ultisnips
 let g:UltiSnipsExpandTrigger="<tab>"
@@ -91,13 +91,12 @@ let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsSnippetDirectories=["~/.vim/UltiSnips"]
 
 "" emmet
-autocmd FileType html imap <buffer><expr><tab>
-      \ emmet#isExpandable() ? "\<plug>(emmet-expand-abbr)" :
-      \ "\<tab>"
+" autocmd FileType html imap <buffer><expr><tab>
+"       \ emmet#isExpandable() ? "\<plug>(emmet-expand-abbr)" :
+"       \ "\<tab>"
 let g:user_emmet_leader_key='<C-E>'
 
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
-autocmd BufWritePre * :FixWhitespace
 
 "quickrun
 nnoremap <Leader>go :QuickRun<CR>
@@ -143,10 +142,6 @@ nnoremap <Leader>qqq :q!<CR>
 nnoremap <Leader>eee :e<CR>
 nnoremap <Leader>wq :wq<CR>
 nnoremap <Leader>nn :noh<CR>
-
-"" split
-nnoremap <Leader>s :<C-u>split<CR>
-nnoremap <Leader>v :<C-u>vsplit<CR>
 
 "" Tabs
 nnoremap <c-]> gt
@@ -255,7 +250,6 @@ if !exists('g:airline_powerline_fonts')
   let g:airline_symbols.paste     = 'ρ'
   let g:airline_symbols.paste     = 'Þ'
   let g:airline_symbols.paste     = '∥'
-  let g:airline_symbols.whitespace = 'Ξ'
 else
   let g:airline#extensions#tabline#left_sep = ''
   let g:airline#extensions#tabline#left_alt_sep = ''
@@ -354,7 +348,7 @@ autocmd FileType defx call s:defx_my_settings()
 	  \ defx#do_action('open')
 	  nnoremap <silent><buffer><expr> t
 	  \ defx#do_action('open', 'tabnew')
-	  nnoremap <silent><buffer><expr> E
+	  nnoremap <silent><buffer><expr> <C-v>
 	  \ defx#do_action('open', 'vsplit')
 	  nnoremap <silent><buffer><expr> P
 	  \ defx#do_action('open', 'pedit')
@@ -371,7 +365,7 @@ autocmd FileType defx call s:defx_my_settings()
 	  \                'mark:indent:icon:filename:type:size:time')
 	  nnoremap <silent><buffer><expr> S
 	  \ defx#do_action('toggle_sort', 'time')
-	  nnoremap <silent><buffer><expr> d
+	  nnoremap <silent><buffer><expr> dd
 	  \ defx#do_action('remove')
 	  nnoremap <silent><buffer><expr> r
 	  \ defx#do_action('rename')
@@ -433,3 +427,32 @@ call defx#custom#option('_', {
 autocmd BufWritePost * call defx#redraw()
 autocmd BufEnter * call defx#redraw()
 
+" <Leader>f{char} to move to {char}
+map  <Leader>o <Plug>(easymotion-bd-jk)
+nmap <Leader>o <Plug>(easymotion-overwin-line)
+
+" Move to word
+map  <Leader>f <Plug>(easymotion-bd-w)
+" nmap <Leader>f <Plug>(easymotion-overwin-w)
+
+map  <Leader>l <Plug>(easymotion-lineforward)
+map  <Leader>j <Plug>(easymotion-j)
+map  <Leader>k <Plug>(easymotion-k)
+map  <Leader>h <Plug>(easymotion-linebackward)
+
+" let g:EasyMotion_smartcase = 1
+
+let g:easymotion#is_active = 0
+function! EasyMotionCoc() abort
+  if EasyMotion#is_active()
+    let g:easymotion#is_active = 1
+    CocDisable
+  else
+    if g:easymotion#is_active == 1
+      let g:easymotion#is_active = 0
+      CocEnable
+    endif
+  endif
+endfunction
+autocmd TextChanged,CursorMoved * call EasyMotionCoc()
+let g:EasyMotion_use_upper = 1
