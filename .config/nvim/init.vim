@@ -77,6 +77,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'kristijanhusak/vim-dadbod-ui'
 Plug 'junegunn/gv.vim'
 Plug 'easymotion/vim-easymotion'
+Plug 'glidenote/memolist.vim'
 
 call plug#end()
 
@@ -198,6 +199,7 @@ set smartcase
 set nobackup
 set noswapfile
 set fileformats=unix,dos,mac
+set foldlevel=99
 syntax on
 
 
@@ -456,3 +458,8 @@ function! EasyMotionCoc() abort
 endfunction
 autocmd TextChanged,CursorMoved * call EasyMotionCoc()
 let g:EasyMotion_use_upper = 1
+
+nnoremap <Leader>mn  :MemoNew<CR>
+nnoremap <Leader>ml  :MemoList<CR>
+nnoremap <Leader>mg  :MemoGrep<CR>
+
