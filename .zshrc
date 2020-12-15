@@ -241,6 +241,8 @@ if [ -z $TMUX ]; then
 fi
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
+export XDG_CONFIG_HOME=$HOME/.config
+export XDG_CACHE_HOME=$HOME/.cache
 eval "$(pyenv init -)"
 eval "$(rbenv init -)"
 rbenv() {

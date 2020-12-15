@@ -1,3 +1,4 @@
+set rtp +=~/.vim
 " setting
 if has('vim_starting')
   set nocompatible
