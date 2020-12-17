@@ -145,10 +145,12 @@ nnoremap <Leader>wq :wq<CR>
 nnoremap <Leader>nn :noh<CR>
 
 "" Tabs
-nnoremap <c-]> gt
-nnoremap <c-@> gT
-nnoremap <Leader>t :tabnew<CR>
+nnoremap K gt
+nnoremap J gT
 
+nnoremap R :join<CR>
+
+nnoremap <Leader>t :tabnew<CR>
 "" ignore wrap
 nnoremap j gj
 nnoremap k gk
