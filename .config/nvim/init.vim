@@ -137,7 +137,7 @@ augroup vimrc-remember-cursor-position
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 augroup END
 
-map @@ :Vista!!<CR>
+map <Leader>p :Vista!!<CR>
 
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>qqq :q!<CR>

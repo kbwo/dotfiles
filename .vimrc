@@ -77,6 +77,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'kristijanhusak/vim-dadbod-ui'
 Plug 'junegunn/gv.vim'
 Plug 'easymotion/vim-easymotion'
+Plug 'glidenote/memolist.vim'
 
 call plug#end()
 
@@ -135,7 +136,7 @@ augroup vimrc-remember-cursor-position
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 augroup END
 
-map @@ :Vista!!<CR>
+map <Leader>p :Vista!!<CR>
 
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>qqq :q!<CR>
@@ -456,3 +457,10 @@ function! EasyMotionCoc() abort
 endfunction
 autocmd TextChanged,CursorMoved * call EasyMotionCoc()
 let g:EasyMotion_use_upper = 1
+
+nnoremap <Leader>mn  :MemoNew<CR>
+nnoremap <Leader>ml  :MemoList<CR>
+nnoremap <Leader>mg  :MemoGrep<CR>
+let g:memolist_memo_suffix = "md"
+let g:memolist_fzf = 1
+let g:memolist_ex_cmd = 'Defx'
