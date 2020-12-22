@@ -8,7 +8,9 @@
     "typescriptreact",
     "json",
     "jsonc",
-    "html"
+    "html",
+    "css",
+    "scss"
   ],
   "languageserver": {
     "golang": {
