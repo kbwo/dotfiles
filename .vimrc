@@ -77,6 +77,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'kristijanhusak/vim-dadbod-ui'
 Plug 'junegunn/gv.vim'
 Plug 'easymotion/vim-easymotion'
+Plug 'glidenote/memolist.vim'
 
 call plug#end()
 
@@ -135,7 +136,7 @@ augroup vimrc-remember-cursor-position
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 augroup END
 
-map @@ :Vista!!<CR>
+map <Leader>p :Vista!!<CR>
 
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>qqq :q!<CR>
@@ -144,10 +145,12 @@ nnoremap <Leader>wq :wq<CR>
 nnoremap <Leader>nn :noh<CR>
 
 "" Tabs
-nnoremap <c-]> gt
-nnoremap <c-@> gT
-nnoremap <Leader>t :tabnew<CR>
+nnoremap K gt
+nnoremap J gT
 
+nnoremap R :join<CR>
+
+nnoremap <Leader>t :tabnew<CR>
 "" ignore wrap
 nnoremap j gj
 nnoremap k gk
@@ -440,19 +443,12 @@ map  <Leader>j <Plug>(easymotion-j)
 map  <Leader>k <Plug>(easymotion-k)
 map  <Leader>h <Plug>(easymotion-linebackward)
 
-" let g:EasyMotion_smartcase = 1
+autocmd User EasyMotionPromptBegin silent! CocDisable
+autocmd User EasyMotionPromptEnd   silent! CocEnable
 
-let g:easymotion#is_active = 0
-function! EasyMotionCoc() abort
-  if EasyMotion#is_active()
-    let g:easymotion#is_active = 1
-    CocDisable
-  else
-    if g:easymotion#is_active == 1
-      let g:easymotion#is_active = 0
-      CocEnable
-    endif
-  endif
-endfunction
-autocmd TextChanged,CursorMoved * call EasyMotionCoc()
-let g:EasyMotion_use_upper = 1
+nnoremap <Leader>mn  :MemoNew<CR>
+nnoremap <Leader>ml  :MemoList<CR>
+nnoremap <Leader>mg  :MemoGrep<CR>
+let g:memolist_memo_suffix = "md"
+let g:memolist_fzf = 1
+let g:memolist_ex_cmd = 'Defx'
