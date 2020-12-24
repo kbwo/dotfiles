@@ -65,6 +65,7 @@ Plug 'previm/previm'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'antoinemadec/coc-fzf'
 if has('nvim')
 Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
 else
