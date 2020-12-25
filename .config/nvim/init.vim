@@ -324,7 +324,7 @@ nmap <silent> ccl <Plug>(coc-codeaction-line)
 
 "FZF
 autocmd BufWritePre *.ts,*.js,*.go :call CocAction('runCommand', 'editor.action.organizeImport') | sleep 100m
-nmap <C-p> :FZF<CR>
+nmap <C-p> :Files<CR>
 
 "supertab
 let g:SuperTabDefaultCompletionType = "<c-n>"
