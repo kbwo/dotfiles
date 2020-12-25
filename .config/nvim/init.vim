@@ -204,6 +204,7 @@ set nobackup
 set noswapfile
 set fileformats=unix,dos,mac
 set foldlevel=99
+set cursorline
 syntax on
 
 

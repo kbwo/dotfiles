@@ -202,6 +202,7 @@ set smartcase
 set nobackup
 set noswapfile
 set fileformats=unix,dos,mac
+set cursorline
 syntax on
 
 
