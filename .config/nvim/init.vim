@@ -457,3 +457,4 @@ let g:memolist_memo_suffix = "md"
 " let g:memolist_fzf = 1
 let g:memolist_ex_cmd = 'Defx'
 
+map <c-/><c-/> :TComment<CR>
