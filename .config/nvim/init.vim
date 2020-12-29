@@ -25,8 +25,6 @@ Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'tpope/vim-commentary'
 " UI
 Plug 'vim-airline/vim-airline'
-"automatic quotes, brackets, etc
-Plug 'Raimondi/delimitMate'
 "easy to change pair surroundings
 Plug 'tpope/vim-surround'
 " "for tab
@@ -295,6 +293,7 @@ let g:coc_global_extensions = [
       \'coc-sh',
       \'coc-yank',
       \'coc-eslint',
+      \'coc-pairs',
       \'coc-css'
       \]
 nmap <silent> <C-d> <Plug>(coc-definition)
