@@ -1,0 +1,24 @@
+font:
+  # The size to use.
+  size: 7.5
+  # The normal (roman) font face to use.
+  normal:
+    family: Ricty
+    # Style can be specified to pick a specific face.
+    style: Bold
+
+  # The bold font face
+  bold:
+    family: Ricty
+    # Style can be specified to pick a specific face.
+    style: Bold
+
+  # The italic font face
+  italic:
+    family: Ricty
+    # Style can be specified to pick a specific face.
+    style: Italic
+
+key_bindings:
+  - { key: Q, mods: Control, chars: "\x11" }
+  - { key: Slash, mods: Control, chars: "\x1f" }
