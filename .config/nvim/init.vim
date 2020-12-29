@@ -299,8 +299,11 @@ let g:coc_global_extensions = [
       \'coc-css',
       \'coc-db'
       \]
+nnoremap <Leader>c  :call CocActionAsync('highlight')<CR>
 nmap <silent> <C-d> <Plug>(coc-definition)
 nmap <silent> <C-l> <Plug>(coc-diagnostic-next)
+nmap <silent> <Leader>ic <Plug>(coc-diagnostic-info)
+nmap <Leader>iw  :CocDiagnostics<CR>
 nmap <silent> gr <Plug>(coc-references)
 nmap <silent> ccn <Plug>(coc-rename)
 nmap <silent> cca <Plug>(coc-codeaction)
@@ -433,4 +436,3 @@ let g:memolist_ex_cmd = 'Defx'
 
 map <c-/><c-/> :TComment<CR>
 autocmd CursorHold * silent call CocActionAsync('highlight')
-nnoremap <Leader>c  :call CocActionAsync('highlight')<CR>
