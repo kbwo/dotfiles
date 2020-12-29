@@ -57,8 +57,8 @@ schemes:
       magenta: '0xbb9af7'
       cyan:    '0x0db9d7'
       white:   '0xacb0d0'
-env:
-    TERM: alacritty
+# env:
+#     TERM: alacritty
 font:
   size: 12.5
   normal:
