@@ -91,16 +91,8 @@ setopt extended_glob
 # ^R で履歴検索をするときに * でワイルドカードを使用出来るようにする
 bindkey '^R' history-incremental-pattern-search-backward
 
-# nvim config
-alias nvimc='nvim ~/dotfiles/.config/nvim/init.vim'
-# vim config
-alias vimc='vim ~/dotfiles/.vimrc'
-# zsh config
-alias nvimzc='nvim ~/dotfiles/.zshrc'
 # cd dotfiles
-alias dotf='cd ~/dotfiles'
-# cd nvim
-alias cdnv='cd ~/.config/nvim'
+alias tod='cd ~/dotfiles'
 
 alias ex='exit'
 alias so='source'

@@ -70,6 +70,7 @@ Plug 'kristijanhusak/vim-dadbod-ui'
 Plug 'junegunn/gv.vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'glidenote/memolist.vim'
+Plug 'HerringtonDarkholme/yats.vim'
 
 call plug#end()
 
@@ -271,6 +272,7 @@ let g:previm_open_cmd = 'open -a open -a Google\ Chrome'
 let g:coc_global_extensions = [
       \'coc-json',
       \'coc-flutter',
+      \'coc-tsserver',
       \'coc-fzf-preview',
       \'coc-go',
       \'coc-git',
@@ -294,7 +296,8 @@ let g:coc_global_extensions = [
       \'coc-yank',
       \'coc-eslint',
       \'coc-pairs',
-      \'coc-css'
+      \'coc-css',
+      \'coc-db'
       \]
 nmap <silent> <C-d> <Plug>(coc-definition)
 nmap <silent> <C-l> <Plug>(coc-diagnostic-next)

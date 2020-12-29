@@ -69,3 +69,4 @@ key_bindings:
   - { key: Q, mods: Control, chars: "\x11" }
   - { key: Slash, mods: Control, chars: "\x1f" }
 colors: *tokyo-night
+alt_send_esc: false
