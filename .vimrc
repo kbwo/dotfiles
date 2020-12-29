@@ -1,3 +1,4 @@
+set rtp +=~/.vim
 " setting
 if has('vim_starting')
   set nocompatible
@@ -28,12 +29,8 @@ Plug 'vim-airline/vim-airline'
 Plug 'Raimondi/delimitMate'
 "easy to change pair surroundings
 Plug 'tpope/vim-surround'
-"vim to IDE
-Plug 'scrooloose/syntastic'
-"for tab
+" "for tab
 Plug 'ervandew/supertab'
-"coloring
-Plug 'gorodinskiy/vim-coloresque'
 "emmet
 Plug 'mattn/emmet-vim'
 " requirements
@@ -43,9 +40,7 @@ Plug 'SirVer/ultisnips'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-obsession'
 Plug 'maxmellon/vim-jsx-pretty'
-Plug 'HerringtonDarkholme/yats.vim'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
-Plug 'sheerun/vim-polyglot'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'prettier/vim-prettier', {
   \ 'do': 'yarn install',
@@ -53,14 +48,12 @@ Plug 'prettier/vim-prettier', {
 " multi cursor
 Plug 'terryma/vim-multiple-cursors'
 Plug 'ghifarit53/tokyonight-vim'
-Plug 'mattn/ctrlp-matchfuzzy'
 Plug 'liuchengxu/vista.vim'
 Plug 'thosakwe/vim-flutter'
 Plug 'jremmen/vim-ripgrep'
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
 Plug 'previm/previm'
-" Plug 'itchyny/lightline.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -92,10 +85,6 @@ let g:UltiSnipsJumpBackwardTrigger="<C-p>"
 let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsSnippetDirectories=["~/.vim/UltiSnips"]
 
-"" emmet
-" autocmd FileType html imap <buffer><expr><tab>
-"       \ emmet#isExpandable() ? "\<plug>(emmet-expand-abbr)" :
-"       \ "\<tab>"
 let g:user_emmet_leader_key='<C-E>'
 
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
@@ -125,59 +114,26 @@ let g:syntastic_aggregate_errors = 1
 let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute " ,"trimming empty <", "unescaped &" , "lacks \"action", "is not recognized!", "discarding unexpected"]
 
 
-"" The PC is fast enough, do syntax highlight syncing from start unless 200 lines
-augroup vimrc-sync-fromstart
-  autocmd!
-  autocmd BufEnter * :syntax sync maxlines=200
-augroup END
-
-"" Remember cursor position
-augroup vimrc-remember-cursor-position
-  autocmd!
-  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
-augroup END
-
 map <Leader>p :Vista!!<CR>
-
-nnoremap <Leader>w :w<CR>
-nnoremap <Leader>qqq :q!<CR>
-nnoremap <Leader>eee :e<CR>
-nnoremap <Leader>wq :wq<CR>
-nnoremap <Leader>nn :noh<CR>
 
 "" Tabs
 nnoremap K gt
 nnoremap J gT
 
 nnoremap R :join<CR>
-
 nnoremap <Leader>t :tabnew<CR>
+
 "" ignore wrap
 nnoremap j gj
 nnoremap k gk
 nnoremap <Down> gj
 nnoremap <Up> gk
 
-"" Sft + y => yunk to EOL
-nnoremap Y y$
-
 "" + => increment
 nnoremap + <C-a>
 
 "" - => decrement
 nnoremap - <C-x>
-
-"" move 15 words
-nmap <silent> <Tab> 15<Right>
-nmap <silent> <S-Tab> 15<Left>
-
-"" pbcopy for OSX copy/paste
-vmap <C-x> :!pbcopy<CR>
-vmap <C-c> :w !pbcopy<CR><CR>
-
-"" move line/word
-nmap <C-e> $
-nmap <C-a> 0
 
 " base
 set encoding=utf-8
@@ -202,6 +158,7 @@ set smartcase
 set nobackup
 set noswapfile
 set fileformats=unix,dos,mac
+set foldlevel=99
 set cursorline
 syntax on
 
@@ -313,6 +270,33 @@ let g:vista_sidebar_width = 35
 let g:previm_open_cmd = 'open -a open -a Google\ Chrome'
 
 "coc.nvim
+let g:coc_global_extensions = [
+      \'coc-json',
+      \'coc-flutter',
+      \'coc-fzf-preview',
+      \'coc-go',
+      \'coc-git',
+      \'coc-highlight',
+      \'coc-java',
+      \'coc-markdownlint',
+      \'coc-phpls',
+      \'coc-python',
+      \'coc-rls',
+      \'coc-rust-analyzer',
+      \'coc-stylelint',
+      \'coc-sql',
+      \'coc-vimlsp',
+      \'coc-xml',
+      \'coc-yaml',
+      \'coc-prettier',
+      \'coc-html',
+      \'coc-solargraph',
+      \'coc-prisma',
+      \'coc-sh',
+      \'coc-yank',
+      \'coc-eslint',
+      \'coc-css'
+      \]
 nmap <silent> <C-d> <Plug>(coc-definition)
 nmap <silent> <C-l> <Plug>(coc-diagnostic-next)
 nmap <silent> gr <Plug>(coc-references)
@@ -432,18 +416,8 @@ call defx#custom#option('_', {
 autocmd BufWritePost * call defx#redraw()
 autocmd BufEnter * call defx#redraw()
 
-" <Leader>f{char} to move to {char}
-map  <Leader>o <Plug>(easymotion-bd-jk)
-nmap <Leader>o <Plug>(easymotion-overwin-line)
-
 " Move to word
 map  <Leader>f <Plug>(easymotion-bd-w)
-" nmap <Leader>f <Plug>(easymotion-overwin-w)
-
-map  <Leader>l <Plug>(easymotion-lineforward)
-map  <Leader>j <Plug>(easymotion-j)
-map  <Leader>k <Plug>(easymotion-k)
-map  <Leader>h <Plug>(easymotion-linebackward)
 
 autocmd User EasyMotionPromptBegin silent! CocDisable
 autocmd User EasyMotionPromptEnd   silent! CocEnable
@@ -452,5 +426,10 @@ nnoremap <Leader>mn  :MemoNew<CR>
 nnoremap <Leader>ml  :MemoList<CR>
 nnoremap <Leader>mg  :MemoGrep<CR>
 let g:memolist_memo_suffix = "md"
-let g:memolist_fzf = 1
+" let g:memolist_fzf = 1
 let g:memolist_ex_cmd = 'Defx'
+
+map <c-/><c-/> :TComment<CR>
+autocmd CursorHold * silent call CocActionAsync('highlight')
+nnoremap <Leader>c  :call CocActionAsync('highlight')<CR>
+
