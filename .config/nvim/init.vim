@@ -437,9 +437,27 @@ let g:memolist_ex_cmd = 'Defx'
 
 map <c-/><c-/> :TComment<CR>
 autocmd CursorHold * silent call CocActionAsync('highlight')
-let g:eskk#large_dictionary = {
-\ 'path': "~/.dict/SKK-JISYO.utf8.L",
-\ 'sorted': 1,
-\ 'encoding': 'utf-8',
-\}
 
+if empty(glob('~/.config/nvim/eskk.vim/SKK-JISYO.L'))
+    silent !curl -fLo ~/.config/nvim/eskk.vim/SKK-JISYO.L --create-dirs
+        \ http://openlab.jp/skk/skk/dic/SKK-JISYO.L
+endif
+let g:eskk#directory = '~/.config/nvim/eskk.vim'
+
+let g:eskk#large_dictionary = {
+    \ 'path': '~/.config/nvim/eskk.vim/SKK-JISYO.L',
+    \ 'sorted': 1,
+    \ 'encoding': 'euc-jp',
+    \ }
+
+let g:eskk#dictionary = {
+    \ 'path': '~/.config/nvim/eskk.vim/user.dict',
+    \ 'sorted': 0,
+    \ 'encoding': 'utf-8',
+    \}
+
+autocmd User eskk-initialize-pre call s:eskk_initial_pre()
+
+function! s:eskk_initial_pre()
+runtime! eskk-table/*.vim
+endfunction

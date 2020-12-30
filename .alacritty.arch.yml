@@ -59,7 +59,7 @@ schemes:
       white:   '0xacb0d0'
 font:
   # The size to use.
-  size: 7.5
+  size: 7
   # The normal (roman) font face to use.
   normal:
     family: Ricty
