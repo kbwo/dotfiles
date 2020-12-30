@@ -71,6 +71,7 @@ Plug 'junegunn/gv.vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'glidenote/memolist.vim'
 Plug 'HerringtonDarkholme/yats.vim'
+Plug 'tyru/eskk.vim'
 
 call plug#end()
 
@@ -436,3 +437,9 @@ let g:memolist_ex_cmd = 'Defx'
 
 map <c-/><c-/> :TComment<CR>
 autocmd CursorHold * silent call CocActionAsync('highlight')
+let g:eskk#large_dictionary = {
+\ 'path': "~/.dict/SKK-JISYO.utf8.L",
+\ 'sorted': 1,
+\ 'encoding': 'utf-8',
+\}
+
