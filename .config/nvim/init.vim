@@ -117,8 +117,8 @@ let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute " ,"trimming em
 map <Leader>p :Vista!!<CR>
 
 "" Tabs
-nnoremap } gt
-nnoremap { gT
+nnoremap K gt
+nnoremap J gT
 
 nnoremap R :join<CR>
 nnoremap <Leader>t :tabnew<CR>
