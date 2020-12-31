@@ -463,3 +463,11 @@ function! s:eskk_initial_pre()
   call eskk#register_mode_table('hira', t)
 endfunction
 
+function! DisableCoc()
+    CocDisable
+endfunction
+function! EnableCoc()
+    CocEnable
+endfunction
+autocmd  User eskk-enable-post  call DisableCoc()
+autocmd  User eskk-disable-post call EnableCoc()
