@@ -117,8 +117,8 @@ let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute " ,"trimming em
 map <Leader>p :Vista!!<CR>
 
 "" Tabs
-nnoremap K gt
-nnoremap J gT
+nnoremap } gt
+nnoremap { gT
 
 nnoremap R :join<CR>
 nnoremap <Leader>t :tabnew<CR>
@@ -457,7 +457,9 @@ let g:eskk#dictionary = {
     \}
 
 autocmd User eskk-initialize-pre call s:eskk_initial_pre()
-
 function! s:eskk_initial_pre()
-runtime! eskk-table/*.vim
+  let t = eskk#table#new('rom_to_hira*', 'rom_to_hira')
+  call t.add_map('pc', '・')
+  call eskk#register_mode_table('hira', t)
 endfunction
+
