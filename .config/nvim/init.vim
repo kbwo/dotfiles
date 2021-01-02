@@ -75,6 +75,8 @@ Plug 'tyru/eskk.vim'
 
 call plug#end()
 
+inoremap <c-u> <Nop>
+
 filetype plugin indent on
 let mapleader="\<Space>"
 
