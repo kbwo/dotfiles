@@ -204,6 +204,8 @@ zinit wait lucid atload'_zsh_autosuggest_start' light-mode for \
     zsh-users/zsh-autosuggestions
 zinit light zdharma/fast-syntax-highlighting
 zinit load zdharma/history-search-multi-word
+zinit light zsh-users/zsh-autosuggestions
+bindkey '^j' autosuggest-accept
 
 ### End of Zinit's installer chunk
 if [ -z $TMUX ]; then

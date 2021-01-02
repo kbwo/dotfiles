@@ -70,3 +70,5 @@ key_bindings:
   - { key: Slash, mods: Control, chars: "\x1f" }
 colors: *tokyo-night
 alt_send_esc: false
+
+background_opacity: 0.9
