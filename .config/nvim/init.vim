@@ -71,6 +71,7 @@ Plug 'junegunn/gv.vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'glidenote/memolist.vim'
 Plug 'HerringtonDarkholme/yats.vim'
+Plug 'ianks/vim-tsx'
 Plug 'tyru/eskk.vim'
 
 call plug#end()
