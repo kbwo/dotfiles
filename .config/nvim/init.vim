@@ -75,6 +75,8 @@ Plug 'tyru/eskk.vim'
 
 call plug#end()
 
+inoremap <c-u> <Nop>
+
 filetype plugin indent on
 let mapleader="\<Space>"
 
@@ -303,6 +305,15 @@ let g:coc_global_extensions = [
       \'coc-eslint',
       \'coc-pairs',
       \'coc-css',
+      \'coc-bookmark',
+      \'coc-calc',
+      \'coc-eslint',
+      \'coc-json',
+      \'coc-prisma',
+      \'coc-sh',
+      \'coc-sourcekit',
+      \'coc-tailwindcss',
+      \'coc-vetur',
       \'coc-db'
       \]
 nnoremap <Leader>c  :call CocActionAsync('highlight')<CR>
@@ -314,6 +325,9 @@ nmap <silent> gr <Plug>(coc-references)
 nmap <silent> ccn <Plug>(coc-rename)
 nmap <silent> cca <Plug>(coc-codeaction)
 nmap <silent> ccl <Plug>(coc-codeaction-line)
+nmap <silent> tt <Plug>(coc-bookmark-next)
+nmap <silent> TT <Plug>(coc-bookmark-prev)
+nmap <silent> BB <Plug>(coc-bookmark-toggle)
 
 "FZF
 autocmd BufWritePre *.ts,*.js,*.go :call CocAction('runCommand', 'editor.action.organizeImport') | sleep 100m
@@ -476,3 +490,17 @@ function! EnableCoc()
 endfunction
 autocmd  User eskk-enable-post  call DisableCoc()
 autocmd  User eskk-disable-post call EnableCoc()
+
+function! s:my_bookmark_color() abort
+  let s:scl_guibg = matchstr(execute('hi SignColumn'), 'guibg=\zs\S*')
+  if empty(s:scl_guibg)
+    let s:scl_guibg = 'NONE'
+  endif
+  exe 'hi MyBookmarkSign guifg=' . s:scl_guibg
+endfunction
+call s:my_bookmark_color() " don't remove this line!
+
+augroup UserGitSignColumnColor
+  autocmd!
+  autocmd ColorScheme * call s:my_bookmark_color()
+augroup END
