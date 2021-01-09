@@ -73,6 +73,8 @@ Plug 'glidenote/memolist.vim'
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'ianks/vim-tsx'
 Plug 'tyru/eskk.vim'
+"" for previm
+Plug 'tyru/open-browser.vim'
 
 call plug#end()
 
@@ -273,9 +275,6 @@ let g:vista_default_executive = 'coc'
 let g:vista_update_on_text_changed = 1
 let g:vista#renderer#enable_icon = 0
 let g:vista_sidebar_width = 35
-
-"previm
-let g:previm_open_cmd = 'open -a open -a Google\ Chrome'
 
 "coc.nvim
 let g:coc_global_extensions = [
