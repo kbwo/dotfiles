@@ -75,6 +75,7 @@ Plug 'ianks/vim-tsx'
 Plug 'tyru/eskk.vim'
 Plug 'Yggdroot/indentLine'
 Plug 'tyru/open-browser.vim'
+Plug 'ivanov/vim-ipython'
 
 call plug#end()
 
