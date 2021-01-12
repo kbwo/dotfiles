@@ -73,6 +73,7 @@ Plug 'glidenote/memolist.vim'
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'ianks/vim-tsx'
 Plug 'tyru/eskk.vim'
+Plug 'Yggdroot/indentLine'
 
 call plug#end()
 
@@ -122,6 +123,10 @@ map <Leader>p :Vista!!<CR>
 "" Tabs
 nnoremap K gt
 nnoremap J gT
+
+"" scroll
+nnoremap <Leader>j <c-d>
+nnoremap <Leader>k <c-u>
 
 nnoremap R :join<CR>
 nnoremap <Leader>t :tabnew<CR>
