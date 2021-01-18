@@ -13,8 +13,6 @@
   ],
   "python.pythonPath": "~/.pyenv/shims/python",
   "python.jediEnabled": false,
-  "bookmark.sign": "☆",
-  "bookmark.signHl": "Todo",
   "coc.preferences.colorSupport": true,
   "languageserver": {
     "dockerfile": {

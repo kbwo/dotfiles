@@ -1,4 +1,5 @@
 set rtp +=~/.vim
+set rtp+=/path/to/lldb.nvim
 " setting
 if has('vim_starting')
   set nocompatible
@@ -76,6 +77,8 @@ Plug 'tyru/eskk.vim'
 Plug 'Yggdroot/indentLine'
 Plug 'tyru/open-browser.vim'
 Plug 'ivanov/vim-ipython'
+Plug 'w0rp/ale'
+Plug 'dbgx/lldb.nvim'
 
 call plug#end()
 
@@ -310,7 +313,6 @@ let g:coc_global_extensions = [
       \'coc-eslint',
       \'coc-pairs',
       \'coc-css',
-      \'coc-bookmark',
       \'coc-calc',
       \'coc-eslint',
       \'coc-json',
@@ -319,6 +321,7 @@ let g:coc_global_extensions = [
       \'coc-sourcekit',
       \'coc-tailwindcss',
       \'coc-vetur',
+      \'coc-clangd',
       \'coc-db'
       \]
 nnoremap <Leader>c  :call CocActionAsync('highlight')<CR>
@@ -330,9 +333,6 @@ nmap <silent> gr <Plug>(coc-references)
 nmap <silent> ccn <Plug>(coc-rename)
 nmap <silent> cca <Plug>(coc-codeaction)
 nmap <silent> ccl <Plug>(coc-codeaction-line)
-nmap <silent> tt <Plug>(coc-bookmark-next)
-nmap <silent> TT <Plug>(coc-bookmark-prev)
-nmap <silent> BB <Plug>(coc-bookmark-toggle)
 
 "FZF
 autocmd BufWritePre *.ts,*.js,*.go :call CocAction('runCommand', 'editor.action.organizeImport') | sleep 100m
@@ -521,3 +521,19 @@ function! RipgrepFzf(query, fullscreen)
 endfunction
 
 command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
+
+let g:ale_sign_column_always = 1
+    " 保存時に整形してくれる
+    let g:ale_fix_on_save = 1
+    " 補完してくれる
+    let g:ale_completion_enabled = 1
+    " エラー行に表示するマーク
+    let g:ale_sign_error = '⨉'
+    let g:ale_sign_warning = '⚠'
+    " エラー行にカーソルをあわせた際に表示されるメッセージフォーマット
+    let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+    let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
+    let g:ale_linters = {
+        \   'c' : ['clangd'],
+        \   'cpp' : ['clangd']
+    \}
