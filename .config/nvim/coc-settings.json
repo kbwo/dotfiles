@@ -13,6 +13,7 @@
   ],
   "python.pythonPath": "~/.pyenv/shims/python",
   "python.jediEnabled": false,
+  "diagnostic.displayByAle": true,
   "coc.preferences.colorSupport": true,
   "languageserver": {
     "dockerfile": {
