@@ -240,17 +240,11 @@ let g:tokyonight_disable_italic_comment = 0
 let g:airline_theme = "tokyonight"
 colorscheme tokyonight
 
+highlight CursorLine term=bold cterm=bold guibg=Grey40
 if has('nvim')
-  highlight CursorLine term=bold cterm=bold guibg=Grey40
-  highlight Comment guibg=#3e5380 guifg=#FFFFFF
-  highlight Visual cterm=reverse ctermbg=NONE
   highlight Visual guifg=#FFFFFF guibg=SlateBlue gui=none term=reverse cterm=reverse
-  highlight LineNr term=bold cterm=NONE ctermfg=LightBlue ctermbg=NONE gui=NONE guifg=LightBlue guibg=NONE
 else
-  highlight Comment guibg=#FFFFFF guifg=#3e5380
-  highlight Visual cterm=reverse ctermbg=NONE
   hi Visual guibg=#FFFFFF guifg=SlateBlue gui=none
-  hi LineNr term=bold cterm=NONE ctermfg=LightBlue ctermbg=NONE gui=NONE guifg=LightBlue guibg=NONE
 endif
 
 highlight Normal ctermbg=NONE guibg=NONE
