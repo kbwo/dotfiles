@@ -23,33 +23,23 @@ call plug#begin(expand('~/.vim/plugged'))
 Plug 'thinca/vim-quickrun', {'on' : 'QuickRun'}
 Plug 'joonty/vdebug'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
-Plug 'tpope/vim-commentary'
-" UI
 Plug 'vim-airline/vim-airline'
-"easy to change pair surroundings
 Plug 'tpope/vim-surround'
-" "for tab
 Plug 'ervandew/supertab'
-"emmet
 Plug 'mattn/emmet-vim'
-" requirements
 Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'}
-" ultisnips
 Plug 'SirVer/ultisnips'
 Plug 'tomtom/tcomment_vim'
-Plug 'tpope/vim-obsession'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'editorconfig/editorconfig-vim'
 Plug 'prettier/vim-prettier', {
   \ 'do': 'yarn install',
   \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
-" multi cursor
 Plug 'terryma/vim-multiple-cursors'
 Plug 'ghifarit53/tokyonight-vim'
 Plug 'liuchengxu/vista.vim'
 Plug 'thosakwe/vim-flutter'
-Plug 'jremmen/vim-ripgrep'
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
 Plug 'previm/previm'
@@ -240,17 +230,11 @@ let g:tokyonight_disable_italic_comment = 0
 let g:airline_theme = "tokyonight"
 colorscheme tokyonight
 
+highlight CursorLine term=bold cterm=bold guibg=Grey40
 if has('nvim')
-  highlight CursorLine term=bold cterm=bold guibg=Grey40
-  highlight Comment guibg=#3e5380 guifg=#FFFFFF
-  highlight Visual cterm=reverse ctermbg=NONE
   highlight Visual guifg=#FFFFFF guibg=SlateBlue gui=none term=reverse cterm=reverse
-  highlight LineNr term=bold cterm=NONE ctermfg=LightBlue ctermbg=NONE gui=NONE guifg=LightBlue guibg=NONE
 else
-  highlight Comment guibg=#FFFFFF guifg=#3e5380
-  highlight Visual cterm=reverse ctermbg=NONE
   hi Visual guibg=#FFFFFF guifg=SlateBlue gui=none
-  hi LineNr term=bold cterm=NONE ctermfg=LightBlue ctermbg=NONE gui=NONE guifg=LightBlue guibg=NONE
 endif
 
 highlight Normal ctermbg=NONE guibg=NONE
