@@ -426,8 +426,8 @@ autocmd BufEnter * call defx#redraw()
 " Move to word
 map  <Leader>f <Plug>(easymotion-bd-w)
 
-autocmd User EasyMotionPromptBegin silent! CocDisable
-autocmd User EasyMotionPromptEnd   silent! CocEnable
+autocmd User EasyMotionPromptBegin silent! DisableCoc()
+autocmd User EasyMotionPromptEnd   silent! EnableCoc()
 
 nnoremap <Leader>mn  :MemoNew<CR>
 nnoremap <Leader>ml  :MemoList<CR>
@@ -471,7 +471,7 @@ endfunction
 function! EnableCoc()
     CocEnable
 endfunction
-autocmd  User eskk-enable-post  call DisableCoc()
+autocmd  User eskk-enable-pre  call DisableCoc()
 autocmd  User eskk-disable-post call EnableCoc()
 
 function! s:my_bookmark_color() abort
