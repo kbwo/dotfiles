@@ -117,14 +117,9 @@ alias y='yarn'
 alias ya='yarn add'
 alias yi='yarn install'
 
-# npm
-alias npi='npm install'
-alias npr='npm run'
-
 # docker
-alias dce='docker exec -it  bash'
-alias dcr='docker run'
-alias dcc='docker-compose'
+alias d='docker'
+alias dc='docker-compose'
 
 # git
 alias gta='git add .'
