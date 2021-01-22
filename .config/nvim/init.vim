@@ -336,7 +336,7 @@ autocmd FileType defx call s:defx_my_settings()
 	  \ defx#do_action('open')
 	  nnoremap <silent><buffer><expr> c
 	  \ defx#do_action('copy')
-	  nnoremap <silent><buffer><expr> m
+	  nnoremap <silent><buffer><expr> <Leader>m
 	  \ defx#do_action('move')
 	  nnoremap <silent><buffer><expr> p
 	  \ defx#do_action('paste')
@@ -361,7 +361,7 @@ autocmd FileType defx call s:defx_my_settings()
 	  \                'mark:indent:icon:filename:type:size:time')
 	  nnoremap <silent><buffer><expr> S
 	  \ defx#do_action('toggle_sort', 'time')
-	  nnoremap <silent><buffer><expr> dd
+	  nnoremap <silent><buffer><expr> d
 	  \ defx#do_action('remove')
 	  nnoremap <silent><buffer><expr> r
 	  \ defx#do_action('rename')
@@ -381,7 +381,7 @@ autocmd FileType defx call s:defx_my_settings()
 	  \ defx#do_action('cd')
 	  nnoremap <silent><buffer><expr> q
 	  \ defx#do_action('quit')
-	  nnoremap <silent><buffer><expr> <Space>
+	  nnoremap <silent><buffer><expr> m
 	  \ defx#do_action('toggle_select') . 'j'
 	  nnoremap <silent><buffer><expr> *
 	  \ defx#do_action('toggle_select_all')
@@ -488,9 +488,7 @@ augroup UserGitSignColumnColor
   autocmd ColorScheme * call s:my_bookmark_color()
 augroup END
 
-call denite#custom#var('file/rec', 'command', ['rg', '--hidden', '--files', '--no-ignore', '--glob', '!.git'])
-" call denite#custom#var('file/rec', 'command', ['rg', '--hidden', '--files'])
-" call denite#custom#source('file_rec', 'matchers', ['matcher_fuzzy', 'matcher_ignore_globs'])
+call denite#custom#var('file/rec', 'command', ['rg', '--hidden', '--files', '--glob', '!.git'])
 call denite#custom#var('grep', 'command', ['rg'])
 call denite#custom#var('grep', 'default_opts', ['--hidden', '--vimgrep', '--heading', '-S'])
 call denite#custom#var('grep', 'recursive_opts', [])
@@ -505,13 +503,13 @@ autocmd FileType denite call s:denite_my_settings()
 function! s:denite_my_settings() abort
   nnoremap <silent><buffer><expr> <CR>
   \ denite#do_map('do_action')
-  nnoremap <silent><buffer><expr> t
+  nnoremap <silent><buffer><expr> <Leader>t
   \ denite#do_map('do_action', 'tabopen')
   nnoremap <silent><buffer><expr> v
   \ denite#do_map('do_action', 'vsplit')
   nnoremap <silent><buffer><expr> s
   \ denite#do_map('do_action', 'split')
-  nnoremap <silent><buffer><expr> d
+  nnoremap <silent><buffer><expr> <Leader>d
   \ denite#do_map('do_action', 'delete')
   nnoremap <silent><buffer><expr> p
   \ denite#do_map('do_action', 'preview')
@@ -519,6 +517,6 @@ function! s:denite_my_settings() abort
   \ denite#do_map('quit')
   nnoremap <silent><buffer><expr> i
   \ denite#do_map('open_filter_buffer')
-  nnoremap <silent><buffer><expr> <Space>
+  nnoremap <silent><buffer><expr> m
   \ denite#do_map('toggle_select').'j'
 endfunction
