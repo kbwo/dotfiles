@@ -43,7 +43,7 @@ Plug 'thosakwe/vim-flutter'
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
 Plug 'previm/previm'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', {'branch': 'release', 'tag': '*', 'do': { -> coc#util#install()}}
 if has('nvim')
 Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
 else
@@ -68,7 +68,8 @@ Plug 'dbgx/lldb.nvim'
 Plug 'Shougo/denite.nvim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'antoinemadec/coc-fzf'
+Plug 'neoclide/coc-denite'
+" Plug 'antoinemadec/coc-fzf'
 
 call plug#end()
 
@@ -346,10 +347,12 @@ autocmd FileType defx call s:defx_my_settings()
 	  \ defx#do_action('paste')
 	  nnoremap <silent><buffer><expr> l
 	  \ defx#do_action('open')
-	  nnoremap <silent><buffer><expr> t
+	  nnoremap <silent><buffer><expr> <Leader>t
 	  \ defx#do_action('open', 'tabnew')
-	  nnoremap <silent><buffer><expr> <C-v>
+	  nnoremap <silent><buffer><expr> <Leader>v
 	  \ defx#do_action('open', 'vsplit')
+	  nnoremap <silent><buffer><expr> <Leader>s
+	  \ defx#do_action('open', 'split')
 	  nnoremap <silent><buffer><expr> P
 	  \ defx#do_action('open', 'pedit')
 	  nnoremap <silent><buffer><expr> o
