@@ -317,6 +317,7 @@ nmap <silent> ccn <Plug>(coc-rename)
 nmap <silent> cca <Plug>(coc-codeaction)
 nmap <silent> ccl <Plug>(coc-codeaction-line)
 
+let g:prettier#autoformat = 1
 
 "supertab
 let g:SuperTabDefaultCompletionType = "<c-n>"
