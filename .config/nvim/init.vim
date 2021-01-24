@@ -493,6 +493,20 @@ augroup UserGitSignColumnColor
   autocmd ColorScheme * call s:my_bookmark_color()
 augroup END
 
+if executable('rg')
+  call denite#custom#var('file/rec', 'command',
+        \ ['rg', '--files', '--hidden', '--glob', '!.git', '--color', 'never'])
+  call denite#custom#var('grep', {
+        \ 'command': ['rg', '--threads', '1'],
+        \ 'recursive_opts': [],
+        \ 'final_opts': [],
+        \ 'separator': ['--'],
+        \ 'default_opts': ['--smart-case', '--vimgrep', '--no-heading'],
+        \ })
+else
+  call denite#custom#var('file/rec', 'command',
+        \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+end
 call denite#custom#var('grep', 'command', ['rg'])
 call denite#custom#var('grep', 'default_opts', ['--hidden', '--vimgrep', '--heading', '-S'])
 call denite#custom#var('grep', 'recursive_opts', [])
