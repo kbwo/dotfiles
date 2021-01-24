@@ -67,11 +67,8 @@ Plug 'tyru/open-browser.vim'
 Plug 'ivanov/vim-ipython'
 Plug 'dbgx/lldb.nvim'
 Plug 'Shougo/denite.nvim'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc-denite'
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
-" Plug 'antoinemadec/coc-fzf'
 
 call plug#end()
 
@@ -308,7 +305,6 @@ let g:coc_global_extensions = [
       \'coc-tailwindcss',
       \'coc-vetur',
       \'coc-clangd',
-      \'coc-fzf-preview',
       \'coc-db'
       \]
 nnoremap <Leader>c  :call CocActionAsync('highlight')<CR>
@@ -497,7 +493,6 @@ augroup UserGitSignColumnColor
   autocmd ColorScheme * call s:my_bookmark_color()
 augroup END
 
-call denite#custom#var('file/rec', 'command', ['rg', '--hidden', '--files', '--glob', '!.git'])
 call denite#custom#var('grep', 'command', ['rg'])
 call denite#custom#var('grep', 'default_opts', ['--hidden', '--vimgrep', '--heading', '-S'])
 call denite#custom#var('grep', 'recursive_opts', [])
@@ -506,7 +501,7 @@ call denite#custom#var('grep', 'separator', ['--'])
 call denite#custom#var('grep', 'final_opts', [])
 call denite#custom#var('buffer', 'date_format', '')
 call denite#custom#filter('matcher/clap',
-      \ 'clap_path', expand('~/src/vim-clap'))
+      \ 'clap_path', expand('~/.vim/plugged/vim-clap'))
 call denite#custom#source('file/rec', 'matchers', [
       \ 'matcher/clap',
       \ ])
@@ -535,15 +530,4 @@ function! s:denite_my_settings() abort
   \ denite#do_map('open_filter_buffer')
   nnoremap <silent><buffer><expr> m
   \ denite#do_map('toggle_select').'j'
-endfunction
-
-"FZF
-autocmd BufWritePre *.ts,*.js,*.go :call CocAction('runCommand', 'editor.action.organizeImport') | sleep 100m
-nmap <Leader>p :Files<CR>
-function! RipgrepFzf(query, fullscreen)
-  let command_fmt = 'rg --hidden --column --line-number --no-heading --color=always --smart-case -- %s || true'
-  let initial_command = printf(command_fmt, shellescape(a:query))
-  let reload_command = printf(command_fmt, '{q}')
-  let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
-  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
 endfunction
