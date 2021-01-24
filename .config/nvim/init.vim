@@ -13,6 +13,7 @@ if !filereadable(expand('~/.vim/autoload/plug.vim'))
   echo "Installing Vim-Plug..."
   echo ""
   silent !\curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  silent !\curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
   let g:not_finish_vimplug = "yes"
   autocmd VimEnter * PlugInstall
 endif
@@ -69,6 +70,7 @@ Plug 'Shougo/denite.nvim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc-denite'
+Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
 " Plug 'antoinemadec/coc-fzf'
 
 call plug#end()
@@ -503,6 +505,11 @@ call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
 call denite#custom#var('grep', 'separator', ['--'])
 call denite#custom#var('grep', 'final_opts', [])
 call denite#custom#var('buffer', 'date_format', '')
+call denite#custom#filter('matcher/clap',
+      \ 'clap_path', expand('~/src/vim-clap'))
+call denite#custom#source('file/rec', 'matchers', [
+      \ 'matcher/clap',
+      \ ])
 
 nmap <c-p> :Denite file/rec<CR>
 nmap <Leader>d :Denite directory_rec<CR>
