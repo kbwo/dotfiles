@@ -34,9 +34,6 @@ Plug 'tomtom/tcomment_vim'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'editorconfig/editorconfig-vim'
-Plug 'prettier/vim-prettier', {
-  \ 'do': 'yarn install',
-  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
 Plug 'terryma/vim-multiple-cursors'
 Plug 'ghifarit53/tokyonight-vim'
 Plug 'liuchengxu/vista.vim'
@@ -46,7 +43,7 @@ Plug 'plasticboy/vim-markdown'
 Plug 'previm/previm'
 Plug 'neoclide/coc.nvim', {'branch': 'release', 'tag': '*', 'do': { -> coc#util#install()}}
 if has('nvim')
-Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
+  Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
 else
   Plug 'Shougo/defx.nvim'
   Plug 'roxma/nvim-yarp'
@@ -69,6 +66,9 @@ Plug 'dbgx/lldb.nvim'
 Plug 'Shougo/denite.nvim'
 Plug 'neoclide/coc-denite'
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
+Plug 'prettier/vim-prettier', {
+  \ 'do': 'yarn install',
+  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
 
 call plug#end()
 
@@ -93,9 +93,9 @@ nnoremap <Leader>go :QuickRun<CR>
 nnoremap <C-U>qr :QuickRun<CR>
 let g:quickrun_config={'*': {'split': ''}}
 let g:quickrun_config.cpp = {
-            \   'command': 'g++',
-            \   'cmdopt': '-std=c++11'
-            \ }
+      \   'command': 'g++',
+      \   'cmdopt': '-std=c++11'
+      \ }
 
 "vimshell
 nnoremap <Leader>sh :vertical terminal<CR>
@@ -334,74 +334,74 @@ nnoremap <silent><C-n> :<C-u>Defx -listed -resume
 nnoremap <silent>fi :<C-u>Defx -new `expand('%:p:h')` -search=`expand('%:p')`<CR>
 
 autocmd FileType defx call s:defx_my_settings()
-	function! s:defx_my_settings() abort
-	  " Define mappings
-	  nnoremap <silent><buffer><expr> <CR>
-	  \ defx#do_action('open')
-	  nnoremap <silent><buffer><expr> c
-	  \ defx#do_action('copy')
-	  nnoremap <silent><buffer><expr> <Leader>m
-	  \ defx#do_action('move')
-	  nnoremap <silent><buffer><expr> p
-	  \ defx#do_action('paste')
-	  nnoremap <silent><buffer><expr> l
-	  \ defx#do_action('open')
-	  nnoremap <silent><buffer><expr> <Leader>t
-	  \ defx#do_action('open', 'tabnew')
-	  nnoremap <silent><buffer><expr> <Leader>v
-	  \ defx#do_action('open', 'vsplit')
-	  nnoremap <silent><buffer><expr> <Leader>s
-	  \ defx#do_action('open', 'split')
-	  nnoremap <silent><buffer><expr> P
-	  \ defx#do_action('open', 'pedit')
-	  nnoremap <silent><buffer><expr> o
-	  \ defx#do_action('open_or_close_tree')
-	  nnoremap <silent><buffer><expr> K
-	  \ defx#do_action('new_directory')
-	  nnoremap <silent><buffer><expr> N
-	  \ defx#do_action('new_file')
-	  nnoremap <silent><buffer><expr> M
-	  \ defx#do_action('new_multiple_files')
-	  nnoremap <silent><buffer><expr> C
-	  \ defx#do_action('toggle_columns',
-	  \                'mark:indent:icon:filename:type:size:time')
-	  nnoremap <silent><buffer><expr> S
-	  \ defx#do_action('toggle_sort', 'time')
-	  nnoremap <silent><buffer><expr> d
-	  \ defx#do_action('remove')
-	  nnoremap <silent><buffer><expr> r
-	  \ defx#do_action('rename')
-	  nnoremap <silent><buffer><expr> !
-	  \ defx#do_action('execute_command')
-	  nnoremap <silent><buffer><expr> x
-	  \ defx#do_action('execute_system')
-	  nnoremap <silent><buffer><expr> yy
-	  \ defx#do_action('yank_path')
-	  nnoremap <silent><buffer><expr> .
-	  \ defx#do_action('toggle_ignored_files')
-	  nnoremap <silent><buffer><expr> ;
-	  \ defx#do_action('repeat')
-	  nnoremap <silent><buffer><expr> h
-	  \ defx#do_action('cd', ['..'])
-	  nnoremap <silent><buffer><expr> ~
-	  \ defx#do_action('cd')
-	  nnoremap <silent><buffer><expr> q
-	  \ defx#do_action('quit')
-	  nnoremap <silent><buffer><expr> m
-	  \ defx#do_action('toggle_select') . 'j'
-	  nnoremap <silent><buffer><expr> *
-	  \ defx#do_action('toggle_select_all')
-	  nnoremap <silent><buffer><expr> j
-	  \ line('.') == line('$') ? 'gg' : 'j'
-	  nnoremap <silent><buffer><expr> k
-	  \ line('.') == 1 ? 'G' : 'k'
-	  nnoremap <silent><buffer><expr> <C-l>
-	  \ defx#do_action('redraw')
-	  nnoremap <silent><buffer><expr> <C-g>
-	  \ defx#do_action('print')
-	  nnoremap <silent><buffer><expr> cd
-	  \ defx#do_action('change_vim_cwd')
-	endfunction
+function! s:defx_my_settings() abort
+  " Define mappings
+  nnoremap <silent><buffer><expr> <CR>
+        \ defx#do_action('open')
+  nnoremap <silent><buffer><expr> c
+        \ defx#do_action('copy')
+  nnoremap <silent><buffer><expr> <Leader>m
+        \ defx#do_action('move')
+  nnoremap <silent><buffer><expr> p
+        \ defx#do_action('paste')
+  nnoremap <silent><buffer><expr> l
+        \ defx#do_action('open')
+  nnoremap <silent><buffer><expr> <Leader>t
+        \ defx#do_action('open', 'tabnew')
+  nnoremap <silent><buffer><expr> <Leader>v
+        \ defx#do_action('open', 'vsplit')
+  nnoremap <silent><buffer><expr> <Leader>s
+        \ defx#do_action('open', 'split')
+  nnoremap <silent><buffer><expr> P
+        \ defx#do_action('open', 'pedit')
+  nnoremap <silent><buffer><expr> o
+        \ defx#do_action('open_or_close_tree')
+  nnoremap <silent><buffer><expr> K
+        \ defx#do_action('new_directory')
+  nnoremap <silent><buffer><expr> N
+        \ defx#do_action('new_file')
+  nnoremap <silent><buffer><expr> M
+        \ defx#do_action('new_multiple_files')
+  nnoremap <silent><buffer><expr> C
+        \ defx#do_action('toggle_columns',
+        \                'mark:indent:icon:filename:type:size:time')
+  nnoremap <silent><buffer><expr> S
+        \ defx#do_action('toggle_sort', 'time')
+  nnoremap <silent><buffer><expr> d
+        \ defx#do_action('remove')
+  nnoremap <silent><buffer><expr> r
+        \ defx#do_action('rename')
+  nnoremap <silent><buffer><expr> !
+        \ defx#do_action('execute_command')
+  nnoremap <silent><buffer><expr> x
+        \ defx#do_action('execute_system')
+  nnoremap <silent><buffer><expr> yy
+        \ defx#do_action('yank_path')
+  nnoremap <silent><buffer><expr> .
+        \ defx#do_action('toggle_ignored_files')
+  nnoremap <silent><buffer><expr> ;
+        \ defx#do_action('repeat')
+  nnoremap <silent><buffer><expr> h
+        \ defx#do_action('cd', ['..'])
+  nnoremap <silent><buffer><expr> ~
+        \ defx#do_action('cd')
+  nnoremap <silent><buffer><expr> q
+        \ defx#do_action('quit')
+  nnoremap <silent><buffer><expr> m
+        \ defx#do_action('toggle_select') . 'j'
+  nnoremap <silent><buffer><expr> *
+        \ defx#do_action('toggle_select_all')
+  nnoremap <silent><buffer><expr> j
+        \ line('.') == line('$') ? 'gg' : 'j'
+  nnoremap <silent><buffer><expr> k
+        \ line('.') == 1 ? 'G' : 'k'
+  nnoremap <silent><buffer><expr> <C-l>
+        \ defx#do_action('redraw')
+  nnoremap <silent><buffer><expr> <C-g>
+        \ defx#do_action('print')
+  nnoremap <silent><buffer><expr> cd
+        \ defx#do_action('change_vim_cwd')
+endfunction
 
 call defx#custom#column('icon', {
       \ 'directory_icon': '▸',
@@ -409,15 +409,15 @@ call defx#custom#column('icon', {
       \ 'root_icon': ' ',
       \ })
 call defx#custom#column('git', 'indicators', {
-  \ 'Modified'  : 'M',
-  \ 'Staged'    : '✚',
-  \ 'Untracked' : '✭',
-  \ 'Renamed'   : '➜',
-  \ 'Unmerged'  : '═',
-  \ 'Ignored'   : '☒',
-  \ 'Deleted'   : '✖',
-  \ 'Unknown'   : '?'
-  \ })
+      \ 'Modified'  : 'M',
+      \ 'Staged'    : '✚',
+      \ 'Untracked' : '✭',
+      \ 'Renamed'   : '➜',
+      \ 'Unmerged'  : '═',
+      \ 'Ignored'   : '☒',
+      \ 'Deleted'   : '✖',
+      \ 'Unknown'   : '?'
+      \ })
 call defx#custom#option('_', {
       \ 'winwidth': 40,
       \ 'direction': 'topleft',
@@ -445,22 +445,22 @@ map <c-/><c-/> :TComment<CR>
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
 if empty(glob('~/.config/nvim/eskk.vim/SKK-JISYO.L'))
-    silent !curl -fLo ~/.config/nvim/eskk.vim/SKK-JISYO.L --create-dirs
+  silent !curl -fLo ~/.config/nvim/eskk.vim/SKK-JISYO.L --create-dirs
         \ http://openlab.jp/skk/skk/dic/SKK-JISYO.L
 endif
 let g:eskk#directory = '~/.config/nvim/eskk.vim'
 
 let g:eskk#large_dictionary = {
-    \ 'path': '~/.config/nvim/eskk.vim/SKK-JISYO.L',
-    \ 'sorted': 1,
-    \ 'encoding': 'euc-jp',
-    \ }
+      \ 'path': '~/.config/nvim/eskk.vim/SKK-JISYO.L',
+      \ 'sorted': 1,
+      \ 'encoding': 'euc-jp',
+      \ }
 
 let g:eskk#dictionary = {
-    \ 'path': '~/.config/nvim/eskk.vim/user.dict',
-    \ 'sorted': 0,
-    \ 'encoding': 'utf-8',
-    \}
+      \ 'path': '~/.config/nvim/eskk.vim/user.dict',
+      \ 'sorted': 0,
+      \ 'encoding': 'utf-8',
+      \}
 
 autocmd User eskk-initialize-pre call s:eskk_initial_pre()
 function! s:eskk_initial_pre()
@@ -472,10 +472,10 @@ function! s:eskk_initial_pre()
 endfunction
 
 function! DisableCoc()
-    CocDisable
+  CocDisable
 endfunction
 function! EnableCoc()
-    CocEnable
+  CocEnable
 endfunction
 autocmd  User eskk-enable-pre  call DisableCoc()
 autocmd  User eskk-disable-post call EnableCoc()
@@ -528,21 +528,21 @@ nmap <Leader>r :<C-u>Denite grep:. -no-empty<CR>
 autocmd FileType denite call s:denite_my_settings()
 function! s:denite_my_settings() abort
   nnoremap <silent><buffer><expr> <CR>
-  \ denite#do_map('do_action')
+        \ denite#do_map('do_action')
   nnoremap <silent><buffer><expr> <Leader>t
-  \ denite#do_map('do_action', 'tabopen')
+        \ denite#do_map('do_action', 'tabopen')
   nnoremap <silent><buffer><expr> v
-  \ denite#do_map('do_action', 'vsplit')
+        \ denite#do_map('do_action', 'vsplit')
   nnoremap <silent><buffer><expr> s
-  \ denite#do_map('do_action', 'split')
+        \ denite#do_map('do_action', 'split')
   nnoremap <silent><buffer><expr> <Leader>d
-  \ denite#do_map('do_action', 'delete')
+        \ denite#do_map('do_action', 'delete')
   nnoremap <silent><buffer><expr> p
-  \ denite#do_map('do_action', 'preview')
+        \ denite#do_map('do_action', 'preview')
   nnoremap <silent><buffer><expr> q
-  \ denite#do_map('quit')
+        \ denite#do_map('quit')
   nnoremap <silent><buffer><expr> i
-  \ denite#do_map('open_filter_buffer')
+        \ denite#do_map('open_filter_buffer')
   nnoremap <silent><buffer><expr> m
-  \ denite#do_map('toggle_select').'j'
+        \ denite#do_map('toggle_select').'j'
 endfunction

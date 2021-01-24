@@ -2,6 +2,9 @@
   "coc.preferences.formatOnSaveFiletypes": [
     "go",
     "python",
+    "javascript",
+    "typescript",
+    "typescriptreact",
     "json",
     "jsonc",
     "html",
