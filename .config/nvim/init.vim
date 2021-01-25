@@ -66,9 +66,9 @@ Plug 'dbgx/lldb.nvim'
 Plug 'Shougo/denite.nvim'
 Plug 'neoclide/coc-denite'
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
-Plug 'prettier/vim-prettier', {
-  \ 'do': 'yarn install',
-  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
+" Plug 'prettier/vim-prettier', {
+"    \ 'do': 'yarn install',
+"    \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
 
 call plug#end()
 
@@ -307,6 +307,7 @@ let g:coc_global_extensions = [
       \'coc-clangd',
       \'coc-db'
       \]
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
 nnoremap <Leader>c  :call CocActionAsync('highlight')<CR>
 nmap <silent> <C-d> <Plug>(coc-definition)
 nmap <silent> <C-l> <Plug>(coc-diagnostic-next)
@@ -317,7 +318,7 @@ nmap <silent> ccn <Plug>(coc-rename)
 nmap <silent> cca <Plug>(coc-codeaction)
 nmap <silent> ccl <Plug>(coc-codeaction-line)
 
-let g:prettier#autoformat = 1
+" let g:prettier#autoformat = 1
 
 "supertab
 let g:SuperTabDefaultCompletionType = "<c-n>"

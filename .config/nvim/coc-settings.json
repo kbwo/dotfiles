@@ -11,6 +11,13 @@
     "css",
     "scss"
   ],
+  "eslint.filetypes": [
+    "javascript",
+    "typescript",
+    "typescriptreact",
+    "javascriptreact"
+  ],
+  "eslint.autoFixOnSave": true,
   "python.pythonPath": "~/.pyenv/shims/python",
   "python.jediEnabled": false,
   "coc.preferences.colorSupport": true,
@@ -22,4 +29,3 @@
     }
   }
 }
-
