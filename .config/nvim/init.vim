@@ -22,7 +22,7 @@ endif
 call plug#begin(expand('~/.vim/plugged'))
 " for debug
 Plug 'thinca/vim-quickrun', {'on' : 'QuickRun'}
-Plug 'joonty/vdebug'
+" Plug 'joonty/vdebug'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'vim-airline/vim-airline'
 Plug 'tpope/vim-surround'
@@ -62,13 +62,11 @@ Plug 'tyru/eskk.vim'
 Plug 'Yggdroot/indentLine'
 Plug 'tyru/open-browser.vim'
 Plug 'ivanov/vim-ipython'
-Plug 'dbgx/lldb.nvim'
 Plug 'Shougo/denite.nvim'
 Plug 'neoclide/coc-denite'
+Plug 'hrsh7th/vim-gitto'
+Plug 'hrsh7th/vim-denite-gitto'
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
-" Plug 'prettier/vim-prettier', {
-"    \ 'do': 'yarn install',
-"    \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
 
 call plug#end()
 
@@ -433,8 +431,8 @@ autocmd BufEnter * call defx#redraw()
 " Move to word
 map  <Leader>f <Plug>(easymotion-bd-w)
 
-autocmd User EasyMotionPromptBegin silent! DisableCoc()
-autocmd User EasyMotionPromptEnd   silent! EnableCoc()
+autocmd User EasyMotionPromptBegin silent! CocDisable
+autocmd User EasyMotionPromptEnd   silent! CocEnable
 
 nnoremap <Leader>mn  :MemoNew<CR>
 nnoremap <Leader>ml  :MemoList<CR>
@@ -525,6 +523,7 @@ call denite#custom#source('file/rec', 'matchers', [
 nmap <c-p> :Denite file/rec<CR>
 nmap <Leader>d :Denite directory_rec<CR>
 nmap <Leader>r :<C-u>Denite grep:. -no-empty<CR>
+nmap <Leader>gb :<C-u>DeniteGitto gitto/branch<CR>
 
 autocmd FileType denite call s:denite_my_settings()
 function! s:denite_my_settings() abort
