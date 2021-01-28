@@ -67,9 +67,11 @@ Plug 'neoclide/coc-denite'
 Plug 'hrsh7th/vim-gitto'
 Plug 'hrsh7th/vim-denite-gitto'
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
-
+Plug 'posva/vim-vue'
+Plug 'leafOfTree/vim-vue-plugin'
 call plug#end()
 
+let g:vim_vue_plugin_load_full_syntax = 1
 inoremap <c-u> <Nop>
 
 filetype plugin indent on
