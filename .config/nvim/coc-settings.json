@@ -17,7 +17,6 @@
     "typescriptreact",
     "javascriptreact"
   ],
-  "eslint.run": "onSave",
   "eslint.autoFixOnSave": true,
   "python.pythonPath": "~/.pyenv/shims/python",
   "python.jediEnabled": false,

@@ -295,12 +295,12 @@ let g:coc_global_extensions = [
       \'coc-pairs',
       \'coc-css',
       \'coc-calc',
-      \'coc-eslint',
       \'coc-json',
       \'coc-prisma',
       \'coc-sh',
       \'coc-sourcekit',
       \'coc-tailwindcss',
+      \'coc-cssmodules',
       \'coc-vetur',
       \'coc-clangd',
       \'coc-db'
@@ -470,14 +470,8 @@ function! s:eskk_initial_pre()
   call eskk#register_mode_table('hira', t)
 endfunction
 
-function! DisableCoc()
-  CocDisable
-endfunction
-function! EnableCoc()
-  CocEnable
-endfunction
-autocmd  User eskk-enable-pre  call DisableCoc()
-autocmd  User eskk-disable-post call EnableCoc()
+autocmd  User eskk-enable-pre  silent! CocDisable
+autocmd  User eskk-disable-post silent! CocEnable
 
 function! s:my_bookmark_color() abort
   let s:scl_guibg = matchstr(execute('hi SignColumn'), 'guibg=\zs\S*')
