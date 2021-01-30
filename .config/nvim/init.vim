@@ -69,6 +69,9 @@ Plug 'hrsh7th/vim-denite-gitto'
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
 Plug 'posva/vim-vue'
 Plug 'leafOfTree/vim-vue-plugin'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'antoinemadec/coc-fzf'
 call plug#end()
 
 let g:vim_vue_plugin_load_full_syntax = 1
@@ -305,6 +308,7 @@ let g:coc_global_extensions = [
       \'coc-cssmodules',
       \'coc-vetur',
       \'coc-clangd',
+      \'coc-fzf-preview',
       \'coc-db'
       \]
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
