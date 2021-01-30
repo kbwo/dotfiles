@@ -211,7 +211,7 @@ if [ -z $TMUX ]; then
   # export PATH=$PATH:$HOME/Library/Android/sdk/platform-tools
   export PATH="$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$PATH"
   # rust path
-  export PATH=$HOME/.cargo/bin:$PATH
+  export PATH=$PATH:$HOME/.cargo/bin
   # flutter
   export PATH=$PATH:~/flutter/bin
   # vim:set ft=zsh:
