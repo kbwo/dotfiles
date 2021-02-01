@@ -1,4 +1,5 @@
 {
+  "eslint.autoFixOnSave": true,
   "coc.preferences.formatOnSaveFiletypes": [
     "go",
     "python",
@@ -11,9 +12,6 @@
     "css",
     "scss"
   ],
-  "eslint.autoFixOnSave": true,
-  "eslint.format.enable": true,
-  "prettier.eslintIntegration": true,
   "python.pythonPath": "~/.pyenv/shims/python",
   "python.jediEnabled": false,
   "coc.preferences.colorSupport": true,

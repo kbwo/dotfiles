@@ -63,7 +63,6 @@ Plug 'Yggdroot/indentLine'
 Plug 'tyru/open-browser.vim'
 Plug 'ivanov/vim-ipython'
 Plug 'Shougo/denite.nvim'
-Plug 'neoclide/coc-denite'
 Plug 'hrsh7th/vim-gitto'
 Plug 'hrsh7th/vim-denite-gitto'
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
@@ -72,6 +71,7 @@ Plug 'leafOfTree/vim-vue-plugin'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'antoinemadec/coc-fzf'
+Plug 'simeji/winresizer'
 call plug#end()
 
 let g:vim_vue_plugin_load_full_syntax = 1
