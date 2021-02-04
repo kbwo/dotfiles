@@ -204,22 +204,12 @@ bindkey '^j' autosuggest-accept
 
 ### End of Zinit's installer chunk
 if [ -z $TMUX ]; then
-  export PATH=$PATH:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
   export PATH="${HOME}/local/bin:${PATH}"
-  export PATH=$PATH:$ANDROID_HOME/platform-tools
-  export PATH=$PATH:$ANDROID_HOME/tools
   # export PATH=$PATH:$HOME/Library/Android/sdk/platform-tools
   export PATH="$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$PATH"
   # rust path
-  export PATH=$PATH:$HOME/.cargo/bin
-  # flutter
-  export PATH=$PATH:~/flutter/bin
   # vim:set ft=zsh:
   PATH="$HOME/.composer/vendor/bin:$PATH"
-  export PATH=$PATH:./node_modules/.bin
-
-  #python
-  export PATH=/usr/local/bin:$PATH
 
   # NPM global installs
   export PATH=$PATH:~/.npm-global/bin
@@ -230,15 +220,23 @@ if [ -z $TMUX ]; then
 fi
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
-export XDG_CONFIG_HOME=$HOME/.config
-export XDG_CACHE_HOME=$HOME/.cache
-eval "$(pyenv init -)"
-eval "$(rbenv init -)"
-rbenv() {
-  unfunction "$0"
-  source <(rbenv init -)
-  $0 "$@"
-}
+export PATH=$PATH:~/flutter/bin
+export PATH=$PATH:./node_modules/.bin
+export PATH=$PATH:$HOME/.cargo/bin
+
+  #python
+  export PATH=$PATH:/usr/local/bin
+  export PATH=$PATH:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+  export PATH=$PATH:$ANDROID_HOME/tools
+  export XDG_CONFIG_HOME=$HOME/.config
+  export XDG_CACHE_HOME=$HOME/.cache
+  eval "$(pyenv init -)"
+  eval "$(rbenv init -)"
+  rbenv() {
+    unfunction "$0"
+    source <(rbenv init -)
+    $0 "$@"
+  }
 # eval "$(gh completion -s zsh)"
 ghenv() {
   unfunction "$0"
