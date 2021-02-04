@@ -72,6 +72,7 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'antoinemadec/coc-fzf'
 Plug 'simeji/winresizer'
+Plug 'dart-lang/dart-vim-plugin'
 call plug#end()
 
 let g:vim_vue_plugin_load_full_syntax = 1
