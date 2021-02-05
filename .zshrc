@@ -223,6 +223,7 @@ export PATH="$PYENV_ROOT/bin:$PATH"
 export PATH=$PATH:~/flutter/bin
 export PATH=$PATH:./node_modules/.bin
 export PATH=$PATH:$HOME/.cargo/bin
+export PATH=$PATH:$HOME/bin
 
   #python
   export PATH=$PATH:/usr/local/bin

@@ -1,5 +1,6 @@
 {
   "eslint.autoFixOnSave": true,
+  "prettier.endOfLine": "auto",
   "coc.preferences.formatOnSaveFiletypes": [
     "go",
     "python",
