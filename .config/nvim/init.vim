@@ -374,7 +374,7 @@ function! s:defx_my_settings() abort
         \                'mark:indent:icon:filename:type:size:time')
   nnoremap <silent><buffer><expr> S
         \ defx#do_action('toggle_sort', 'time')
-  nnoremap <silent><buffer><expr> df
+  nnoremap <silent><buffer><expr> dl
         \ defx#do_action('remove')
   nnoremap <silent><buffer><expr> r
         \ defx#do_action('rename')
