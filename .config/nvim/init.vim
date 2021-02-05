@@ -374,7 +374,7 @@ function! s:defx_my_settings() abort
         \                'mark:indent:icon:filename:type:size:time')
   nnoremap <silent><buffer><expr> S
         \ defx#do_action('toggle_sort', 'time')
-  nnoremap <silent><buffer><expr> d
+  nnoremap <silent><buffer><expr> df
         \ defx#do_action('remove')
   nnoremap <silent><buffer><expr> r
         \ defx#do_action('rename')
@@ -406,7 +406,7 @@ function! s:defx_my_settings() abort
         \ defx#do_action('redraw')
   nnoremap <silent><buffer><expr> <C-g>
         \ defx#do_action('print')
-  nnoremap <silent><buffer><expr> cd
+  nnoremap <silent><buffer><expr> cha
         \ defx#do_action('change_vim_cwd')
 endfunction
 
