@@ -73,6 +73,9 @@ Plug 'junegunn/fzf.vim'
 Plug 'antoinemadec/coc-fzf'
 Plug 'simeji/winresizer'
 Plug 'dart-lang/dart-vim-plugin'
+Plug 'prettier/vim-prettier', {
+  \ 'do': 'yarn install',
+  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
 call plug#end()
 
 let g:vim_vue_plugin_load_full_syntax = 1
@@ -312,7 +315,7 @@ let g:coc_global_extensions = [
       \'coc-fzf-preview',
       \'coc-db'
       \]
-command! -nargs=0 Prettier :CocCommand prettier.formatFile
+let g:prettier#autoformat = 1
 nnoremap <Leader>c  :call CocActionAsync('highlight')<CR>
 nmap <silent> <C-d> <Plug>(coc-definition)
 nmap <silent> <Leader>v<C-d> :call CocAction('jumpDefinition', 'vsplit')<CR>

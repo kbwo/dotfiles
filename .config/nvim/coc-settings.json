@@ -1,6 +1,5 @@
 {
   "eslint.autoFixOnSave": true,
-  "prettier.endOfLine": "auto",
   "prettier.formatterPriority": -1,
   "coc.preferences.formatOnSaveFiletypes": [
     "go",
@@ -20,9 +19,12 @@
   "languageserver": {
     "dockerfile": {
       "command": "docker-langserver",
-      "filetypes": ["dockerfile"],
-      "args": ["--stdio"]
+      "filetypes": [
+        "dockerfile"
+      ],
+      "args": [
+        "--stdio"
+      ]
     }
   }
 }
-
