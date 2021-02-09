@@ -496,20 +496,18 @@ augroup UserGitSignColumnColor
   autocmd ColorScheme * call s:my_bookmark_color()
 augroup END
 
-if executable('rg')
-  call denite#custom#var('file/rec', 'command',
-        \ ['rg', '--files', '--hidden', '--glob', '!.git', '--color', 'never'])
-  call denite#custom#var('grep', {
-        \ 'command': ['rg', '--threads', '1'],
-        \ 'recursive_opts': [],
-        \ 'final_opts': [],
-        \ 'separator': ['--'],
-        \ 'default_opts': ['--smart-case', '--vimgrep', '--no-heading'],
-        \ })
-else
-  call denite#custom#var('file/rec', 'command',
-        \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
-end
+call denite#custom#alias('source', 'file/rec/git', 'file/rec')
+call denite#custom#var('file/rec/git', 'command',
+      \ ['rg', '--files', '--hidden', '--glob', '!.git', '--color', 'never'])
+call denite#custom#var('file/rec', 'command',
+      \ ['rg', '--files', '--hidden','--no-ignore', '--glob', '!.git', '--color', 'never'])
+call denite#custom#var('grep', {
+      \ 'command': ['rg', '--threads', '1'],
+      \ 'recursive_opts': [],
+      \ 'final_opts': [],
+      \ 'separator': ['--'],
+      \ 'default_opts': ['--smart-case', '--vimgrep', '--no-heading'],
+      \ })
 call denite#custom#var('grep', 'command', ['rg'])
 call denite#custom#var('grep', 'default_opts', ['--hidden', '--vimgrep', '--heading', '-S'])
 call denite#custom#var('grep', 'recursive_opts', [])
@@ -522,8 +520,12 @@ call denite#custom#filter('matcher/clap',
 call denite#custom#source('file/rec', 'matchers', [
       \ 'matcher/clap',
       \ ])
+call denite#custom#source('file/rec/git', 'matchers', [
+      \ 'matcher/clap',
+      \ ])
 
-nmap <c-p> :Denite file/rec<CR>
+nmap <c-p> :Denite file/rec/git<CR>
+nmap <Leader>p :Denite file/rec<CR>
 nmap <Leader>d :Denite directory_rec<CR>
 nmap <Leader>r :<C-u>Denite grep:. -no-empty<CR>
 nmap <Leader>gb :<C-u>DeniteGitto gitto/branch<CR>
