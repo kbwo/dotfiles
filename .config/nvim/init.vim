@@ -309,6 +309,9 @@ let g:coc_global_extensions = [
       \'coc-vetur',
       \'coc-clangd',
       \'coc-fzf-preview',
+      \'coc-denoland',
+      \'coc-emmet',
+      \'coc-post',
       \'coc-db'
       \]
 nnoremap <Leader>c  :call CocActionAsync('highlight')<CR>
