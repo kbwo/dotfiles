@@ -65,7 +65,7 @@ Plug 'ivanov/vim-ipython'
 Plug 'Shougo/denite.nvim'
 Plug 'hrsh7th/vim-gitto'
 Plug 'hrsh7th/vim-denite-gitto'
-Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary', 'commit': '01d0a16456a5a3daeb88a66b12e160d4b8aec8e8' }
+Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary'}
 Plug 'posva/vim-vue'
 Plug 'leafOfTree/vim-vue-plugin'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
