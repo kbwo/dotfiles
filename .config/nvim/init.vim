@@ -195,6 +195,10 @@ else
 endif
 "UI
 set termguicolors
+let g:airline_theme = "tokyonight"
+colorscheme tokyonight
+hi Comment guifg=gray
+
 let g:airline#extensions#syntastic#enabled = 1
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
@@ -230,10 +234,6 @@ else
   let g:airline_symbols.readonly = ''
   let g:airline_symbols.linenr = ''
 endif
-let g:tokyonight_style = 'night' " available: night, storm
-let g:tokyonight_disable_italic_comment = 0
-let g:airline_theme = "tokyonight"
-colorscheme tokyonight
 
 highlight CursorLine term=bold cterm=bold guibg=Grey40
 if has('nvim')
