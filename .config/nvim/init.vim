@@ -62,15 +62,13 @@ Plug 'tyru/eskk.vim'
 Plug 'Yggdroot/indentLine'
 Plug 'tyru/open-browser.vim'
 Plug 'ivanov/vim-ipython'
-Plug 'Shougo/denite.nvim'
+Plug 'https://github.com/kbwo/coc-denite'
+Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'hrsh7th/vim-gitto'
 Plug 'hrsh7th/vim-denite-gitto'
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary'}
 Plug 'posva/vim-vue'
 Plug 'leafOfTree/vim-vue-plugin'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-Plug 'antoinemadec/coc-fzf'
 Plug 'simeji/winresizer'
 Plug 'dart-lang/dart-vim-plugin'
 Plug 'jackguo380/vim-lsp-cxx-highlight'
@@ -309,7 +307,6 @@ let g:coc_global_extensions = [
       \'coc-cssmodules',
       \'coc-vetur',
       \'coc-clangd',
-      \'coc-fzf-preview',
       \'coc-denoland',
       \'coc-emmet',
       \'coc-post',
@@ -552,3 +549,6 @@ function! s:denite_my_settings() abort
   nnoremap <silent><buffer><expr> m
         \ denite#do_map('toggle_select').'j'
 endfunction
+
+let g:coc_enable_locationlist = 0
+autocmd! User CocLocationsChange Denite coc-jump-locations
