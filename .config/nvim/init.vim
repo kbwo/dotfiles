@@ -534,9 +534,9 @@ function! s:denite_my_settings() abort
         \ denite#do_map('do_action')
   nnoremap <silent><buffer><expr> <Leader>t
         \ denite#do_map('do_action', 'tabopen')
-  nnoremap <silent><buffer><expr> v
+  nnoremap <silent><buffer><expr> <Leader>v
         \ denite#do_map('do_action', 'vsplit')
-  nnoremap <silent><buffer><expr> s
+  nnoremap <silent><buffer><expr> <Leader>s
         \ denite#do_map('do_action', 'split')
   nnoremap <silent><buffer><expr> <Leader>d
         \ denite#do_map('do_action', 'delete')
