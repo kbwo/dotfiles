@@ -313,8 +313,8 @@ let g:coc_global_extensions = [
       \'coc-db'
       \]
 nnoremap <Leader>c  :call CocActionAsync('highlight')<CR>
-nmap <silent> <C-d><C-d> <Plug>(coc-definition)
-nmap <silent> <C-d><Leader>v :call CocAction('jumpDefinition', 'vsplit')<CR>
+nmap <silent> <C-d> <Plug>(coc-definition)
+nmap <silent> <Leader>v<C-d> :call CocAction('jumpDefinition', 'vsplit')<CR>
 nmap <silent> <C-l> <Plug>(coc-diagnostic-next)
 nmap <Leader>ic <Plug>(coc-diagnostic-info)
 nmap <Leader>iw  :CocDiagnostics<CR>
