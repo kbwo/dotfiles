@@ -14,16 +14,5 @@
   "prettier.onlyUseLocalVersion": true,
   "python.pythonPath": "~/.pyenv/shims/python",
   "python.jediEnabled": false,
-  "coc.preferences.colorSupport": true,
-  "languageserver": {
-    "dockerfile": {
-      "command": "docker-langserver",
-      "filetypes": [
-        "dockerfile"
-      ],
-      "args": [
-        "--stdio"
-      ]
-    }
-  }
+  "coc.preferences.colorSupport": true
 }

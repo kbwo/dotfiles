@@ -311,6 +311,7 @@ let g:coc_global_extensions = [
       \'coc-denoland',
       \'coc-emmet',
       \'coc-post',
+      \'coc-docker',
       \'coc-db'
       \]
 nnoremap <Leader>c  :call CocActionAsync('highlight')<CR>
