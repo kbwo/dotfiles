@@ -72,6 +72,7 @@ Plug 'leafOfTree/vim-vue-plugin'
 Plug 'simeji/winresizer'
 Plug 'dart-lang/dart-vim-plugin'
 Plug 'jackguo380/vim-lsp-cxx-highlight'
+Plug 'junegunn/vader.vim'
 call plug#end()
 
 let g:vim_vue_plugin_load_full_syntax = 1
@@ -551,4 +552,5 @@ function! s:denite_my_settings() abort
 endfunction
 
 let g:coc_enable_locationlist = 0
-autocmd! User CocLocationsChange Denite coc-jump-locations
+autocmd! User CocLocationsChange Denite -smartcase -auto-action=preview coc-jump-locations
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
