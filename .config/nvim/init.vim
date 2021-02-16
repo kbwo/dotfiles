@@ -312,6 +312,9 @@ let g:coc_global_extensions = [
       \'coc-emmet',
       \'coc-post',
       \'coc-docker',
+      \'coc-react-refactor',
+      \'coc-styled-components',
+      \'coc-docker',
       \'coc-db'
       \]
 nnoremap <Leader>c  :call CocActionAsync('highlight')<CR>
