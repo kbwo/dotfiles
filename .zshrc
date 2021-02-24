@@ -224,6 +224,7 @@ export PATH=$PATH:~/flutter/bin
 export PATH=$PATH:./node_modules/.bin
 export PATH=$PATH:$HOME/.cargo/bin
 export PATH=$PATH:$HOME/bin
+export PATH=$PATH:$HOME/development/flutter/bin
 
   #python
   export PATH=$PATH:/usr/local/bin
