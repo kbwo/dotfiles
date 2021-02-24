@@ -73,6 +73,7 @@ Plug 'simeji/winresizer'
 Plug 'dart-lang/dart-vim-plugin'
 Plug 'jackguo380/vim-lsp-cxx-highlight'
 Plug 'junegunn/vader.vim'
+Plug 'AndrewRadev/tagalong.vim'
 call plug#end()
 
 let g:vim_vue_plugin_load_full_syntax = 1
@@ -558,3 +559,5 @@ endfunction
 let g:coc_enable_locationlist = 0
 autocmd! User CocLocationsChange Denite -smartcase -auto-action=preview coc-jump-locations
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
+
+let g:tagalong_filetypes = ['html', 'xml', 'jsx', 'eruby', 'ejs', 'eco', 'php', 'htmldjango', 'javascriptreact', 'typescriptreact', 'javascript', 'typescript']
