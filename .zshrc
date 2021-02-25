@@ -225,6 +225,9 @@ export PATH=$PATH:./node_modules/.bin
 export PATH=$PATH:$HOME/.cargo/bin
 export PATH=$PATH:$HOME/bin
 export PATH=$PATH:$HOME/development/flutter/bin
+export DENO_INSTALL="/home/kodai/.deno"
+export PATH=$PATH:$DENO_INSTALL/bin
+
 
   #python
   export PATH=$PATH:/usr/local/bin
