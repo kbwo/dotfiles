@@ -178,7 +178,26 @@ source "$HOME/google-cloud-sdk/path.zsh.inc"
 source "$HOME/google-cloud-sdk/completion.zsh.inc"
 ctags=/usr/local/bin/ctags
 
-export ANDROID_HOME=~/Library/Android/sdk
+case "$(uname -s)" in
+
+   Darwin)
+     export ANDROID_HOME=~/Library/Android/sdk
+     ;;
+
+   Linux)
+     export ANDROID_HOME=$HOME/Android/sdk
+     ;;
+
+   CYGWIN*|MINGW32*|MSYS*|MINGW*)
+     ;;
+
+   # Add here more strings to compare
+   # See correspondence table at the bottom of this answer
+
+   *)
+     ;;
+esac
+
 export CLOUDSDK_PYTHON=python2
 export FZF_DEFAULT_COMMAND='rg --hidden --no-ignore --files'
 
@@ -227,6 +246,11 @@ export PATH=$PATH:$HOME/bin
 export PATH=$PATH:$HOME/development/flutter/bin
 export DENO_INSTALL="/home/kodai/.deno"
 export PATH=$PATH:$DENO_INSTALL/bin
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+export PATH=$PATH:$ANDROID_HOME/emulator
 
 
   #python
