@@ -1,5 +1,6 @@
 set rtp +=~/.vim
 set rtp+=/path/to/lldb.nvim
+set rtp+=~/src/vim/dps-heloworld
 " setting
 if has('vim_starting')
   set nocompatible
@@ -75,6 +76,7 @@ Plug 'jackguo380/vim-lsp-cxx-highlight'
 Plug 'junegunn/vader.vim'
 Plug 'AndrewRadev/tagalong.vim'
 Plug 'vim-denops/denops.vim'
+Plug 'keith/swift.vim'
 call plug#end()
 
 let g:vim_vue_plugin_load_full_syntax = 1
@@ -310,7 +312,7 @@ let g:coc_global_extensions = [
       \'coc-cssmodules',
       \'coc-vetur',
       \'coc-clangd',
-      \'coc-denoland',
+      \'coc-deno',
       \'coc-emmet',
       \'coc-post',
       \'coc-docker',
