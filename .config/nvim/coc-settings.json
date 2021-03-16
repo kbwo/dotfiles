@@ -14,5 +14,7 @@
   "prettier.onlyUseLocalVersion": true,
   "python.pythonPath": "~/.pyenv/shims/python",
   "python.jediEnabled": false,
-  "coc.preferences.colorSupport": true
+  "coc.preferences.colorSupport": true,
+  "deno.enable": false,
+  "tsserver.enable": true
 }

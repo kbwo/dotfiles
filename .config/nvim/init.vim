@@ -38,7 +38,6 @@ Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'editorconfig/editorconfig-vim'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'ghifarit53/tokyonight-vim'
-Plug 'liuchengxu/vista.vim'
 Plug 'thosakwe/vim-flutter'
 Plug 'godlygeek/tabular'
 Plug 'previm/previm'
@@ -63,7 +62,7 @@ Plug 'tyru/eskk.vim'
 Plug 'Yggdroot/indentLine'
 Plug 'tyru/open-browser.vim'
 Plug 'ivanov/vim-ipython'
-Plug 'https://github.com/kbwo/coc-denite'
+Plug 'neoclide/coc-denite'
 Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'hrsh7th/vim-gitto'
 Plug 'hrsh7th/vim-denite-gitto'
@@ -121,7 +120,7 @@ let g:syntastic_aggregate_errors = 1
 let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute " ,"trimming empty <", "unescaped &" , "lacks \"action", "is not recognized!", "discarding unexpected"]
 
 
-map <Leader>o :Vista!!<CR>
+map <Leader>o :Denite coc-symbols<CR>
 
 "" Tabs
 map K gt
