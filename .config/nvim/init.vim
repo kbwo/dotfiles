@@ -1,6 +1,6 @@
 set rtp +=~/.vim
 set rtp+=/path/to/lldb.nvim
-set rtp+=~/src/vim/dps-heloworld
+" set rtp+=~/src/vim/dps-heloworld
 " setting
 if has('vim_starting')
   set nocompatible
@@ -559,7 +559,7 @@ function! s:denite_my_settings() abort
 endfunction
 
 let g:coc_enable_locationlist = 0
-autocmd! User CocLocationsChange Denite -smartcase -auto-action=preview coc-jump-locations
+autocmd! User CocLocationsChange Denite -smartcase -auto-action=preview coc-locations
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
 let g:tagalong_filetypes = ['html', 'xml', 'jsx', 'eruby', 'ejs', 'eco', 'php', 'htmldjango', 'javascriptreact', 'typescriptreact', 'javascript', 'typescript', 'typescirpt.tsx']

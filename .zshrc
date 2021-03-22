@@ -182,6 +182,7 @@ case "$(uname -s)" in
 
    Darwin)
      export ANDROID_HOME=~/Library/Android/sdk
+     export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-13.0.2.jdk/Contents/Home
      ;;
 
    Linux)
@@ -251,6 +252,7 @@ export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$JAVA_HOME/bin
 
 
   #python
