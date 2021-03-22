@@ -1,6 +1,6 @@
 set rtp +=~/.vim
 set rtp+=/path/to/lldb.nvim
-" set rtp+=~/src/vim/dps-heloworld
+set rtp+=~/src/vim/dps-heloworld
 " setting
 if has('vim_starting')
   set nocompatible
