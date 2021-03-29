@@ -57,6 +57,7 @@ Plug 'junegunn/gv.vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'glidenote/memolist.vim'
 Plug 'HerringtonDarkholme/yats.vim'
+Plug 'othree/yajs.vim'
 Plug 'ianks/vim-tsx'
 Plug 'tyru/eskk.vim'
 Plug 'Yggdroot/indentLine'
@@ -76,7 +77,10 @@ Plug 'junegunn/vader.vim'
 Plug 'AndrewRadev/tagalong.vim'
 Plug 'vim-denops/denops.vim'
 Plug 'keith/swift.vim'
+Plug 'elzr/vim-json'
+
 call plug#end()
+let g:vim_json_syntax_conceal = 0
 
 let g:vim_vue_plugin_load_full_syntax = 1
 inoremap <c-u> <Nop>
@@ -303,7 +307,6 @@ let g:coc_global_extensions = [
       \'coc-pairs',
       \'coc-css',
       \'coc-calc',
-      \'coc-json',
       \'coc-prisma',
       \'coc-sh',
       \'coc-sourcekit',
@@ -565,3 +568,5 @@ command! -nargs=0 Prettier :CocCommand prettier.formatFile
 let g:tagalong_filetypes = ['html', 'xml', 'jsx', 'eruby', 'ejs', 'eco', 'php', 'htmldjango', 'javascriptreact', 'typescriptreact', 'javascript', 'typescript', 'typescirpt.tsx']
 xmap <leader>a  <Plug>(coc-codeaction-selected)
 nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+

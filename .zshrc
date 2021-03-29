@@ -231,13 +231,13 @@ if [ -z $TMUX ]; then
   # vim:set ft=zsh:
   PATH="$HOME/.composer/vendor/bin:$PATH"
 
-  # NPM global installs
-  export PATH=$PATH:~/.npm-global/bin
 
   export GOPATH="$HOME/go"
   export PATH="$PATH:$GOPATH/bin"
-  export PATH=/usr/local/Cellar/git/X.XX.X/bin:$HOME/google-cloud-sdk/bin:/usr/local/bin:$HOME/.composer/vendor/bin:$HOME/google-cloud-sdk/bin:/usr/local/bin:$HOME/.composer/vendor/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/go/bin:/Library/Apple/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:./node_modules/.bin:$HOME/.npm-global/bin:$HOME/go/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:./node_modules/.bin:$HOME/.npm-global/bin:$HOME/go/bin
+  export PATH=/usr/local/Cellar/git/X.XX.X/bin:$HOME/google-cloud-sdk/bin:/usr/local/bin:$HOME/.composer/vendor/bin:$HOME/google-cloud-sdk/bin:/usr/local/bin:$HOME/.composer/vendor/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/go/bin:/Library/Apple/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:./node_modules/.bin:$HOME/.npm-global/bin:$HOME/go/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:./node_modules/.bin:$HOME/go/bin
 fi
+# NPM global installs
+export PATH=$PATH:$HOME/.npm-global
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 export PATH=$PATH:~/flutter/bin
@@ -279,3 +279,4 @@ ghenv() {
 #   source <(pyenv init -)
 #   $0 "$@"
 # }
+disable -p '#'
