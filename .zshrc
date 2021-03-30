@@ -215,8 +215,8 @@ source "$HOME/.zinit/bin/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
-zinit wait lucid atload'_zsh_autosuggest_start' light-mode for \
-    zsh-users/zsh-autosuggestions
+# zinit wait lucid atload'_zsh_autosuggest_start' light-mode for \
+#     zsh-users/zsh-autosuggestions
 zinit light zdharma/fast-syntax-highlighting
 zinit load zdharma/history-search-multi-word
 zinit light zsh-users/zsh-autosuggestions
