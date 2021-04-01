@@ -220,6 +220,9 @@ autoload -Uz _zinit
 zinit light zdharma/fast-syntax-highlighting
 zinit load zdharma/history-search-multi-word
 zinit light zsh-users/zsh-autosuggestions
+export ENHANCD_FILTER='fzf'
+export ENHANCD_DISABLE_HOME=1
+zinit light 'b4b4r07/enhancd'
 bindkey '^j' autosuggest-accept
 
 ### End of Zinit's installer chunk
