@@ -220,9 +220,6 @@ autoload -Uz _zinit
 zinit light zdharma/fast-syntax-highlighting
 zinit load zdharma/history-search-multi-word
 zinit light zsh-users/zsh-autosuggestions
-export ENHANCD_FILTER='fzf'
-export ENHANCD_DISABLE_HOME=1
-zinit light 'b4b4r07/enhancd'
 bindkey '^j' autosuggest-accept
 
 ### End of Zinit's installer chunk
@@ -256,6 +253,10 @@ export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$JAVA_HOME/bin
+export PATH=$PATH:/usr/local/opt/llvm/bin
+export LDFLAGS="-L/usr/local/opt/llvm/lib"
+export CPPFLAGS="-I/usr/local/opt/llvm/include"
+
 
 
   #python
