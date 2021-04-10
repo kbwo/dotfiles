@@ -256,6 +256,10 @@ export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$JAVA_HOME/bin
+export PATH=$PATH:/usr/local/opt/llvm/bin
+export LDFLAGS="-L/usr/local/opt/llvm/lib"
+export CPPFLAGS="-I/usr/local/opt/llvm/include"
+
 
 
   #python
