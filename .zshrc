@@ -94,6 +94,8 @@ bindkey '^R' history-incremental-pattern-search-backward
 # cd dotfiles
 alias tod='cd ~/dotfiles'
 
+alias ..='cd ..'
+
 alias ex='exit'
 alias :q='exit'
 alias so='source'
