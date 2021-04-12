@@ -224,7 +224,6 @@ zinit light zdharma/fast-syntax-highlighting
 zinit load zdharma/history-search-multi-word
 zinit light zsh-users/zsh-autosuggestions
 zinit ice proto'git' pick'init.sh'
-zinit light b4b4r07/enhancd
 bindkey '^j' autosuggest-accept
 
 ### End of Zinit's installer chunk
