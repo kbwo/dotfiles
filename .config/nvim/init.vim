@@ -25,7 +25,6 @@ call plug#begin(expand('~/.vim/plugged'))
 Plug 'thinca/vim-quickrun', {'on' : 'QuickRun'}
 " Plug 'joonty/vdebug'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
-Plug 'Shougo/deol.nvim', {'do' : 'make'}
 Plug 'vim-airline/vim-airline'
 Plug 'tpope/vim-surround'
 Plug 'ervandew/supertab'
@@ -69,7 +68,6 @@ Plug 'posva/vim-vue'
 Plug 'leafOfTree/vim-vue-plugin'
 Plug 'simeji/winresizer'
 Plug 'dart-lang/dart-vim-plugin'
-Plug 'jackguo380/vim-lsp-cxx-highlight'
 Plug 'junegunn/vader.vim'
 Plug 'AndrewRadev/tagalong.vim'
 Plug 'vim-denops/denops.vim'
