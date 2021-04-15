@@ -4,10 +4,12 @@ if type "apt-get" > /dev/null 2>&1; then
   apt-get install -y libncurses5-dev silversearcher-ag
   apt-get install zsh
   apt-get install fish
+  apt-get install fisher
   apt-get install exa
   apt-get install ghq
-  fisher install simnalamburt/shellder
   fisher install jethrokuan/z
+  fisher install oh-my-fish/theme-bobthefish
+  fisher install decors/fish-ghq
 fi
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
