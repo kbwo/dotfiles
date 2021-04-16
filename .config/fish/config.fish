@@ -7,6 +7,7 @@ set -g theme_color_scheme nord
 set -g fish_prompt_pwd_dir_length 1
 set -g theme_display_user yes
 set -g theme_hide_hostname no
+set -g theme_powerline_fonts no
 set -g theme_hostname always
 
 # aliases
@@ -74,6 +75,17 @@ set -gx EDITOR nvim
 set -g DEMO_INSTALL $HOME/deno
 set -g GOPATH $HOME/go
 
+switch (uname)
+  case Darwin
+    # source (dirname (status --current-filename))/config-osx.fish
+    set -g ANDROID_HOME $HOME/Library/Android/sdk
+    set -g JAVA_HOME /Library/Java/JavaVirtualMachines/jdk-13.0.2.jdk/Contents/Home
+  case Linux
+    set -g ANDROID_HOME $HOME/Android/sdk
+  case '*'
+    # source (dirname (status --current-filename))/config-windows.fish
+end
+
 set -gx PATH bin $PATH
 set -gx PATH $HOME/bin $PATH
 set -gx PATH $HOME/.local/bin $PATH
@@ -98,7 +110,6 @@ set -gx PATH $HOME/.cargo/bin $PATH
 set -gx PATH $HOME/development/flutter/bin $PATH
 set -gx PATH $DENO_INSTALL/bin $PATH
 set -gx PATH $ANDROID_HOME/emulator $PATH
-set -gx PATH $ANDROID_HOME/emulator $PATH
 set -gx PATH $ANDROID_HOME/tools $PATH
 set -gx PATH $ANDROID_HOME/tools/bin $PATH
 set -gx PATH $ANDROID_HOME/platform-tools $PATH
@@ -117,17 +128,6 @@ set -g CPPFLAGS -I/usr/local/opt/llvm/include
 
 set -g XDG_CONFIG_HOME $HOME/.config
 set -g XDG_CACHE_HOME $HOME/.cache
-
-switch (uname)
-  case Darwin
-    # source (dirname (status --current-filename))/config-osx.fish
-    set -g ANDROID_HOME $HOME/Library/Android/sdk
-    set -g JAVA_HOME /Library/Java/JavaVirtualMachines/jdk-13.0.2.jdk/Contents/Home
-  case Linux
-    set -g ANDROID_HOME $HOME/Android/sdk
-  case '*'
-    # source (dirname (status --current-filename))/config-windows.fish
-end
 
 pyenv init - | source
 rbenv init - | source
