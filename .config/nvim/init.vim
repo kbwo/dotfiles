@@ -480,6 +480,10 @@ function! s:eskk_initial_pre()
   call t.add_map('pc', '・')
   call eskk#register_mode_table('hira', t)
 endfunction
+let g:eskk#marker_henkan = '»'
+let g:eskk#marker_okuri = '*'
+let g:eskk#marker_henkan_select = '«'
+let g:eskk#show_candidates_count = 2
 
 autocmd  User eskk-enable-pre  silent! CocDisable
 autocmd  User eskk-disable-post silent! CocEnable
