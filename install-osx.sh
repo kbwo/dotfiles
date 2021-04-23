@@ -11,6 +11,8 @@ curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher
 brew install exa
 brew install ghq
 brew install fzf
+brew install ripgrep
+brew install pyenv
 fisher install jethrokuan/z
 fisher install oh-my-fish/theme-bobthefish
 fisher install decors/fish-ghq
@@ -18,7 +20,10 @@ fisher install decors/fish-ghq
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 cargo install alacritty
 
-sh ~/dotfiles/install-nvim.sh
-sh ~/dotfiles/install-python.sh
-sh ~/dotfiles/install-ripgrep.sh
 sh ~/dotfiles/ln.sh
+chsh -s /bin/zsh
+source ~/.zshrc
+pyenv install 3.7.0
+pyenv global 3.7.0
+sh ~/dotfiles/install-nvim.sh
+pip3 install pynvim
