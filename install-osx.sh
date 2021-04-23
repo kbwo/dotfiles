@@ -15,3 +15,9 @@ fisher install oh-my-fish/theme-bobthefish
 fisher install decors/fish-ghq
 
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+cargo install alacritty
+
+sh ~/dotfiles/install-nvim.sh
+sh ~/dotfiles/install-python.sh
+sh ~/dotfiles/install-ripgrep.sh
+sh ~/dotfiles/ln.sh

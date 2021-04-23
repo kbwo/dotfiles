@@ -4,7 +4,7 @@ if type "apt-get" > /dev/null 2>&1; then
   apt-get install -y libncurses5-dev silversearcher-ag
   apt-get install zsh
   apt-get install fish
-  apt-get install fisher
+  curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher
   apt-get install exa
   apt-get install ghq
   fisher install jethrokuan/z
