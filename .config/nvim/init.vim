@@ -50,7 +50,6 @@ else
 endif
 Plug 'jparise/vim-graphql'
 Plug 'tpope/vim-dadbod'
-Plug 'tpope/vim-fugitive'
 Plug 'kristijanhusak/vim-dadbod-ui'
 Plug 'junegunn/gv.vim'
 Plug 'easymotion/vim-easymotion'
@@ -568,4 +567,4 @@ xmap <leader>a  <Plug>(coc-codeaction-selected)
 nmap <leader>a  <Plug>(coc-codeaction-selected)
 
 nmap gns :Gina status --opener=vsplit<CR>
-nmap gnc :Gina commit --opener=vsplit<CR>
+nmap gnc :Gina commit<CR>
