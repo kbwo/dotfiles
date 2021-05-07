@@ -567,4 +567,5 @@ let g:tagalong_filetypes = ['html', 'xml', 'jsx', 'eruby', 'ejs', 'eco', 'php', 
 xmap <leader>a  <Plug>(coc-codeaction-selected)
 nmap <leader>a  <Plug>(coc-codeaction-selected)
 
-call gina#custom#action#shorten('status', 'vsplit')
+nmap gns :Gina status --opener=vsplit<CR>
+nmap gnc :Gina commit --opener=vsplit<CR>
