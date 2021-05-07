@@ -73,6 +73,7 @@ Plug 'AndrewRadev/tagalong.vim'
 Plug 'vim-denops/denops.vim'
 Plug 'elzr/vim-json'
 Plug 'sheerun/vim-polyglot'
+Plug 'lambdalisue/gina.vim'
 
 call plug#end()
 let g:vim_json_syntax_conceal = 0
@@ -566,4 +567,4 @@ let g:tagalong_filetypes = ['html', 'xml', 'jsx', 'eruby', 'ejs', 'eco', 'php', 
 xmap <leader>a  <Plug>(coc-codeaction-selected)
 nmap <leader>a  <Plug>(coc-codeaction-selected)
 
-
+call gina#custom#action#shorten('status', 'vsplit')
