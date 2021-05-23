@@ -73,6 +73,7 @@ Plug 'vim-denops/denops.vim'
 Plug 'elzr/vim-json'
 Plug 'sheerun/vim-polyglot'
 Plug 'lambdalisue/gina.vim'
+Plug 'pantharshit00/vim-prisma'
 
 call plug#end()
 let g:vim_json_syntax_conceal = 0
@@ -302,7 +303,6 @@ let g:coc_global_extensions = [
       \'coc-pairs',
       \'coc-css',
       \'coc-calc',
-      \'coc-prisma',
       \'coc-sh',
       \'coc-sourcekit',
       \'coc-tailwindcss',
@@ -324,6 +324,7 @@ nmap <silent> <Leader>v<C-d> :call CocAction('jumpDefinition', 'vsplit')<CR>
 nmap <silent> <C-l> <Plug>(coc-diagnostic-next)
 nmap <Leader>ic <Plug>(coc-diagnostic-info)
 nmap <Leader>iw  :CocDiagnostics<CR>
+nmap <Leader>is  :CocList outline<CR>
 nmap <silent> gr <Plug>(coc-references)
 nmap <silent> ccn <Plug>(coc-rename)
 nmap <silent> cca <Plug>(coc-codeaction)
