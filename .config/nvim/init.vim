@@ -569,3 +569,4 @@ nmap <leader>a  <Plug>(coc-codeaction-selected)
 
 nmap gns :Gina status --opener=vsplit<CR>
 nmap gnc :Gina commit<CR>
+nmap gnb :Gina branch<CR>
