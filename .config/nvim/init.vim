@@ -149,6 +149,7 @@ nnoremap - <C-x>
 set encoding=utf-8
 set fileencoding=utf-8
 set fileencodings=utf-8
+set ambiwidth=double
 set bomb
 set binary
 set ttyfast
