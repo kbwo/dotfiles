@@ -68,6 +68,8 @@ alias gtbdm 'gtf --prune && gtb --merged | egrep -v "\*|develop|master|main"|xar
 
 #github
 alias ghw 'gh repo view --web'
+
+alias intel 'arch -x86_64'
 # sudo の後のコマンドでエイリアスを有効にする
 alias sudo 'sudo '
 
