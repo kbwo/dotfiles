@@ -73,7 +73,9 @@ alias intel 'arch -x86_64'
 # sudo の後のコマンドでエイリアスを有効にする
 alias sudo 'sudo '
 
-set -gx EDITOR nvim
+alias nv 'eval $EDITOR no-file'
+
+# set -gx EDITOR nvim
 set -g DEMO_INSTALL $HOME/deno
 set -g GOPATH $HOME/go
 
@@ -121,11 +123,13 @@ set -gx PATH /usr/local/opt/llvm/bin $PATH
 set -gx PATH $HOME/.rbenv/shims $PATH
 set -gx PATH $HOME/.pyenv/shims $PATH
 set -gx PATH $GOPATH/bin $PATH
+set -gx PATH /opt/homebrew/opt/llvm/bin $PATH
 
 set -g CLOUDSDK_PYTHON python2
 set -g FZF_DEFAULT_COMMAND 'rg --hidden --no-ignore --files'
 
 set -g LDGFLAGS -L/usr/local/opt/llvm/lib
+# set -g LDGFLAGS -L/opt/homebrew/opt/llvm/lib -Wl,-rpath,/opt/homebrew/opt/llvm/lib
 set -g CPPFLAGS -I/usr/local/opt/llvm/include
 
 set -g XDG_CONFIG_HOME $HOME/.config

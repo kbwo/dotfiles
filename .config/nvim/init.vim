@@ -74,6 +74,8 @@ Plug 'elzr/vim-json'
 Plug 'sheerun/vim-polyglot'
 Plug 'lambdalisue/gina.vim'
 Plug 'pantharshit00/vim-prisma'
+Plug 'lambdalisue/edita.vim'
+Plug 'Shougo/deol.nvim'
 
 call plug#end()
 let g:vim_json_syntax_conceal = 0
@@ -146,7 +148,7 @@ nnoremap + <C-a>
 nnoremap - <C-x>
 
 " base
-set shell=/bin/sh
+set shell=/bin/zsh
 set encoding=utf-8
 set fileencoding=utf-8
 set fileencodings=utf-8
@@ -568,5 +570,8 @@ xmap <leader>a  <Plug>(coc-codeaction-selected)
 nmap <leader>a  <Plug>(coc-codeaction-selected)
 
 nmap gns :Gina status --opener=vsplit<CR>
-nmap gnc :Gina commit<CR>
+nmap gnc :Gina commit --opener=vsplit<CR>
 nmap gnb :Gina branch --opener=vsplit<CR>
+
+nmap <Leader>l :lcd %:h<CR>
+let g:winresizer_start_key = '<C-a>'
