@@ -16,7 +16,6 @@
   "python.jediEnabled": false,
   "coc.preferences.colorSupport": true,
   "deno.enable": false,
-  "tsserver.enable": true,
   "languageserver": {
     "kotlin": {
       "command": "~/kotlin-language-server/server/build/install/server/bin/kotlin-language-server",

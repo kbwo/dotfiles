@@ -128,6 +128,9 @@ set -gx PATH /opt/homebrew/opt/llvm/bin $PATH
 set -g CLOUDSDK_PYTHON python2
 set -g FZF_DEFAULT_COMMAND 'rg --hidden --no-ignore --files'
 
+set -g LC_ALL en_US.UTF-8
+set -g LANG en_US.UTF-8
+
 set -g LDGFLAGS -L/usr/local/opt/llvm/lib
 # set -g LDGFLAGS -L/opt/homebrew/opt/llvm/lib -Wl,-rpath,/opt/homebrew/opt/llvm/lib
 set -g CPPFLAGS -I/usr/local/opt/llvm/include
