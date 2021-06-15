@@ -146,6 +146,7 @@ nnoremap + <C-a>
 nnoremap - <C-x>
 
 " base
+set shell=/bin/sh
 set encoding=utf-8
 set fileencoding=utf-8
 set fileencodings=utf-8
@@ -569,4 +570,4 @@ nmap <leader>a  <Plug>(coc-codeaction-selected)
 
 nmap gns :Gina status --opener=vsplit<CR>
 nmap gnc :Gina commit<CR>
-nmap gnb :Gina branch<CR>
+nmap gnb :Gina branch --opener=vsplit<CR>
