@@ -9,7 +9,8 @@
     "jsonc",
     "html",
     "css",
-    "scss"
+    "scss",
+    "prisma"
   ],
   "prettier.onlyUseLocalVersion": true,
   "python.pythonPath": "~/.pyenv/shims/python",
