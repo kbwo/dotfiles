@@ -19,6 +19,9 @@ if !filereadable(expand('~/.vim/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall
 endif
 
+" this setting must write before polyglot is loaded
+let g:polyglot_disabled = ['markdown']
+
 " plugin
 call plug#begin(expand('~/.vim/plugged'))
 " for debug
