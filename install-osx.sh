@@ -16,7 +16,6 @@ brew install pyenv
 brew install neovim
 brew install alacritty
 brew install node
-brew install node
 brew tap sanemat/font
 brew install ricty
 cp -f /usr/local/opt/ricty/share/fonts/Ricty*.ttf ~/Library/Fonts/

@@ -574,7 +574,7 @@ xmap <leader>a  <Plug>(coc-codeaction-selected)
 nmap <leader>a  <Plug>(coc-codeaction-selected)
 
 nmap gns :Gina status --opener=vsplit<CR>
-nmap gnc :Gina commit --opener=vsplit<CR>
+nmap gnc :Gina commit --opener=split<CR>
 nmap gnb :Gina branch --opener=vsplit<CR>
 
 nmap <Leader>l :lcd %:h<CR>
