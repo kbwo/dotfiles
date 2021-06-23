@@ -579,3 +579,18 @@ nmap gnb :Gina branch --opener=vsplit<CR>
 
 nmap <Leader>l :lcd %:h<CR>
 let g:winresizer_start_key = '<C-a>'
+" vim-lsp
+" let g:deoplete#enable_at_startup = 1
+" let g:lsp_diagnostics_enabled = 1
+" let g:lsp_diagnostics_float_cursor = 1
+" let g:lsp_preview_float = 1
+" let g:lsp_completion_documentation_enabled = 1
+" let g:lsp_diagnostics_float_delay = 0
+" let g:lsp_diagnostics_virtual_text_enabled = 0
+" nmap <silent> <C-d> :LspDefinition<CR>
+" nmap <silent> <Leader>v<C-d> :vsp<CR>:LspDefinition<CR>
+" nmap <silent> <C-l> :LspNextError<CR>
+" nmap <Leader>iw :LspDocumentDiagnostics<CR>
+" nmap <silent> gr :LspReferences<CR>
+" nmap <silent> ccn :LspRename<CR>
+" nmap <silent> cca :LspCodeAction<CR>
