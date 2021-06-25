@@ -217,33 +217,6 @@ let g:airline#extensions#virtualenv#enabled = 1
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
-if !exists('g:airline_powerline_fonts')
-  let g:airline#extensions#tabline#left_sep = ' '
-  let g:airline#extensions#tabline#left_alt_sep = '|'
-  let g:airline_left_sep          = '▶'
-  let g:airline_left_alt_sep      = '»'
-  let g:airline_right_sep         = '◀'
-  let g:airline_right_alt_sep     = '«'
-  let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
-  let g:airline#extensions#readonly#symbol   = '⊘'
-  let g:airline#extensions#linecolumn#prefix = '¶'
-  let g:airline#extensions#paste#symbol      = 'ρ'
-  let g:airline_symbols.linenr    = '␊'
-  let g:airline_symbols.branch    = '⎇'
-  let g:airline_symbols.paste     = 'ρ'
-  let g:airline_symbols.paste     = 'Þ'
-  let g:airline_symbols.paste     = '∥'
-else
-  let g:airline#extensions#tabline#left_sep = ''
-  let g:airline#extensions#tabline#left_alt_sep = ''
-  let g:airline_left_sep = ''
-  let g:airline_left_alt_sep = ''
-  let g:airline_right_sep = ''
-  let g:airline_right_alt_sep = ''
-  let g:airline_symbols.branch = ''
-  let g:airline_symbols.readonly = ''
-  let g:airline_symbols.linenr = ''
-endif
 
 highlight CursorLine term=bold cterm=bold guibg=Grey40
 if has('nvim')
@@ -579,3 +552,18 @@ nmap gnb :Gina branch --opener=vsplit<CR>
 
 nmap <Leader>l :lcd %:h<CR>
 let g:winresizer_start_key = '<C-a>'
+" vim-lsp
+" let g:deoplete#enable_at_startup = 1
+" let g:lsp_diagnostics_enabled = 1
+" let g:lsp_diagnostics_float_cursor = 1
+" let g:lsp_preview_float = 1
+" let g:lsp_completion_documentation_enabled = 1
+" let g:lsp_diagnostics_float_delay = 0
+" let g:lsp_diagnostics_virtual_text_enabled = 0
+" nmap <silent> <C-d> :LspDefinition<CR>
+" nmap <silent> <Leader>v<C-d> :vsp<CR>:LspDefinition<CR>
+" nmap <silent> <C-l> :LspNextError<CR>
+" nmap <Leader>iw :LspDocumentDiagnostics<CR>
+" nmap <silent> gr :LspReferences<CR>
+" nmap <silent> ccn :LspRename<CR>
+" nmap <silent> cca :LspCodeAction<CR>
