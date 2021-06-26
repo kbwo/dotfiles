@@ -124,6 +124,7 @@ set -gx PATH $HOME/.rbenv/shims $PATH
 set -gx PATH $HOME/.pyenv/shims $PATH
 set -gx PATH $GOPATH/bin $PATH
 set -gx PATH /opt/homebrew/opt/llvm/bin $PATH
+set -gx PATH /opt/homebrew/opt/expat/bin $PATH
 
 set -g CLOUDSDK_PYTHON python2
 set -g FZF_DEFAULT_COMMAND 'rg --hidden --no-ignore --files'
@@ -135,6 +136,8 @@ set -g LANG en_US.UTF-8
 set -g GIT_EDITOR nvim
 
 set -g LDGFLAGS -L/usr/local/opt/llvm/lib
+set -g LDFLAGS -L/opt/homebrew/opt/expat/lib
+set -g PKG_CONFIG_PATH /opt/homebrew/opt/expat/lib/pkgconfig
 # set -g LDGFLAGS -L/opt/homebrew/opt/llvm/lib -Wl,-rpath,/opt/homebrew/opt/llvm/lib
 set -g CPPFLAGS -I/usr/local/opt/llvm/include
 
