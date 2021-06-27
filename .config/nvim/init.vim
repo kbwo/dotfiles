@@ -79,6 +79,7 @@ Plug 'lambdalisue/gina.vim'
 Plug 'pantharshit00/vim-prisma'
 Plug 'lambdalisue/edita.vim'
 Plug 'Shougo/deol.nvim'
+Plug 'puremourning/vimspector'
 
 call plug#end()
 let g:vim_json_syntax_conceal = 0
