@@ -10,7 +10,8 @@
     "html",
     "css",
     "scss",
-    "prisma"
+    "prisma",
+    "dart"
   ],
   "prettier.onlyUseLocalVersion": true,
   "python.pythonPath": "~/.pyenv/shims/python",
