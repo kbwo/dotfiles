@@ -5,6 +5,7 @@ set -o vi
 autoload -Uz select-word-style
 # enable auto completion
 autoload -Uz compinit && compinit
+_comp_options+=(globdots)
 autoload -Uz vcs_info
 autoload -Uz add-zsh-hook
 
@@ -68,6 +69,9 @@ export PATH=$PATH:$DENO_INSTALL/bin
 export PATH=$PATH:$JAVA_HOME/bin
 export PATH=$PATH:$GOPATH/bin
 ctags=/usr/local/bin/ctags
+if [ ! -d "$HOME/.zsh" ];then
+    mkdir $HOME/.zsh
+fi
 ZDOTDIR=$HOME/.zsh
 
 alias tod='cd ~/dotfiles'
@@ -134,6 +138,7 @@ setopt hist_ignore_space
 setopt hist_reduce_blanks
 # use wildcard
 setopt extended_glob
+setopt globdots
 bindkey '^[[Z' reverse-menu-complete
 
 select-word-style default
@@ -144,6 +149,7 @@ select-word-style default
     # 補完で小文字でも大文字にマッチさせる
     zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
     zstyle ':completion:*' menu select
+    zstyle ':completion:*' special-dirs true
     # ../ の後は今いるディレクトリを補完しない
     zstyle ':completion:*' ignore-parents parent pwd ..
     # sudo の後ろでコマンド名を補完する
@@ -225,6 +231,11 @@ fi
 source "$HOME/.zinit/bin/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
+
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 zinit load agkozak/zsh-z
 compinit -d $ZDOTDIR/compdump
 zinit load zdharma/history-search-multi-word
@@ -257,8 +268,5 @@ pyenv() {
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
