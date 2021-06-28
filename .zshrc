@@ -3,7 +3,8 @@ set -o vi
 
 # 単語の区切り文字を指定する
 autoload -Uz select-word-style
-autoload -Uz compinit
+# enable auto completion
+autoload -Uz compinit && compinit
 autoload -Uz vcs_info
 autoload -Uz add-zsh-hook
 
@@ -67,6 +68,7 @@ export PATH=$PATH:$DENO_INSTALL/bin
 export PATH=$PATH:$JAVA_HOME/bin
 export PATH=$PATH:$GOPATH/bin
 ctags=/usr/local/bin/ctags
+ZDOTDIR=$HOME/.zsh
 
 alias tod='cd ~/dotfiles'
 alias ..='cd ..'
@@ -131,9 +133,7 @@ setopt hist_ignore_space
 setopt hist_reduce_blanks
 # use wildcard
 setopt extended_glob
-
-# enable auto completion
-compinit
+bindkey '^[[Z' reverse-menu-complete
 
 select-word-style default
     # ここで指定した文字は単語区切りとみなされる
@@ -142,6 +142,7 @@ select-word-style default
     zstyle ':zle:*' word-style unspecified
     # 補完で小文字でも大文字にマッチさせる
     zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+    zstyle ':completion:*' menu select
     # ../ の後は今いるディレクトリを補完しない
     zstyle ':completion:*' ignore-parents parent pwd ..
     # sudo の後ろでコマンド名を補完する
@@ -223,9 +224,9 @@ fi
 source "$HOME/.zinit/bin/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
-
-zinit load zdharma/history-search-multi-word
 zinit load agkozak/zsh-z
+compinit -d $ZDOTDIR/compdump
+zinit load zdharma/history-search-multi-word
 zinit load migutw42/zsh-fzf-ghq
 zinit light zdharma/fast-syntax-highlighting
 zinit light zsh-users/zsh-completions
@@ -259,3 +260,4 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
