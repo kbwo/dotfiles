@@ -109,6 +109,7 @@ alias ghw='gh repo view --web'
 #enable alias after "sudo" command
 alias sudo='sudo '
 alias intel='arch -x86_64'
+alias pconf='p10k configure'
 
 alias -g L='| less'
 alias -g G='| grep'
