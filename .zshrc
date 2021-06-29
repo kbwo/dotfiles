@@ -112,6 +112,7 @@ alias ghw='gh repo view --web'
 alias sudo='sudo '
 alias intel='arch -x86_64'
 alias pconf='p10k configure'
+alias nv='eval $EDITOR no-file'
 
 alias -g L='| less'
 alias -g G='| grep'
