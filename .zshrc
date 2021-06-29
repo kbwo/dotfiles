@@ -66,8 +66,6 @@ export PATH=$PATH:$JAVA_HOME/bin
 export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:$PYENV_ROOT/bin
 export PATH=$PATH:$DENO_INSTALL/bin
-export PATH=$PATH:$JAVA_HOME/bin
-export PATH=$PATH:$GOPATH/bin
 ctags=/usr/local/bin/ctags
 if [ ! -d "$HOME/.zsh" ];then
     mkdir $HOME/.zsh
@@ -204,8 +202,8 @@ fi
 case "$(uname -s)" in
 
     Darwin)
-        export ANDROID_HOME=~/Library/Android/sdk
-        export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-13.0.2.jdk/Contents/Home
+        export ANDROID_HOME=$HOME/Library/Android/sdk
+        export JAVA_HOME=/Applications/Android\ Studio.app/Contents/jre/jdk/Contents/Home
         ;;
 
     Linux)

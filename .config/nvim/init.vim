@@ -156,7 +156,7 @@ set shell=/bin/zsh
 set encoding=utf-8
 set fileencoding=utf-8
 set fileencodings=utf-8
-set ambiwidth=double
+set ambiwidth=single
 set bomb
 set binary
 set ttyfast
