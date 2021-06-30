@@ -297,6 +297,7 @@ let g:coc_global_extensions = [
       \'coc-react-refactor',
       \'coc-styled-components',
       \'coc-docker',
+      \'coc-metals',
       \'coc-db'
       \]
 nnoremap <Leader>c  :call CocActionAsync('highlight')<CR>
