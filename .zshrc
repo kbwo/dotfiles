@@ -246,6 +246,8 @@ zinit ice depth=1; zinit light romkatv/powerlevel10k
 zinit ice proto'git' pick'init.sh'
 bindkey '^j' autosuggest-accept
 
+eval "$(pyenv init --path)"
+
 ### End of Zinit's installer chunk
 # if [ -z $TMUX ]; then
 # fi
@@ -258,11 +260,6 @@ ghenv() {
     unfunction "$0"
     source <(gh completion -s zsh)
     $0 "$@"
-}
-pyenv() {
-  unfunction "$0"
-  source <(pyenv init -)
-  $0 "$@"
 }
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
