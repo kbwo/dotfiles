@@ -1,3 +1,11 @@
+set rtp +=~/.vim
+set rtp+=/path/to/lldb.nvim
+set rtp+=~/src/vim/dps-heloworld
+
+if has('vim_starting')
+  set nocompatible
+endif
+
 filetype plugin indent on
 
 inoremap <c-u> <Nop>
