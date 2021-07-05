@@ -38,13 +38,13 @@ Plug 'tomtom/tcomment_vim'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'editorconfig/editorconfig-vim'
-" Plug 'terryma/vim-multiple-cursors'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 
 Plug 'ghifarit53/tokyonight-vim'
 Plug 'thosakwe/vim-flutter'
 Plug 'godlygeek/tabular'
 Plug 'previm/previm'
+Plug  'Raimondi/delimitMate'
 " Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install()}}
 if has('nvim')
   Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
