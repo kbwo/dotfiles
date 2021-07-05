@@ -37,6 +37,7 @@ Plug  'Raimondi/delimitMate'
 Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install()}}
 if has('nvim')
   Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
+  " ===== nvim-lsp ==========
   " Plug 'neovim/nvim-lspconfig'
   " Plug 'kabouzeid/nvim-lspinstall'
   " Plug 'hrsh7th/nvim-compe'
@@ -44,6 +45,7 @@ if has('nvim')
   " Plug 'mhartington/formatter.nvim'
   " Plug 'dense-analysis/ale'
   " Plug 'nathunsmitty/nvim-ale-diagnostic'
+  " ===== nvim-lsp ==========
 else
   Plug 'Shougo/defx.nvim'
   Plug 'roxma/nvim-yarp'
