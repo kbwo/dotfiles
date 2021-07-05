@@ -34,16 +34,16 @@ Plug 'thosakwe/vim-flutter'
 Plug 'godlygeek/tabular'
 Plug 'previm/previm'
 Plug  'Raimondi/delimitMate'
-" Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install()}}
+Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install()}}
 if has('nvim')
   Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
-  Plug 'neovim/nvim-lspconfig'
-  Plug 'kabouzeid/nvim-lspinstall'
-  Plug 'hrsh7th/nvim-compe'
-  Plug 'glepnir/lspsaga.nvim'
-  Plug 'mhartington/formatter.nvim'
-  Plug 'dense-analysis/ale'
-  Plug 'nathunsmitty/nvim-ale-diagnostic'
+  " Plug 'neovim/nvim-lspconfig'
+  " Plug 'kabouzeid/nvim-lspinstall'
+  " Plug 'hrsh7th/nvim-compe'
+  " Plug 'glepnir/lspsaga.nvim'
+  " Plug 'mhartington/formatter.nvim'
+  " Plug 'dense-analysis/ale'
+  " Plug 'nathunsmitty/nvim-ale-diagnostic'
 else
   Plug 'Shougo/defx.nvim'
   Plug 'roxma/nvim-yarp'

@@ -31,22 +31,14 @@ source ~/dotfiles/.config/nvim/gina.vim
 source ~/dotfiles/.config/nvim/tagalong.vim
 source ~/dotfiles/.config/nvim/winresizer.vim
 source ~/dotfiles/.config/nvim/ale.vim
-" source ~/dotfiles/.config/nvim/coc.vim
+source ~/dotfiles/.config/nvim/coc.vim
 
-" autocmd User EasyMotionPromptBegin silent! CocDisable
-" autocmd User EasyMotionPromptEnd   silent! CocEnable
-
-" autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" autocmd  User eskk-enable-pre  silent! CocDisable
-" autocmd  User eskk-disable-post silent! CocEnable
-
-if(has('nvim'))
-  :luafile ~/dotfiles/.config/nvim/lspconfig.lua
-  :luafile ~/dotfiles/.config/nvim/lspinstall.lua
-  :luafile ~/dotfiles/.config/nvim/compe.lua
-  :luafile ~/dotfiles/.config/nvim/lspsaga.lua
-  source ~/dotfiles/.config/nvim/lspsaga.vim
-  :luafile ~/dotfiles/.config/nvim/formatter.lua
-  source ~/dotfiles/.config/nvim/compe.vim
-end
+" if(has('nvim'))
+"   :luafile ~/dotfiles/.config/nvim/lspconfig.lua
+"   :luafile ~/dotfiles/.config/nvim/lspinstall.lua
+"   :luafile ~/dotfiles/.config/nvim/compe.lua
+"   :luafile ~/dotfiles/.config/nvim/lspsaga.lua
+"   source ~/dotfiles/.config/nvim/lspsaga.vim
+"   :luafile ~/dotfiles/.config/nvim/formatter.lua
+"   source ~/dotfiles/.config/nvim/compe.vim
+" end

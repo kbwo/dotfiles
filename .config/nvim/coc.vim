@@ -55,3 +55,12 @@ nmap <silent> ccl <Plug>(coc-codeaction-line)
 let g:coc_enable_locationlist = 0
 autocmd! User CocLocationsChange Denite -smartcase -auto-action=preview coc-locations
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
+
+autocmd User EasyMotionPromptBegin silent! CocDisable
+autocmd User EasyMotionPromptEnd   silent! CocEnable
+
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+autocmd  User eskk-enable-pre  silent! CocDisable
+autocmd  User eskk-disable-post silent! CocEnable
+
