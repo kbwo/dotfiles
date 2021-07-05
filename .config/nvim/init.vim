@@ -38,7 +38,9 @@ Plug 'tomtom/tcomment_vim'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'editorconfig/editorconfig-vim'
-Plug 'terryma/vim-multiple-cursors'
+" Plug 'terryma/vim-multiple-cursors'
+Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+
 Plug 'ghifarit53/tokyonight-vim'
 Plug 'thosakwe/vim-flutter'
 Plug 'godlygeek/tabular'
@@ -247,22 +249,13 @@ autocmd FileType * setlocal formatoptions-=ro
 set completeopt=menuone,noinsert,noselect,preview
 set shortmess+=c
 
-" multi cursor Default mapping
-let g:multi_cursor_use_default_mapping=0
-let g:multi_cursor_start_word_key      = '<C-j>'
-let g:multi_cursor_select_all_word_key = '<A-n>'
-let g:multi_cursor_start_key           = 'g<C-j>'
-let g:multi_cursor_select_all_key      = 'g<A-n>'
-let g:multi_cursor_next_key            = '<C-j>'
-let g:multi_cursor_prev_key            = '<C-k>'
-let g:multi_cursor_skip_key            = '<C-x>'
-let g:multi_cursor_quit_key            = '<Esc>'
-
-"vista
-" let g:vista_default_executive = 'coc'
-let g:vista_update_on_text_changed = 1
-let g:vista#renderer#enable_icon = 0
-let g:vista_sidebar_width = 35
+let g:VM_maps = {}
+let g:VM_maps['Find Under']         = '<C-j>'   " replace C-n
+let g:VM_maps['Find Subword Under'] = '<C-j>'   " replace visual C-n
+let g:VM_maps["Add Cursor Down"]    = '<M-j>'   " new cursor down
+let g:VM_maps["Add Cursor Up"]      = '<c-u>'   " new cursor up
+let g:VM_maps["Toggle Mappings"]    = '<CR>'    " toggle VM buffer mappings
+let g:VM_maps["Exit"]               = '<Space>' " quit VM
 
 " "coc.nvim
 " let g:coc_global_extensions = [
