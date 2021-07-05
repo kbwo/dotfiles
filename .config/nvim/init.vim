@@ -48,4 +48,5 @@ if(has('nvim'))
   :luafile ~/dotfiles/.config/nvim/lspsaga.lua
   source ~/dotfiles/.config/nvim/lspsaga.vim
   :luafile ~/dotfiles/.config/nvim/formatter.lua
+  source ~/dotfiles/.config/nvim/compe.vim
 end
