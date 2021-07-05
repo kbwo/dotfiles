@@ -43,9 +43,16 @@ Plug 'ghifarit53/tokyonight-vim'
 Plug 'thosakwe/vim-flutter'
 Plug 'godlygeek/tabular'
 Plug 'previm/previm'
-Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install()}}
+" Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install()}}
 if has('nvim')
   Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
+  Plug 'neovim/nvim-lspconfig'
+  Plug 'kabouzeid/nvim-lspinstall'
+  Plug 'hrsh7th/nvim-compe'
+  Plug 'glepnir/lspsaga.nvim'
+  Plug 'mhartington/formatter.nvim'
+  Plug 'dense-analysis/ale'
+  Plug 'nathunsmitty/nvim-ale-diagnostic'
 else
   Plug 'Shougo/defx.nvim'
   Plug 'roxma/nvim-yarp'
@@ -61,7 +68,7 @@ Plug 'tyru/eskk.vim'
 Plug 'Yggdroot/indentLine'
 Plug 'tyru/open-browser.vim'
 Plug 'ivanov/vim-ipython'
-Plug 'neoclide/coc-denite'
+" Plug 'neoclide/coc-denite'
 Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'hrsh7th/vim-gitto'
 Plug 'hrsh7th/vim-denite-gitto'
@@ -126,7 +133,7 @@ let g:syntastic_aggregate_errors = 1
 let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute " ,"trimming empty <", "unescaped &" , "lacks \"action", "is not recognized!", "discarding unexpected"]
 
 
-map <Leader>o :Denite coc-symbols<CR>
+" map <Leader>o :Denite coc-symbols<CR>
 
 "" Tabs
 map K gt
@@ -238,6 +245,7 @@ autocmd QuickFixCmdPost *grep* cwindow
 autocmd FileType * setlocal formatoptions-=ro
 
 set completeopt=menuone,noinsert,noselect,preview
+set shortmess+=c
 
 " multi cursor Default mapping
 let g:multi_cursor_use_default_mapping=0
@@ -251,66 +259,66 @@ let g:multi_cursor_skip_key            = '<C-x>'
 let g:multi_cursor_quit_key            = '<Esc>'
 
 "vista
-let g:vista_default_executive = 'coc'
+" let g:vista_default_executive = 'coc'
 let g:vista_update_on_text_changed = 1
 let g:vista#renderer#enable_icon = 0
 let g:vista_sidebar_width = 35
 
-"coc.nvim
-let g:coc_global_extensions = [
-      \'coc-json',
-      \'coc-flutter',
-      \'coc-tsserver',
-      \'coc-go',
-      \'coc-git',
-      \'coc-highlight',
-      \'coc-java',
-      \'coc-markdownlint',
-      \'coc-phpls',
-      \'coc-python',
-      \'coc-rust-analyzer',
-      \'coc-stylelint',
-      \'coc-sql',
-      \'coc-vimlsp',
-      \'coc-xml',
-      \'coc-yaml',
-      \'coc-prettier',
-      \'coc-html',
-      \'coc-solargraph',
-      \'coc-prisma',
-      \'coc-sh',
-      \'coc-yank',
-      \'coc-eslint',
-      \'coc-pairs',
-      \'coc-css',
-      \'coc-calc',
-      \'coc-sh',
-      \'coc-sourcekit',
-      \'coc-tailwindcss',
-      \'coc-cssmodules',
-      \'coc-vetur',
-      \'coc-clangd',
-      \'coc-deno',
-      \'coc-emmet',
-      \'coc-post',
-      \'coc-docker',
-      \'coc-react-refactor',
-      \'coc-styled-components',
-      \'coc-docker',
-      \'coc-metals',
-      \'coc-db'
-      \]
-nnoremap <Leader>c  :call CocActionAsync('highlight')<CR>
-nmap <silent> <C-d> <Plug>(coc-definition)
-nmap <silent> <Leader>v<C-d> :call CocAction('jumpDefinition', 'vsplit')<CR>
-nmap <silent> <C-l> <Plug>(coc-diagnostic-next)
-nmap <Leader>ic <Plug>(coc-diagnostic-info)
-nmap <Leader>iw  :CocDiagnostics<CR>
-nmap <Leader>is  :CocList outline<CR>
-nmap <silent> gr <Plug>(coc-references)
-nmap <silent> ccn <Plug>(coc-rename)
-nmap <silent> cca <Plug>(coc-codeaction)
-nmap <silent> ccl <Plug>(coc-codeaction-line)
+" "coc.nvim
+" let g:coc_global_extensions = [
+"       \'coc-json',
+"       \'coc-flutter',
+"       \'coc-tsserver',
+"       \'coc-go',
+"       \'coc-git',
+"       \'coc-highlight',
+"       \'coc-java',
+"       \'coc-markdownlint',
+"       \'coc-phpls',
+"       \'coc-python',
+"       \'coc-rust-analyzer',
+"       \'coc-stylelint',
+"       \'coc-sql',
+"       \'coc-vimlsp',
+"       \'coc-xml',
+"       \'coc-yaml',
+"       \'coc-prettier',
+"       \'coc-html',
+"       \'coc-solargraph',
+"       \'coc-prisma',
+"       \'coc-sh',
+"       \'coc-yank',
+"       \'coc-eslint',
+"       \'coc-pairs',
+"       \'coc-css',
+"       \'coc-calc',
+"       \'coc-sh',
+"       \'coc-sourcekit',
+"       \'coc-tailwindcss',
+"       \'coc-cssmodules',
+"       \'coc-vetur',
+"       \'coc-clangd',
+"       \'coc-deno',
+"       \'coc-emmet',
+"       \'coc-post',
+"       \'coc-docker',
+"       \'coc-react-refactor',
+"       \'coc-styled-components',
+"       \'coc-docker',
+"       \'coc-metals',
+"       \'coc-db'
+"       \]
+" nnoremap <Leader>c  :call CocActionAsync('highlight')<CR>
+" nmap <silent> <C-d> <Plug>(coc-definition)
+" nmap <silent> <Leader>v<C-d> :call CocAction('jumpDefinition', 'vsplit')<CR>
+" nmap <silent> <C-l> <Plug>(coc-diagnostic-next)
+" nmap <Leader>ic <Plug>(coc-diagnostic-info)
+" nmap <Leader>iw  :CocDiagnostics<CR>
+" nmap <Leader>is  :CocList outline<CR>
+" nmap <silent> gr <Plug>(coc-references)
+" nmap <silent> ccn <Plug>(coc-rename)
+" nmap <silent> cca <Plug>(coc-codeaction)
+" nmap <silent> ccl <Plug>(coc-codeaction-line)
 
 " let g:prettier#autoformat = 1
 
@@ -426,8 +434,8 @@ autocmd BufEnter * call defx#redraw()
 " Move to word
 map  <Leader>f <Plug>(easymotion-bd-w)
 
-autocmd User EasyMotionPromptBegin silent! CocDisable
-autocmd User EasyMotionPromptEnd   silent! CocEnable
+" autocmd User EasyMotionPromptBegin silent! CocDisable
+" autocmd User EasyMotionPromptEnd   silent! CocEnable
 
 nnoremap <Leader>mn  :MemoNew<CR>
 nnoremap <Leader>ml  :MemoList<CR>
@@ -436,7 +444,7 @@ let g:memolist_memo_suffix = "md"
 let g:memolist_ex_cmd = 'Defx'
 
 map <c-/><c-/> :TComment<CR>
-autocmd CursorHold * silent call CocActionAsync('highlight')
+" autocmd CursorHold * silent call CocActionAsync('highlight')
 
 if empty(glob('~/.config/nvim/eskk.vim/SKK-JISYO.L'))
   silent !curl -fLo ~/.config/nvim/eskk.vim/SKK-JISYO.L --create-dirs
@@ -467,8 +475,8 @@ let g:eskk#marker_okuri = '*'
 let g:eskk#marker_henkan_select = '«'
 let g:eskk#show_candidates_count = 2
 
-autocmd  User eskk-enable-pre  silent! CocDisable
-autocmd  User eskk-disable-post silent! CocEnable
+" autocmd  User eskk-enable-pre  silent! CocDisable
+" autocmd  User eskk-disable-post silent! CocEnable
 
 function! s:my_bookmark_color() abort
   let s:scl_guibg = matchstr(execute('hi SignColumn'), 'guibg=\zs\S*')
@@ -540,13 +548,13 @@ function! s:denite_my_settings() abort
         \ denite#do_map('toggle_select').'j'
 endfunction
 
-let g:coc_enable_locationlist = 0
-autocmd! User CocLocationsChange Denite -smartcase -auto-action=preview coc-locations
+" let g:coc_enable_locationlist = 0
+" autocmd! User CocLocationsChange Denite -smartcase -auto-action=preview coc-locations
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
 let g:tagalong_filetypes = ['html', 'xml', 'jsx', 'eruby', 'ejs', 'eco', 'php', 'htmldjango', 'javascriptreact', 'typescriptreact', 'javascript', 'typescript', 'typescirpt.tsx']
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
+" xmap <leader>a  <Plug>(coc-codeaction-selected)
+" nmap <leader>a  <Plug>(coc-codeaction-selected)
 
 nmap gns :Gina status --opener=vsplit<CR>
 nmap gnc :Gina commit --opener=split<CR>
@@ -554,18 +562,29 @@ nmap gnb :Gina branch --opener=vsplit<CR>
 
 nmap <Leader>l :lcd %:h<CR>
 let g:winresizer_start_key = '<C-a>'
-" vim-lsp
-" let g:deoplete#enable_at_startup = 1
-" let g:lsp_diagnostics_enabled = 1
-" let g:lsp_diagnostics_float_cursor = 1
-" let g:lsp_preview_float = 1
-" let g:lsp_completion_documentation_enabled = 1
-" let g:lsp_diagnostics_float_delay = 0
-" let g:lsp_diagnostics_virtual_text_enabled = 0
-" nmap <silent> <C-d> :LspDefinition<CR>
-" nmap <silent> <Leader>v<C-d> :vsp<CR>:LspDefinition<CR>
-" nmap <silent> <C-l> :LspNextError<CR>
-" nmap <Leader>iw :LspDocumentDiagnostics<CR>
-" nmap <silent> gr :LspReferences<CR>
-" nmap <silent> ccn :LspRename<CR>
-" nmap <silent> cca :LspCodeAction<CR>
+
+" =================================
+
+if(has('nvim'))
+  :luafile ~/dotfiles/.config/nvim/lspconfig.lua
+  :luafile ~/dotfiles/.config/nvim/lspinstall.lua
+  :luafile ~/dotfiles/.config/nvim/compe.lua
+  :luafile ~/dotfiles/.config/nvim/lspsaga.lua
+  source ~/dotfiles/.config/nvim/lspsaga.vim
+  :luafile ~/dotfiles/.config/nvim/formatter.lua
+end
+
+let g:ale_linters = {
+\   'javascript': ['eslint'],
+\   'javascript.jsx': ['eslint'],
+\   'typescript': ['eslint'],
+\   'typescriptreact': ['eslint'],
+\}
+let g:ale_fixers = {
+\   'javascript': ['prettier', 'eslint'],
+\   'javascript.jsx': ['prettier', 'eslint'],
+\   'typescript': ['prettier', 'eslint'],
+\   'typescriptreact': ['prettier', 'eslint'],
+\}
+let g:ale_fix_on_save = 1
+nmap <silent><Leader><c-l> :ALENextWrap<CR>
