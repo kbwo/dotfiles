@@ -34,23 +34,6 @@ Plug 'thosakwe/vim-flutter'
 Plug 'godlygeek/tabular'
 Plug 'previm/previm'
 Plug  'Raimondi/delimitMate'
-Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install()}}
-if has('nvim')
-  Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
-  " ===== nvim-lsp ==========
-  " Plug 'neovim/nvim-lspconfig'
-  " Plug 'kabouzeid/nvim-lspinstall'
-  " Plug 'hrsh7th/nvim-compe'
-  " Plug 'glepnir/lspsaga.nvim'
-  " Plug 'mhartington/formatter.nvim'
-  " Plug 'dense-analysis/ale'
-  " Plug 'nathunsmitty/nvim-ale-diagnostic'
-  " ===== nvim-lsp ==========
-else
-  Plug 'Shougo/defx.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
 Plug 'jparise/vim-graphql'
 Plug 'tpope/vim-dadbod'
 Plug 'kristijanhusak/vim-dadbod-ui'
@@ -61,7 +44,6 @@ Plug 'tyru/eskk.vim'
 Plug 'Yggdroot/indentLine'
 Plug 'tyru/open-browser.vim'
 Plug 'ivanov/vim-ipython'
-" Plug 'neoclide/coc-denite'
 Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'hrsh7th/vim-gitto'
 Plug 'hrsh7th/vim-denite-gitto'
@@ -78,7 +60,24 @@ Plug 'sheerun/vim-polyglot'
 Plug 'lambdalisue/gina.vim'
 Plug 'pantharshit00/vim-prisma'
 Plug 'lambdalisue/edita.vim'
-Plug 'Shougo/deol.nvim'
 Plug 'puremourning/vimspector'
+Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install()}}
+Plug 'neoclide/coc-denite'
+if has('nvim')
+  Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
+  " ===== nvim-lsp ==========
+  " Plug 'neovim/nvim-lspconfig'
+  " Plug 'kabouzeid/nvim-lspinstall'
+  " Plug 'hrsh7th/nvim-compe'
+  " Plug 'glepnir/lspsaga.nvim'
+  " Plug 'mhartington/formatter.nvim'
+  " Plug 'dense-analysis/ale'
+  " Plug 'nathunsmitty/nvim-ale-diagnostic'
+  " ===== nvim-lsp ==========
+else
+  Plug 'Shougo/defx.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
 
 call plug#end()
