@@ -9,27 +9,23 @@ endif
 filetype plugin indent on
 
 inoremap <c-u> <Nop>
-nmap <Leader>l :lcd %:h<CR>
 let mapleader="\<Space>"
 
-map K gt
-map J gT
-
-nnoremap <Leader>j <c-d>
-nnoremap <Leader>k <c-u>
-
-nnoremap R :join<CR>
-nnoremap <Leader>t :tabnew<CR>
-
-nnoremap j gj
-nnoremap k gk
-nnoremap <Down> gj
-nnoremap <Up> gk
-
-nnoremap + <C-a>
-nnoremap - <C-x>
-
-nnoremap <c-t> <c-o>
+map <silent>K gt
+map <silent>J gT
+nmap <silent>j gj
+nmap <silent>k gk
+nmap <silent><Leader>j <c-d>
+nmap <silent><Leader>k <c-u>
+nmap <silent>R :join<CR>
+nmap <silent><Leader>t :tabnew<CR>
+nmap <silent><Down> gj
+nmap <silent><Up> gk
+nmap <silent>+ <C-a>
+nmap <silent>- <C-x>
+nmap <silent><c-t> <c-o>
+nmap <silent><Leader>l :lcd %:h<CR>
+command Sov so ~/.config/nvim/init.vim
 
 " base
 set shell=/bin/zsh
