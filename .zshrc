@@ -73,7 +73,7 @@ fi
 ZDOTDIR=$HOME/.zsh
 
 alias tod='cd ~/dotfiles'
-alias ..='cd ..'
+alias kbwo='cd ~/ghq/github.com/kbwo'
 alias ex='exit'
 alias :q='exit'
 alias so='source'
