@@ -17,6 +17,7 @@
   "python.pythonPath": "~/.pyenv/shims/python",
   "python.jediEnabled": false,
   "coc.preferences.colorSupport": true,
+  "coc.source.file.ignoreHidden": true,
   "deno.enable": false,
   "languageserver": {
     "kotlin": {
