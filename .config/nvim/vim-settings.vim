@@ -27,6 +27,7 @@ nmap - <C-x>
 nmap <c-t> <c-o>
 nmap <Leader>l :lcd %:h<CR>
 command Sov so ~/.config/nvim/init.vim
+command Cdv vsp ~/dotfiles/.config/nvim/init.vim
 
 " base
 set shell=/bin/zsh
