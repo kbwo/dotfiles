@@ -25,6 +25,7 @@ export DENO_INSTALL="/home/kodai/.deno"
 export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/path/to/parent/dir
 export PKG_CONFIG_PATH=/opt/homebrew/opt/expat/lib/pkgconfig
 export CPPFLAGS=-I/usr/local/opt/llvm/include
+export VOLTA_HOME=$HOME/.volta
 
 export PATH=$PATH:bin
 export PATH=$PATH:/usr/local/Cellar/git/X.XX.X/bin
@@ -66,6 +67,7 @@ export PATH=$PATH:$JAVA_HOME/bin
 export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:$PYENV_ROOT/bin
 export PATH=$PATH:$DENO_INSTALL/bin
+export PATH=$PATH:$VOLTA_HOME/bin
 ctags=/usr/local/bin/ctags
 if [ ! -d "$HOME/.zsh" ];then
     mkdir $HOME/.zsh
@@ -267,3 +269,5 @@ ghenv() {
 
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
