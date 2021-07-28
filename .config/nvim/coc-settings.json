@@ -13,6 +13,7 @@
     "prisma",
     "dart"
   ],
+  "cssmodules.hintName": "cssmodules",
   "prettier.onlyUseLocalVersion": true,
   "python.pythonPath": "~/.pyenv/shims/python",
   "python.jediEnabled": false,
