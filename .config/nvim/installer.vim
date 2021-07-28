@@ -14,8 +14,8 @@ endif
 if !isdirectory($HOME .'/.volta')
   echo "Installing Volta..."
   echo ""
-  silent !\curl https://get.volta.sh | bash
-  silent !\volta install node@14
+  silent !\curl https://get.volta.sh | bash -s -- --skip-setup
+  silent !\~/.volta/bin/volta install node@14
 endif
 
 if !isdirectory($HOME .'/.cargo')
