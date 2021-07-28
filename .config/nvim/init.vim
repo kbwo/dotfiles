@@ -3,6 +3,7 @@ source ~/dotfiles/.config/nvim/vim-settings.vim
 " this setting must write before polyglot is loaded
 let g:polyglot_disabled = ['markdown']
 
+source ~/dotfiles/.config/nvim/installer.vim
 source ~/dotfiles/.config/nvim/plugins.vim
 
 let g:vim_json_syntax_conceal = 0
