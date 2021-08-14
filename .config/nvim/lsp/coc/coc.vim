@@ -60,7 +60,3 @@ autocmd User EasyMotionPromptBegin silent! CocDisable
 autocmd User EasyMotionPromptEnd   silent! CocEnable
 
 autocmd CursorHold * silent call CocActionAsync('highlight')
-
-autocmd  User eskk-enable-pre  silent! CocDisable
-autocmd  User eskk-disable-post silent! CocEnable
-
