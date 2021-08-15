@@ -26,7 +26,8 @@ source ~/dotfiles/.config/nvim/plugins/tagalong.vim
 source ~/dotfiles/.config/nvim/plugins/winresizer.vim
 source ~/dotfiles/.config/nvim/lsp/coc/coc.vim
 
-" if(has('nvim'))
+if(has('nvim'))
+  :luafile ~/dotfiles/.config/nvim/plugins/treesitter.lua
   " :luafile ~/dotfiles/.config/nvim/lsp/nvim-lsp/lspconfig.lua
   " :luafile ~/dotfiles/.config/nvim/lsp/nvim-lsp/lspinstall.lua
   " :luafile ~/dotfiles/.config/nvim/lsp/nvim-lsp/compe.lua
@@ -35,4 +36,4 @@ source ~/dotfiles/.config/nvim/lsp/coc/coc.vim
   " :luafile ~/dotfiles/.config/nvim/lsp/nvim-lsp/formatter.lua
   " source ~/dotfiles/.config/nvim/lsp/nvim-lsp/compe.vim
   " source ~/dotfiles/.config/nvim/lsp/nvim-lsp/ale.vim
-" end
+end

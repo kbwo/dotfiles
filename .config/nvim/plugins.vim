@@ -52,8 +52,9 @@ Plug 'puremourning/vimspector'
 Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install()}}
 Plug 'neoclide/coc-denite'
 Plug 'turbio/bracey.vim'
+Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
 if has('nvim')
-  Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
+  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
   " ===== nvim-lsp ==========
   " Plug 'neovim/nvim-lspconfig'
   " Plug 'kabouzeid/nvim-lspinstall'
@@ -64,7 +65,6 @@ if has('nvim')
   " Plug 'nathunsmitty/nvim-ale-diagnostic'
   " ===== nvim-lsp ==========
 else
-  Plug 'Shougo/defx.nvim'
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
