@@ -54,7 +54,6 @@ Plug 'neoclide/coc-denite'
 Plug 'turbio/bracey.vim'
 Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
 if has('nvim')
-  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
   " ===== nvim-lsp ==========
   " Plug 'neovim/nvim-lspconfig'
   " Plug 'kabouzeid/nvim-lspinstall'

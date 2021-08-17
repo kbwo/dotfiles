@@ -27,7 +27,7 @@ source ~/dotfiles/.config/nvim/plugins/winresizer.vim
 source ~/dotfiles/.config/nvim/lsp/coc/coc.vim
 
 if(has('nvim'))
-  :luafile ~/dotfiles/.config/nvim/plugins/treesitter.lua
+  " :luafile ~/dotfiles/.config/nvim/plugins/treesitter.lua
   " :luafile ~/dotfiles/.config/nvim/lsp/nvim-lsp/lspconfig.lua
   " :luafile ~/dotfiles/.config/nvim/lsp/nvim-lsp/lspinstall.lua
   " :luafile ~/dotfiles/.config/nvim/lsp/nvim-lsp/compe.lua
