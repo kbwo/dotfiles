@@ -24,6 +24,7 @@ source ~/dotfiles/.config/nvim/plugins/denite.vim
 source ~/dotfiles/.config/nvim/plugins/gina.vim
 source ~/dotfiles/.config/nvim/plugins/tagalong.vim
 source ~/dotfiles/.config/nvim/plugins/winresizer.vim
+source ~/dotfiles/.config/nvim/plugins/hop.lua
 source ~/dotfiles/.config/nvim/lsp/coc/coc.vim
 
 if(has('nvim'))

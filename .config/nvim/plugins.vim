@@ -26,7 +26,6 @@ Plug 'jparise/vim-graphql'
 Plug 'tpope/vim-dadbod'
 Plug 'kristijanhusak/vim-dadbod-ui'
 Plug 'junegunn/gv.vim'
-Plug 'easymotion/vim-easymotion'
 Plug 'glidenote/memolist.vim'
 Plug 'tyru/eskk.vim'
 Plug 'Yggdroot/indentLine'
@@ -54,6 +53,7 @@ Plug 'neoclide/coc-denite'
 Plug 'turbio/bracey.vim'
 Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
 if has('nvim')
+  Plug 'phaazon/hop.nvim'
   " ===== nvim-lsp ==========
   " Plug 'neovim/nvim-lspconfig'
   " Plug 'kabouzeid/nvim-lspinstall'
