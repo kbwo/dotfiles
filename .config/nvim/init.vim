@@ -16,7 +16,6 @@ source ~/dotfiles/.config/nvim/plugins/emmet.vim
 source ~/dotfiles/.config/nvim/plugins/visual-multi.vim
 source ~/dotfiles/.config/nvim/plugins/supertab.vim
 source ~/dotfiles/.config/nvim/plugins/defx.vim
-source ~/dotfiles/.config/nvim/plugins/easymotion.vim
 source ~/dotfiles/.config/nvim/plugins/memo.vim
 source ~/dotfiles/.config/nvim/plugins/tcomment.vim
 source ~/dotfiles/.config/nvim/plugins/eskk.vim
