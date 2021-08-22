@@ -44,8 +44,70 @@ end
 local function eslint_config_exists()
   return exists_glob(".eslintrc*") or exists_package_json_field("eslintConfig")
 end
+nvim_lsp.go.setup {
+  on_attach = on_attach
+}
+nvim_lsp.angular.setup {
+  on_attach = on_attach
+}
+nvim_lsp.bash.setup {
+  on_attach = on_attach
+}
+nvim_lsp.cpp.setup {
+  on_attach = on_attach
+}
+nvim_lsp.css.setup {
+  on_attach = on_attach
+}
+nvim_lsp.dockerfile.setup {
+  on_attach = on_attach
+}
 
-nvim_lsp.flow.setup {
+nvim_lsp.graphql.setup {
+  on_attach = on_attach
+}
+
+nvim_lsp.html.setup {
+  on_attach = on_attach
+}
+
+nvim_lsp.json.setup {
+  on_attach = on_attach
+}
+
+nvim_lsp.kotlin.setup {
+  on_attach = on_attach
+}
+
+nvim_lsp.lua.setup {
+  on_attach = on_attach
+}
+
+nvim_lsp.php.setup {
+  on_attach = on_attach
+}
+
+nvim_lsp.python.setup {
+  on_attach = on_attach
+}
+
+nvim_lsp.rust.setup {
+  on_attach = on_attach
+}
+
+nvim_lsp.vim.setup {
+  on_attach = on_attach
+}
+
+nvim_lsp.vue.setup {
+  on_attach = on_attach
+}
+
+nvim_lsp.yaml.setup {
+  on_attach = on_attach
+}
+
+nvim_lsp.deno.setup {
   on_attach = on_attach
 }
 
