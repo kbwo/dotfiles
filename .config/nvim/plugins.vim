@@ -4,8 +4,10 @@ call plug#begin(expand('~/.vim/plugged'))
 Plug 'thinca/vim-quickrun', {'on' : 'QuickRun'}
 " Plug 'joonty/vdebug'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+" Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline.vim'
+
 Plug 'tpope/vim-surround'
 Plug 'ervandew/supertab'
 Plug 'mattn/emmet-vim'
