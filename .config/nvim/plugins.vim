@@ -52,16 +52,16 @@ Plug 'lambdalisue/edita.vim'
 Plug 'puremourning/vimspector'
 Plug 'turbio/bracey.vim'
 Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
-" Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install()}}
-" Plug 'neoclide/coc-denite'
+Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install()}}
+Plug 'neoclide/coc-denite'
 if has('nvim')
   Plug 'phaazon/hop.nvim'
   " ===== nvim-lsp ==========
-  Plug 'neovim/nvim-lspconfig'
-  Plug 'kabouzeid/nvim-lspinstall'
-  Plug 'hrsh7th/nvim-compe'
-  Plug 'glepnir/lspsaga.nvim'
-  Plug 'mhartington/formatter.nvim'
+  " Plug 'neovim/nvim-lspconfig'
+  " Plug 'kabouzeid/nvim-lspinstall'
+  " Plug 'hrsh7th/nvim-compe'
+  " Plug 'glepnir/lspsaga.nvim'
+  " Plug 'mhartington/formatter.nvim'
   " ===== nvim-lsp ==========
 else
   Plug 'roxma/nvim-yarp'

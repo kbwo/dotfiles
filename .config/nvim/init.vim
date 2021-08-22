@@ -24,17 +24,17 @@ source ~/dotfiles/.config/nvim/plugin-config/denite.vim
 source ~/dotfiles/.config/nvim/plugin-config/gina.vim
 source ~/dotfiles/.config/nvim/plugin-config/tagalong.vim
 source ~/dotfiles/.config/nvim/plugin-config/winresizer.vim
-" source ~/dotfiles/.config/nvim/lsp/coc/coc.vim
+source ~/dotfiles/.config/nvim/lsp/coc/coc.vim
 
 if(has('nvim'))
   source ~/dotfiles/.config/nvim/plugin-config/hop.lua
   " :luafile ~/dotfiles/.config/nvim/plugin-config/treesitter.lua
-  :luafile ~/dotfiles/.config/nvim/lsp/nvim-lsp/lspinstall.lua
-  :luafile ~/dotfiles/.config/nvim/lsp/nvim-lsp/lspconfig.lua
-  :luafile ~/dotfiles/.config/nvim/lsp/nvim-lsp/compe.lua
-  :luafile ~/dotfiles/.config/nvim/lsp/nvim-lsp/lspsaga.lua
-  source ~/dotfiles/.config/nvim/lsp/nvim-lsp/lspsaga.vim
-  :luafile ~/dotfiles/.config/nvim/lsp/nvim-lsp/formatter.lua
-  source ~/dotfiles/.config/nvim/lsp/nvim-lsp/formatter.vim
-  source ~/dotfiles/.config/nvim/lsp/nvim-lsp/compe.vim
+  " :luafile ~/dotfiles/.config/nvim/lsp/nvim-lsp/lspinstall.lua
+  " :luafile ~/dotfiles/.config/nvim/lsp/nvim-lsp/lspconfig.lua
+  " :luafile ~/dotfiles/.config/nvim/lsp/nvim-lsp/compe.lua
+  " :luafile ~/dotfiles/.config/nvim/lsp/nvim-lsp/lspsaga.lua
+  " source ~/dotfiles/.config/nvim/lsp/nvim-lsp/lspsaga.vim
+  " :luafile ~/dotfiles/.config/nvim/lsp/nvim-lsp/formatter.lua
+  " source ~/dotfiles/.config/nvim/lsp/nvim-lsp/formatter.vim
+  " source ~/dotfiles/.config/nvim/lsp/nvim-lsp/compe.vim
 end
