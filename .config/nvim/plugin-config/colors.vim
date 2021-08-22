@@ -1,14 +1,5 @@
 set termguicolors
 colorscheme tokyonight
-let g:lightline = {
-      \ 'colorscheme': 'tokyonight',
-      \ 'active': {
-      \ 'left': [ ['mode', 'paste'], ['readonly', 'branchName', 'filepath', 'modified'] ]
-      \ },
-      \ 'component_function':{
-      \ 'filepath': 'FilePath',
-      \ },
-      \ }
 
 if has('nvim')
   highlight Visual guifg=#FFFFFF guibg=SlateBlue gui=none term=reverse cterm=reverse

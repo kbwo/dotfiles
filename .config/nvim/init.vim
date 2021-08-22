@@ -10,6 +10,7 @@ let g:vim_json_syntax_conceal = 0
 let g:vim_vue_plugin_load_full_syntax = 1
 
 source ~/dotfiles/.config/nvim/plugin-config/colors.vim
+source ~/dotfiles/.config/nvim/plugin-config/lightline.vim
 source ~/dotfiles/.config/nvim/plugin-config/ultisnips.vim
 source ~/dotfiles/.config/nvim/plugin-config/quickrun.vim
 source ~/dotfiles/.config/nvim/plugin-config/emmet.vim
