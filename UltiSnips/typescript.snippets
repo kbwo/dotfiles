@@ -1,3 +1,19 @@
+snippet fn "function"
+function $1() {
+}
+endsnippet
+
+snippet tp "type"
+type $1 = {
+}
+endsnippet
+
+snippet cf "const funtion"
+const $1 = ($2) => {
+	$3
+};
+endsnippet
+
 snippet rtfc "ts-react-FC"
 import React from 'react';
 
@@ -6,11 +22,7 @@ const $1: React.FC<> = () => {
 
 export default $1;
 endsnippet
-snippet cf "const funtion"
-const $1 = () => {
-};
-endsnippet
-snippet sm "sample tag"
+snippet fr "fragment"
 <>
 </>
 endsnippet
