@@ -39,6 +39,7 @@ let g:coc_global_extensions = [
       \'coc-styled-components',
       \'coc-docker',
       \'coc-metals',
+      \'coc-flow',
       \'coc-db'
       \]
 nnoremap <Leader>c  :call CocActionAsync('highlight')<CR>
