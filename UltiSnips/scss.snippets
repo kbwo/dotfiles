@@ -1,4 +1,43 @@
-snippet flexr "flex-direction:row"
+snippet fl "flex-direction:row"
 	display: flex;
-	flex-direction: row;
+	flex-flow: row;
+endsnippet
+snippet gr "grid"
+	display: grid;
+endsnippet
+snippet mb "margin-bottom"
+	margin-bottom: $1;
+endsnippet
+snippet ov "overflow"
+	overflow: $1;
+endsnippet
+snippet js "justify-content"
+	justify-content: $1
+endsnippet
+snippet ali "align-items"
+	align-items: $1
+endsnippet
+snippet ovsc "overflow scroll"
+  overflow: scroll;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+endsnippet
+snippet psab "position absolute"
+  position: absolute;
+endsnippet
+snippet psrl "position relative"
+  position: relative;
+endsnippet
+snippet psfi "position fixed"
+  position: fixed;
+endsnippet
+snippet psst "position sticky"
+  position: sticky;
+endsnippet
+snippet media "media"
+  @media ($1: $2) {
+    $3
+  }
 endsnippet

@@ -17,19 +17,50 @@ endsnippet
 snippet rtfc "ts-react-FC"
 import React from 'react';
 
-const $1: React.FC<> = () => {
+type $1 = {
+}
+
+const $2: React.FC<$1> = () => {
+  return (
+	  <>
+			$3
+		</>
+	);
 };
 
-export default $1;
+export default $2;
 endsnippet
+
+snippet imr "import React"
+import React from 'react';
+endsnippet
+
 snippet fr "fragment"
 <>
 </>
 endsnippet
-snippet ss "set state"
-const [$1, set$2] = useState();
+
+snippet ss "setState"
+const [$1, set$2] = useState($3);
 endsnippet
+
 snippet uf "useEffect"
 useEffect(() => {
+	$1
 }, []);
+endsnippet
+
+snippet rnst "RN stylesheet"
+const $1 = StyleSheet.create({
+	$2
+});
+endsnippet
+
+snippet rnfl "RN flatlist"
+<FlatList
+	data={$1}
+	keyExtractor={(_, index) => index.toString()}
+	renderItem={({item}) => (
+	)}
+/>
 endsnippet

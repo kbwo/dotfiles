@@ -55,5 +55,9 @@ nmap <silent> ccl <Plug>(coc-codeaction-line)
 let g:coc_enable_locationlist = 0
 autocmd! User CocLocationsChange Denite -smartcase -auto-action=preview coc-locations
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
+highlight CocUnusedHighlight guifg=#ad8ee6 gui=bold
+
+" hi link CocUnusedHighlight CocUnderline guifg=darkgray
+
 
 autocmd CursorHold * silent call CocActionAsync('highlight')
