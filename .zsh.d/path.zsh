@@ -57,26 +57,26 @@ export PATH=$PATH:$PYENV_ROOT/bin
 export PATH=$PATH:$DENO_INSTALL/bin
 export VOLTA_HOME=$HOME/.volta
 export PATH=$PATH:$VOLTA_HOME/bin
+
+if [ -d "$HOME/google-cloud-sdk" ];then
+		source "$HOME/google-cloud-sdk/path.zsh.inc"
+		source "$HOME/google-cloud-sdk/completion.zsh.inc"
+fi
 #
-# if [ -d "$HOME/google-cloud-sdk" ];then
-# 		source "$HOME/google-cloud-sdk/path.zsh.inc"
-# 		source "$HOME/google-cloud-sdk/completion.zsh.inc"
-# fi
-# #
-# case "$(uname -s)" in
-#
-#     Darwin)
-#         export ANDROID_HOME=$HOME/Library/Android/sdk
-#         export JAVA_HOME=/Applications/Android\ Studio.app/Contents/jre/jdk/Contents/Home
-#         ;;
-#
-#     Linux)
-#         export ANDROID_HOME=$HOME/Android/sdk
-#         ;;
-#
-#     CYGWIN*|MINGW32*|MSYS*|MINGW*)
-#         ;;
-#
-#    *)
-#    ;;
-# esac
+case "$(uname -s)" in
+
+    Darwin)
+        export ANDROID_HOME=$HOME/Library/Android/sdk
+        export JAVA_HOME=/Applications/Android\ Studio.app/Contents/jre/jdk/Contents/Home
+        ;;
+
+    Linux)
+        export ANDROID_HOME=$HOME/Android/sdk
+        ;;
+
+    CYGWIN*|MINGW32*|MSYS*|MINGW*)
+        ;;
+
+   *)
+   ;;
+esac
