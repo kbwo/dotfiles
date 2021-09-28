@@ -54,6 +54,16 @@ nmap <silent> gr <Plug>(coc-references)
 nmap <silent> ccn <Plug>(coc-rename)
 nmap <silent> cca <Plug>(coc-codeaction)
 nmap <silent> ccl <Plug>(coc-codeaction-line)
+nmap <silent> csd :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
 let g:coc_enable_locationlist = 0
 autocmd! User CocLocationsChange Denite -smartcase -auto-action=preview coc-locations
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
