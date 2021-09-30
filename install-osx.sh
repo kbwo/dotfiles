@@ -8,7 +8,6 @@ xcode-select --install
 brew install zsh
 brew install fish
 brew install tmux
-curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher
 brew install exa
 brew install ghq
 brew install fzf

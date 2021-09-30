@@ -44,6 +44,18 @@ snippet ss "setState"
 const [$1, set$2] = useState($3);
 endsnippet
 
+snippet uc "useCallback"
+useCallback(() => {
+	$1
+}, []);
+endsnippet
+
+snippet um "useMemo"
+useMemo(() => {
+	$1
+}, []);
+endsnippet
+
 snippet uf "useEffect"
 useEffect(() => {
 	$1
