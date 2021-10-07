@@ -47,6 +47,7 @@ nnoremap <Leader>c  :call CocActionAsync('highlight')<CR>
 nmap <silent> <C-d> <Plug>(coc-definition)
 nmap <silent> <Leader>v<C-d> :call CocAction('jumpDefinition', 'vsplit')<CR>
 nmap <silent> <C-l> <Plug>(coc-diagnostic-next)
+nmap <silent> <C-h> <Plug>(coc-diagnostic-prev)
 nmap <Leader>ic <Plug>(coc-diagnostic-info)
 nmap <Leader>iw  :CocDiagnostics<CR>
 nmap <Leader>is  :CocList outline<CR>
