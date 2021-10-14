@@ -20,6 +20,14 @@
   "coc.preferences.colorSupport": true,
   "coc.source.file.ignoreHidden": true,
   "deno.enable": false,
+  "html-css-support.enabledLanguages": [
+        "html",
+        "vue",
+        "blade",
+        "htmldjango",
+        "typescriptreact",
+        "javascriptreact"
+    ],
   "languageserver": {
     "kotlin": {
       "command": "~/kotlin-language-server/server/build/install/server/bin/kotlin-language-server",

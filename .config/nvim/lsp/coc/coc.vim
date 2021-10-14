@@ -1,4 +1,6 @@
 let g:coc_global_extensions = [
+      \'coc-angular',
+      \'@yaegassy/coc-ansible',
       \'coc-json',
       \'coc-flutter',
       \'coc-tsserver',
@@ -41,6 +43,11 @@ let g:coc_global_extensions = [
       \'coc-metals',
       \'coc-flow',
       \'coc-snippets',
+      \'coc-just-complete',
+      \'coc-dash-complete',
+      \'coc-dot-complete',
+      \'coc-html-css-support',
+      \'coc-html-css-support',
       \'coc-db'
       \]
 nnoremap <Leader>c  :call CocActionAsync('highlight')<CR>
