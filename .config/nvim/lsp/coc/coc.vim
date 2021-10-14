@@ -41,7 +41,6 @@ let g:coc_global_extensions = [
       \'coc-metals',
       \'coc-flow',
       \'coc-snippets',
-      \'coc-spell-checker',
       \'coc-db'
       \]
 nnoremap <Leader>c  :call CocActionAsync('highlight')<CR>
@@ -57,6 +56,8 @@ nmap <silent> ccn <Plug>(coc-rename)
 nmap <silent> cca <Plug>(coc-codeaction)
 nmap <silent> ccl <Plug>(coc-codeaction-line)
 nmap <silent> csd :call <SID>show_documentation()<CR>
+vmap <silent><leader>sc <Plug>(coc-codeaction-selected)
+nmap <silent><leader>sc <Plug>(coc-codeaction-selected)
 
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
