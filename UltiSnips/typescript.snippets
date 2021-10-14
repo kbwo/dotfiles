@@ -31,6 +31,10 @@ const $2: React.FC<$1> = () => {
 export default $2;
 endsnippet
 
+snippet imp "import from"
+import $1 from $2;
+endsnippet
+
 snippet imr "import React"
 import React from 'react';
 endsnippet
@@ -42,6 +46,18 @@ endsnippet
 
 snippet ss "setState"
 const [$1, set$2] = useState($3);
+endsnippet
+
+snippet uc "useCallback"
+useCallback(() => {
+	$1
+}, []);
+endsnippet
+
+snippet um "useMemo"
+useMemo(() => {
+	$1
+}, []);
 endsnippet
 
 snippet uf "useEffect"
@@ -63,4 +79,8 @@ snippet rnfl "RN flatlist"
 	renderItem={({item}) => (
 	)}
 />
+endsnippet
+
+snippet cln "className="
+className=
 endsnippet
