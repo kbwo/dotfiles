@@ -16,7 +16,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 zinit load agkozak/zsh-z
-# compinit -d $ZDOTDIR/compdump
+compinit -d $ZDOTDIR/compdump -C
 zinit load zdharma/history-search-multi-word
 zinit load migutw42/zsh-fzf-ghq
 zinit light zdharma/fast-syntax-highlighting
