@@ -1,4 +1,90 @@
-snippet flexr "flex-direction:row"
-	display: flex;
-	flex-direction: row;
+snippet fl "flex-direction:row"
+display: flex;
+flex-flow: row;
+endsnippet
+
+snippet gr "grid"
+display: grid;
+endsnippet
+
+snippet pd "padding"
+padding: $1;
+endsnippet
+
+snippet pr "padding-right"
+padding-right: $1;
+endsnippet
+
+snippet pl "padding-left"
+padding-left: $1;
+endsnippet
+
+snippet pt "padding-top"
+padding-top: $1;
+endsnippet
+
+snippet pb "padding-bottom"
+padding-bottom: $1;
+endsnippet
+
+snippet mg "margin"
+margin: $1;
+endsnippet
+
+snippet mr "margin-right"
+margin-right: $1;
+endsnippet
+
+snippet ml "margin-left"
+margin-left: $1;
+endsnippet
+
+snippet mt "margin-top"
+margin-top: $1;
+endsnippet
+
+snippet mb "margin-bottom"
+margin-bottom: $1;
+endsnippet
+
+snippet ov "overflow"
+overflow: $1;
+endsnippet
+
+snippet js "justify-content"
+justify-content: $1
+endsnippet
+
+snippet ali "align-items"
+align-items: $1
+endsnippet
+
+snippet ovsc "overflow scroll"
+overflow: scroll;
+-ms-overflow-style: none;
+&::-webkit-scrollbar {
+	display: none;
+}
+endsnippet
+
+snippet psab "position absolute"
+position: absolute;
+endsnippet
+
+snippet psrl "position relative"
+position: relative;
+endsnippet
+
+snippet psfi "position fixed"
+position: fixed;
+endsnippet
+
+snippet psst "position sticky"
+position: sticky;
+endsnippet
+
+snippet media "media"
+@media ($1: $2) {
+	$3
+}
 endsnippet
