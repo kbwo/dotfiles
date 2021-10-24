@@ -65,6 +65,8 @@ nmap <silent> ccl <Plug>(coc-codeaction-line)
 nmap <silent> csd :call <SID>show_documentation()<CR>
 vmap <silent><leader>sc <Plug>(coc-codeaction-selected)
 nmap <silent><leader>sc <Plug>(coc-codeaction-selected)
+nmap <silent>csb :Denite coc-symbols<CR>
+nmap <silent>ccr :CocRestart<CR>
 
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
