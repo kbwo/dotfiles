@@ -36,7 +36,7 @@ Plug 'ivanov/vim-ipython'
 Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'hrsh7th/vim-gitto'
 Plug 'hrsh7th/vim-denite-gitto'
-Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary'}
+Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary', 'commit': 'c7e013cb273597e37eb65b481cbeb7d1b92b01b7'}
 Plug 'posva/vim-vue'
 Plug 'leafOfTree/vim-vue-plugin'
 Plug 'simeji/winresizer'
