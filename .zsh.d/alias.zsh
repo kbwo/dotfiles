@@ -1,5 +1,5 @@
 alias tod='cd ~/dotfiles'
-alias kbwo='cd ~/ghq/github.com/kbwo'
+alias kbwo='cd $GHQ_ROOT/github.com/kbwo'
 alias ex='exit'
 alias :q='exit'
 alias so='source'
