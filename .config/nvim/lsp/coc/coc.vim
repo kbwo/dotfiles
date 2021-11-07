@@ -8,7 +8,6 @@ let g:coc_global_extensions = [
       \'coc-git',
       \'coc-highlight',
       \'coc-java',
-      \'coc-markdownlint',
       \'coc-phpls',
       \'coc-python',
       \'coc-rust-analyzer',
@@ -53,6 +52,8 @@ let g:coc_global_extensions = [
 nnoremap <Leader>c  :call CocActionAsync('highlight')<CR>
 nmap <silent> <C-d> <Plug>(coc-definition)
 nmap <silent> <Leader>v<C-d> :call CocAction('jumpDefinition', 'vsplit')<CR>
+nmap <silent> <Leader>s<C-d> :call CocAction('jumpDefinition', 'split')<CR>
+nmap <silent> <Leader>t<C-d> :call CocAction('jumpDefinition', 'tabe')<CR>
 nmap <silent> <C-l> <Plug>(coc-diagnostic-next)
 nmap <silent> <C-h> <Plug>(coc-diagnostic-prev)
 nmap <Leader>ic <Plug>(coc-diagnostic-info)
