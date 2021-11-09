@@ -19,7 +19,6 @@ Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'editorconfig/editorconfig-vim'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 
-Plug 'ghifarit53/tokyonight-vim'
 Plug 'thosakwe/vim-flutter'
 Plug 'godlygeek/tabular'
 Plug 'previm/previm'
@@ -45,7 +44,7 @@ Plug 'junegunn/vader.vim'
 Plug 'AndrewRadev/tagalong.vim'
 Plug 'vim-denops/denops.vim'
 Plug 'elzr/vim-json'
-Plug 'sheerun/vim-polyglot'
+" Plug 'sheerun/vim-polyglot'
 Plug 'lambdalisue/gina.vim'
 Plug 'pantharshit00/vim-prisma'
 Plug 'lambdalisue/edita.vim'
@@ -56,6 +55,9 @@ Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install()}}
 Plug 'neoclide/coc-denite'
 if has('nvim')
   Plug 'phaazon/hop.nvim'
+  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+  Plug 'sainnhe/edge'
+
   " ===== nvim-lsp ==========
   " Plug 'neovim/nvim-lspconfig'
   " Plug 'kabouzeid/nvim-lspinstall'
@@ -65,6 +67,7 @@ if has('nvim')
   " ===== nvim-lsp ==========
 else
   Plug 'roxma/nvim-yarp'
+  Plug 'ghifarit53/tokyonight-vim'
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
 
