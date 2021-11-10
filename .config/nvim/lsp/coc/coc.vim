@@ -80,7 +80,7 @@ endfunction
 let g:coc_enable_locationlist = 0
 autocmd! User CocLocationsChange Denite -smartcase -auto-action=preview coc-locations
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
-highlight CocUnusedHighlight guifg=#ad8ee6 gui=bold
+" highlight CocUnusedHighlight guifg=#ad8ee6 gui=bold
 
 " hi link CocUnusedHighlight CocUnderline guifg=darkgray
 
