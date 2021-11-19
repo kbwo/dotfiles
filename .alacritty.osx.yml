@@ -85,7 +85,7 @@ schemes:
   
     normal:
       black: "0x363a4e"
-      red: "0xec7279"
+      red: "0xf7768e"
       green: "0xa0c980"
       yellow: "0xdeb974"
       blue: "0x6cb6eb"
@@ -94,7 +94,7 @@ schemes:
       white: "0xc5cdd9"
   
     bright:
-      black: "0x363a4e"
+      black: "0x8a8a8a"
       red: "0xec7279"
       green: "0xa0c980"
       yellow: "0xdeb974"
@@ -119,7 +119,7 @@ key_bindings:
   - { key: Slash, mods: Control, chars: "\x1f" }
 alt_send_esc: false
 
-background_opacity: 0.9
+background_opacity: 0.87
 window:
   padding:
     y: 2
