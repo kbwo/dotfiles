@@ -28,7 +28,6 @@ function! s:edge_custom() abort
   call edge#highlight('htmlH2', ['#F7768E',   '203'], l:palette.none, 'bold')
   call edge#highlight('helpHyperTextEntry', ['#F7768E',   '203'], l:palette.none, 'bold')
   call edge#highlight('DiffDelete', l:palette.none, ['#803d49',   '52'])
-  call edge#highlight('ErrorLine', l:palette.none, ['#803d49',   '52'])
 
 endfunction
 
