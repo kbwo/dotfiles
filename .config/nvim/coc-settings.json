@@ -21,19 +21,30 @@
   "coc.source.file.ignoreHidden": true,
   "deno.enable": false,
   "html-css-support.enabledLanguages": [
-        "html",
-        "vue",
-        "blade",
-        "htmldjango",
-        "typescriptreact",
-        "javascriptreact"
-    ],
+    "html",
+    "vue",
+    "blade",
+    "htmldjango",
+    "typescriptreact",
+    "javascriptreact"
+  ],
   "languageserver": {
     "kotlin": {
       "command": "~/kotlin-language-server/server/build/install/server/bin/kotlin-language-server",
       "filetypes": [
         "kotlin"
       ]
+    },
+    "sql": {
+      "command": "sqls",
+      "args": [
+        "-config",
+        "$HOME/.config/sqls/config.yml"
+      ],
+      "filetypes": [
+        "sql"
+      ],
+      "shell": true
     }
   }
 }
