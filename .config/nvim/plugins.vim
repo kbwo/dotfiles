@@ -32,10 +32,11 @@ Plug 'lambdalisue/guise.vim'
 Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install()}}
 Plug 'neoclide/coc-denite'
+Plug 'sainnhe/edge'
+Plug 'machakann/vim-sandwich'
 if has('nvim')
   Plug 'phaazon/hop.nvim'
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-  Plug 'sainnhe/edge'
 
   " ===== nvim-lsp ==========
   " Plug 'neovim/nvim-lspconfig'
