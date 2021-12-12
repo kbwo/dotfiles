@@ -5,6 +5,7 @@
     "javascript",
     "typescript",
     "typescriptreact",
+    "rust",
     "json",
     "jsonc",
     "html",
@@ -20,6 +21,7 @@
   "coc.preferences.colorSupport": true,
   "coc.source.file.ignoreHidden": true,
   "deno.enable": false,
+  "flutter.lsp.initialization.closingLabels": true,
   "html-css-support.enabledLanguages": [
     "html",
     "vue",
