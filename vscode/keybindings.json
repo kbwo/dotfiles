@@ -107,11 +107,6 @@
         "when": "textInputFocus"
     },
     {
-        "key": "ctrl+h",
-        "command": "-extension.vim_ctrl+h",
-        "when": "editorTextFocus && vim.active && vim.use<C-h> && !inDebugRepl"
-    },
-    {
         "key": "shift+f8",
         "command": "-editor.action.marker.prevInFiles",
         "when": "editorFocus"
@@ -129,11 +124,6 @@
     {
         "key": "alt+f8",
         "command": "-editor.action.marker.next",
-        "when": "editorFocus"
-    },
-    {
-        "key": "ctrl+h",
-        "command": "editor.action.marker.prev",
         "when": "editorFocus"
     },
     {
