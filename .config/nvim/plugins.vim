@@ -26,6 +26,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install()}}
 Plug 'neoclide/coc-denite'
 Plug 'sainnhe/edge'
 Plug 'machakann/vim-sandwich'
+Plug 'kbwo/http-tsx-source-jump.vim'
 if has('nvim')
   Plug 'phaazon/hop.nvim'
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}

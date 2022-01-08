@@ -31,10 +31,13 @@
     "javascriptreact"
   ],
   "languageserver": {
-    "kotlin": {
-      "command": "~/kotlin-language-server/server/build/install/server/bin/kotlin-language-server",
+    "elmLS": {
+      "command": "elm-language-server",
       "filetypes": [
-        "kotlin"
+        "elm"
+      ],
+      "rootPatterns": [
+        "elm.json"
       ]
     },
     "sql": {
@@ -48,5 +51,6 @@
       ],
       "shell": true
     }
-  }
+  },
+  "codeLens.enable": true
 }
