@@ -12,6 +12,7 @@
     "css",
     "scss",
     "prisma",
+    "elm",
     "dart"
   ],
   "cssmodules.hintName": "cssmodules",
@@ -31,14 +32,29 @@
     "javascriptreact"
   ],
   "languageserver": {
+    "kotlin": {
+      "command": "~/lsp/kotlin/server/bin/kotlin-language-server",
+      "filetypes": [
+        "kotlin"
+      ]
+    },
     "elmLS": {
       "command": "elm-language-server",
+      "args": [
+        "--stdio"
+      ],
       "filetypes": [
         "elm"
       ],
       "rootPatterns": [
         "elm.json"
-      ]
+      ],
+      "initializationOptions": {
+        "elmPath": "./node_modules/.bin/elm",
+        "elmFormatPath": "elm-format",
+        "elmTestPath": "elm-test",
+        "diagnosticsOnSaveOnly": true
+      }
     },
     "sql": {
       "command": "sqls",
@@ -52,5 +68,5 @@
       "shell": true
     }
   },
-  "codeLens.enable": true
+  "rust-analyzer.procMacro.enable": true
 }
