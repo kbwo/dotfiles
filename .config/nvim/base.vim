@@ -93,3 +93,4 @@ autocmd FileType * setlocal formatoptions-=ro
 
 set completeopt=menuone,noinsert,noselect,preview
 set shortmess+=c
+set nonumber
