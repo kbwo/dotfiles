@@ -46,6 +46,8 @@ let g:coc_global_extensions = [
       \'coc-dash-complete',
       \'coc-dot-complete',
       \'coc-html-css-support',
+      \'coc-tabnine',
+      \'@yaegassy/coc-volar',
       \'coc-db'
       \]
 nnoremap <Leader>c  :call CocActionAsync('highlight')<CR>
