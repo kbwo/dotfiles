@@ -1,4 +1,3 @@
-disable -p '#'
 set -o vi
 
 autoload -Uz select-word-style
