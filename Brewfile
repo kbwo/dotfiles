@@ -10,4 +10,5 @@ brew 'neovim'
 brew 'alacritty'
 brew 'node'
 tap 'sanemat/font'
-brew ricty
+brew 'ricty'
+brew 'git-secrets'
