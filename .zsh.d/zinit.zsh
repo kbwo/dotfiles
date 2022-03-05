@@ -11,14 +11,19 @@ source "$HOME/.zinit/bin/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+#   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+# fi
+# .zshrc
 
 autoload -Uz compinit
 compinit
 ZDOTDIR="${HOME}/dotfiles/.zsh.d"
-zinit ice depth=1; zinit light romkatv/powerlevel10k
+# zinit ice depth=1; zinit light romkatv/powerlevel10k
+zinit light sindresorhus/pure
+# autoload -U promptinit
+# promptinit
+# prompt pure
 zinit wait lucid light-mode as'null' \
     atinit'. "$ZDOTDIR/zinit/plugins.zsh"' \
     for 'zdharma-continuum/null'
