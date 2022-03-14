@@ -67,6 +67,5 @@
       ],
       "shell": true
     }
-  },
-  "rust-analyzer.procMacro.enable": true
+  }
 }
