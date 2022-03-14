@@ -2,7 +2,7 @@ call denite#custom#alias('source', 'file/rec/git', 'file/rec')
 call denite#custom#var('file/rec/git', 'command',
       \ ['rg', '--files', '--hidden', '--glob', '!.git', '--color', 'never'])
 call denite#custom#var('file/rec', 'command',
-      \ ['rg', '--files', '--hidden','--no-ignore', '--glob', '!.git', '--color', 'never'])
+      \ ['rg', '--files', '--hidden','--no-ignore', '--color', 'never'])
 call denite#custom#var('grep', {
       \ 'command': ['rg', '--threads', '1'],
       \ 'recursive_opts': [],

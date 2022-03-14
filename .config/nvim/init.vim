@@ -14,11 +14,12 @@ source ~/dotfiles/.config/nvim/plugin-config/defx.vim
 source ~/dotfiles/.config/nvim/plugin-config/memo.vim
 source ~/dotfiles/.config/nvim/plugin-config/tcomment.vim
 source ~/dotfiles/.config/nvim/plugin-config/eskk.vim
-source ~/dotfiles/.config/nvim/plugin-config/denite.vim
+" source ~/dotfiles/.config/nvim/plugin-config/denite.vim
 source ~/dotfiles/.config/nvim/plugin-config/gina.vim
 source ~/dotfiles/.config/nvim/plugin-config/tagalong.vim
 source ~/dotfiles/.config/nvim/plugin-config/winresizer.vim
 source ~/dotfiles/.config/nvim/plugin-config/sandwich.vim
+source ~/dotfiles/.config/nvim/plugin-config/ddu.vim
 source ~/dotfiles/.config/nvim/lsp/coc/coc.vim
 
 if(has('nvim'))
