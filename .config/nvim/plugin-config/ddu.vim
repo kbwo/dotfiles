@@ -49,10 +49,10 @@ function! s:ddu_filter_my_settings() abort
   \ <Cmd>close<CR>
 endfunction
 
-nmap <c-p> :call ddu#start({})<CR>
-nmap <Leader>r :call RgFindIgnore()<CR>
-nmap <Leader><c-r> :call RgFindNoIgnore()<CR>
-nmap <Leader>p :call ddu#start({
+nmap <silent><c-p> :call ddu#start({})<CR>
+nmap <silent><Leader>r :call RgFindIgnore()<CR>
+nmap <silent><Leader><c-r> :call RgFindNoIgnore()<CR>
+nmap <silent><Leader>p :call ddu#start({
   \  'ui': 'ff',
   \  'sources': [
     \  {'name': 'file_external', 
