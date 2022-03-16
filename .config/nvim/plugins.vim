@@ -15,7 +15,7 @@ Plug 'glidenote/memolist.vim'
 Plug 'tyru/eskk.vim'
 Plug 'tyru/open-browser.vim'
 " Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!', 'commit': '582ced5e7b75d68418ae893b346aac3123b9a31e'}
+" Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!', 'commit': '582ced5e7b75d68418ae893b346aac3123b9a31e'}
 Plug 'simeji/winresizer'
 Plug 'AndrewRadev/tagalong.vim'
 Plug 'vim-denops/denops.vim'
