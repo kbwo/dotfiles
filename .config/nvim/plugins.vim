@@ -1,39 +1,40 @@
 " plugin
 call plug#begin(expand('~/.vim/plugged'))
-" for debug
-Plug 'thinca/vim-quickrun', {'on' : 'QuickRun'}
 Plug 'itchyny/lightline.vim'
-
 Plug 'tpope/vim-surround'
 Plug 'ervandew/supertab'
 Plug 'mattn/emmet-vim'
 Plug 'SirVer/ultisnips'
 Plug 'tomtom/tcomment_vim'
-Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'previm/previm'
 Plug  'Raimondi/delimitMate'
-Plug 'jparise/vim-graphql'
 Plug 'tpope/vim-dadbod'
 Plug 'kristijanhusak/vim-dadbod-ui'
-Plug 'junegunn/gv.vim'
 Plug 'glidenote/memolist.vim'
 Plug 'tyru/eskk.vim'
-Plug 'Yggdroot/indentLine'
 Plug 'tyru/open-browser.vim'
-Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!', 'commit': '582ced5e7b75d68418ae893b346aac3123b9a31e'}
+" Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!', 'commit': '582ced5e7b75d68418ae893b346aac3123b9a31e'}
 Plug 'simeji/winresizer'
-Plug 'junegunn/vader.vim'
 Plug 'AndrewRadev/tagalong.vim'
 Plug 'vim-denops/denops.vim'
 Plug 'lambdalisue/gina.vim'
 Plug 'lambdalisue/guise.vim'
 Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install()}}
-Plug 'neoclide/coc-denite'
+" Plug 'neoclide/coc-denite'
 Plug 'sainnhe/edge'
 Plug 'machakann/vim-sandwich'
+" Plug 'kbwo/http-tsx-source-jump.vim'
+Plug 'kbwo/ddu-source-coc-locations'
+Plug 'Shougo/ddu.vim'
+Plug 'Shougo/ddu-ui-ff'
+Plug 'Shougo/ddu-source-file_rec'
+Plug 'Shougo/ddu-filter-matcher_substring'
+Plug 'Shougo/ddu-kind-file'
+Plug 'shun/ddu-source-rg'
+Plug 'matsui54/ddu-source-file_external'
 if has('nvim')
   Plug 'phaazon/hop.nvim'
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}

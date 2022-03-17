@@ -17,6 +17,8 @@ let g:eskk#dictionary = {
       \}
 
 autocmd User eskk-initialize-pre call s:eskk_initial_pre()
+autocmd User eskk-enable-pre  let b:coc_suggest_disable = 1
+autocmd User eskk-disable-post  let b:coc_suggest_disable = 0
 function! s:eskk_initial_pre()
   let t = eskk#table#new('rom_to_hira*', 'rom_to_hira')
   call t.add_map('pc', '・')

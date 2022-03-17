@@ -11,19 +11,8 @@ source "$HOME/.zinit/bin/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
-zinit load agkozak/zsh-z
-# compinit -d $ZDOTDIR/compdump
-autoload -Uz compinit
-compinit
-zinit load zdharma-continuum/history-search-multi-word
-zinit load migutw42/zsh-fzf-ghq
-zinit light zdharma-continuum/fast-syntax-highlighting
-zinit light zsh-users/zsh-completions
-zinit light zsh-users/zsh-autosuggestions
-zinit ice depth=1; zinit light romkatv/powerlevel10k
-zinit ice proto'git' pick'init.sh'
-bindkey '^j' autosuggest-accept
+ZDOTDIR="${HOME}/dotfiles/.zsh.d"
+zinit light sindresorhus/pure
+zinit wait lucid light-mode as'null' \
+    atinit'. "$ZDOTDIR/zinit/plugins.zsh"' \
+    for 'zdharma-continuum/null'

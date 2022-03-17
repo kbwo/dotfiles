@@ -46,7 +46,9 @@ let g:coc_global_extensions = [
       \'coc-dash-complete',
       \'coc-dot-complete',
       \'coc-html-css-support',
-      \'coc-html-css-support',
+      \'coc-tabnine',
+      \'@yaegassy/coc-volar',
+      \'coc-conjure',
       \'coc-db'
       \]
 nnoremap <Leader>c  :call CocActionAsync('highlight')<CR>
@@ -78,7 +80,6 @@ function! s:show_documentation()
 endfunction
 
 let g:coc_enable_locationlist = 0
-autocmd! User CocLocationsChange Denite -smartcase -auto-action=preview coc-locations
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
 nnoremap <nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"

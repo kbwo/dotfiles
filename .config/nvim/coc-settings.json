@@ -5,12 +5,14 @@
     "javascript",
     "typescript",
     "typescriptreact",
+    "rust",
     "json",
     "jsonc",
     "html",
     "css",
     "scss",
     "prisma",
+    "elm",
     "dart"
   ],
   "cssmodules.hintName": "cssmodules",
@@ -20,6 +22,7 @@
   "coc.preferences.colorSupport": true,
   "coc.source.file.ignoreHidden": true,
   "deno.enable": false,
+  "flutter.lsp.initialization.closingLabels": true,
   "html-css-support.enabledLanguages": [
     "html",
     "vue",
@@ -30,10 +33,28 @@
   ],
   "languageserver": {
     "kotlin": {
-      "command": "~/kotlin-language-server/server/build/install/server/bin/kotlin-language-server",
+      "command": "~/lsp/kotlin/server/bin/kotlin-language-server",
       "filetypes": [
         "kotlin"
       ]
+    },
+    "elmLS": {
+      "command": "elm-language-server",
+      "args": [
+        "--stdio"
+      ],
+      "filetypes": [
+        "elm"
+      ],
+      "rootPatterns": [
+        "elm.json"
+      ],
+      "initializationOptions": {
+        "elmPath": "./node_modules/.bin/elm",
+        "elmFormatPath": "elm-format",
+        "elmTestPath": "elm-test",
+        "diagnosticsOnSaveOnly": true
+      }
     },
     "sql": {
       "command": "sqls",

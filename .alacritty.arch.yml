@@ -81,6 +81,7 @@ font:
 key_bindings:
   - { key: Q, mods: Control, chars: "\x11" }
   - { key: Slash, mods: Control, chars: "\x1f" }
+  - { key: Substract, mods: Control, action: None }
 colors: *tokyo-night
 
 background_opacity: 0.9

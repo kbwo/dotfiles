@@ -1,13 +1,7 @@
 source ~/dotfiles/.config/nvim/base.vim
 
-" this setting must write before polyglot is loaded
-let g:polyglot_disabled = ['markdown']
-
 source ~/dotfiles/.config/nvim/installer.vim
 source ~/dotfiles/.config/nvim/plugins.vim
-
-let g:vim_json_syntax_conceal = 0
-let g:vim_vue_plugin_load_full_syntax = 1
 
 source ~/dotfiles/.config/nvim/plugin-config/colors.vim
 source ~/dotfiles/.config/nvim/plugin-config/lightline.vim
@@ -20,11 +14,12 @@ source ~/dotfiles/.config/nvim/plugin-config/defx.vim
 source ~/dotfiles/.config/nvim/plugin-config/memo.vim
 source ~/dotfiles/.config/nvim/plugin-config/tcomment.vim
 source ~/dotfiles/.config/nvim/plugin-config/eskk.vim
-source ~/dotfiles/.config/nvim/plugin-config/denite.vim
+" source ~/dotfiles/.config/nvim/plugin-config/denite.vim
 source ~/dotfiles/.config/nvim/plugin-config/gina.vim
 source ~/dotfiles/.config/nvim/plugin-config/tagalong.vim
 source ~/dotfiles/.config/nvim/plugin-config/winresizer.vim
 source ~/dotfiles/.config/nvim/plugin-config/sandwich.vim
+source ~/dotfiles/.config/nvim/plugin-config/ddu.vim
 source ~/dotfiles/.config/nvim/lsp/coc/coc.vim
 
 if(has('nvim'))
@@ -39,3 +34,5 @@ if(has('nvim'))
   " source ~/dotfiles/.config/nvim/lsp/nvim-lsp/formatter.vim
   " source ~/dotfiles/.config/nvim/lsp/nvim-lsp/compe.vim
 end
+" let g:vim_json_syntax_conceal = 0
+

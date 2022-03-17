@@ -58,6 +58,7 @@ export PATH=$PATH:$PYENV_ROOT/bin
 export PATH=$PATH:$DENO_INSTALL/bin
 export VOLTA_HOME=$HOME/.volta
 export PATH=$PATH:$VOLTA_HOME/bin
+unset _VOLTA_TOOL_RECURSION
 
 if [ -d "$HOME/google-cloud-sdk" ];then
 		source "$HOME/google-cloud-sdk/path.zsh.inc"
