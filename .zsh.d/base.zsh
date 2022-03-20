@@ -2,7 +2,7 @@ set -o vi
 
 autoload -Uz select-word-style
 # enable auto completion
-# autoload -Uz compinit && compinit
+autoload -Uz compinit && compinit
 _comp_options+=(globdots)
 autoload -Uz vcs_info
 autoload -Uz add-zsh-hook
