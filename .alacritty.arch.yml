@@ -59,7 +59,7 @@ schemes:
       white:   '0xacb0d0'
 font:
   # The size to use.
-  size: 7
+  size: 5.5
   # The normal (roman) font face to use.
   normal:
     family: Ricty
@@ -81,7 +81,8 @@ font:
 key_bindings:
   - { key: Q, mods: Control, chars: "\x11" }
   - { key: Slash, mods: Control, chars: "\x1f" }
-  - { key: Substract, mods: Control, action: None }
+  - { key: NumpadSubtract, mods: Control, action: None }
 colors: *tokyo-night
 
-background_opacity: 0.9
+window:
+  opacity: 0.9
