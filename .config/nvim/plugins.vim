@@ -34,6 +34,7 @@ Plug 'Shougo/ddu-source-file_rec'
 Plug 'Shougo/ddu-filter-matcher_substring'
 Plug 'Shougo/ddu-kind-file'
 Plug 'shun/ddu-source-rg'
+Plug 'yuki-yano/ddu-filter-fzf'
 Plug 'matsui54/ddu-source-file_external'
 if has('nvim')
   Plug 'phaazon/hop.nvim'

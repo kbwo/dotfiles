@@ -10,7 +10,7 @@ call ddu#custom#patch_global({
   \  ],
   \   'sourceOptions': {
   \     '_': {
-  \       'matchers': ['matcher_substring'],
+  \       'matchers': ['matcher_fzf'],
   \     },
   \   },
   \   'kindOptions': {
@@ -64,7 +64,7 @@ nmap <silent><Leader>p :call ddu#start({
   \  ],
   \   'sourceOptions': {
   \     '_': {
-  \       'matchers': ['matcher_substring'],
+  \       'matchers': ['matcher_fzf'],
   \     },
   \   },
   \   'kindOptions': {
@@ -76,12 +76,12 @@ nmap <silent><Leader>p :call ddu#start({
 
 function! RgFindIgnore() abort
   let word = input("search word: ")
-  call ddu#start({'sources': [{'name': 'rg', 'params': {'input': word}}]})
+  call ddu#start({'sources': [{'name': 'rg', 'params': {'input': word, 'args': ['--smart-case']}}]})
 endfunction
 
 function! RgFindNoIgnore() abort
   let word = input("search word: ")
-  call ddu#start({'sources': [{'name': 'rg', 'params': {'input': word, 'args': ['--no-ignore']}}]})
+  call ddu#start({'sources': [{'name': 'rg', 'params': {'input': word, 'args': ['--smart-case', '--no-ignore']}}]})
 endfunction
 
 autocmd! User CocLocationsChange call ddu#start({
@@ -89,7 +89,7 @@ autocmd! User CocLocationsChange call ddu#start({
     \   'sources': [{'name': 'coc-locations', 'params': {}}],
     \   'sourceOptions': {
     \     '_': {
-    \       'matchers': ['matcher_substring'],
+    \       'matchers': ['matcher_fzf'],
     \     },
     \   },
     \   'kindOptions': {
