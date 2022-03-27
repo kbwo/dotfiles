@@ -7,7 +7,6 @@ Plug 'mattn/emmet-vim'
 Plug 'SirVer/ultisnips'
 Plug 'tomtom/tcomment_vim'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
-Plug 'previm/previm'
 Plug  'Raimondi/delimitMate'
 Plug 'tpope/vim-dadbod'
 Plug 'kristijanhusak/vim-dadbod-ui'
@@ -36,9 +35,15 @@ Plug 'Shougo/ddu-kind-file'
 Plug 'shun/ddu-source-rg'
 Plug 'yuki-yano/ddu-filter-fzf'
 Plug 'matsui54/ddu-source-file_external'
+Plug 'dhruvasagar/vim-table-mode', { 'for': ['markdown']}
 if has('nvim')
   Plug 'phaazon/hop.nvim'
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+  if executable("yarn")
+    Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+  else
+    Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+  endif
 
   " ===== nvim-lsp ==========
   " Plug 'neovim/nvim-lspconfig'
