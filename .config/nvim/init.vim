@@ -20,7 +20,6 @@ source ~/dotfiles/.config/nvim/plugin-config/tagalong.vim
 source ~/dotfiles/.config/nvim/plugin-config/winresizer.vim
 source ~/dotfiles/.config/nvim/plugin-config/sandwich.vim
 source ~/dotfiles/.config/nvim/plugin-config/ddu.vim
-source ~/dotfiles/.config/nvim/plugin-config/previm.vim
 source ~/dotfiles/.config/nvim/lsp/coc/coc.vim
 
 if(has('nvim'))
