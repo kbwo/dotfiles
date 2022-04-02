@@ -40,7 +40,6 @@ let g:coc_global_extensions = [
       \'coc-styled-components',
       \'coc-docker',
       \'coc-metals',
-      \'coc-flow',
       \'coc-snippets',
       \'coc-just-complete',
       \'coc-dash-complete',
