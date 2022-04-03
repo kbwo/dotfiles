@@ -30,7 +30,6 @@ let g:coc_global_extensions = [
       \'coc-sourcekit',
       \'coc-tailwindcss',
       \'coc-cssmodules',
-      \'coc-vetur',
       \'coc-clangd',
       \'coc-deno',
       \'coc-emmet',
