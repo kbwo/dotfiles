@@ -15,6 +15,7 @@
     "elm",
     "dart"
   ],
+  "translator.toLang": "ja",
   "cssmodules.hintName": "cssmodules",
   "prettier.onlyUseLocalVersion": true,
   "python.pythonPath": "~/.pyenv/shims/python",
