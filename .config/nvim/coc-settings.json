@@ -16,6 +16,7 @@
     "dart"
   ],
   "translator.toLang": "ja",
+  "translator.engines": ["google"],
   "cssmodules.hintName": "cssmodules",
   "prettier.onlyUseLocalVersion": true,
   "python.pythonPath": "~/.pyenv/shims/python",
