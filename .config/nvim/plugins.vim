@@ -39,6 +39,7 @@ Plug 'dhruvasagar/vim-table-mode', { 'for': ['markdown']}
 if has('nvim')
   Plug 'phaazon/hop.nvim'
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+  Plug 'lukas-reineke/indent-blankline.nvim'
   if executable("yarn")
     Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
   else
