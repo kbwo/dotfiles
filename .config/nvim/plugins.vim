@@ -26,7 +26,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install()}}
 Plug 'sainnhe/edge'
 Plug 'machakann/vim-sandwich'
 " Plug 'kbwo/http-tsx-source-jump.vim'
-Plug 'kbwo/ddu-source-coc-locations'
+Plug 'kbwo/ddu-source-coc'
 Plug 'Shougo/ddu.vim'
 Plug 'Shougo/ddu-ui-ff'
 Plug 'Shougo/ddu-source-file_rec'

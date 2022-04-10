@@ -84,6 +84,18 @@ function! RgFindNoIgnore() abort
   call ddu#start({'sources': [{'name': 'rg', 'params': {'input': word, 'args': ['--smart-case', "--column", "--no-heading", '--hidden', '--glob', '!.git', '--color', 'never', "--no-ignore"]}}]})
 endfunction
 
+command! Symbols call ddu#start({
+    \   'ui': 'ff',
+    \   'sources': [{'name': 'coc-symbols', 'params': {}}],
+    \   'sourceOptions': {
+    \   },
+    \   'kindOptions': {
+    \     'file': {
+    \       'defaultAction': 'open',
+    \     },
+    \   }
+    \ })
+
 autocmd! User CocLocationsChange call ddu#start({
     \   'ui': 'ff',
     \   'sources': [{'name': 'coc-locations', 'params': {}}],
