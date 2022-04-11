@@ -10,5 +10,4 @@ zinit wait lucid light-mode for \
     'zdharma-continuum/fast-syntax-highlighting' \
     'zsh-users/zsh-completions' \
     'migutw42/zsh-fzf-ghq' \
-    'agkozak/zsh-z' \
     'zsh-users/zsh-autosuggestions'

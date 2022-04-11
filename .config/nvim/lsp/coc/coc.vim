@@ -30,7 +30,6 @@ let g:coc_global_extensions = [
       \'coc-sourcekit',
       \'coc-tailwindcss',
       \'coc-cssmodules',
-      \'coc-vetur',
       \'coc-clangd',
       \'coc-deno',
       \'coc-emmet',
@@ -40,7 +39,6 @@ let g:coc_global_extensions = [
       \'coc-styled-components',
       \'coc-docker',
       \'coc-metals',
-      \'coc-flow',
       \'coc-snippets',
       \'coc-just-complete',
       \'coc-dash-complete',
@@ -48,6 +46,8 @@ let g:coc_global_extensions = [
       \'coc-html-css-support',
       \'coc-tabnine',
       \'@yaegassy/coc-volar',
+      \'@yaegassy/coc-volar-tools',
+      \'coc-translator',
       \'coc-conjure',
       \'coc-db'
       \]
@@ -92,3 +92,6 @@ inoremap <nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(
 
 
 autocmd CursorHold * silent call CocActionAsync('highlight')
+
+nmap tr <Plug>(coc-translator-p)
+vmap tr <Plug>(coc-translator-pv)

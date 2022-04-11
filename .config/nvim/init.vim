@@ -20,11 +20,11 @@ source ~/dotfiles/.config/nvim/plugin-config/tagalong.vim
 source ~/dotfiles/.config/nvim/plugin-config/winresizer.vim
 source ~/dotfiles/.config/nvim/plugin-config/sandwich.vim
 source ~/dotfiles/.config/nvim/plugin-config/ddu.vim
-source ~/dotfiles/.config/nvim/plugin-config/previm.vim
 source ~/dotfiles/.config/nvim/lsp/coc/coc.vim
 
 if(has('nvim'))
   source ~/dotfiles/.config/nvim/plugin-config/hop.lua
+  source ~/dotfiles/.config/nvim/plugin-config/indent-blankline.lua
   " :luafile ~/dotfiles/.config/nvim/plugin-config/treesitter.lua
   " :luafile ~/dotfiles/.config/nvim/lsp/nvim-lsp/lspinstall.lua
   " :luafile ~/dotfiles/.config/nvim/lsp/nvim-lsp/lspconfig.lua
