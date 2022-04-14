@@ -44,7 +44,6 @@ let g:coc_global_extensions = [
       \'coc-dash-complete',
       \'coc-dot-complete',
       \'coc-html-css-support',
-      \'coc-tabnine',
       \'@yaegassy/coc-volar',
       \'@yaegassy/coc-volar-tools',
       \'coc-translator',
