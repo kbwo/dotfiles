@@ -48,6 +48,7 @@ let g:coc_global_extensions = [
       \'@yaegassy/coc-volar-tools',
       \'coc-translator',
       \'coc-conjure',
+      \'coc-tabnine',
       \'coc-db'
       \]
 nnoremap <Leader>c  :call CocActionAsync('highlight')<CR>
