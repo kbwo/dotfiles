@@ -57,6 +57,7 @@ export PATH=$PATH:$JAVA_HOME/bin
 export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:$PYENV_ROOT/bin
 export PATH=$PATH:$DENO_INSTALL/bin
+export PATH=$PATH:/opt/homebrew/opt/openssl@3/bin
 export VOLTA_HOME=$HOME/.volta
 export PATH=$PATH:$VOLTA_HOME/bin
 unset _VOLTA_TOOL_RECURSION
