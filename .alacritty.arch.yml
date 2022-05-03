@@ -59,7 +59,7 @@ schemes:
       white:   '0xacb0d0'
 font:
   # The size to use.
-  size: 8.5
+  size: 9
   # The normal (roman) font face to use.
   normal:
     family: Ricty
@@ -85,4 +85,4 @@ key_bindings:
 colors: *tokyo-night
 
 window:
-  opacity: 0.85
+  opacity: 0.9
