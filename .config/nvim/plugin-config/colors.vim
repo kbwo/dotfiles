@@ -50,3 +50,4 @@ highlight NonText ctermbg=NONE guibg=NONE
 highlight SpecialKey ctermbg=NONE guibg=NONE
 highlight EndOfBuffer ctermbg=NONE guibg=NONE
 highlight Comment guifg=gray60
+highlight rustCommentLineDoc guifg=gray60
