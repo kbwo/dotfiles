@@ -85,4 +85,4 @@ key_bindings:
 colors: *tokyo-night
 
 window:
-  opacity: 0.9
+  opacity: 0.85
