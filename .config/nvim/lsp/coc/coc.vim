@@ -39,16 +39,11 @@ let g:coc_global_extensions = [
       \'coc-styled-components',
       \'coc-docker',
       \'coc-metals',
-      \'coc-snippets',
-      \'coc-just-complete',
-      \'coc-dash-complete',
-      \'coc-dot-complete',
       \'coc-html-css-support',
       \'@yaegassy/coc-volar',
       \'@yaegassy/coc-volar-tools',
       \'coc-translator',
       \'coc-conjure',
-      \'coc-tabnine',
       \'coc-db'
       \]
 nnoremap <Leader>c  :call CocActionAsync('highlight')<CR>
