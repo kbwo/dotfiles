@@ -38,7 +38,6 @@ let g:coc_global_extensions = [
       \'coc-styled-components',
       \'coc-docker',
       \'coc-metals',
-      \'coc-snippets',
       \'coc-html-css-support',
       \'@yaegassy/coc-volar',
       \'@yaegassy/coc-volar-tools',
