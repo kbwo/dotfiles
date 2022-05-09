@@ -36,6 +36,7 @@ Plug 'shun/ddu-source-rg'
 Plug 'yuki-yano/ddu-filter-fzf'
 Plug 'matsui54/ddu-source-file_external'
 Plug 'dhruvasagar/vim-table-mode', { 'for': ['markdown']}
+Plug 'udalov/kotlin-vim'
 if has('nvim')
   Plug 'phaazon/hop.nvim'
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
