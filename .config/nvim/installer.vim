@@ -3,11 +3,11 @@ if !executable("curl")
   execute "q!"
 endif
 
-" install deno
-if !executable("deno")
-  echo "Installing deno..."
+" install rustup
+if !executable("cargo")
+  echo "Installing rustup..."
   echo ""
-  silent !\curl -fsSL https://deno.land/x/install/install.sh | sh
+  silent !\curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 endif
 
 " install volta
@@ -18,11 +18,18 @@ if !isdirectory($HOME .'/.volta')
   silent !\~/.volta/bin/volta install node@14
 endif
 
-" install rustup
-if !isdirectory($HOME .'/.cargo')
-  echo "Installing rustup..."
+" install deno
+if !executable("deno")
+  echo "Installing deno..."
   echo ""
-  silent !\curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+  silent !\cargo install
+endif
+
+" install deno
+if !executable("rg")
+  echo "Installing ripgrep..."
+  echo ""
+  silent !\cargo install ripgrep
 endif
 
 " install vim-plug and plugins after install of necessary commands

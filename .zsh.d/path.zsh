@@ -7,7 +7,7 @@ export LDFLAGS=-L/usr/local/opt/llvm/lib
 export CPPFLAGS=-I/usr/local/opt/llvm/include
 export XDG_CONFIG_HOME=$HOME/.config
 export XDG_CACHE_HOME=$HOME/.cache
-export PYENV_ROOT="$HOME/.pyenv"
+export PYENV_ROOT=$HOME/.pyenv
 export CLOUDSDK_PYTHON=python2
 export FZF_DEFAULT_COMMAND='rg --hidden --no-ignore --files'
 export DENO_INSTALL="/home/kodai/.deno"
@@ -37,12 +37,10 @@ export PATH=$PATH:$HOME/bin
 export PATH=$PATH:$HOME/local/bin
 export PATH=$PATH:$HOME/.npm-global/bin
 export PATH=$PATH:$HOME/.npm-global
-export PATH=$PATH:$HOME/.pyenv/bin
 export PATH=$PATH:$HOME/flutter/bin
 export PATH=$PATH:$HOME/.cargo/bin
 export PATH=$PATH:$HOME/development/flutter/bin
 export PATH=$PATH:$HOME/.rbenv/shims
-export PATH=$PATH:$HOME/.pyenv/shims
 export PATH=$PATH:$HOME/flutter/bin
 export PATH=$PATH:$HOME/.cargo/bin
 export PATH=$PATH:$HOME/.local/bin
@@ -57,8 +55,11 @@ export PATH=$PATH:$JAVA_HOME/bin
 export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:$PYENV_ROOT/bin
 export PATH=$PATH:$DENO_INSTALL/bin
+export PATH=$PATH:/opt/homebrew/opt/openssl@3/bin
 export VOLTA_HOME=$HOME/.volta
-export PATH=$PATH:$VOLTA_HOME/bin
+export PATH=$VOLTA_HOME/bin:$PATH
+export PATH=$PYENV_ROOT/bin:$PATH
+export PATH=$PYENV_ROOT/shims:$PATH
 unset _VOLTA_TOOL_RECURSION
 
 if [ -d "$HOME/google-cloud-sdk" ];then

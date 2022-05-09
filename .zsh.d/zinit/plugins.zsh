@@ -7,7 +7,7 @@ zle -N navi-find
 bindkey '^e' navi-find
 zinit wait lucid light-mode for \
     'zdharma-continuum/history-search-multi-word' \
-    'zdharma-continuum/fast-syntax-highlighting' \
+    'zsh-users/zsh-syntax-highlighting' \
     'zsh-users/zsh-completions' \
     'migutw42/zsh-fzf-ghq' \
     'zsh-users/zsh-autosuggestions'
