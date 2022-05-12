@@ -14,6 +14,7 @@ autoload -Uz _zinit
 ZDOTDIR="${HOME}/dotfiles/.zsh.d"
 zinit light sindresorhus/pure
 zinit light agkozak/zsh-z
+zinit light olets/zsh-abbr
 autoload -Uz compinit && compinit
 zinit wait lucid light-mode as'null' \
     atinit'. "$ZDOTDIR/zinit/plugins.zsh"' \
