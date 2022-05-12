@@ -38,6 +38,7 @@ Plug 'matsui54/ddu-source-file_external'
 Plug 'dhruvasagar/vim-table-mode', { 'for': ['markdown']}
 Plug 'wakatime/vim-wakatime'
 Plug 'udalov/kotlin-vim'
+Plug 'kchmck/vim-coffee-script'
 if has('nvim')
   Plug 'phaazon/hop.nvim'
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
