@@ -40,7 +40,6 @@ let g:coc_global_extensions = [
       \'coc-metals',
       \'coc-html-css-support',
       \'@yaegassy/coc-volar',
-      \'@yaegassy/coc-volar-tools',
       \'coc-translator',
       \'coc-conjure',
       \'coc-db'
@@ -89,3 +88,5 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 
 nmap tr <Plug>(coc-translator-p)
 vmap tr <Plug>(coc-translator-pv)
+
+au FileType vue let b:coc_root_patterns = ['.git', '.env', 'package.json', 'tsconfig.json', 'jsconfig.json', 'vite.config.ts', 'nuxt.config.ts']
