@@ -38,6 +38,7 @@ Plug 'lambdalisue/fern.vim'
 Plug 'Bakudankun/BackAndForward.vim'
 Plug 'lambdalisue/fern-git-status.vim'
 if has('nvim')
+  Plug 'antoinemadec/FixCursorHold.nvim'
   Plug 'phaazon/hop.nvim'
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
   Plug 'lukas-reineke/indent-blankline.nvim'
