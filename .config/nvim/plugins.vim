@@ -36,6 +36,7 @@ Plug 'udalov/kotlin-vim'
 Plug 'thosakwe/vim-flutter'
 Plug 'lambdalisue/fern.vim'
 Plug 'Bakudankun/BackAndForward.vim'
+Plug 'lambdalisue/fern-git-status.vim'
 if has('nvim')
   Plug 'phaazon/hop.nvim'
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -61,3 +62,16 @@ else
 endif
 
 call plug#end()
+
+function! s:load_configurations() abort
+  for path in glob('~/dotfiles/.config/nvim/plugin.d/*.vim', 1, 1, 1)
+    execute printf('source %s', fnameescape(path))
+  endfor
+  if(has('nvim'))
+    for path in glob('~/dotfiles/.config/nvim/plugin.d/*.lua', 1, 1, 1)
+      execute printf('source %s', fnameescape(path))
+    endfor
+  end
+endfunction
+
+call s:load_configurations()
