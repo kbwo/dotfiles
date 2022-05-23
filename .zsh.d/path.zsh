@@ -40,7 +40,6 @@ export PATH=$PATH:$HOME/.npm-global
 export PATH=$PATH:$HOME/flutter/bin
 export PATH=$PATH:$HOME/.cargo/bin
 export PATH=$PATH:$HOME/development/flutter/bin
-export PATH=$PATH:$HOME/.rbenv/shims
 export PATH=$PATH:$HOME/flutter/bin
 export PATH=$PATH:$HOME/.cargo/bin
 export PATH=$PATH:$HOME/.local/bin
@@ -60,6 +59,7 @@ export VOLTA_HOME=$HOME/.volta
 export PATH=$VOLTA_HOME/bin:$PATH
 export PATH=$PYENV_ROOT/bin:$PATH
 export PATH=$PYENV_ROOT/shims:$PATH
+export PATH=$HOME/.rbenv/shims:$PATH
 unset _VOLTA_TOOL_RECURSION
 
 if [ -d "$HOME/google-cloud-sdk" ];then

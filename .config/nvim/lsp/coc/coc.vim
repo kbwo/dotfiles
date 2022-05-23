@@ -40,7 +40,6 @@ let g:coc_global_extensions = [
       \'coc-metals',
       \'coc-html-css-support',
       \'@yaegassy/coc-volar',
-      \'@yaegassy/coc-volar-tools',
       \'coc-translator',
       \'coc-conjure',
       \'coc-db'
@@ -61,8 +60,7 @@ nmap <silent> cca <Plug>(coc-codeaction)
 nmap <silent> ccl <Plug>(coc-codeaction-line)
 nmap <silent> csd :call <SID>show_documentation()<CR>
 vmap <silent><leader>sc <Plug>(coc-codeaction-selected)
-nmap <silent><leader>sc <Plug>(coc-codeaction-selected)
-nmap <silent>csb :Denite coc-symbols<CR>
+vmap <silent><leader>qf :call CocActionAsync('format')<CR>
 nmap <silent>ccr :CocRestart<CR>
 
 function! s:show_documentation()
@@ -89,3 +87,5 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 
 nmap tr <Plug>(coc-translator-p)
 vmap tr <Plug>(coc-translator-pv)
+
+au FileType vue let b:coc_root_patterns = ['.git', '.env', 'package.json', 'tsconfig.json', 'jsconfig.json', 'vite.config.ts', 'nuxt.config.ts']

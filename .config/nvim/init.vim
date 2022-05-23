@@ -10,7 +10,6 @@ source ~/dotfiles/.config/nvim/plugin-config/quickrun.vim
 source ~/dotfiles/.config/nvim/plugin-config/emmet.vim
 source ~/dotfiles/.config/nvim/plugin-config/visual-multi.vim
 source ~/dotfiles/.config/nvim/plugin-config/supertab.vim
-source ~/dotfiles/.config/nvim/plugin-config/defx.vim
 source ~/dotfiles/.config/nvim/plugin-config/memo.vim
 source ~/dotfiles/.config/nvim/plugin-config/tcomment.vim
 source ~/dotfiles/.config/nvim/plugin-config/eskk.vim
@@ -20,6 +19,7 @@ source ~/dotfiles/.config/nvim/plugin-config/tagalong.vim
 source ~/dotfiles/.config/nvim/plugin-config/winresizer.vim
 source ~/dotfiles/.config/nvim/plugin-config/sandwich.vim
 source ~/dotfiles/.config/nvim/plugin-config/ddu.vim
+source ~/dotfiles/.config/nvim/plugin-config/fern.vim
 source ~/dotfiles/.config/nvim/lsp/coc/coc.vim
 
 if(has('nvim'))
