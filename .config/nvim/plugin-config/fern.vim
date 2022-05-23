@@ -1,4 +1,4 @@
-nmap <silent> <c-n> :Fern . -reveal=% -stay<CR>
+nmap <silent> <c-n> :Fern %:h -reveal=% -stay<CR>
 function! FernInit() abort
   nmap <silent><buffer> <c-n> :Fern .<CR>
   nmap <silent><buffer> <Leader>s <Plug>(fern-action-open:split)
