@@ -20,12 +20,9 @@ Plug 'AndrewRadev/tagalong.vim'
 Plug 'vim-denops/denops.vim'
 Plug 'lambdalisue/gina.vim'
 Plug 'lambdalisue/guise.vim'
-Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install()}}
-" Plug 'neoclide/coc-denite'
 Plug 'sainnhe/edge'
 Plug 'machakann/vim-sandwich'
-" Plug 'kbwo/http-tsx-source-jump.vim'
 Plug 'kbwo/ddu-source-coc'
 Plug 'Shougo/ddu.vim'
 Plug 'Shougo/ddu-ui-ff'
@@ -38,6 +35,8 @@ Plug 'matsui54/ddu-source-file_external'
 Plug 'dhruvasagar/vim-table-mode', { 'for': ['markdown']}
 Plug 'udalov/kotlin-vim'
 Plug 'thosakwe/vim-flutter'
+Plug 'lambdalisue/fern.vim'
+Plug 'Bakudankun/BackAndForward.vim'
 if has('nvim')
   Plug 'phaazon/hop.nvim'
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
