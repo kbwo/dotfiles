@@ -60,8 +60,7 @@ nmap <silent> cca <Plug>(coc-codeaction)
 nmap <silent> ccl <Plug>(coc-codeaction-line)
 nmap <silent> csd :call <SID>show_documentation()<CR>
 vmap <silent><leader>sc <Plug>(coc-codeaction-selected)
-nmap <silent><leader>sc <Plug>(coc-codeaction-selected)
-nmap <silent>csb :Denite coc-symbols<CR>
+vmap <silent><leader>qf :call CocActionAsync('format')<CR>
 nmap <silent>ccr :CocRestart<CR>
 
 function! s:show_documentation()
