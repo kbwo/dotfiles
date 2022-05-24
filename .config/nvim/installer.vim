@@ -22,7 +22,7 @@ endif
 if !executable("deno")
   echo "Installing deno..."
   echo ""
-  silent !\cargo install
+  silent !\cargo install deno
 endif
 
 " install deno

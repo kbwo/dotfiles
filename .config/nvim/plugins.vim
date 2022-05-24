@@ -21,7 +21,6 @@ Plug 'vim-denops/denops.vim'
 Plug 'lambdalisue/gina.vim'
 Plug 'lambdalisue/guise.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install()}}
-Plug 'sainnhe/edge'
 Plug 'machakann/vim-sandwich'
 Plug 'kbwo/ddu-source-coc'
 Plug 'Shougo/ddu.vim'
@@ -39,10 +38,13 @@ Plug 'kchmck/vim-coffee-script'
 Plug 'thosakwe/vim-flutter'
 Plug 'lambdalisue/fern.vim'
 Plug 'Bakudankun/BackAndForward.vim'
+Plug 'lambdalisue/fern-git-status.vim'
 if has('nvim')
+  Plug 'antoinemadec/FixCursorHold.nvim'
   Plug 'phaazon/hop.nvim'
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
   Plug 'lukas-reineke/indent-blankline.nvim'
+  Plug 'rebelot/kanagawa.nvim'
   if executable("yarn")
     Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
   else
@@ -63,3 +65,16 @@ else
 endif
 
 call plug#end()
+
+function! s:load_configurations() abort
+  for path in glob('~/dotfiles/.config/nvim/plugin.d/*.vim', 1, 1, 1)
+    execute printf('source %s', fnameescape(path))
+  endfor
+  if(has('nvim'))
+    for path in glob('~/dotfiles/.config/nvim/plugin.d/*.lua', 1, 1, 1)
+      execute printf('source %s', fnameescape(path))
+    endfor
+  end
+endfunction
+
+call s:load_configurations()
