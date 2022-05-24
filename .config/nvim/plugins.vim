@@ -35,6 +35,7 @@ Plug 'thosakwe/vim-flutter'
 Plug 'lambdalisue/fern.vim'
 Plug 'Bakudankun/BackAndForward.vim'
 Plug 'lambdalisue/fern-git-status.vim'
+Plug 'skanehira/denops-docker.vim'
 " Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
 if has('nvim')
   Plug 'antoinemadec/FixCursorHold.nvim'
