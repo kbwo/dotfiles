@@ -1,9 +1,10 @@
 set termguicolors
-colorscheme kanagawa
 
 if has('nvim')
+  colorscheme kanagawa
   highlight Visual guifg=#FFFFFF guibg=SlateBlue gui=none term=reverse cterm=reverse
 else
+  colorscheme tokyonight
   hi Visual guibg=#FFFFFF guifg=SlateBlue gui=none
 endif
 
