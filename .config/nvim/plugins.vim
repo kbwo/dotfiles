@@ -7,7 +7,7 @@ Plug 'mattn/emmet-vim'
 Plug 'SirVer/ultisnips'
 Plug 'tomtom/tcomment_vim'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
-Plug  'Raimondi/delimitMate'
+Plug 'Raimondi/delimitMate'
 Plug 'tpope/vim-dadbod'
 Plug 'kristijanhusak/vim-dadbod-ui'
 Plug 'glidenote/memolist.vim'

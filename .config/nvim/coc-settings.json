@@ -72,5 +72,6 @@
       ],
       "shell": true
     }
-  }
+  },
+  "svelte.enable-ts-plugin": true
 }
