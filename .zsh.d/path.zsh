@@ -56,6 +56,7 @@ export PATH=$PATH:$PYENV_ROOT/bin
 export PATH=$PATH:$DENO_INSTALL/bin
 export PATH=$PATH:/opt/homebrew/opt/openssl@3/bin
 export VOLTA_HOME=$HOME/.volta
+export PATH=$PATH:/opt/homebrew/Cellar
 export PATH=$VOLTA_HOME/bin:$PATH
 export PATH=$PYENV_ROOT/bin:$PATH
 export PATH=$PYENV_ROOT/shims:$PATH
