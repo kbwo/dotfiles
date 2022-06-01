@@ -43,6 +43,7 @@ set tabstop=2
 set softtabstop=2
 set shiftwidth=2
 set expandtab
+autocmd FileType php setlocal tabstop=4 softtabstop=4 shiftwidth=4
 set autoindent
 set splitright
 set splitbelow

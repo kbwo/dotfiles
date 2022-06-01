@@ -85,3 +85,6 @@ case "$(uname -s)" in
    *)
    ;;
 esac
+export PATH="/opt/homebrew/opt/php@7.3/bin:$PATH"
+export PATH="/opt/homebrew/opt/php@7.3/sbin:$PATH"
+
