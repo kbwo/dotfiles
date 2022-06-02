@@ -73,5 +73,6 @@
       "shell": true
     }
   },
-  "svelte.enable-ts-plugin": true
+  "svelte.enable-ts-plugin": true,
+  "tabnine.priority": 50
 }
