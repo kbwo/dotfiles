@@ -111,3 +111,17 @@ autocmd! User CocLocationsChange call ddu#start({
     \   }
     \ })
 
+command! DduBuffer call ddu#start({
+    \   'ui': 'ff',
+    \   'sources': [{'name': 'buffer'}],
+    \   'sourceOptions': {
+    \     '_': {
+    \       'matchers': ['matcher_fzf'],
+    \     },
+    \   },
+    \   'kindOptions': {
+    \     'file': {
+    \       'defaultAction': 'open',
+    \     },
+    \   }
+    \ })
