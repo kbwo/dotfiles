@@ -28,6 +28,7 @@ Plug 'Shougo/ddu-filter-matcher_substring'
 Plug 'Shougo/ddu-kind-file'
 Plug 'shun/ddu-source-rg'
 Plug 'yuki-yano/ddu-filter-fzf'
+Plug 'shun/ddu-source-buffer'
 Plug 'matsui54/ddu-source-file_external'
 Plug 'dhruvasagar/vim-table-mode', { 'for': ['markdown']}
 Plug 'wakatime/vim-wakatime'
