@@ -61,7 +61,7 @@ nmap <silent> cca <Plug>(coc-codeaction)
 nmap <silent> ccl <Plug>(coc-codeaction-line)
 nmap <silent> csd :call <SID>show_documentation()<CR>
 vmap <silent><leader>sc <Plug>(coc-codeaction-selected)
-command! -nargs=0 Format :call CocActionAsync('format')<CR>
+command! -nargs=0 CocFormat :call CocActionAsync('format')
 nmap <silent>ccr :CocRestart<CR>
 
 function! s:show_documentation()
