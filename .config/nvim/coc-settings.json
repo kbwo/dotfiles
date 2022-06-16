@@ -13,6 +13,7 @@
     "scss",
     "prisma",
     "elm",
+    "vue",
     "dart"
   ],
   "rust-analyzer.diagnostics.disabled": ["unresolved-proc-macro"],
