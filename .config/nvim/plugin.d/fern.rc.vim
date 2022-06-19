@@ -12,7 +12,7 @@ function! FernInit() abort
   nmap <silent><buffer> <Leader>m <Plug>(fern-action-clipboard-move)
   nmap <silent><buffer> p <Plug>(fern-action-clipboard-paste)
   nmap <silent><buffer> M <Plug>(fern-action-new-file)
-  nmap <silent><buffer> L <Plug>(fern-action-open-or-enter)
+  nmap <silent><buffer> F <Plug>(fern-action-open-or-enter)
   nmap <silent><buffer> <cr> <Plug>(fern-action-open-or-enter)
   nmap <buffer><expr>
 	      \ <Plug>(fern-my-open-or-expand-or-collapse)
@@ -32,7 +32,7 @@ function! FernInit() abort
   nmap <silent><buffer> dl <Plug>(fern-action-remove)
   " nmap <buffer> B <Plug>(fern-action-save-as-bookmark)
   nmap <silent><buffer> cd <Plug>(fern-action-tcd)
-  nmap <silent><buffer> H <Plug>(fern-action-leave)
+  nmap <silent><buffer> B <Plug>(fern-action-leave)
   nmap <silent><buffer> q :Back<CR>
 endfunction
 augroup FernEvents
