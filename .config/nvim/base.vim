@@ -1,5 +1,4 @@
 set rtp +=~/.vim
-set rtp+=/path/to/lldb.nvim
 
 if has('vim_starting')
   set nocompatible
@@ -10,6 +9,8 @@ filetype plugin indent on
 inoremap <c-u> <Nop>
 inoremap \<Space> <Nop>
 let mapleader="\<Space>"
+
+" match Ignore /\r$/
 
 map K gt
 map J gT
