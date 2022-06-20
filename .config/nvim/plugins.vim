@@ -31,7 +31,6 @@ Plug 'yuki-yano/ddu-filter-fzf'
 Plug 'shun/ddu-source-buffer'
 Plug 'matsui54/ddu-source-file_external'
 Plug 'dhruvasagar/vim-table-mode', { 'for': ['markdown']}
-Plug 'wakatime/vim-wakatime'
 Plug 'udalov/kotlin-vim'
 Plug 'kchmck/vim-coffee-script'
 Plug 'thosakwe/vim-flutter'
