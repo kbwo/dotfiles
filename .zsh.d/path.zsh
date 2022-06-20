@@ -29,7 +29,7 @@ export PATH=$PATH:/usr/local/opt/llvm/bin
 export PATH=$PATH:/Library/Apple/usr/bin
 export PATH=$PATH:node_modules/.bin
 export PATH=$PATH:./node_modules/.bin
-export PATH=$PATH:/opt/homebrew/bin/brew
+export PATH=$PATH:/opt/homebrew/bin
 export PATH=$PATH:/opt/homebrew/opt/llvm/bin
 export PATH=$PATH:/opt/homebrew/opt/expat/bin
 export PATH=$PATH:/usr/local/Cellar/git/X.XX.X/bin
@@ -85,3 +85,6 @@ case "$(uname -s)" in
    *)
    ;;
 esac
+export PATH="/opt/homebrew/opt/php@7.3/bin:$PATH"
+export PATH="/opt/homebrew/opt/php@7.3/sbin:$PATH"
+

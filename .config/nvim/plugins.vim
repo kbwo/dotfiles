@@ -32,6 +32,7 @@ Plug 'shun/ddu-source-buffer'
 Plug 'matsui54/ddu-source-file_external'
 Plug 'dhruvasagar/vim-table-mode', { 'for': ['markdown']}
 Plug 'udalov/kotlin-vim'
+Plug 'kchmck/vim-coffee-script'
 Plug 'thosakwe/vim-flutter'
 Plug 'lambdalisue/fern.vim'
 Plug 'Bakudankun/BackAndForward.vim'
