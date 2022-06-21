@@ -19,6 +19,7 @@ let g:coc_global_extensions = [
       \'coc-html-css-support',
       \'coc-java',
       \'coc-json',
+      \'coc-lua',
       \'coc-metals',
       \'coc-tsserver',
       \'coc-pairs',
