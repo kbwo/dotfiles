@@ -41,8 +41,10 @@ endfunction
 autocmd FileType ddu-ff-filter call s:ddu_filter_my_settings()
 
 function! s:ddu_filter_my_settings() abort
+  " https://github.com/Shougo/ddu-ui-ff/issues/44
   inoremap <buffer><silent> <CR>
-  \ <Esc><Cmd>close<CR>
+      \ <Esc><Cmd>close<CR>
+      \<Cmd>call win_gotoid(g:ddu#ui#ff#_filter_parent_winid)<CR>
   nnoremap <buffer><silent> <CR>
   \ <Cmd>close<CR>
   nnoremap <buffer><silent> q
