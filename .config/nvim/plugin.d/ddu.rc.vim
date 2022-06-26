@@ -51,10 +51,19 @@ function! s:ddu_filter_my_settings() abort
   \ <Cmd>close<CR>
 endfunction
 
-nmap <silent><c-p> :call ddu#start({})<CR>
+nmap <silent><c-p> :call StartDduNoIgnore()<CR>
+nmap <silent><Leader>p :call StartDduIgnore()<CR>
 nmap <silent><Leader>r :call RgFindIgnore()<CR>
 nmap <silent><Leader><c-r> :call RgFindNoIgnore()<CR>
-nmap <silent><Leader>p :call ddu#start({
+
+function! StartDduNoIgnore() abort
+  :Copilot disable
+  call ddu#start({})
+endfunction
+
+function! StartDduIgnore() abort
+  :Copilot disable
+  call ddu#start({
   \  'ui': 'ff',
   \  'sources': [
     \  {'name': 'file_external', 
@@ -74,15 +83,18 @@ nmap <silent><Leader>p :call ddu#start({
   \       'defaultAction': 'open',
   \     },
   \   }
-\  })<CR>
+\  })
+endfunction
 
 function! RgFindIgnore() abort
   let word = input("search word: ")
+  :Copilot disable
   call ddu#start({'sources': [{'name': 'rg', 'params': {'input': word, 'args': ['--smart-case', "--column", "--no-heading", '--hidden', '--glob', '!.git', '--color', 'never', '--']}}]})
 endfunction
 
 function! RgFindNoIgnore() abort
   let word = input("search word: ")
+  :Copilot disable
   call ddu#start({'sources': [{'name': 'rg', 'params': {'input': word, 'args': ['--smart-case', "--column", "--no-heading", '--hidden', '--glob', '!.git', '--color', 'never', "--no-ignore", '--']}}]})
 endfunction
 

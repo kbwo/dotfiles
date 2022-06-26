@@ -59,4 +59,4 @@ key_bindings:
   - { key: NumpadSubtract, mods: Control, action: None }
 
 window:
-  opacity: 0.75
+  opacity: 0.8
