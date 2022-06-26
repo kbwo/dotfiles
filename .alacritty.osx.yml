@@ -43,7 +43,7 @@ key_bindings:
 alt_send_esc: false
 
 window:
-  opacity: 0.75
+  opacity: 0.8
   padding:
     y: 2
   dynamic_padding: true

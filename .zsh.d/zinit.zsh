@@ -16,7 +16,7 @@ zinit light sindresorhus/pure
 zinit light agkozak/zsh-z
 ABBR_USER_ABBREVIATIONS_FILE="${HOME}/dotfiles/.zsh.d/abbreviations"
 zinit light olets/zsh-abbr
-autoload -Uz compinit && compinit
+autoload -Uz compinit && compinit -d ${HOME}/.zcompdump
 zinit wait lucid light-mode as'null' \
     atinit'. "$ZDOTDIR/zinit/plugins.zsh"' \
     for 'zdharma-continuum/null'
