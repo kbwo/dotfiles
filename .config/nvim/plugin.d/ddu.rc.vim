@@ -100,7 +100,7 @@ endfunction
 
 command! Symbols call ddu#start({
     \   'ui': 'ff',
-    \   'sources': [{'name': 'coc-symbols', 'params': {'symbols': g:CocAction('documentSymbols')}}],
+    \   'sources': [{'name': 'coc-symbols', 'params': {'symbols': g:CocAction('documentSymbols'), 'filePath': expand('%:p')}}],
     \   'kindOptions': {
     \     'file': {
     \       'defaultAction': 'open',
