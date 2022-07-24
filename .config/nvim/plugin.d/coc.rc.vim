@@ -60,6 +60,7 @@ nmap <silent> gr <Plug>(coc-references)
 nmap <silent> ccn <Plug>(coc-rename)
 nmap <silent> cca <Plug>(coc-codeaction)
 nmap <silent> ccl <Plug>(coc-codeaction-line)
+nmap <silent> ccc <Plug>(coc-codeaction-cursor)
 nmap <silent> csd :call <SID>show_documentation()<CR>
 vmap <silent><leader>sc <Plug>(coc-codeaction-selected)
 command! -nargs=0 CocFormat :call CocActionAsync('format')
