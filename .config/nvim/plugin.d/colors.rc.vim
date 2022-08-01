@@ -15,3 +15,4 @@ highlight SpecialKey ctermbg=NONE guibg=NONE
 highlight EndOfBuffer ctermbg=NONE guibg=NONE
 highlight Comment guifg=gray70
 highlight rustCommentLineDoc guifg=gray70
+highlight link CocMenuSel PmenuSel

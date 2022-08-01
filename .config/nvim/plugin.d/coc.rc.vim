@@ -44,7 +44,6 @@ let g:coc_global_extensions = [
       \'coc-xml',
       \'coc-yaml',
       \'coc-yank',
-      \'coc-tabnine',
       \]
 nnoremap <Leader>c  :call CocActionAsync('highlight')<CR>
 nmap <silent> <C-d> <Plug>(coc-definition)
@@ -91,3 +90,17 @@ nmap tr <Plug>(coc-translator-p)
 vmap tr <Plug>(coc-translator-pv)
 
 au FileType vue let b:coc_root_patterns = ['.git', '.env', 'package.json', 'tsconfig.json', 'jsconfig.json', 'vite.config.ts', 'nuxt.config.ts']
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+
+inoremap <silent><expr> <C-n> coc#pum#visible() ? coc#pum#prev(1) : "\<C-n>"
+inoremap <silent><expr> <C-p> coc#pum#visible() ? coc#pum#next(1) : "\<C-p>"
+
+inoremap <silent><expr> <TAB>
+\ coc#pum#visible() ? coc#pum#next(1):
+\ <SID>check_back_space() ? "\<Tab>" :
+\ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
