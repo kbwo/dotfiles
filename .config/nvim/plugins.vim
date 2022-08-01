@@ -2,7 +2,6 @@
 call plug#begin(expand('~/.vim/plugged'))
 Plug 'itchyny/lightline.vim'
 Plug 'tpope/vim-surround'
-Plug 'ervandew/supertab'
 Plug 'mattn/emmet-vim'
 Plug 'SirVer/ultisnips'
 Plug 'tomtom/tcomment_vim'
