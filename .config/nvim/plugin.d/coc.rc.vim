@@ -23,7 +23,7 @@ let g:coc_global_extensions = [
       \'coc-metals',
       \'coc-tsserver',
       \'coc-pairs',
-      \'coc-phpls',
+      \'@yaegassy/coc-intelephense',
       \'coc-post',
       \'coc-prettier',
       \'coc-prisma',
