@@ -75,5 +75,6 @@
     }
   },
   "svelte.enable-ts-plugin": true,
-  "tabnine.priority": 50
+  "tabnine.priority": 50,
+  "suggest.noselect": true
 }
