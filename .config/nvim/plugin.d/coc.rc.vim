@@ -2,6 +2,7 @@ let g:coc_global_extensions = [
       \'coc-angular',
       \'@yaegassy/coc-ansible',
       \'coc-emmet',
+      \'coc-emoji',
       \'coc-calc',
       \'coc-clangd',
       \'coc-conjure',
@@ -44,6 +45,7 @@ let g:coc_global_extensions = [
       \'coc-xml',
       \'coc-yaml',
       \'coc-yank',
+      \'coc-zig',
       \]
 nnoremap <Leader>c  :call CocActionAsync('highlight')<CR>
 nmap <silent> <C-d> <Plug>(coc-definition)
