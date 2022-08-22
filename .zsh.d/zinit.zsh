@@ -14,7 +14,6 @@ autoload -Uz _zinit
 ZDOTDIR="${HOME}/dotfiles/.zsh.d"
 zinit light sindresorhus/pure
 ABBR_USER_ABBREVIATIONS_FILE="${HOME}/dotfiles/.zsh.d/abbreviations"
-autoload -Uz compinit && compinit -d ${HOME}/.zcompdump
 zinit wait lucid light-mode as'null' \
     atinit'. "$ZDOTDIR/zinit/plugins.zsh"' \
     for 'zdharma-continuum/null'
