@@ -13,4 +13,5 @@ zinit wait lucid light-mode for \
     'zsh-users/zsh-autosuggestions' \
     'agkozak/zsh-z' \
     'sindresorhus/pure' \
+    'jonmosco/kube-ps1' \
     'olets/zsh-abbr'
