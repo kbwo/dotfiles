@@ -16,6 +16,7 @@ Plug 'simeji/winresizer'
 Plug 'AndrewRadev/tagalong.vim'
 Plug 'vim-denops/denops.vim'
 Plug 'lambdalisue/gina.vim'
+" Plug 'lambdalisue/gin.vim'
 Plug 'lambdalisue/guise.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install()}}
 Plug 'machakann/vim-sandwich'
