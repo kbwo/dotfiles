@@ -1,3 +1,4 @@
+zinit load agkozak/zsh-z
 zinit light zsh-users/zsh-autosuggestions
 function navi-find() {
   navi --finder 'fzf'
@@ -11,7 +12,7 @@ zinit wait lucid light-mode for \
     'zsh-users/zsh-completions' \
     'migutw42/zsh-fzf-ghq' \
     'zsh-users/zsh-autosuggestions' \
-    'agkozak/zsh-z' \
     'sindresorhus/pure' \
     'jonmosco/kube-ps1' \
     'olets/zsh-abbr'
+autoload -Uz compinit && compinit
