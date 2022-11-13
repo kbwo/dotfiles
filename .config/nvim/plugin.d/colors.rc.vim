@@ -16,3 +16,5 @@ highlight EndOfBuffer ctermbg=NONE guibg=NONE
 highlight Comment guifg=gray70
 highlight rustCommentLineDoc guifg=gray70
 highlight link CocMenuSel PmenuSel
+highlight HopNextKey cterm=bold ctermfg=45 gui=bold guifg=#00dfff
+
