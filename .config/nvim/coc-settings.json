@@ -1,21 +1,49 @@
 {
-  "coc.preferences.formatOnSaveFiletypes": [
-    "go",
-    "python",
-    "javascript",
-    "typescript",
-    "typescriptreact",
-    "rust",
-    "json",
-    "jsonc",
-    "html",
-    "css",
-    "scss",
-    "prisma",
-    "elm",
-    "vue",
-    "dart"
-  ],
+  "[go]": {
+    "coc.preferences.formatOnSave": true
+  },
+  "[python]": {
+    "coc.preferences.formatOnSave": true
+  },
+  "[javascript]": {
+    "coc.preferences.formatOnSave": true
+  },
+  "[typescript]": {
+    "coc.preferences.formatOnSave": true
+  },
+  "[typescriptreact]": {
+    "coc.preferences.formatOnSave": true
+  },
+  "[rust]": {
+    "coc.preferences.formatOnSave": true
+  },
+  "[json]": {
+    "coc.preferences.formatOnSave": true
+  },
+  "[jsonc]": {
+    "coc.preferences.formatOnSave": true
+  },
+  "[html]": {
+    "coc.preferences.formatOnSave": true
+  },
+  "[css]": {
+    "coc.preferences.formatOnSave": true
+  },
+  "[scss]": {
+    "coc.preferences.formatOnSave": true
+  },
+  "[prisma]": {
+    "coc.preferences.formatOnSave": true
+  },
+  "[elm]": {
+    "coc.preferences.formatOnSave": true
+  },
+  "[vue]": {
+    "coc.preferences.formatOnSave": true
+  },
+  "[dart]": {
+    "coc.preferences.formatOnSave": true
+  },
   "rust-analyzer.diagnostics.disabled": ["unresolved-proc-macro"],
   "rust-analyzer.procMacro.enable": true,
   "rust-analyzer.checkOnSave.command": "clippy",
