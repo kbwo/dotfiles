@@ -1,5 +1,6 @@
 zinit load agkozak/zsh-z
 zinit light zsh-users/zsh-autosuggestions
+eval "$(navi widget zsh)"
 function navi-find() {
   navi --finder 'fzf'
 }
