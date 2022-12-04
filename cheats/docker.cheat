@@ -1,0 +1,2 @@
+# Exec into docker compose container
+docker compose exec <container_name> <shell_command>
