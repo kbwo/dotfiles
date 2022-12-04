@@ -9,12 +9,12 @@ for (const $1 of $2) {
 endsnippet
 
 snippet u_console.log "console.log"
-console.log($1)
+console.log("${1:Debug}"${2/..*/, /});
 endsnippet
 
 snippet d_const_function "arrow funtion"
 const $1 = ($2) => {
 	$3
-};
+}
 endsnippet
 
