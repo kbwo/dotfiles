@@ -1,11 +1,6 @@
 extends javascript
 
-snippet tp "type"
-type $1 = {
-}
-endsnippet
-
-snippet rtfc "ts-react-FC"
+snippet base_react_fc "react_functionanl_component_basis"
 import React from 'react';
 
 type $1 = {
@@ -22,54 +17,54 @@ const $2: React.FC<$1> = () => {
 export default $2;
 endsnippet
 
-snippet imp "import from"
+snippet import_from "import $1 from $2;"
 import $1 from $2;
 endsnippet
 
-snippet imr "import React"
+snippet import_react "import React from 'react';"
 import React from 'react';
 endsnippet
 
-snippet fr "fragment"
+snippet fragment "<></>"
 <>
 </>
 endsnippet
 
-snippet ss "setState"
+snippet d_state "const [$1, set$2] = useState($3);"
 const [$1, set$2] = useState($3);
 endsnippet
 
-snippet uc "useCallback"
+snippet u_usecallback "useCallback(() => {..."
 useCallback(() => {
 	$1
 }, []);
 endsnippet
 
-snippet um "useMemo"
+snippet u_usememo "useMemo(() => {..."
 useMemo(() => {
 	$1
 }, []);
 endsnippet
 
-snippet uf "useEffect"
+snippet u_useeffect "useEffect(() => {..."
 useEffect(() => {
 	$1
 }, []);
 endsnippet
 
-snippet ulf "useLayoutEffect"
+snippet u_uselayouteffect "useLayoutEffect(() => {..."
 useLayoutEffect(() => {
 	$1
 }, []);
 endsnippet
 
-snippet rnst "RN stylesheet"
+snippet d_reactnative_style "const $1 = StyleSheet.create..."
 const $1 = StyleSheet.create({
 	$2
 });
 endsnippet
 
-snippet rnfl "RN flatlist"
+snippet d_flatlist "<FlatList..."
 <FlatList
 	data={$1}
 	keyExtractor={(_, index) => index.toString()}
@@ -78,6 +73,72 @@ snippet rnfl "RN flatlist"
 />
 endsnippet
 
-snippet cln "className="
-className=
+snippet d_remix_meta "export const meta: MetaFunction = () => ({..."
+export const meta: MetaFunction = () => ({
+});
+endsnippet
+
+snippet d_remix_links "export const links: LinksFunction = () => {..."
+export const links: LinksFunction = () => {
+  return [{ rel: 'stylesheet', href: $1 }];
+};
+endsnippet
+
+snippet d_remix_action "export const action: ActionFunction = async ({ request }) => {..."
+export const action: ActionFunction = async ({ request }) => {
+};
+endsnippet
+
+snippet react_query_usequery_base "import { useQuery, UseQueryOptions } from '@tanstack/react-query';..."
+import { useQuery, UseQueryOptions } from '@tanstack/react-query';
+
+type Request = {
+};
+
+type Response = {
+};
+
+const fetchiFn = async (
+  req: Request
+): Promise<Response> => {
+  const response = await axios.post(url, req);
+  return response.data;
+};
+
+export const useFindByToken = (
+  token: string,
+  opt: UseQueryOptions<Response, AxiosError>
+) => {
+  return useQuery({
+    queryKey: [token],
+    queryFn: () => fetchiFn({ token }),
+    ...opt,
+  });
+};
+endsnippet
+
+snippet base_react_query_usemutation "import type { UseMutationOptions } from '@tanstack/react-query';"
+import type { UseMutationOptions } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
+import { axios } from '~/root';
+
+type Request = {
+};
+
+type Response = {
+};
+
+const login = async (req: Request): Promise<Response> => {
+  const response = await axios.post(url, req);
+  return response.data;
+};
+
+export const useLogin = (
+  opt: UseMutationOptions<Response, AxiosError, Request, unknown>
+) => {
+  return useMutation<Response, AxiosError, Request, unknown>({
+    mutationFn: login,
+    ...opt,
+  });
+};
 endsnippet

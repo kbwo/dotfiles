@@ -54,6 +54,7 @@
   "prettier.onlyUseLocalVersion": true,
   "python.pythonPath": "~/.pyenv/shims/python",
   "python.jediEnabled": false,
+  "css.validate": false,
   "coc.preferences.colorSupport": true,
   "coc.source.file.ignoreHidden": true,
   "deno.enable": false,
@@ -117,5 +118,6 @@
   "tabnine.priority": 50,
   "suggest.noselect": true,
   "tabnine.enablePreselect": false,
-  "suggest.enablePreselect": false
+  "suggest.enablePreselect": false,
+  "snippets.ultisnips.directories": ["$HOME/dotfiles/UltiSnips"]
 }
