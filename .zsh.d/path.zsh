@@ -15,6 +15,7 @@ export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/path/to/parent/dir
 export PKG_CONFIG_PATH=/opt/homebrew/opt/expat/lib/pkgconfig
 # export CPPFLAGS=-I/usr/local/opt/llvm/include
 export GHQ_ROOT=$GOPATH/src
+export KBWO=$GHQ_ROOT/github.com/kbwo
 
 export PATH=$PATH:bin
 export PATH=$PATH:/usr/local/Cellar/git/X.XX.X/bin
