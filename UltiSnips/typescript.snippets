@@ -1,1 +1,13 @@
 extends javascript, typescriptreact
+
+snippet d_process_env_type "declare global {..."
+declare global {
+  namespace NodeJS {
+    interface ProcessEnv {
+      $1: string;
+    }
+  }
+}
+
+export {}
+endsnippet
