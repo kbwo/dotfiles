@@ -47,3 +47,29 @@ endsnippet
 snippet u_assert_eq "assert"
 assert_eq!(${1:Target}, ${2: Value});
 endsnippet
+
+snippet u_match "match ... (match)"
+match ${1:expression} {
+	${2:pattern} => ${3:expression},
+	${4:pattern} => ${5:expression},
+	${VISUAL}${6:${VISUAL/(.*)/_/}} => ${0:expression},
+}
+endsnippet
+
+snippet u_while "while ... (while)"
+while ${1:condition} {
+	${0}
+}
+endsnippet
+
+snippet d_modtest "mod tests {..."
+#[cfg(test)]
+mod tests {
+
+    #[test]
+    fn $1() {
+		}
+
+}
+endsnippet
+
