@@ -68,8 +68,14 @@ mod tests {
 
     #[test]
     fn $1() {
-		}
+    }
 
 }
 endsnippet
 
+snippet d_args "let args: Vec<String> = std::env::args().collect();..."
+let args: Vec<String> = std::env::args().collect();
+if args.len() >= $1 {
+		panic!("unexpected number of arguments");
+}
+endsnippet
