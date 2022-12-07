@@ -66,6 +66,7 @@ nmap <silent> ccc <Plug>(coc-codeaction-cursor)
 nmap <silent> csd :call <SID>show_documentation()<CR>
 vmap <silent><leader>sc <Plug>(coc-codeaction-selected)
 command! -nargs=0 CocFormat :call CocActionAsync('format')
+command! -nargs=0 Snip :CocCommand snippets.openSnippetFiles
 nmap <silent>ccr :CocRestart<CR>
 
 function! s:show_documentation()

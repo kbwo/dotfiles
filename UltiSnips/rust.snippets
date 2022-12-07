@@ -79,3 +79,8 @@ if args.len() >= $1 {
 		panic!("unexpected number of arguments");
 }
 endsnippet
+
+snippet u_read_file_to_string "read file to string buffer"
+let mut buf = String::new();
+${1:AsRef<Path>}.as_ref().read_to_string(buf);
+endsnippet

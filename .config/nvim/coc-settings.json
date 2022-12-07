@@ -119,5 +119,5 @@
   "suggest.noselect": true,
   "tabnine.enablePreselect": false,
   "suggest.enablePreselect": false,
-  "snippets.ultisnips.directories": ["$HOME/dotfiles/UltiSnips"]
+  "snippets.editSnippetsCommand": "vsplit"
 }
