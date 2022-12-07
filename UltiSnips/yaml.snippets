@@ -1,4 +1,4 @@
-snippet garustci "GitHub Actions Rust CI"
+snippet t_garustci "GitHub Actions Rust CI"
 name: Build & Test
 
 on:
@@ -56,4 +56,14 @@ jobs:
     - name: Check formatting
       run: |
         cargo fmt --all --check
+endsnippet
+
+snippet t_mini_docker_compose "template for mini docker-compose" b
+version: "3"
+
+services:
+  service:
+    build: $1
+    volumes:
+      - ${2:host:container}
 endsnippet
