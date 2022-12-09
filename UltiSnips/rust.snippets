@@ -84,3 +84,64 @@ snippet u_read_file_to_string "read file to string buffer"
 let mut buf = String::new();
 ${1:AsRef<Path>}.as_ref().read_to_string(buf);
 endsnippet
+
+snippet d_filepath_type "AsRef<Path>>"
+AsRef<Path>
+endsnippet
+
+snippet u_file_metadata_stat "fs::metadata(filename)"
+fs::metadata("$1")
+endsnippet
+
+snippet d_io_result "io::Result" 
+io::Result<$1, $2>
+endsnippet
+
+snippet u_mkdir "fs::create_dir" 
+fs::create_dir("$1")
+endsnippet
+
+snippet u_thread_spawn "thread::spawn(move || {..."
+thread::spawn(move || {
+	$1
+});
+endsnippet
+
+snippet u_actix_server_init "HttpServer::new(move || {"
+HttpServer::new(move || {
+	App::new()
+		.wrap(${1:middleware})
+		.app_data(${2:Data})
+		.configure(|cfg| ${3:config_fn})
+})
+.bind(${4:net::ToSocketAddrs})?
+.run()
+.await?;
+endsnippet
+
+snippet d_actix_route_config_init "pub fn config(cfg: &mut web::ServiceConfig) {..."
+pub fn config(cfg: &mut web::ServiceConfig) {
+  cfg
+    .route("/", web::get().to(${1:fn}))
+
+  cfg.service(
+    web::scope("")
+      .wrap(${2:middleware})
+      .guard(${3:guard})
+      .route("", web::post().to())
+  );
+}
+endsnippet
+
+snippet d_environment_variable "let log_description = std::env::var..."
+let $1 = std::env::var("${2:env_name}").unwrap_or_else(|_| "$3".into());
+endsnippet
+
+snippet d_tracing_subscriber_init "let layer = tracing_subscriber::fmt::layer()..." 
+let layer = tracing_subscriber::fmt::layer().with_filter(targets.clone());
+
+let subscriber = Registry::default()
+	.with(layer)
+	.with(ErrorLayer::default());
+endsnippet
+
