@@ -1,6 +1,6 @@
 extends javascript
 
-snippet base_react_fc "react_functionanl_component_basis"
+snippet s_base_react_fc "react_functionanl_component_basis"
 import React from 'react';
 
 type $1 = {
@@ -17,54 +17,54 @@ const $2: React.FC<$1> = () => {
 export default $2;
 endsnippet
 
-snippet import_from "import $1 from $2;"
+snippet s_import_from "import $1 from $2;"
 import $1 from $2;
 endsnippet
 
-snippet import_react "import React from 'react';"
+snippet s_import_react "import React from 'react';"
 import React from 'react';
 endsnippet
 
-snippet fragment "<></>"
+snippet s_fragment "<></>"
 <>
 </>
 endsnippet
 
-snippet d_state "const [$1, set$2] = useState($3);"
+snippet s_s_state "const [$1, set$2] = useState($3);"
 const [$1, set$2] = useState($3);
 endsnippet
 
-snippet u_usecallback "useCallback(() => {..."
+snippet s_usecallback "useCallback(() => {..."
 useCallback(() => {
 	$1
 }, []);
 endsnippet
 
-snippet u_usememo "useMemo(() => {..."
+snippet s_usememo "useMemo(() => {..."
 useMemo(() => {
 	$1
 }, []);
 endsnippet
 
-snippet u_useeffect "useEffect(() => {..."
+snippet s_useeffect "useEffect(() => {..."
 useEffect(() => {
 	$1
 }, []);
 endsnippet
 
-snippet u_uselayouteffect "useLayoutEffect(() => {..."
+snippet s_uselayouteffect "useLayoutEffect(() => {..."
 useLayoutEffect(() => {
 	$1
 }, []);
 endsnippet
 
-snippet d_reactnative_style "const $1 = StyleSheet.create..."
+snippet s_reactnative_style "const $1 = StyleSheet.create..."
 const $1 = StyleSheet.create({
 	$2
 });
 endsnippet
 
-snippet d_flatlist "<FlatList..."
+snippet s_flatlist "<FlatList..."
 <FlatList
 	data={$1}
 	keyExtractor={(_, index) => index.toString()}
@@ -73,18 +73,18 @@ snippet d_flatlist "<FlatList..."
 />
 endsnippet
 
-snippet d_remix_meta "export const meta: MetaFunction = () => ({..."
+snippet s_remix_meta "export const meta: MetaFunction = () => ({..."
 export const meta: MetaFunction = () => ({
 });
 endsnippet
 
-snippet d_remix_links "export const links: LinksFunction = () => {..."
+snippet s_remix_links "export const links: LinksFunction = () => {..."
 export const links: LinksFunction = () => {
   return [{ rel: 'stylesheet', href: $1 }];
 };
 endsnippet
 
-snippet d_remix_action "export const action: ActionFunction = async ({ request }) => {..."
+snippet s_remix_action "export const action: ActionFunction = async ({ request }) => {..."
 export const action: ActionFunction = async ({ request }) => {
 };
 endsnippet

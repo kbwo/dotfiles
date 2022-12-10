@@ -1,54 +1,54 @@
-snippet d_fn "fn name(?) -> ? {}"
+snippet s_fn "fn name(?) -> ? {}"
 fn ${1:function_name}($2)${3/..*/ -> /}$3 {
 	${VISUAL}$0
 }
 endsnippet
 
-snippet d_pubfn "pub fn name(?) -> ? {}"
+snippet s_pubfn "pub fn name(?) -> ? {}"
 pub fn ${1:function_name}($2)${3/..*/ -> /}$3 {
 	${VISUAL}$0
 }
 endsnippet
 
-snippet d_asyncfn "async fn name(?) -> ? {}"
+snippet s_asyncfn "async fn name(?) -> ? {}"
 async fn ${1:function_name}($2)${3/..*/ -> /}$3 {
 	${VISUAL}$0
 }
 endsnippet
 
-snippet d_pubasyncfn "pub async fn name(?) -> ? {}"
+snippet s_pubasyncfn "pub async fn name(?) -> ? {}"
 pub async fn ${1:function_name}($2)${3/..*/ -> /}$3 {
 	${VISUAL}$0
 }
 endsnippet
 
-snippet u_print "print!(..)"
+snippet s_print "print!(..)"
 print!("$1"${2/..*/, /}$2);
 endsnippet
 
-snippet u_println "println!(..)"
+snippet s_println "println!(..)"
 println!("$1"${2/..*/, /}$2);
 endsnippet
 
-snippet u_format "format!(..)"
+snippet s_format "format!(..)"
 format!("$1"${2/..*/, /}$2);
 endsnippet
 
-snippet u_dbg! "dbg!(..)"
+snippet s_dbg! "dbg!(..)"
 dbg!("$1");
 endsnippet
 
-snippet d_impl "Struct/Trait implementation"
+snippet s_impl "Struct/Trait implementation"
 impl$4 ${1:Type/Trait}${2: for ${3:Type}}${4:<${5:T}>} {
 	${0}
 }
 endsnippet
 
-snippet u_assert_eq "assert"
+snippet s_assert_eq "assert"
 assert_eq!(${1:Target}, ${2: Value});
 endsnippet
 
-snippet u_match "match ... (match)"
+snippet s_match "match ... (match)"
 match ${1:expression} {
 	${2:pattern} => ${3:expression},
 	${4:pattern} => ${5:expression},
@@ -56,13 +56,13 @@ match ${1:expression} {
 }
 endsnippet
 
-snippet u_while "while ... (while)"
+snippet s_while "while ... (while)"
 while ${1:condition} {
 	${0}
 }
 endsnippet
 
-snippet d_modtest "mod tests {..."
+snippet s_modtest "mod tests {..."
 #[cfg(test)]
 mod tests {
 
@@ -73,41 +73,41 @@ mod tests {
 }
 endsnippet
 
-snippet d_args "let args: Vec<String> = std::env::args().collect();..."
+snippet s_args "let args: Vec<String> = std::env::args().collect();..."
 let args: Vec<String> = std::env::args().collect();
 if args.len() >= $1 {
 		panic!("unexpected number of arguments");
 }
 endsnippet
 
-snippet u_read_file_to_string "read file to string buffer"
+snippet s_reas_file_to_string "read file to string buffer"
 let mut buf = String::new();
-${1:AsRef<Path>}.as_ref().read_to_string(buf);
+${1:AsRef<Path>}.as_ref().reas_to_string(buf);
 endsnippet
 
-snippet d_filepath_type "AsRef<Path>>"
+snippet s_filepath_type "AsRef<Path>>"
 AsRef<Path>
 endsnippet
 
-snippet u_file_metadata_stat "fs::metadata(filename)"
+snippet s_file_metadata_stat "fs::metadata(filename)"
 fs::metadata("$1")
 endsnippet
 
-snippet d_io_result "io::Result" 
+snippet s_io_result "io::Result" 
 io::Result<$1, $2>
 endsnippet
 
-snippet u_mkdir "fs::create_dir" 
+snippet s_mkdir "fs::create_dir" 
 fs::create_dir("$1")
 endsnippet
 
-snippet u_thread_spawn "thread::spawn(move || {..."
+snippet s_threas_spawn "thread::spawn(move || {..."
 thread::spawn(move || {
 	$1
 });
 endsnippet
 
-snippet u_actix_server_init "HttpServer::new(move || {"
+snippet s_actix_server_init "HttpServer::new(move || {"
 HttpServer::new(move || {
 	App::new()
 		.wrap(${1:middleware})
@@ -119,7 +119,7 @@ HttpServer::new(move || {
 .await?;
 endsnippet
 
-snippet d_actix_route_config_init "pub fn config(cfg: &mut web::ServiceConfig) {..."
+snippet s_actix_route_config_init "pub fn config(cfg: &mut web::ServiceConfig) {..."
 pub fn config(cfg: &mut web::ServiceConfig) {
   cfg
     .route("/", web::get().to(${1:fn}))
@@ -133,11 +133,11 @@ pub fn config(cfg: &mut web::ServiceConfig) {
 }
 endsnippet
 
-snippet d_environment_variable "let log_description = std::env::var..."
+snippet s_environment_variable "let log_description = std::env::var..."
 let $1 = std::env::var("${2:env_name}").unwrap_or_else(|_| "$3".into());
 endsnippet
 
-snippet d_tracing_subscriber_init "let layer = tracing_subscriber::fmt::layer()..." 
+snippet s_tracing_subscriber_init "let layer = tracing_subscriber::fmt::layer()..." 
 let layer = tracing_subscriber::fmt::layer().with_filter(targets.clone());
 
 let subscriber = Registry::default()
@@ -145,3 +145,75 @@ let subscriber = Registry::default()
 	.with(ErrorLayer::default());
 endsnippet
 
+snippet s_tracing_set_global_default "set global default subscriber" 
+set_global_default(subscriber);
+endsnippet
+
+snippet s_tracing_instrument_fields "#[tracing::instrument(fields(additional_field))]"
+#[tracing::instrument(fields($1))]"
+endsnippet
+
+snippet s_tracing_instrument_skip_all "#[tracing::instrument(skip_all)]"
+#[tracing::instrument(skip_all)]"
+endsnippet
+
+snippet s_tracing_instrument_skip "#[tracing::instrument(skip(field))]"
+#[tracing::instrument(skip($1))]"
+endsnippet
+
+snippet s_duration_fromsecs "Duration::from_secs()"
+Duration::from_secs($1)
+endsnippet
+
+snippet s_pub_crate "pub for current crate"
+pub(crate)
+endsnippet
+
+snippet s_pub_self "pub for current module"
+pub(self)
+endsnippet
+
+snippet s_pub_path "pub for specific path"
+pub(in $1)
+endsnippet
+
+snippet s_pub_super "pub for parent"
+pub(super)
+endsnippet
+
+snippet s_hashmap_type "typeof hashmap"
+HashMap<${1:key}, ${2:value}>
+endsnippet
+
+snippet s_hashset_type "typeof hashset"
+HashSet<${1:key}>
+endsnippet
+
+snippet s_threadlocal_random_generator "rand::thread_rng()"
+rand::thread_rng()
+endsnippet
+
+snippet s_hashmap_mut_iter_method ".values_mut()"
+${1:HashMap}.values_mut()
+endsnippet
+
+snippet s_future_callback_return_types "Pin<Box<dyn Future<Output = Result<$1, $2>> + '_>>"
+Pin<Box<dyn Future<Output = Result<$1, $2>> + '_>>
+endsnippet
+
+snippet s_let_if_ok "if let Ok($1) = $2 {"
+if let Ok($1) = $2 {
+}
+endsnippet
+
+snippet s_async_trait "#[async_trait::async_trait(?Send)]"
+#[async_trait::async_trait(?Send)]
+endsnippet
+
+snippet s_custom_error_with_inner ""
+struct Error {
+  message: Option<String>,
+  inner: ${1:anyhow::Error},
+  context: $2,
+}
+endsnippet
