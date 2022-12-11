@@ -217,3 +217,27 @@ struct Error {
   context: $2,
 }
 endsnippet
+
+snippet s_macro_use "#[macro_use]"
+#[macro_use]
+endsnippet
+
+snippet s_thread_builder "thread::Builder::new()..."
+thread::Builder::new()
+    .name("ctrl-c".into())
+    .spawn(move || loop {
+        unsafe {
+            platform::block_ctrl_c().expect("Critical system error while waiting for Ctrl-C");
+        }
+        user_handler();
+    })
+    .expect("failed to spawn thread");
+endsnippet
+
+snippet s_tokio_main "#[tokio::main]"
+#[tokio::main]
+endsnippet
+
+snippet s_byte_to_utf8_string "str::from_utf8().unwrap()"
+str::from_utf8($1).unwrap()
+endsnippet
