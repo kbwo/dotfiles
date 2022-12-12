@@ -11,3 +11,26 @@ declare global {
 
 export {}
 endsnippet
+
+snippet s_prosemirror_node "const $1: NodeSpec = {"
+const $1: NodeSpec = {
+	parseDOM: [{ tag: '$2' }],
+	content: "text*", 
+	group: 'block',
+	toDOM() {
+		return ['$2',  0];
+	}
+};
+endsnippet
+
+snippet s_aws_cdk_construct ""
+import {Construct} from 'constructs';
+
+interface $1Props {
+}
+export class $1 extends Construct {
+  constructor(scope: Construct, id: string, props: $1Props) {
+		$2
+  }
+}
+endsnippet

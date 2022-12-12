@@ -1,3 +1,9 @@
 snippet s_fn "function"
 function
 endsnippet
+
+snippet s_laravel_has_table "Schema::hasTable()..."
+if(Schema::hasTable('${1:table_name}')) {
+	$2
+}
+endsnippet
