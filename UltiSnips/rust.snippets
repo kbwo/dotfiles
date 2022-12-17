@@ -1,3 +1,8 @@
+snippet s_pub_struct "pub struct $1 {"
+#[derive(Debug, $1)]
+pub struct $2 {
+}
+endsnippet
 snippet s_fn "fn name(?) -> ? {}"
 fn ${1:function_name}($2)${3/..*/ -> /}$3 {
 	${VISUAL}$0
@@ -133,6 +138,24 @@ pub fn config(cfg: &mut web::ServiceConfig) {
 }
 endsnippet
 
+snippet s_actix_response_impl_responder "async fn $1() -> impl Responder {..."
+#[$1("$2")]
+async fn $3() -> impl Responder {
+    HttpResponse::Ok().json(/* */)
+}
+endsnippet
+
+snippet s_actix_response_result "async fn $1() -> impl Responder {..."
+#[$1("$2")]
+async fn $3() -> Result<HttpResponse, $4> {
+    HttpResponse::Ok().json(/* */)
+}
+endsnippet
+
+snippet s_actix_form_type "actix form type"
+Form<$1>
+endsnippet
+
 snippet s_environment_variable "let log_description = std::env::var..."
 let $1 = std::env::var("${2:env_name}").unwrap_or_else(|_| "$3".into());
 endsnippet
@@ -237,4 +260,12 @@ endsnippet
 
 snippet s_byte_to_utf8_string "str::from_utf8().unwrap()"
 str::from_utf8($1).unwrap()
+endsnippet
+
+snippet s_thiserror_enum "Description" 
+#[derive(thiserror::Error, Debug)]
+pub enum $1 {
+    #[error("$2")]
+    $3(#[from] $4),
+}
 endsnippet
