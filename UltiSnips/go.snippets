@@ -1,15 +1,27 @@
-snippet init "go project init"
+snippet s_init "go project init"
 package main
 
 func main() {
 }
 endsnippet
-snippet er "if err != nil"
+snippet s_er "if err != nil"
 if err != nil {
 	$1
 }
 endsnippet
-snippet fc "function"
+snippet s_fc "function"
 func $1() {
 }
+endsnippet
+
+snippet s_cobra_command "&cobra.Command{..."
+&cobra.Command{
+		Use:     "$1",
+		Short:   "$2",
+		Long:    "$3",
+		Version: $4,
+		Run: func(cmd *cobra.Command) {
+			$5
+		},
+	}
 endsnippet
