@@ -1,0 +1,7 @@
+% kbwo, misc
+
+# Update Rust
+rustup update
+
+# cargo install
+cargo install <package>

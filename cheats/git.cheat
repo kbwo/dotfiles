@@ -1,2 +1,3 @@
+% kbwo, git
 # Git remove merged branches
 git fetch --prune && git branch --merged | egrep -v \"\*|develop|master|main\"|xargs git branch -d
