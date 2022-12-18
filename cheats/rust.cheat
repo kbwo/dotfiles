@@ -1,0 +1,10 @@
+% kbwo, cargo
+
+# Update Rust
+rustup update
+
+# Run example
+cargo run --example <name>
+
+# cargo install
+cargo install <package>

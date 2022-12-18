@@ -1,0 +1,10 @@
+% kbwo, sqlx
+
+# create migration
+sqlx migrate -r <name>
+
+# run migration
+sqlx migrate run
+
+# revert(rollback) migration
+sqlx migrate revert

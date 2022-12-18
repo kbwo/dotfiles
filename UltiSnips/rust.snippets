@@ -124,6 +124,14 @@ HttpServer::new(move || {
 .await?;
 endsnippet
 
+snippet s_actix_config_fn "cfg.service(..."
+cfg.service(
+  web::scope("${1:root}")
+    .wrap($2)
+    .guard($3)
+    .service(${4:fn});
+);
+endsnippet
 snippet s_actix_route_config_init "pub fn config(cfg: &mut web::ServiceConfig) {..."
 pub fn config(cfg: &mut web::ServiceConfig) {
   cfg
