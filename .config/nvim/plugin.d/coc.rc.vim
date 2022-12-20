@@ -93,6 +93,7 @@ nmap tr <Plug>(coc-translator-p)
 vmap tr <Plug>(coc-translator-pv)
 
 au FileType vue let b:coc_root_patterns = ['.git', '.env', 'package.json', 'tsconfig.json', 'jsconfig.json', 'vite.config.ts', 'nuxt.config.ts']
+au FileType rust nmap gd :CocCommand rust-analyzer.openDocs<CR>
 
 function! s:check_back_space() abort
   let col = col('.') - 1
