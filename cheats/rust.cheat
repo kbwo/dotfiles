@@ -8,3 +8,6 @@ cargo run --example <name>
 
 # cargo install
 cargo install <package>
+
+# cargo installed package list
+cargo install --list
