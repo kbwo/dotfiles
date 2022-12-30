@@ -119,5 +119,6 @@
   "suggest.noselect": true,
   "tabnine.enablePreselect": false,
   "suggest.enablePreselect": false,
-  "snippets.editSnippetsCommand": "vsplit"
+  "snippets.editSnippetsCommand": "vsplit",
+  "snippets.ultisnips.pythonPrompt": false
 }
