@@ -35,6 +35,11 @@ require('nvim-tree').setup({
         }
         end,
     },
+    update_focused_file = {
+      enable = true,
+      update_root = true,
+      ignore_list = {},
+    },
     width = function()
       return math.floor(vim.opt.columns:get() * WIDTH_RATIO)
     end,
