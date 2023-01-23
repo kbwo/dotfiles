@@ -89,13 +89,13 @@ endfunction
 function! RgFindIgnore() abort
   let word = input("search word: ")
   " :Copilot disable
-  call ddu#start({'sources': [{'name': 'rg', 'params': {'input': word, 'args': ['--smart-case', "--column", "--no-heading", '--hidden', '--glob', '!.git', '--color', 'never', '--']}}]})
+  call ddu#start({'sources': [{'name': 'rg', 'params': {'input': word, 'args': ['--smart-case', "--column", "--no-heading", '--hidden', '--glob', '!.git', '--color', 'never']}}]})
 endfunction
 
 function! RgFindNoIgnore() abort
   let word = input("search word: ")
   " :Copilot disable
-  call ddu#start({'sources': [{'name': 'rg', 'params': {'input': word, 'args': ['--smart-case', "--column", "--no-heading", '--hidden', '--glob', '!.git', '--color', 'never', "--no-ignore", '--']}}]})
+  call ddu#start({'sources': [{'name': 'rg', 'params': {'input': word, 'args': ['--smart-case', "--column", "--no-heading", '--hidden', '--glob', '!.git', '--color', 'never', "--no-ignore"]}}]})
 endfunction
 
 command! Symbols call ddu#start({
