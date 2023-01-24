@@ -23,8 +23,10 @@ require('nvim-tree').setup({
         { key = "yy", action = "copy_absolute_path" },
         { key = "cc", action = "copy" },
         { key = "M", action = "create" },
+        { key = "r", action = "full_rename" },
         { key = "F", action = "next_sibling" },
-        { key = "B", action = "prev_sibling" }
+        { key = "B", action = "prev_sibling" },
+        { key = "<Leader>m", action = "cut" }
       }
     },
     float = {
