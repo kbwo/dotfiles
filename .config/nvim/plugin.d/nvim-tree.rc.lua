@@ -2,6 +2,17 @@ local HEIGHT_RATIO = 0.8  -- You can change this
 local WIDTH_RATIO = 0.5   -- You can change this too
 
 require('nvim-tree').setup({
+  renderer = {
+    icons = {
+      show = {
+        file = false,
+        folder = false,
+        folder_arrow = false,
+        git = true,
+        modified = true,
+      }
+    }
+  },
   view = {
     mappings = {
       list = {
@@ -9,8 +20,11 @@ require('nvim-tree').setup({
         { key = "<Leader>s", action = "split" },
         { key = "<Leader>t", action = "tabnew" },
         { key = "dl", action = "remove" },
-        { key = "yy", action = "copy_name" },
-        { key = "cc", action = "copy" }
+        { key = "yy", action = "copy_absolute_path" },
+        { key = "cc", action = "copy" },
+        { key = "M", action = "create" },
+        { key = "F", action = "next_sibling" },
+        { key = "B", action = "prev_sibling" }
       }
     },
     float = {
@@ -35,14 +49,14 @@ require('nvim-tree').setup({
         }
         end,
     },
-    update_focused_file = {
-      enable = true,
-      update_root = true,
-      ignore_list = {},
-    },
     width = function()
       return math.floor(vim.opt.columns:get() * WIDTH_RATIO)
     end,
+  },
+    update_focused_file = {
+      enable = true,
+    update_root = true,
+    ignore_list = {},
   },
 })
 
