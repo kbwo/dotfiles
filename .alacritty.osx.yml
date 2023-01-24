@@ -32,7 +32,7 @@ colors:
     - { index: 16, color: '0xffa066' }
 
 font:
-  size: 10
+  size: 10.5
   normal:
     family: Ricty
     style: Regular
