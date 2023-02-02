@@ -34,9 +34,9 @@ Plug 'dhruvasagar/vim-table-mode', { 'for': ['markdown']}
 Plug 'udalov/kotlin-vim'
 Plug 'kchmck/vim-coffee-script'
 Plug 'thosakwe/vim-flutter'
-" Plug 'lambdalisue/fern.vim'
+Plug 'lambdalisue/fern.vim'
 Plug 'Bakudankun/BackAndForward.vim'
-" Plug 'lambdalisue/fern-git-status.vim'
+Plug 'lambdalisue/fern-git-status.vim'
 Plug 'skanehira/denops-docker.vim'
 " Plug 'github/copilot.vim'
 " Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -46,7 +46,7 @@ if has('nvim')
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
   Plug 'lukas-reineke/indent-blankline.nvim'
   Plug 'rebelot/kanagawa.nvim'
-  Plug 'nvim-tree/nvim-tree.lua'
+  " Plug 'nvim-tree/nvim-tree.lua'
   if executable("yarn")
     Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
   else

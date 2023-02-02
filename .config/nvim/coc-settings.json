@@ -44,7 +44,6 @@
   "[dart]": {
     "coc.preferences.formatOnSave": true
   },
-  "notification.statusLineProgress": false,
   "rust-analyzer.diagnostics.disabled": ["unresolved-proc-macro"],
   "rust-analyzer.procMacro.enable": true,
   "rust-analyzer.checkOnSave.command": "clippy",
@@ -70,7 +69,7 @@
   ],
   "languageserver": {
     "kotlin": {
-      "command": "~/lsp/kotlin/server/bin/kotlin-language-server",
+      "command": "~/go/src/github.com/fwcd/kotlin-language-server/server/build/install/server/bin/kotlin-language-server",
       "filetypes": [
         "kotlin"
       ]
