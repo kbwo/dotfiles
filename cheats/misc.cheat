@@ -2,3 +2,6 @@
 
 # Compile with debug info
 gcc -g <target> -o <name>
+
+# Unzip to a different directory
+unzip <zip_name> -d <directory_name>
