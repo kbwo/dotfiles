@@ -34,22 +34,21 @@ colors:
 
 font:
   # The size to use.
-  size: 9.5
+  size: 8
   # The normal (roman) font face to use.
   normal:
-    family: Ricty
+    family: Hack
     # Style can be specified to pick a specific face.
-    style: Bold
 
   # The bold font face
   bold:
-    family: Ricty
+    family: Hack
     # Style can be specified to pick a specific face.
     style: Bold
 
   # The italic font face
   italic:
-    family: Ricty
+    family: Hack
     # Style can be specified to pick a specific face.
     style: Italic
 
