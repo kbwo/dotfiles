@@ -57,6 +57,7 @@
   "python.pythonPath": "~/.pyenv/shims/python",
   "python.jediEnabled": false,
   "css.validate": false,
+  "css.completion.completePropertyWithSemicolon": false,
   "coc.preferences.colorSupport": true,
   "coc.source.file.ignoreHidden": true,
   "deno.enable": false,
@@ -122,5 +123,6 @@
   "tabnine.enablePreselect": false,
   "suggest.enablePreselect": false,
   "snippets.editSnippetsCommand": "vsplit",
-  "snippets.ultisnips.pythonPrompt": false
+  "snippets.ultisnips.pythonPrompt": false,
+  "typescript.preferences.jsxAttributeCompletionStyle": "none"
 }
