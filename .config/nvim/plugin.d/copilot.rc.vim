@@ -1,7 +1,7 @@
-imap <silent><script><expr> <c-e>n copilot#Accept("\<CR>")
-imap <silent><script><expr> <c-e>d <Plug>(copilot-dismiss)
-imap <silent><script><expr> <c-i> <Plug>(copilot-next)
-imap <silent><script><expr> <c-o> <Plug>(copilot-previous)
+imap <silent><script><expr> <c-e><c-n> copilot#Accept("\<CR>")
+imap <silent><script><expr> <c-e><c-d> <Plug>(copilot-dismiss)
+imap <silent><script><expr> <c-e><c-l> <Plug>(copilot-next)
+imap <silent><script><expr> <c-e><c-h> <Plug>(copilot-previous)
 let g:copilot_filetypes = {
 \ 'ddu-ff': v:false,
 \ 'ddu-ff-filter': v:true,
