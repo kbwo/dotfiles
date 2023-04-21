@@ -24,11 +24,11 @@ autocmd FileType ddu-ff call s:ddu_my_settings()
 function! s:ddu_my_settings() abort
   nnoremap <buffer><silent> <CR>
         \ <Cmd>call ddu#ui#ff#do_action('itemAction')<CR>
-  nnoremap <buffer><silent> <Leader>v
+  nnoremap <buffer><silent> <Leader>vv
         \ <Cmd>call ddu#ui#ff#do_action('itemAction', {'params': {'command': 'vsplit'}})<CR>
-  nnoremap <buffer><silent> <Leader>s
+  nnoremap <buffer><silent> <Leader>ss
         \ <Cmd>call ddu#ui#ff#do_action('itemAction', {'params': {'command': 'split'}})<CR>
-  nnoremap <buffer><silent> <Leader>t
+  nnoremap <buffer><silent> <Leader>tt
         \ <Cmd>call ddu#ui#ff#do_action('itemAction', {'params': {'command': 'tabnew'}})<CR>
   nnoremap <buffer><silent> m
         \ <Cmd>call ddu#ui#ff#do_action('toggleSelectItem')<CR>
