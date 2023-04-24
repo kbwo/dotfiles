@@ -8,17 +8,8 @@ nmap gnl :Gina log --oneline --graph<CR>
 let g:gina#command#blame#formatter#format = '%au: %su%= on %ti %ma%in'
 
 function! FindGitDir()
-  let path = expand('%:p:h')
-  while path !=# '/' && !isdirectory(path.'/.git')
-    let path = fnamemodify(path, ':h')
-  endwhile
-
-  if isdirectory(path.'/.git')
-    return path
-  else
-    echoerr 'Could not find .git directory'
-    return ''
-  endif
+  let git_dir = system('git rev-parse --show-toplevel 2>/dev/null')
+  return git_dir ==# '' ? '' : git_dir[:-2]
 endfunction
 
 function s:append_diff() abort
@@ -27,7 +18,7 @@ function s:append_diff() abort
   let git_root = fnamemodify(git_dir, ':h')
 
   " Get the diff of the staged changes relative to the Git repository root
-  let diff = system('git -C ' . git_root . ' diff --cached')
+  let diff = system('git -C ' . git_dir . ' diff --cached')
 
   " Add a comment character to each line of the diff
   let comment_diff = join(map(split(diff, '\n'), {idx, line -> '# ' . line}), "\n")
@@ -37,4 +28,4 @@ function s:append_diff() abort
 endfunction
 
 autocmd FileType gina-commit call s:append_diff()
-autocmd BufReadPost COMMIT_EDITMSG call s:append_diff()
+autocmd FileType git-commit call s:append_diff()
