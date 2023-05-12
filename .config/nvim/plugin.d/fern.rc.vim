@@ -2,9 +2,9 @@ nmap <silent> <c-n> :Fern . -reveal=% -stay<CR>
 nmap <silent> <c-w>c :Fern %:h -reveal=% -stay<CR>
 function! FernInit() abort
   nmap <silent><buffer> <c-n> :Fern .<CR>
-  nmap <silent><buffer> <Leader>s <Plug>(fern-action-open:split)
-  nmap <silent><buffer> <Leader>v <Plug>(fern-action-open:vsplit)
-  nmap <silent><buffer> <Leader>t <Plug>(fern-action-open:tabedit)
+  nmap <silent><buffer> <Leader>ss <Plug>(fern-action-open:split)
+  nmap <silent><buffer> <Leader>vv <Plug>(fern-action-open:vsplit)
+  nmap <silent><buffer> <Leader>tt <Plug>(fern-action-open:tabedit)
   nmap <silent><buffer> D <Plug>(fern-action-new-dir)
   nmap <silent><buffer> ! <Plug>(fern-action-hidden:toggle)
   nmap <silent><buffer> m <Plug>(fern-action-mark:toggle)

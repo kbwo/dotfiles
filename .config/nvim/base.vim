@@ -19,12 +19,11 @@ nmap k gk
 nmap <Leader>j <c-d>
 nmap <Leader>k <c-u>
 nmap R :join<CR>
-nmap <Leader>t :tabnew<CR>
 nmap <Down> gj
 nmap <Up> gk
 nmap + <C-a>
 nmap - <C-x>
-nmap <c-t> <c-o>
+nmap <c-t> :tabnew<CR>
 nmap <Leader>l :lcd %:h<CR>
 nmap <Leader>h :noh<CR>
 command Sov so ~/.config/nvim/init.vim

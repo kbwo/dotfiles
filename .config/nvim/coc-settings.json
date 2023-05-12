@@ -124,5 +124,6 @@
   "suggest.enablePreselect": false,
   "snippets.editSnippetsCommand": "vsplit",
   "snippets.ultisnips.pythonPrompt": false,
-  "typescript.preferences.jsxAttributeCompletionStyle": "none"
+  "typescript.preferences.jsxAttributeCompletionStyle": "none",
+  "zig.zls.path": "/Users/kbwo/.config/coc/extensions/coc-zls-data/zls_install/zls"
 }

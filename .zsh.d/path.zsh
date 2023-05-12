@@ -8,11 +8,12 @@ export GIT_EDITOR=nvim
 export XDG_CONFIG_HOME=$HOME/.config
 export XDG_CACHE_HOME=$HOME/.cache
 export PYENV_ROOT=$HOME/.pyenv
-export CLOUDSDK_PYTHON=python2
 export FZF_DEFAULT_COMMAND='rg --hidden --no-ignore --files'
 export DENO_INSTALL="/home/kodai/.deno"
 export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/path/to/parent/dir
 export PKG_CONFIG_PATH=/opt/homebrew/opt/expat/lib/pkgconfig
+export CLOUDSDK_PYTHON=~/.pyenv/shims/python
+
 # export CPPFLAGS=-I/usr/local/opt/llvm/include
 export GHQ_ROOT=$GOPATH/src
 export KBWO=$GHQ_ROOT/github.com/kbwo
