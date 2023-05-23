@@ -40,7 +40,6 @@ font:
 key_bindings:
   - { key: Q, mods: Control, chars: "\x11" }
   - { key: Slash, mods: Control, chars: "\x1f" }
-alt_send_esc: false
 
 window:
   opacity: 0.8
