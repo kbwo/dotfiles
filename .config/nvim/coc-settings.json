@@ -95,17 +95,6 @@
         "diagnosticsOnSaveOnly": true
       }
     },
-    "sql": {
-      "command": "sqls",
-      "args": [
-        "-config",
-        "$HOME/.config/sqls/config.yml"
-      ],
-      "filetypes": [
-        "sql"
-      ],
-      "shell": true
-    },
     "terraform": {
       "command": "terraform-ls",
 			"args": ["serve"],
