@@ -6,4 +6,4 @@ ln -sf ~/dotfiles/.config/nvim/coc-settings.json ~/.config/nvim/coc-settings.jso
 ln -sf ~/dotfiles/.zshrc ~/.zshrc
 ln -sf ~/dotfiles/.tmux.conf ~/.tmux.conf
 ln -sf ~/dotfiles/.alacritty.arch.yml ~/.alacritty.yml
-ln -sf ~/dotfiles/ultisnips ~/.config/coc
+ln -sf ~/dotfiles/ultisnips/* ~/.config/coc/ultisnips
