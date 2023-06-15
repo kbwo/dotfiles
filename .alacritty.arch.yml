@@ -59,3 +59,6 @@ key_bindings:
 
 window:
   opacity: 0.8
+
+shell:
+  program: /usr/bin/zsh
