@@ -68,6 +68,7 @@ vmap <silent><leader>sc <Plug>(coc-codeaction-selected)
 command! -nargs=0 CocFormat :call CocActionAsync('format')
 command! -nargs=0 Snip :CocCommand snippets.openSnippetFiles
 nmap <silent>ccr :CocRestart<CR>
+nnoremap <silent> cj <Plug>(coc-float-jump)
 
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
