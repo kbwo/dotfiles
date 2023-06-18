@@ -20,6 +20,7 @@ highlight HopNextKey cterm=bold ctermfg=45 gui=bold guifg=#00dfff
 highlight AnsiColor1 guifg=#e46876
 highlight FgCocErrorFloatBgCocFloating guifg=#e46876
 highlight Error guifg=#F7768E
+highlight ErrorMsg guifg=#F7768E
 highlight PreProc guifg=#FF9E64
 
 " show highlight information under the cursor
