@@ -41,3 +41,5 @@ augroup FernEvents
 augroup END
 let g:fern#disable_default_mappings = 1
 let g:fern#default_hidden = 1
+
+nmap <silent> rel :Fern ~/.http -reveal=% -stay<CR>

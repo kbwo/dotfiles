@@ -77,8 +77,8 @@ set noerrorbells visualbell t_vb=
 set mouse=a
 set whichwrap=b,s,h,l,<,>,[,]
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
+set clipboard+=unnamedplus
 if has('nvim')
-  set clipboard+=unnamedplus
   set guicursor=a:blinkon0
 else
   set guicursor=i:blinkwait700-blinkon400-blinkoff250

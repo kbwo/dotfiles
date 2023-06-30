@@ -36,8 +36,6 @@ function! s:ddu_my_settings() abort
         \ <Cmd>call ddu#ui#ff#do_action('toggleSelectItem')<CR>
   nnoremap <buffer><silent> i
         \ <Cmd>call ddu#ui#ff#do_action('openFilterWindow')<CR>
-  nnoremap <buffer><silent> q
-        \ <Cmd>call ddu#ui#ff#do_action('quit')<CR>
 endfunction
 
 autocmd FileType ddu-ff-filter call s:ddu_filter_my_settings()

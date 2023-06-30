@@ -22,7 +22,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install()}}
 Plug 'machakann/vim-sandwich'
 Plug 'kbwo/ddu-source-coc'
 Plug 'Shougo/ddu.vim'
-Plug 'Shougo/ddu-ui-ff'
+Plug 'Shougo/ddu-ui-ff', { 'commit': '2b9f9f9c36ee734dc13659c2829a2893b716ef5a'}
 Plug 'Shougo/ddu-source-file_rec'
 Plug 'Shougo/ddu-filter-matcher_substring'
 Plug 'Shougo/ddu-kind-file'
@@ -48,6 +48,8 @@ if has('nvim')
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
   Plug 'lukas-reineke/indent-blankline.nvim'
   Plug 'rebelot/kanagawa.nvim'
+  Plug 'rest-nvim/rest.nvim'
+  Plug 'nvim-lua/plenary.nvim'
   " Plug 'nvim-tree/nvim-tree.lua'
   if executable("yarn")
     Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
