@@ -33,7 +33,7 @@ function! FernInit() abort
   " nmap <buffer> B <Plug>(fern-action-save-as-bookmark)
   nmap <silent><buffer> cd <Plug>(fern-action-tcd)
   nmap <silent><buffer> B <Plug>(fern-action-leave)
-  nmap <silent><buffer> q :Back<CR>
+  nmap <silent><buffer> x :Back<CR>
 endfunction
 augroup FernEvents
   autocmd!
