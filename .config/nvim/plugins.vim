@@ -18,9 +18,9 @@ Plug 'vim-denops/denops.vim'
 Plug 'lambdalisue/gina.vim'
 " Plug 'lambdalisue/gin.vim'
 Plug 'lambdalisue/guise.vim'
-Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install()}}
+" Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install()}}
 Plug 'machakann/vim-sandwich'
-Plug 'kbwo/ddu-source-coc'
+" Plug 'kbwo/ddu-source-coc'
 Plug 'Shougo/ddu.vim'
 Plug 'Shougo/ddu-ui-ff', { 'commit': '2b9f9f9c36ee734dc13659c2829a2893b716ef5a'}
 Plug 'Shougo/ddu-source-file_rec'
@@ -50,6 +50,23 @@ if has('nvim')
   Plug 'rebelot/kanagawa.nvim'
   Plug 'rest-nvim/rest.nvim'
   Plug 'nvim-lua/plenary.nvim'
+  Plug 'williamboman/mason.nvim'
+  Plug 'williamboman/mason-lspconfig.nvim'
+  Plug 'neovim/nvim-lspconfig'
+  Plug 'hrsh7th/nvim-cmp' 
+
+  Plug 'hrsh7th/cmp-nvim-lsp'
+
+  Plug 'hrsh7th/cmp-nvim-lua'
+  Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
+  Plug 'hrsh7th/cmp-path'                              
+  Plug 'hrsh7th/cmp-buffer'                            
+  Plug 'simrat39/rust-tools.nvim'
+  " Plug 'SirVer/ultisnips'
+  Plug 'quangnguyen30192/cmp-nvim-ultisnips'
+  Plug 'mfussenegger/nvim-dap'
+  Plug 'mhartington/formatter.nvim'
+  Plug 'WhoIsSethDaniel/mason-tool-installer.nvim'
   " Plug 'nvim-tree/nvim-tree.lua'
   if executable("yarn")
     Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }

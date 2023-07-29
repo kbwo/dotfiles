@@ -1,7 +1,4 @@
 local lspconfig = require('lspconfig')
-local on_attach = require('plugins.config.lspconfig').on_attach
-local capabilities = require('plugins.config.lspconfig').capabilities
-local util = require "lspconfig"
 require'lspconfig'.vimls.setup{}
 require'lspconfig'.pyright.setup{}
 
@@ -33,108 +30,39 @@ local eslint = {
   formatStdin = true
 }
 
-local function exists_package_json_field(field)
-    if vim.fn.filereadable("package.json") ~= 0 then
-        local package_json = vim.fn.json_decode(vim.fn.readfile("package.json"))
-        return package_json[field] ~= nil
-    end
-end
-
-local function exists_glob(glob)
-    return vim.fn.glob(glob) ~= ""
-end
-
 local function eslint_config_exists()
-  return exists_glob(".eslintrc*") or exists_package_json_field("eslintConfig")
+  local eslintrc = vim.fn.glob(".eslintrc*", 0, 1)
+
+  if not vim.tbl_isempty(eslintrc) then
+    return true
+  end
+
+  if vim.fn.filereadable("package.json") then
+    if vim.fn.json_decode(vim.fn.readfile("package.json"))["eslintConfig"] then
+      return true
+    end
+  end
+
+  return false
 end
-lspconfig.go.setup {
-  on_attach = on_attach
-}
-lspconfig.angular.setup {
-  on_attach = on_attach
-}
-lspconfig.bash.setup {
-  on_attach = on_attach
-}
-lspconfig.cpp.setup {
-  on_attach = on_attach
-}
-lspconfig.css.setup {
-  on_attach = on_attach
-}
-lspconfig.dockerfile.setup {
-  on_attach = on_attach
-}
 
-lspconfig.graphql.setup {
-  on_attach = on_attach
-}
-
-lspconfig.html.setup {
-  on_attach = on_attach
-}
-
-lspconfig.json.setup {
-  on_attach = on_attach
-}
-
-lspconfig.kotlin.setup {
-  on_attach = on_attach
-}
-
-lspconfig.lua.setup {
-  on_attach = on_attach
-}
-
-lspconfig.php.setup {
-  on_attach = on_attach
-}
-
-lspconfig.python.setup {
-  on_attach = on_attach
-}
-
-lspconfig.rust.setup {
-  on_attach = on_attach
-}
-
-lspconfig.vim.setup {
-  on_attach = on_attach
-}
-
-lspconfig.vue.setup {
-  on_attach = on_attach
-}
-
-lspconfig.yaml.setup {
-  on_attach = on_attach
-}
-
-lspconfig.deno.setup {
-  on_attach = on_attach
-}
-
+ 
 lspconfig.tsserver.setup {
-  on_attach = on_attach,
-  filetypes = { "typescript", "typescriptreact", "typescript.tsx" }
+  on_attach = function(client)
+    if client.config.flags then
+      client.config.flags.allow_incremental_sync = true
+    end
+    client.resolved_capabilities.document_formatting = false
+    set_lsp_config(client)
+  end
 }
-
-lspconfig.rust_analyzer.setup({
-  on_attach = on_attach,
-  capabilities = capabilities,
-  filetypes = { "rust" },
-  root_dir = util.root_pattern("Cargo.toml"),
-  settings = {
-    ["rust-analyzer"] = {
-      cargo = {
-        allFeatures = true
-      }
-    }
-  }
-})
-
+ 
 lspconfig.efm.setup {
-  on_attach = on_attach,
+  on_attach = function(client)
+    client.resolved_capabilities.document_formatting = true
+    client.resolved_capabilities.goto_definition = false
+    set_lsp_config(client)
+  end,
   root_dir = function()
     if not eslint_config_exists() then
       return nil
@@ -160,7 +88,3 @@ lspconfig.efm.setup {
     "typescriptreact"
   },
 }
-
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false }
-  )
