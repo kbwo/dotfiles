@@ -100,7 +100,10 @@ function! RgFindNoIgnore() abort
   call ddu#start({'sources': [{'name': 'rg', 'params': {'input': word, 'args': ['--smart-case', "--column", "--no-heading", '--hidden', '--glob', '!.git', '--color', 'never', "--no-ignore"]}}]})
 endfunction
 
-command! Symbols call ddu#start({
+nmap <silent>csm :call FindSymbols()<CR>
+command! Symbols call FindSymbols()
+function! FindSymbols() abort
+  call ddu#start({
     \   'ui': 'ff',
     \   'sources': [{'name': 'coc-symbols', 'params': {'symbols': g:CocAction('documentSymbols'), 'filePath': expand('%:p')}}],
     \   'kindOptions': {
@@ -109,6 +112,7 @@ command! Symbols call ddu#start({
     \     },
     \   }
     \ })
+endfunction
 
 autocmd! User CocLocationsChange call ddu#start({
     \   'ui': 'ff',
