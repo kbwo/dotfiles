@@ -67,6 +67,7 @@ if has('nvim')
   Plug 'mfussenegger/nvim-dap'
   Plug 'mhartington/formatter.nvim'
   Plug 'WhoIsSethDaniel/mason-tool-installer.nvim'
+  Plug 'nvimdev/lspsaga.nvim'
   " Plug 'nvim-tree/nvim-tree.lua'
   if executable("yarn")
     Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
