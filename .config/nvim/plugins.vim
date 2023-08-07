@@ -38,9 +38,9 @@ Plug 'lambdalisue/fern.vim'
 Plug 'Bakudankun/BackAndForward.vim'
 " Plug 'lambdalisue/fern-git-status.vim'
 Plug 'skanehira/denops-docker.vim'
-" Plug 'github/copilot.vim'
+Plug 'github/copilot.vim'
 Plug '~/go/src/github.com/kbwo/rustrekker/rs_module'
-Plug 'Exafunction/codeium.vim'
+" Plug 'Exafunction/codeium.vim'
 " Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
 if has('nvim')
   Plug 'antoinemadec/FixCursorHold.nvim'
