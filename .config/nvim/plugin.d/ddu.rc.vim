@@ -17,6 +17,12 @@ call ddu#custom#patch_global({
   \     'file': {
   \       'defaultAction': 'open',
   \     },
+  \   'lsp': {
+	\       'defaultAction': 'open',
+	\    },
+	\    'lsp_codeAction': {
+	\       'defaultAction': 'apply',
+	\    },
   \   }
 \  })
 
@@ -57,6 +63,64 @@ nmap <silent><c-p> :call StartDduNoIgnore()<CR>
 nmap <silent><Leader>p :call StartDduIgnore()<CR>
 nmap <silent><Leader>r :call RgFindIgnore()<CR>
 nmap <silent><Leader><c-r> :call RgFindNoIgnore()<CR>
+nmap <silent><c-d> :call ddu#start(#{
+      \  ui: 'ff',
+	    \ sync: v:true,
+	    \ sources: [#{
+	    \   name: 'lsp_definition',
+	    \ }],
+	    \ uiParams: #{
+	    \   ff: #{
+	    \     immediateAction: 'open',
+	    \   },
+	    \ }
+	    \})<CR>
+nmap <silent>gr :call ddu#start(#{
+      \  ui: 'ff',
+	    \ sync: v:true,
+	    \ sources: [#{
+	    \   name: 'lsp_references',
+	    \ }],
+	    \ uiParams: #{
+	    \   ff: #{
+	    \     immediateAction: 'open',
+	    \   },
+	    \ }
+	    \})<CR>
+" nmap <silent>csm :call ddu#start(#{
+"       \  ui: 'ff',
+" 	    \ sync: v:true,
+" 	    \ sources: [#{
+" 	    \   name: 'lsp_documentSymbol',
+" 	    \ }],
+" 	    \ uiParams: #{
+" 	    \   ff: #{
+" 	    \     immediateAction: 'open',
+" 	    \   },
+" 	    \ }
+" 	    \})<CR>
+" nmap <silent><Leader>iw :call ddu#start(#{
+" 	    \ sources: [#{
+" 	    \   name: 'lsp_diagnostic',
+" 	    \   params: #{
+" 	    \     buffer: 0,
+" 	    \   }
+" 	    \ }],
+" 	    \})<CR>
+<
+" nmap <silent>cca :call ddu#start(#{
+"       \  ui: 'ff',
+" 	    \ sync: v:true,
+" 	    \ sources: [#{
+" 	    \   name: 'lsp_codeAction',
+" 	    \ }],
+" 	    \ uiParams: #{
+" 	    \   ff: #{
+" 	    \     immediateAction: 'open',
+" 	    \   },
+" 	    \ }
+" 	    \})<CR>
+"
 
 function! StartDduNoIgnore() abort
   " :Copilot disable

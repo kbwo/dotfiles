@@ -41,6 +41,12 @@ Plug 'skanehira/denops-docker.vim'
 " Plug 'github/copilot.vim'
 Plug '~/go/src/github.com/kbwo/rustrekker/rs_module'
 Plug 'Exafunction/codeium.vim'
+Plug 'L3MON4D3/LuaSnip', {'tag': 'v2.*', 'do': 'make install_jsregexp'}
+" Plug 'quangnguyen30192/cmp-nvim-ultisnips'
+Plug 'hrsh7th/vim-vsnip-integ'
+Plug 'hrsh7th/cmp-vsnip'
+Plug 'hrsh7th/vim-vsnip'
+Plug 'simrat39/rust-tools.nvim'
 " Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
 if has('nvim')
   Plug 'antoinemadec/FixCursorHold.nvim'
@@ -67,7 +73,7 @@ if has('nvim')
   Plug 'mfussenegger/nvim-dap'
   Plug 'mhartington/formatter.nvim'
   Plug 'WhoIsSethDaniel/mason-tool-installer.nvim'
-  " Plug 'nvimdev/lspsaga.nvim'
+  Plug 'nvimdev/lspsaga.nvim'
   " Plug 'nvim-tree/nvim-tree.lua'
   " LSP Support
   Plug 'neovim/nvim-lspconfig'             " Required
@@ -80,6 +86,9 @@ if has('nvim')
   Plug 'L3MON4D3/LuaSnip'     " Required
 
   Plug 'VonHeikemen/lsp-zero.nvim', {'branch': 'v2.x'}
+
+  Plug 'j-hui/fidget.nvim', { 'tag': 'legacy' }
+  Plug 'uga-rosa/ddu-source-lsp'
   if executable("yarn")
     Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
   else
@@ -101,6 +110,9 @@ endif
 
 call plug#end()
 
+let g:vsnip_snippet_dir = "~/dotfiles/.config/nvim/snippets"
+imap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
+
 function! s:load_configurations() abort
   for path in glob('~/dotfiles/.config/nvim/plugin.d/*.vim', 1, 1, 1)
     execute printf('source %s', fnameescape(path))
@@ -113,3 +125,4 @@ function! s:load_configurations() abort
 endfunction
 
 call s:load_configurations()
+

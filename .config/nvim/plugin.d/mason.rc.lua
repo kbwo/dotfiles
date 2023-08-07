@@ -16,25 +16,6 @@ require("mason").setup()
 -- 				run_on_start = true,
 -- 			})
 require("mason-lspconfig").setup({
-  ensure_installed = {
-    "tsserver",
-    "volar",
-    "tailwindcss",
-    "cssls",
-    "yamlls",
-    "prismals",
-    "emmet_ls",
-    "lua_ls",
-    "pyright",
-    "denols",
-    "rust_analyzer",
-    "gopls",
-    -- "jdtls",
-    "eslint",
-    "jsonls",
-    -- "marksman",
-    "html",
-  },
   automatic_installation = true,
 })
 
