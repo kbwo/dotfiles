@@ -53,22 +53,33 @@ if has('nvim')
   Plug 'williamboman/mason.nvim'
   Plug 'williamboman/mason-lspconfig.nvim'
   Plug 'neovim/nvim-lspconfig'
-  Plug 'hrsh7th/nvim-cmp' 
+  " Plug 'hrsh7th/nvim-cmp' 
 
-  Plug 'hrsh7th/cmp-nvim-lsp'
+  " Plug 'hrsh7th/cmp-nvim-lsp'
 
-  Plug 'hrsh7th/cmp-nvim-lua'
-  Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
-  Plug 'hrsh7th/cmp-path'                              
-  Plug 'hrsh7th/cmp-buffer'                            
+  " Plug 'hrsh7th/cmp-nvim-lua'
+  " Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
+  " Plug 'hrsh7th/cmp-path'                              
+  " Plug 'hrsh7th/cmp-buffer'                            
   Plug 'simrat39/rust-tools.nvim'
   " Plug 'SirVer/ultisnips'
-  Plug 'quangnguyen30192/cmp-nvim-ultisnips'
+  " Plug 'quangnguyen30192/cmp-nvim-ultisnips'
   Plug 'mfussenegger/nvim-dap'
   Plug 'mhartington/formatter.nvim'
   Plug 'WhoIsSethDaniel/mason-tool-installer.nvim'
-  Plug 'nvimdev/lspsaga.nvim'
+  " Plug 'nvimdev/lspsaga.nvim'
   " Plug 'nvim-tree/nvim-tree.lua'
+  " LSP Support
+  Plug 'neovim/nvim-lspconfig'             " Required
+  Plug 'williamboman/mason.nvim',          " Optional
+  Plug 'williamboman/mason-lspconfig.nvim' " Optional
+
+  " Autocompletion
+  Plug 'hrsh7th/nvim-cmp'     " Required
+  Plug 'hrsh7th/cmp-nvim-lsp' " Required
+  Plug 'L3MON4D3/LuaSnip'     " Required
+
+  Plug 'VonHeikemen/lsp-zero.nvim', {'branch': 'v2.x'}
   if executable("yarn")
     Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
   else
