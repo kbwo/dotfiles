@@ -1,38 +1,37 @@
-local lsp = require('lsp-zero').preset({})
+-- local lsp = require('lsp-zero').preset({})
 
-lsp.on_attach(function(client, bufnr)
+-- lsp.on_attach(function(client, bufnr)
   -- see :help lsp-zero-keybindings
   -- to learn the available actions
   -- lsp.default_keymaps({buffer = bufnr})
-end)
+-- end)
 
 -- (Optional) Configure lua language server for neovim
-require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls())
+-- require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls())
 
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#configurations
-lsp.ensure_installed({
-  'eslint', 
-  'clangd',
-  'cssls',
-  'cssmodules_ls',
-  'denols',
-  'docker_compose_language_service',
-  'dockerls',
-  'eslint',
-  'gopls',
-  'graphql',
-  'html',
-  'intelephense',
-  'jsonls',
-  'prismals',
-  'rust_analyzer',
-  'tsserver',
-  'vimls',
-  'volar',
-  'zls'
-})
-
-lsp.setup()
+-- lsp.ensure_installed({
+--   'clangd',
+--   'cssls',
+--   'cssmodules_ls',
+--   'denols',
+--   'docker_compose_language_service',
+--   'dockerls',
+--   'eslint',
+--   'gopls',
+--   'graphql',
+--   'html',
+--   'intelephense',
+--   'jsonls',
+--   'prismals',
+--   'rust_analyzer',
+--   'tsserver',
+--   'vimls',
+--   'volar',
+--   'zls'
+-- })
+--
+-- lsp.setup()
 
 require("fidget").setup { }
 

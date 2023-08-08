@@ -78,7 +78,9 @@ if has('nvim')
   Plug 'mfussenegger/nvim-dap'
   Plug 'mhartington/formatter.nvim'
   Plug 'WhoIsSethDaniel/mason-tool-installer.nvim'
-  Plug 'nvimdev/lspsaga.nvim'
+  " Plug 'nvimdev/lspsaga.nvim'
+	Plug 'ray-x/guihua.lua', {'do': 'cd lua/fzy && make' }
+	Plug 'ray-x/navigator.lua'
   " Plug 'nvim-tree/nvim-tree.lua'
   " LSP Support
   Plug 'neovim/nvim-lspconfig'             " Required
@@ -90,7 +92,7 @@ if has('nvim')
   Plug 'hrsh7th/cmp-nvim-lsp' " Required
   Plug 'L3MON4D3/LuaSnip'     " Required
 
-  Plug 'VonHeikemen/lsp-zero.nvim', {'branch': 'v2.x'}
+  " Plug 'VonHeikemen/lsp-zero.nvim', {'branch': 'v2.x'}
 
   Plug 'j-hui/fidget.nvim', { 'tag': 'legacy' }
   Plug 'uga-rosa/ddu-source-lsp'

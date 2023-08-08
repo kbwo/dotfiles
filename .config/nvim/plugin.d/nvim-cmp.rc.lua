@@ -1,6 +1,10 @@
 -- Completion Plugin Setup
 local cmp = require'cmp'
 cmp.setup({
+	preselect = 'none',
+	completion = {
+    completeopt = 'menu,menuone,noinsert,noselect'
+  },
   -- Enable LSP snippets
   snippet = {
      expand = function(args)
@@ -17,15 +21,15 @@ cmp.setup({
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<C-e>'] = cmp.mapping.close(),
-    ['<CR>'] = cmp.mapping.confirm({
-      behavior = cmp.ConfirmBehavior.Insert,
-      select = true,
-    })
+    -- ['<CR>'] = cmp.mapping.confirm({
+    --   behavior = cmp.ConfirmBehavior.Insert,
+    --   select = false,
+    -- })
   },
   -- Installed sources:
   sources = {
     { name = 'path' },                              -- file paths
-    { name = 'nvim_lsp', keyword_length = 2 },      -- from language server
+    { name = 'nvim_lsp' },      -- from language server
     { name = 'nvim_lsp_signature_help'},            -- display function signatures with current parameter emphasized
     { name = 'nvim_lsp_document_symbol'},            -- display function signatures with current parameter emphasized
     { name = 'emoji'},            -- display function signatures with current parameter emphasized
@@ -88,3 +92,4 @@ tabnine:setup({
 	},
 	show_prediction_strength = false
 })
+
