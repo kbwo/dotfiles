@@ -1,28 +1,3 @@
--- require("luasnip").config.set_config {
---     history = true,
---     update_events = "TextChanged,TextChangedI",
---     delete_check_events = "TextChanged",
---     ext_opts = {
---       [require("luasnip.util.types").choiceNode] = {
---         active = {
---           virt_text = { { "choiceNode", "Comment" } },
---         },
---       },
---     },
---     ext_base_prio = 300,
---     ext_prio_increase = 1,
---     enable_autosnippets = true,
---     store_selection_keys = "<Tab>",
---     ft_func = function()
---       return vim.split(vim.bo.filetype, ".", true)
---     end,
---   }
-
--- require("luasnip.loaders.from_snipmate").load()
--- local ls = require("luasnip")
--- vim.cmd([[imap <silent><expr> <C-k> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<C-k>']])
--- vim.cmd([[smap <silent><expr> <C-k> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<C-k>']])
-
 local lsp = require('lsp-zero').preset({})
 
 lsp.on_attach(function(client, bufnr)
@@ -95,6 +70,17 @@ local opts = {
         checkOnSave = {
           command = "clippy",
         },
+        check = {
+          command = "clippy",
+        },
+        procMacro = {
+          enable = true
+        },
+        diagnostics = {
+          disabled = {
+            "unresolved-proc-macro"
+          }
+        }
       },
     },
   },

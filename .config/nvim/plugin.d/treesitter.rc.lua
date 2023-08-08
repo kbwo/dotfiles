@@ -6,6 +6,8 @@ require'nvim-treesitter.configs'.setup {
   },
   ensure_installed = {
     "http",
+    "markdown",
+    "markdown_inline",
     "rust",
     "json"
   }
