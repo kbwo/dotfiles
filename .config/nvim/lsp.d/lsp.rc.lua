@@ -1,6 +1,9 @@
-require("fidget").setup { }
+-- About server: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 
+require("fidget").setup {}
 require("mason").setup()
+local lspconfig = require('lspconfig')
+
 local mason_lspconfig = require("mason-lspconfig")
 local nvim_lsp = require('lspconfig')
 local update_capabilities = function(capabilities)
@@ -131,7 +134,7 @@ mason_lspconfig.setup_handlers({
       }
     end
 
-    opts.on_attach = function(_, bufnr)
+    opts.on_attach = function(_, _)
     end
 
     nvim_lsp[server_name].setup(opts)
@@ -139,4 +142,10 @@ mason_lspconfig.setup_handlers({
   ["rust_analyzer"] = function()
     require("rust-tools").setup(rt_opts)
   end,
+})
+
+lspconfig.coffeesense.setup({
+  on_attach = function(_, _)
+  end,
+  capabilities = update_capabilities(vim.lsp.protocol.make_client_capabilities()),
 })
