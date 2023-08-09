@@ -47,5 +47,5 @@ require'navigator'.setup({
   -- keymaps = {{key = "gK", func = vim.lsp.declaration, desc = 'declaration'}},
   mason = true,
   keymaps = key_maps,
-  lsp = { disable_lsp = { "tsserver", "denols", "rust-analyzer" } },
+  lsp = { disable_lsp = { "tsserver", "denols", "rust_analyzer" } },
 })
