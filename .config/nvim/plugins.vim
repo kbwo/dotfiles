@@ -120,16 +120,17 @@ call plug#end()
 let g:vsnip_snippet_dir = "~/dotfiles/.config/nvim/snippets"
 imap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
 
-function! s:load_configurations() abort
-  for path in glob('~/dotfiles/.config/nvim/plugin.d/*.vim', 1, 1, 1)
+function! s:load_configurations(directory) abort
+  for path in glob(a:directory . '/*.vim', 1, 1, 1)
     execute printf('source %s', fnameescape(path))
   endfor
   if(has('nvim'))
-    for path in glob('~/dotfiles/.config/nvim/plugin.d/*.lua', 1, 1, 1)
+    for path in glob(a:directory . '/*.lua', 1, 1, 1)
       execute printf('source %s', fnameescape(path))
     endfor
   end
 endfunction
 
-call s:load_configurations()
+call s:load_configurations('~/dotfiles/.config/nvim/plugin.d')
+call s:load_configurations('~/dotfiles/.config/nvim/lsp.d')
 
