@@ -71,7 +71,6 @@ nmap <silent><c-d> :call ddu#start(#{
 	    \ }],
 	    \ uiParams: #{
 	    \   ff: #{
-	    \     immediateAction: 'open',
 	    \   },
 	    \ }
 	    \})<CR>
