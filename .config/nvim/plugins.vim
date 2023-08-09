@@ -3,7 +3,6 @@ call plug#begin(expand('~/.vim/plugged'))
 Plug 'itchyny/lightline.vim'
 Plug 'tpope/vim-surround'
 Plug 'mattn/emmet-vim'
-" Plug 'SirVer/ultisnips'
 Plug 'tomtom/tcomment_vim'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'Raimondi/delimitMate'
@@ -40,49 +39,48 @@ Plug 'skanehira/denops-docker.vim'
 " Plug 'github/copilot.vim'
 Plug '~/go/src/github.com/kbwo/rustrekker/rs_module'
 Plug 'Exafunction/codeium.vim'
-Plug 'L3MON4D3/LuaSnip', {'tag': 'v2.*', 'do': 'make install_jsregexp'}
 Plug 'hrsh7th/vim-vsnip-integ'
-Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/vim-vsnip'
-Plug 'uga-rosa/cmp-dictionary'
-Plug 'simrat39/rust-tools.nvim'
-" Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
 if has('nvim')
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'rebelot/kanagawa.nvim'
+
   Plug 'antoinemadec/FixCursorHold.nvim'
   Plug 'phaazon/hop.nvim'
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-  Plug 'lukas-reineke/indent-blankline.nvim'
-  Plug 'rebelot/kanagawa.nvim'
-  Plug 'rest-nvim/rest.nvim'
-  Plug 'nvim-lua/plenary.nvim'
+  Plug 'nvim-treesitter/nvim-treesitter-context'
+
+  Plug 'neovim/nvim-lspconfig'
   Plug 'williamboman/mason.nvim'
   Plug 'williamboman/mason-lspconfig.nvim'
+  Plug 'WhoIsSethDaniel/mason-tool-installer.nvim'
   Plug 'neovim/nvim-lspconfig'
+
+  Plug 'simrat39/rust-tools.nvim'
+  Plug 'mhartington/formatter.nvim'
+  Plug 'j-hui/fidget.nvim', { 'tag': 'legacy' }
+
+  Plug 'mfussenegger/nvim-dap'
+
+	Plug 'ray-x/navigator.lua'
+	Plug 'ray-x/guihua.lua', {'do': 'cd lua/fzy && make' }
+
+  Plug 'hrsh7th/nvim-cmp'
+  Plug 'hrsh7th/cmp-nvim-lsp'
   Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
   Plug 'hrsh7th/cmp-nvim-lsp-document-symbol'
   Plug 'hrsh7th/cmp-emoji'
+  Plug 'hrsh7th/cmp-path'
+  Plug 'hrsh7th/cmp-buffer'
+  Plug 'hrsh7th/cmp-calc'
+  Plug 'hrsh7th/cmp-vsnip'
   Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
-  Plug 'hrsh7th/cmp-path'                              
-  Plug 'hrsh7th/cmp-buffer'                            
-  Plug 'hrsh7th/cmp-calc'                            
-  Plug 'simrat39/rust-tools.nvim'
-  Plug 'mfussenegger/nvim-dap'
-  Plug 'mhartington/formatter.nvim'
-  Plug 'WhoIsSethDaniel/mason-tool-installer.nvim'
-	Plug 'ray-x/guihua.lua', {'do': 'cd lua/fzy && make' }
-	Plug 'ray-x/navigator.lua'
-  Plug 'neovim/nvim-lspconfig'             " Required
-  Plug 'williamboman/mason.nvim',          " Optional
-  Plug 'williamboman/mason-lspconfig.nvim' " Optional
+  Plug 'uga-rosa/cmp-dictionary'
 
-  " Autocompletion
-  Plug 'hrsh7th/nvim-cmp'     " Required
-  Plug 'hrsh7th/cmp-nvim-lsp' " Required
-
-  Plug 'nvim-treesitter/nvim-treesitter-context'
-
-  Plug 'j-hui/fidget.nvim', { 'tag': 'legacy' }
   Plug 'uga-rosa/ddu-source-lsp'
+
+  Plug 'lukas-reineke/indent-blankline.nvim'
+  Plug 'rest-nvim/rest.nvim'
   if executable("yarn")
     Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
   else
@@ -90,9 +88,7 @@ if has('nvim')
   endif
 
 else
-  Plug 'roxma/nvim-yarp'
   Plug 'ghifarit53/tokyonight-vim'
-  Plug 'roxma/vim-hug-neovim-rpc'
 endif
 
 call plug#end()
