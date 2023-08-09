@@ -1,10 +1,10 @@
 local key_maps = {
-  {key = 'csd', func = vim.lsp.buf.hover, desc = 'hover'},
-  {
-    key = 'csm',
-    func = require('navigator.symbols').document_symbols,
-    desc = 'document_symbols',
-  },
+  { key = 'csd', func = vim.lsp.buf.hover,                  desc = 'hover' },
+  -- {
+  --   key = 'csm',
+  --   func = require('navigator.symbols').document_symbols,
+  --   desc = 'document_symbols',
+  -- },
   {
     key = 'cca',
     mode = 'n',
@@ -42,9 +42,12 @@ local key_maps = {
   --   desc = 'range format operator e.g gmip',
   -- },
 }
-require'navigator'.setup({
+require 'navigator'.setup({
   default_mapping = false,
   -- keymaps = {{key = "gK", func = vim.lsp.declaration, desc = 'declaration'}},
+  icons = {
+    icons = false,
+  },
   mason = true,
   keymaps = key_maps,
   lsp = { disable_lsp = { "tsserver", "denols", "rust_analyzer" } },
