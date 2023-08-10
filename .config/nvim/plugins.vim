@@ -41,6 +41,7 @@ Plug '~/go/src/github.com/kbwo/rustrekker/rs_module'
 Plug 'Exafunction/codeium.vim'
 Plug 'hrsh7th/vim-vsnip-integ'
 Plug 'hrsh7th/vim-vsnip'
+Plug 'rafamadriz/friendly-snippets'
 if has('nvim')
   Plug 'nvim-lua/plenary.nvim'
   Plug 'rebelot/kanagawa.nvim'
