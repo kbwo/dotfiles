@@ -1,6 +1,12 @@
 -- About server: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 
-require("fidget").setup {}
+-- https://github.com/j-hui/fidget.nvim/issues/129
+require("fidget").setup {
+  window = {
+    blend = 0
+  }
+}
+
 require("mason").setup()
 local lspconfig = require('lspconfig')
 
