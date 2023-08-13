@@ -101,4 +101,15 @@ augroup END
 
 " avoid error by navigator.lua (error log is same as https://github.com/ray-x/navigator.lua/issues/170)
 " vim.api.nvim_buf_set_option(bufnr, 'filetype', lang)
+" In navigator.lua,
+" ```
+"     api.nvim_create_autocmd({ 'FileType', 'BufEnter' }, {
+"       group = cmd_group,
+"       pattern = '*',
+"       callback = function()
+"         require('navigator.lspclient.clients').on_filetype()
+"       end,
+"     })
+" ```
 autocmd FileType diff call nvim_buf_set_option(bufnr('%'), 'filetype', 'diff')
+autocmd BufEnter *$ call nvim_buf_set_option(bufnr('%'), 'filetype', 'diff')
