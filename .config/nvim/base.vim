@@ -99,3 +99,6 @@ augroup highlight_yank
     au TextYankPost * silent! lua vim.highlight.on_yank({higroup="IncSearch", timeout=700})
 augroup END
 
+" avoid error by navigator.lua (error log is same as https://github.com/ray-x/navigator.lua/issues/170)
+" vim.api.nvim_buf_set_option(bufnr, 'filetype', lang)
+autocmd FileType diff call nvim_buf_set_option(bufnr('%'), 'filetype', 'diff')
