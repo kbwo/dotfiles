@@ -110,9 +110,9 @@ mason_lspconfig.setup_handlers({
     -- vim.api.nvim_echo({{'server_name'}, {server_name, 'warningmsg'}}, true, {})
 
     if server_name == 'vtsls' or server_name == 'tsserver' or server_name == "eslint" then
-      -- if not is_node_repo then
-      --   return
-      -- end
+      if not is_node_repo then
+        return
+      end
       opts.settings = {
         documentFormatting = false,
         javascript = { suggest = { completeFunctionCalls = true } },
