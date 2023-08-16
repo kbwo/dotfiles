@@ -102,7 +102,13 @@ local rt_opts = {
 mason_lspconfig.setup_handlers({
   function(server_name)
     local node_root_dir = nvim_lsp.util.root_pattern('package.json')
-    local is_node_repo = node_root_dir(vim.api.nvim_buf_get_name(0)) ~= nil
+    function HasPackageJson()
+      local current_directory = vim.fn.getcwd()
+      local package_json_path = current_directory .. '/package.json'
+      return vim.fn.filereadable(package_json_path) == 1
+    end
+
+    local is_node_repo = node_root_dir(vim.api.nvim_buf_get_name(0)) ~= nil or HasPackageJson()
 
     local opts = {}
 
