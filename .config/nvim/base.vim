@@ -112,4 +112,4 @@ augroup END
 "     })
 " ```
 autocmd FileType diff call nvim_buf_set_option(bufnr('%'), 'filetype', 'diff')
-autocmd BufEnter *$ call nvim_buf_set_option(bufnr('%'), 'filetype', 'diff')
+autocmd BufEnter *:$ call nvim_buf_set_option(bufnr('%'), 'filetype', 'diff')
