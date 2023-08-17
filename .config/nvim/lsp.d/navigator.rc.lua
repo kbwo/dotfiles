@@ -1,14 +1,19 @@
 local key_maps = {
   {
-    key = 'csd', 
-    func = vim.lsp.buf.hover,                  
-    desc = 'hover' 
+    key = 'csd',
+    func = vim.lsp.buf.hover,
+    desc = 'hover'
   },
-  -- {
-  --   key = 'csm',
-  --   func = require('navigator.symbols').document_symbols,
-  --   desc = 'document_symbols',
-  -- },
+  {
+    key = 'gr',
+    func = require('navigator.reference').async_ref,
+    desc = 'async_ref'
+  },
+  {
+    key = 'csn',
+    func = require('navigator.symbols').document_symbols,
+    desc = 'document_symbols',
+  },
   {
     key = 'cca',
     mode = 'n',

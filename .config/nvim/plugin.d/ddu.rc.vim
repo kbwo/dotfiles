@@ -74,7 +74,7 @@ nmap <silent><c-d> :call ddu#start(#{
 	    \   },
 	    \ }
 	    \})<CR>
-nmap <silent>gr :call ddu#start(#{
+nmap <silent>gdr :call ddu#start(#{
       \  ui: 'ff',
 	    \ sync: v:true,
 	    \ sources: [#{
@@ -163,30 +163,30 @@ function! RgFindNoIgnore() abort
   call ddu#start({'sources': [{'name': 'rg', 'params': {'input': word, 'args': ['--smart-case', "--column", "--no-heading", '--hidden', '--glob', '!.git', '--color', 'never', "--no-ignore"]}}]})
 endfunction
 
-command! Symbols call ddu#start({
-    \   'ui': 'ff',
-    \   'sources': [{'name': 'coc-symbols', 'params': {'symbols': g:CocAction('documentSymbols'), 'filePath': expand('%:p')}}],
-    \   'kindOptions': {
-    \     'file': {
-    \       'defaultAction': 'open',
-    \     },
-    \   }
-    \ })
-
-autocmd! User CocLocationsChange call ddu#start({
-    \   'ui': 'ff',
-    \   'sources': [{'name': 'coc-locations', 'params': {}}],
-    \   'sourceOptions': {
-    \     '_': {
-    \       'matchers': ['matcher_fzf'],
-    \     },
-    \   },
-    \   'kindOptions': {
-    \     'file': {
-    \       'defaultAction': 'open',
-    \     },
-    \   }
-    \ })
+" command! Symbols call ddu#start({
+"     \   'ui': 'ff',
+"     \   'sources': [{'name': 'coc-symbols', 'params': {'symbols': g:CocAction('documentSymbols'), 'filePath': expand('%:p')}}],
+"     \   'kindOptions': {
+"     \     'file': {
+"     \       'defaultAction': 'open',
+"     \     },
+"     \   }
+"     \ })
+"
+" autocmd! User CocLocationsChange call ddu#start({
+"     \   'ui': 'ff',
+"     \   'sources': [{'name': 'coc-locations', 'params': {}}],
+"     \   'sourceOptions': {
+"     \     '_': {
+"     \       'matchers': ['matcher_fzf'],
+"     \     },
+"     \   },
+"     \   'kindOptions': {
+"     \     'file': {
+"     \       'defaultAction': 'open',
+"     \     },
+"     \   }
+"     \ })
 
 command! DduBuffer call ddu#start({
     \   'ui': 'ff',
