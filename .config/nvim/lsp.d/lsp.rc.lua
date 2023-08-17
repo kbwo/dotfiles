@@ -161,3 +161,4 @@ lspconfig.coffeesense.setup({
   end,
   capabilities = update_capabilities(vim.lsp.protocol.make_client_capabilities()),
 })
+

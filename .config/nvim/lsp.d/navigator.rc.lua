@@ -51,6 +51,10 @@ local key_maps = {
   --   desc = 'range format operator e.g gmip',
   -- },
 }
+
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+
 require 'navigator'.setup({
   default_mapping = false,
   icons = {
@@ -62,5 +66,22 @@ require 'navigator'.setup({
     disable_lsp = { "tsserver", "denols", "rust_analyzer" },
     display_diagnostic_qf = false,
     diagnostic_virtual_text = false,
+    cssls = {
+      on_attach = function(client, bufnr)  -- on_attach for gopls
+        print("Disabling document format")
+        client.resolved_capabilities.document_formatting = false
+      end,
+      capabilities = capabilities,
+    },
+    intelephense = {
+      on_attach = function(client, bufnr)  -- on_attach for gopls
+        print("Disabling document format")
+        client.resolved_capabilities.document_formatting = false
+      end,
+    },
+    format_on_save = {
+      disable = {'css', 'php'},
+    },
+    disable_format_cap = {"cssls", "intelephense"}
   },
 })
