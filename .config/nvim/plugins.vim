@@ -42,6 +42,7 @@ Plug 'Exafunction/codeium.vim'
 Plug 'hrsh7th/vim-vsnip-integ'
 Plug 'hrsh7th/vim-vsnip'
 Plug 'rafamadriz/friendly-snippets'
+Plug 'lewis6991/gitsigns.nvim'
 if has('nvim')
   Plug 'nvim-lua/plenary.nvim'
   Plug 'rebelot/kanagawa.nvim'
