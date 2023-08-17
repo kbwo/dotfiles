@@ -85,3 +85,9 @@ require 'navigator'.setup({
     disable_format_cap = {"cssls", "intelephense"}
   },
 })
+
+require('guihua.maps').setup({
+  maps = {
+    jump_to_preview = 'cj',
+  }
+})

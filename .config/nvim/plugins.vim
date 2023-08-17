@@ -50,7 +50,7 @@ if has('nvim')
   Plug 'antoinemadec/FixCursorHold.nvim'
   Plug 'phaazon/hop.nvim'
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-  Plug 'nvim-treesitter/nvim-treesitter-context'
+  " Plug 'nvim-treesitter/nvim-treesitter-context'
 
   Plug 'neovim/nvim-lspconfig'
   Plug 'williamboman/mason.nvim'
