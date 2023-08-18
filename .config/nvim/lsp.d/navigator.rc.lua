@@ -67,22 +67,29 @@ require 'navigator'.setup({
     display_diagnostic_qf = false,
     diagnostic_virtual_text = false,
     cssls = {
-      on_attach = function(client, bufnr)  -- on_attach for gopls
+      on_attach = function(client, bufnr) -- on_attach for gopls
+        print("Disabling document format")
+        client.resolved_capabilities.document_formatting = false
+      end,
+      capabilities = capabilities,
+    },
+    kotlin_language_server = {
+      on_attach = function(client, bufnr) -- on_attach for gopls
         print("Disabling document format")
         client.resolved_capabilities.document_formatting = false
       end,
       capabilities = capabilities,
     },
     intelephense = {
-      on_attach = function(client, bufnr)  -- on_attach for gopls
+      on_attach = function(client, bufnr) -- on_attach for gopls
         print("Disabling document format")
         client.resolved_capabilities.document_formatting = false
       end,
     },
     format_on_save = {
-      disable = {'css', 'php'},
+      disable = { 'css', 'php' },
     },
-    disable_format_cap = {"cssls", "intelephense"}
+    disable_format_cap = { "cssls", "intelephense", "kotlin_language_server" }
   },
 })
 
