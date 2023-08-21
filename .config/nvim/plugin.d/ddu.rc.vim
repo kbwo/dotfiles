@@ -74,7 +74,7 @@ nmap <silent><c-d> :call ddu#start(#{
 	    \   },
 	    \ }
 	    \})<CR>
-nmap <silent>gdr :call ddu#start(#{
+nmap <silent>gr :call ddu#start(#{
       \  ui: 'ff',
 	    \ sync: v:true,
 	    \ sources: [#{

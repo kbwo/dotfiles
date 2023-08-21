@@ -4,11 +4,11 @@ local key_maps = {
     func = vim.lsp.buf.hover,
     desc = 'hover'
   },
-  {
-    key = 'gr',
-    func = require('navigator.reference').async_ref,
-    desc = 'async_ref'
-  },
+  -- {
+  --   key = 'gr',
+  --   func = require('navigator.reference').async_ref,
+  --   desc = 'async_ref'
+  -- },
   {
     key = 'csn',
     func = require('navigator.symbols').document_symbols,
