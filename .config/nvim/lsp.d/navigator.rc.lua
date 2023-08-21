@@ -63,7 +63,7 @@ require 'navigator'.setup({
   mason = true,
   keymaps = key_maps,
   lsp = {
-    disable_lsp = { "tsserver", "denols", "rust_analyzer" },
+    disable_lsp = { "denols", "rust_analyzer" },
     display_diagnostic_qf = false,
     diagnostic_virtual_text = false,
     cssls = {

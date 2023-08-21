@@ -52,6 +52,12 @@ mason_lspconfig.setup({
   }
 })
 
+local on_attach = function(client, bufnr)
+      require('navigator.lspclient.mapping').setup({ client = client, bufnr = bufnr }) -- setup navigator keymaps here,
+      require("navigator.dochighlight").documentHighlight(bufnr)
+      require('navigator.codeAction').code_action_prompt(bufnr)
+    end
+
 local rt_opts = {
   tools = {
     runnables = {
@@ -70,11 +76,7 @@ local rt_opts = {
   -- see https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#rust_analyzer
   server = {
     -- on_attach is a callback called when the language server attachs to the buffer
-    on_attach = function(client, bufnr)
-      require('navigator.lspclient.mapping').setup({ client = client, bufnr = bufnr }) -- setup navigator keymaps here,
-      require("navigator.dochighlight").documentHighlight(bufnr)
-      require('navigator.codeAction').code_action_prompt(bufnr)
-    end,
+    on_attach = on_attach,
     settings = {
       -- to enable rust-analyzer settings visit:
       -- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
@@ -146,8 +148,7 @@ mason_lspconfig.setup_handlers({
       }
     end
 
-    opts.on_attach = function(_, _)
-    end
+    opts.on_attach = on_attach
 
     nvim_lsp[server_name].setup(opts)
   end,
@@ -157,7 +158,6 @@ mason_lspconfig.setup_handlers({
 })
 
 lspconfig.coffeesense.setup({
-  on_attach = function(_, _)
-  end,
+  on_attach = on_attach,
   capabilities = update_capabilities(vim.lsp.protocol.make_client_capabilities()),
 })
