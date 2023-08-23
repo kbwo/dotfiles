@@ -3,7 +3,8 @@ call plug#begin(expand('~/.vim/plugged'))
 Plug 'itchyny/lightline.vim'
 Plug 'tpope/vim-surround'
 Plug 'mattn/emmet-vim'
-Plug 'tomtom/tcomment_vim'
+" Plug 'tomtom/tcomment_vim'
+Plug 'numToStr/Comment.nvim'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'Raimondi/delimitMate'
 Plug 'tpope/vim-dadbod'
@@ -80,7 +81,7 @@ if has('nvim')
   Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
   Plug 'uga-rosa/cmp-dictionary'
 
-  Plug 'uga-rosa/ddu-source-lsp'
+  Plug 'kbwo/ddu-source-lsp'
 
   Plug 'lukas-reineke/indent-blankline.nvim'
   Plug 'rest-nvim/rest.nvim'
