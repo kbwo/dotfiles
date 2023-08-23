@@ -92,11 +92,11 @@ nmap <silent>csm :call ddu#start(#{
 	    \ sources: [#{
 	    \   name: 'lsp_documentSymbol',
 	    \ }],
-	    \ uiParams: #{
-	    \   ff: #{
-	    \     immediateAction: 'open',
+	    \ sourceOptions: #{
+	    \   lsp: #{
+	    \     volatile: v:true,
 	    \   },
-	    \ }
+	    \ },
 	    \})<CR>
 " nmap <silent><Leader>iw :call ddu#start(#{
 " 	    \ sources: [#{
