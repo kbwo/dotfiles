@@ -3,8 +3,8 @@ call plug#begin(expand('~/.vim/plugged'))
 Plug 'itchyny/lightline.vim'
 Plug 'tpope/vim-surround'
 Plug 'mattn/emmet-vim'
-" Plug 'tomtom/tcomment_vim'
-Plug 'numToStr/Comment.nvim'
+Plug 'tomtom/tcomment_vim'
+" Plug 'numToStr/Comment.nvim'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'Raimondi/delimitMate'
 Plug 'tpope/vim-dadbod'
