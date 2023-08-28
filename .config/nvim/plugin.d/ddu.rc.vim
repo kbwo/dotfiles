@@ -98,6 +98,18 @@ nmap <silent>csm :call ddu#start(#{
 	    \   },
 	    \ }
 	    \})<CR>
+nmap <silent>csw :call ddu#start(#{
+      \  ui: 'ff',
+	    \ sync: v:true,
+	    \ sources: [#{
+	    \   name: 'lsp_workspaceSymbol',
+	    \ }],
+	    \ uiParams: #{
+	    \   ff: #{
+	    \     immediateAction: 'open',
+	    \   },
+	    \ }
+	    \})<CR>
 " nmap <silent><Leader>iw :call ddu#start(#{
 " 	    \ sources: [#{
 " 	    \   name: 'lsp_diagnostic',
