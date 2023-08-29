@@ -62,6 +62,7 @@ export PATH=$VOLTA_HOME/bin:$PATH
 export PATH=$PYENV_ROOT/bin:$PATH
 export PATH=$PYENV_ROOT/shims:$PATH
 export PATH=$HOME/.rbenv/shims:$PATH
+export PATH=$HOME/.rye/shims:$PATH
 unset _VOLTA_TOOL_RECURSION
 
 if [ -d "$HOME/google-cloud-sdk" ];then
