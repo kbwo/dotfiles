@@ -113,3 +113,13 @@ augroup END
 " ```
 autocmd FileType diff call nvim_buf_set_option(bufnr('%'), 'filetype', 'diff')
 autocmd BufEnter *:$ call nvim_buf_set_option(bufnr('%'), 'filetype', 'diff')
+
+function! s:GotoFirstFloat() abort
+  for w in range(1, winnr('$'))
+    let c = nvim_win_get_config(win_getid(w))
+    if c.focusable && !empty(c.relative)
+      execute w . 'wincmd w'
+    endif
+  endfor
+endfunction
+noremap <silent><c-w>w :<c-u>call <sid>GotoFirstFloat()<CR>
