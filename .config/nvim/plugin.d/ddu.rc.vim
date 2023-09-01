@@ -82,7 +82,6 @@ nmap <silent>gr :call ddu#start(#{
 	    \ }],
 	    \ uiParams: #{
 	    \   ff: #{
-	    \     immediateAction: 'open',
 	    \   },
 	    \ }
 	    \})<CR>
@@ -94,7 +93,6 @@ nmap <silent>csm :call ddu#start(#{
 	    \ }],
 	    \ uiParams: #{
 	    \   ff: #{
-	    \     immediateAction: 'open',
 	    \   },
 	    \ }
 	    \})<CR>
@@ -106,7 +104,6 @@ nmap <silent>csw :call ddu#start(#{
 	    \ }],
 	    \ uiParams: #{
 	    \   ff: #{
-	    \     immediateAction: 'open',
 	    \   },
 	    \ }
 	    \})<CR>
