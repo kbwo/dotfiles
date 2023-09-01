@@ -89,7 +89,7 @@ local rt_opts = {
           command = "clippy",
         },
         procMacro = {
-          enable = true
+          enable = false
         },
         diagnostics = {
           disabled = {
