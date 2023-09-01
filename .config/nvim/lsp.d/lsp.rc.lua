@@ -88,9 +88,6 @@ local rt_opts = {
         check = {
           command = "clippy",
         },
-        procMacro = {
-          enable = false
-        },
         diagnostics = {
           disabled = {
             "unresolved-proc-macro"
