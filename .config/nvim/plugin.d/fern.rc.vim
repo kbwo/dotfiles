@@ -24,7 +24,7 @@ function! FernInit() abort
   nmap <silent><buffer> o <Plug>(fern-my-open-or-expand-or-collapse)
   " nmap <buffer> s <Plug>(fern-action-open:select)
   nmap <silent><buffer> <C-l> <Plug>(fern-action-reload)
-  nmap <silent><buffer> r <Plug>(fern-action-rename)
+  nmap <silent><buffer> rr <Plug>(fern-action-rename)
   " nmap <buffer> i <Plug>(fern-action-reveal)
   " nmap <buffer> dl <Plug>(fern-action-trash)
   nmap <silent><buffer> yy <Plug>(fern-action-yank)

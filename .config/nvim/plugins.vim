@@ -3,8 +3,8 @@ call plug#begin(expand('~/.vim/plugged'))
 Plug 'itchyny/lightline.vim'
 Plug 'tpope/vim-surround'
 Plug 'mattn/emmet-vim'
-" Plug 'SirVer/ultisnips'
 Plug 'tomtom/tcomment_vim'
+" Plug 'numToStr/Comment.nvim'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'Raimondi/delimitMate'
 Plug 'tpope/vim-dadbod'
@@ -18,9 +18,9 @@ Plug 'vim-denops/denops.vim'
 Plug 'lambdalisue/gina.vim'
 " Plug 'lambdalisue/gin.vim'
 Plug 'lambdalisue/guise.vim'
-Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install()}}
+" Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install()}}
 Plug 'machakann/vim-sandwich'
-Plug 'kbwo/ddu-source-coc'
+" Plug 'kbwo/ddu-source-coc'
 Plug 'Shougo/ddu.vim'
 Plug 'Shougo/ddu-ui-ff', { 'commit': '2b9f9f9c36ee734dc13659c2829a2893b716ef5a'}
 Plug 'Shougo/ddu-source-file_rec'
@@ -36,51 +36,81 @@ Plug 'kchmck/vim-coffee-script'
 Plug 'thosakwe/vim-flutter'
 Plug 'lambdalisue/fern.vim'
 Plug 'Bakudankun/BackAndForward.vim'
-" Plug 'lambdalisue/fern-git-status.vim'
 Plug 'skanehira/denops-docker.vim'
 " Plug 'github/copilot.vim'
 Plug '~/go/src/github.com/kbwo/rustrekker/rs_module'
 Plug 'Exafunction/codeium.vim'
-" Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'hrsh7th/vim-vsnip-integ'
+Plug 'hrsh7th/vim-vsnip'
+Plug 'rafamadriz/friendly-snippets'
+Plug 'mhinz/vim-signify'
+Plug 'NvChad/nvim-colorizer.lua'
 if has('nvim')
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'rebelot/kanagawa.nvim'
+
   Plug 'antoinemadec/FixCursorHold.nvim'
   Plug 'phaazon/hop.nvim'
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+  " Plug 'nvim-treesitter/nvim-treesitter-context'
+
+  Plug 'neovim/nvim-lspconfig'
+  Plug 'williamboman/mason.nvim'
+  Plug 'williamboman/mason-lspconfig.nvim'
+  Plug 'WhoIsSethDaniel/mason-tool-installer.nvim'
+  Plug 'neovim/nvim-lspconfig'
+
+  Plug 'simrat39/rust-tools.nvim'
+  Plug 'mhartington/formatter.nvim'
+  Plug 'j-hui/fidget.nvim', { 'tag': 'legacy' }
+
+  Plug 'mfussenegger/nvim-dap'
+
+	Plug 'ray-x/navigator.lua'
+	Plug 'ray-x/guihua.lua', {'do': 'cd lua/fzy && make' }
+
+  Plug 'hrsh7th/nvim-cmp'
+  Plug 'hrsh7th/cmp-nvim-lsp'
+  Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
+  Plug 'hrsh7th/cmp-nvim-lsp-document-symbol'
+  Plug 'hrsh7th/cmp-emoji'
+  Plug 'hrsh7th/cmp-path'
+  Plug 'hrsh7th/cmp-buffer'
+  Plug 'hrsh7th/cmp-calc'
+  Plug 'hrsh7th/cmp-vsnip'
+  Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
+  Plug 'uga-rosa/cmp-dictionary'
+
+  Plug 'kbwo/ddu-source-lsp'
+
   Plug 'lukas-reineke/indent-blankline.nvim'
-  Plug 'rebelot/kanagawa.nvim'
   Plug 'rest-nvim/rest.nvim'
-  Plug 'nvim-lua/plenary.nvim'
-  " Plug 'nvim-tree/nvim-tree.lua'
   if executable("yarn")
     Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
   else
     Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
   endif
 
-  " ===== nvim-lsp ==========
-  " Plug 'neovim/nvim-lspconfig'
-  " Plug 'kabouzeid/nvim-lspinstall'
-  " Plug 'hrsh7th/nvim-compe'
-  " Plug 'glepnir/lspsaga.nvim'
-  " Plug 'mhartington/formatter.nvim'
-  " ===== nvim-lsp ==========
 else
-  Plug 'roxma/nvim-yarp'
   Plug 'ghifarit53/tokyonight-vim'
-  Plug 'roxma/vim-hug-neovim-rpc'
 endif
 
 call plug#end()
 
-function! s:load_configurations() abort
-  for path in glob('~/dotfiles/.config/nvim/plugin.d/*.vim', 1, 1, 1)
+let g:vsnip_snippet_dir = "~/dotfiles/.config/nvim/snippets"
+imap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
+
+function! s:load_configurations(directory) abort
+  for path in glob(a:directory . '/*.vim', 1, 1, 1)
     execute printf('source %s', fnameescape(path))
   endfor
   if(has('nvim'))
-    for path in glob('~/dotfiles/.config/nvim/plugin.d/*.lua', 1, 1, 1)
+    for path in glob(a:directory . '/*.lua', 1, 1, 1)
       execute printf('source %s', fnameescape(path))
     endfor
   end
 endfunction
 
-call s:load_configurations()
+call s:load_configurations('~/dotfiles/.config/nvim/plugin.d')
+call s:load_configurations('~/dotfiles/.config/nvim/lsp.d')
+

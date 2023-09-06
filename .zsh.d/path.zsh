@@ -48,10 +48,10 @@ export PATH=$PATH:$HOME/.local/bin
 export PATH=$PATH:$HOME/google-cloud-sdk/bin
 export PATH=$PATH:$HOME/.composer/vendor/bin
 export PATH=$PATH:$DENO_INSTALL/bin
-export PATH=$PATH:$ANDROID_HOME/emulator
-export PATH=$PATH:$ANDROID_HOME/tools
-export PATH=$PATH:$ANDROID_HOME/tools/bin
-export PATH=$PATH:$ANDROID_HOME/platform-tools
+export PATH=$PATH:$HOME/$ANDROID_HOME/emulator
+export PATH=$PATH:$HOME/$ANDROID_HOME/tools
+export PATH=$PATH:$HOME/$ANDROID_HOME/tools/bin
+export PATH=$PATH:$HOME/$ANDROID_HOME/platform-tools
 export PATH=$PATH:$JAVA_HOME/bin
 export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:$PYENV_ROOT/bin
@@ -62,6 +62,7 @@ export PATH=$VOLTA_HOME/bin:$PATH
 export PATH=$PYENV_ROOT/bin:$PATH
 export PATH=$PYENV_ROOT/shims:$PATH
 export PATH=$HOME/.rbenv/shims:$PATH
+export PATH=$HOME/.rye/shims:$PATH
 unset _VOLTA_TOOL_RECURSION
 
 if [ -d "$HOME/google-cloud-sdk" ];then
@@ -77,7 +78,7 @@ case "$(uname -s)" in
         ;;
 
     Linux)
-        export ANDROID_HOME=$HOME/Android/sdk
+        export ANDROID_HOME=$HOME/Android/Sdk
         ;;
 
     CYGWIN*|MINGW32*|MSYS*|MINGW*)

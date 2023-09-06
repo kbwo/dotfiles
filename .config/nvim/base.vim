@@ -93,3 +93,33 @@ autocmd FileType * setlocal formatoptions-=ro
 
 set completeopt=menuone,noinsert,noselect,preview
 set shortmess+=c
+
+augroup highlight_yank
+    autocmd!
+    au TextYankPost * silent! lua vim.highlight.on_yank({higroup="IncSearch", timeout=700})
+augroup END
+
+" avoid error by navigator.lua (error log is same as https://github.com/ray-x/navigator.lua/issues/170)
+" vim.api.nvim_buf_set_option(bufnr, 'filetype', lang)
+" In navigator.lua,
+" ```
+"     api.nvim_create_autocmd({ 'FileType', 'BufEnter' }, {
+"       group = cmd_group,
+"       pattern = '*',
+"       callback = function()
+"         require('navigator.lspclient.clients').on_filetype()
+"       end,
+"     })
+" ```
+autocmd FileType diff call nvim_buf_set_option(bufnr('%'), 'filetype', 'diff')
+autocmd BufEnter *:$ call nvim_buf_set_option(bufnr('%'), 'filetype', 'diff')
+
+function! s:GotoFirstFloat() abort
+  for w in range(1, winnr('$'))
+    let c = nvim_win_get_config(win_getid(w))
+    if c.focusable && !empty(c.relative)
+      execute w . 'wincmd w'
+    endif
+  endfor
+endfunction
+noremap <silent><c-w>w :<c-u>call <sid>GotoFirstFloat()<CR>
