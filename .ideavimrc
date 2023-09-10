@@ -1,0 +1,13 @@
+set clipboard+=unnamedplus
+set smartcase
+
+Plug 'easymotion/vim-easymotion'
+
+let mapleader=" "
+set easymotion
+nmap K gt
+nmap J gT
+nmap j gj
+nmap k gk
+
+nmap <Leader>f <Action>(AceWordAction)

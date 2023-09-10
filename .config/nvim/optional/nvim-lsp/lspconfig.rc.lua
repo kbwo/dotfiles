@@ -1,25 +1,28 @@
-local nvim_lsp = require('lspconfig')
+local lspconfig = require('lspconfig')
+local on_attach = require('plugins.config.lspconfig').on_attach
+local capabilities = require('plugins.config.lspconfig').capabilities
+local util = require "lspconfig"
 require'lspconfig'.vimls.setup{}
 require'lspconfig'.pyright.setup{}
 
-local on_attach = function(client, bufnr)
-  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-  --Enable completion triggered by <c-x><c-o>
-  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-  -- Mappings.
-  local opts = { noremap=true, silent=true }
-  -- See `:help vim.lsp.*` for documentation on any of the below functions
-  -- buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  -- buf_set_keymap('n', '<C-d>', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  -- buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  -- buf_set_keymap('n', 'ccn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  -- buf_set_keymap('n', 'cca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  -- buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  -- buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-  -- buf_set_keymap('n', '<c-l>', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  -- buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
-end
+-- local on_attach = function(client, bufnr)
+--   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+--   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+--   --Enable completion triggered by <c-x><c-o>
+--   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+--   -- Mappings.
+--   local opts = { noremap=true, silent=true }
+--   -- See `:help vim.lsp.*` for documentation on any of the below functions
+--   -- buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+--   -- buf_set_keymap('n', '<C-d>', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+--   -- buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+--   -- buf_set_keymap('n', 'ccn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+--   -- buf_set_keymap('n', 'cca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+--   -- buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+--   -- buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+--   -- buf_set_keymap('n', '<c-l>', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+--   -- buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+-- end
 
 local eslint = {
   lintCommand = "eslint_d -f unix --stdin --stdin-filename ${INPUT}",
@@ -44,79 +47,93 @@ end
 local function eslint_config_exists()
   return exists_glob(".eslintrc*") or exists_package_json_field("eslintConfig")
 end
-nvim_lsp.go.setup {
+lspconfig.go.setup {
   on_attach = on_attach
 }
-nvim_lsp.angular.setup {
+lspconfig.angular.setup {
   on_attach = on_attach
 }
-nvim_lsp.bash.setup {
+lspconfig.bash.setup {
   on_attach = on_attach
 }
-nvim_lsp.cpp.setup {
+lspconfig.cpp.setup {
   on_attach = on_attach
 }
-nvim_lsp.css.setup {
+lspconfig.css.setup {
   on_attach = on_attach
 }
-nvim_lsp.dockerfile.setup {
-  on_attach = on_attach
-}
-
-nvim_lsp.graphql.setup {
+lspconfig.dockerfile.setup {
   on_attach = on_attach
 }
 
-nvim_lsp.html.setup {
+lspconfig.graphql.setup {
   on_attach = on_attach
 }
 
-nvim_lsp.json.setup {
+lspconfig.html.setup {
   on_attach = on_attach
 }
 
-nvim_lsp.kotlin.setup {
+lspconfig.json.setup {
   on_attach = on_attach
 }
 
-nvim_lsp.lua.setup {
+lspconfig.kotlin.setup {
   on_attach = on_attach
 }
 
-nvim_lsp.php.setup {
+lspconfig.lua.setup {
   on_attach = on_attach
 }
 
-nvim_lsp.python.setup {
+lspconfig.php.setup {
   on_attach = on_attach
 }
 
-nvim_lsp.rust.setup {
+lspconfig.python.setup {
   on_attach = on_attach
 }
 
-nvim_lsp.vim.setup {
+lspconfig.rust.setup {
   on_attach = on_attach
 }
 
-nvim_lsp.vue.setup {
+lspconfig.vim.setup {
   on_attach = on_attach
 }
 
-nvim_lsp.yaml.setup {
+lspconfig.vue.setup {
   on_attach = on_attach
 }
 
-nvim_lsp.deno.setup {
+lspconfig.yaml.setup {
   on_attach = on_attach
 }
 
-nvim_lsp.tsserver.setup {
+lspconfig.deno.setup {
+  on_attach = on_attach
+}
+
+lspconfig.tsserver.setup {
   on_attach = on_attach,
   filetypes = { "typescript", "typescriptreact", "typescript.tsx" }
 }
 
-nvim_lsp.efm.setup {
+lspconfig.rust_analyzer.setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
+  filetypes = { "rust" },
+  root_dir = util.root_pattern("Cargo.toml"),
+  settings = {
+    ["rust-analyzer"] = {
+      cargo = {
+        allFeatures = true
+      }
+    }
+  }
+})
+
+lspconfig.efm.setup {
   on_attach = on_attach,
   root_dir = function()
     if not eslint_config_exists() then

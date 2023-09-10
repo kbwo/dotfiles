@@ -17,6 +17,12 @@ call ddu#custom#patch_global({
   \     'file': {
   \       'defaultAction': 'open',
   \     },
+  \   'lsp': {
+	\       'defaultAction': 'open',
+	\    },
+	\    'lsp_codeAction': {
+	\       'defaultAction': 'apply',
+	\    },
   \   }
 \  })
 
@@ -57,6 +63,73 @@ nmap <silent><c-p> :call StartDduNoIgnore()<CR>
 nmap <silent><Leader>p :call StartDduIgnore()<CR>
 nmap <silent><Leader>r :call RgFindIgnore()<CR>
 nmap <silent><Leader><c-r> :call RgFindNoIgnore()<CR>
+nmap <silent><c-d> :call ddu#start(#{
+      \  ui: 'ff',
+	    \ sync: v:true,
+	    \ sources: [#{
+	    \   name: 'lsp_definition',
+	    \ }],
+	    \ uiParams: #{
+	    \   ff: #{
+	    \   },
+	    \ }
+	    \})<CR>
+nmap <silent>gr :call ddu#start(#{
+      \  ui: 'ff',
+	    \ sync: v:true,
+	    \ sources: [#{
+	    \   name: 'lsp_references',
+	    \ }],
+	    \ uiParams: #{
+	    \   ff: #{
+	    \   },
+	    \ }
+	    \})<CR>
+nmap <silent>csm :call ddu#start(#{
+      \  ui: 'ff',
+	    \ sync: v:true,
+	    \ sources: [#{
+	    \   name: 'lsp_documentSymbol',
+	    \ }],
+	    \ sourceOptions: #{
+	    \   lsp: #{
+	    \     volatile: v:true,
+	    \   },
+	    \ },
+	    \})<CR>
+nmap <silent>csw :call ddu#start(#{
+      \  ui: 'ff',
+	    \ sync: v:true,
+	    \ sources: [#{
+	    \   name: 'lsp_workspaceSymbol',
+	    \ }],
+	    \ uiParams: #{
+	    \   ff: #{
+	    \   },
+	    \ }
+	    \})<CR>
+" nmap <silent><Leader>iw :call ddu#start(#{
+" 	    \ sources: [#{
+" 	    \   name: 'lsp_diagnostic',
+" 	    \   params: #{
+" 	    \     buffer: 0,
+" 	    \   }
+" 	    \ }],
+" 	    \})<CR>
+<
+" nmap <silent>cca :call ddu#start(#{
+"       \  ui: 'ff',
+" 	    \ sync: v:true,
+" 	    \ sources: [#{
+" 	    \   name: 'lsp_codeAction',
+" 	    \ }],
+" 	    \ uiParams: #{
+" 	    \   ff: #{
+" 	    \     immediateAction: 'open',
+" 	    \   },
+" 	    \ }
+" 	    \})<CR>
+"
 
 function! StartDduNoIgnore() abort
   " :Copilot disable
@@ -100,34 +173,30 @@ function! RgFindNoIgnore() abort
   call ddu#start({'sources': [{'name': 'rg', 'params': {'input': word, 'args': ['--smart-case', "--column", "--no-heading", '--hidden', '--glob', '!.git', '--color', 'never', "--no-ignore"]}}]})
 endfunction
 
-nmap <silent>csm :call FindSymbols()<CR>
-command! Symbols call FindSymbols()
-function! FindSymbols() abort
-  call ddu#start({
-    \   'ui': 'ff',
-    \   'sources': [{'name': 'coc-symbols', 'params': {'symbols': g:CocAction('documentSymbols'), 'filePath': expand('%:p')}}],
-    \   'kindOptions': {
-    \     'file': {
-    \       'defaultAction': 'open',
-    \     },
-    \   }
-    \ })
-endfunction
-
-autocmd! User CocLocationsChange call ddu#start({
-    \   'ui': 'ff',
-    \   'sources': [{'name': 'coc-locations', 'params': {}}],
-    \   'sourceOptions': {
-    \     '_': {
-    \       'matchers': ['matcher_fzf'],
-    \     },
-    \   },
-    \   'kindOptions': {
-    \     'file': {
-    \       'defaultAction': 'open',
-    \     },
-    \   }
-    \ })
+" command! Symbols call ddu#start({
+"     \   'ui': 'ff',
+"     \   'sources': [{'name': 'coc-symbols', 'params': {'symbols': g:CocAction('documentSymbols'), 'filePath': expand('%:p')}}],
+"     \   'kindOptions': {
+"     \     'file': {
+"     \       'defaultAction': 'open',
+"     \     },
+"     \   }
+"     \ })
+"
+" autocmd! User CocLocationsChange call ddu#start({
+"     \   'ui': 'ff',
+"     \   'sources': [{'name': 'coc-locations', 'params': {}}],
+"     \   'sourceOptions': {
+"     \     '_': {
+"     \       'matchers': ['matcher_fzf'],
+"     \     },
+"     \   },
+"     \   'kindOptions': {
+"     \     'file': {
+"     \       'defaultAction': 'open',
+"     \     },
+"     \   }
+"     \ })
 
 command! DduBuffer call ddu#start({
     \   'ui': 'ff',
