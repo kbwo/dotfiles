@@ -7,14 +7,9 @@ nmap gnpl :Gina pull<CR>
 nmap gnl :Gina log --oneline --graph<CR>
 let g:gina#command#blame#formatter#format = '%au: %su%= on %ti %ma%in'
 
-function! FindGitDir()
-  let git_dir = system('git rev-parse --show-toplevel 2>/dev/null')
-  return git_dir ==# '' ? '' : git_dir[:-2]
-endfunction
-
 function s:append_diff() abort
   " Get the Git repository root directory
-  let git_dir = FindGitDir()
+  let git_dir = FindNearestGitRoot()
   let git_root = fnamemodify(git_dir, ':h')
 
   " Get the diff of the staged changes relative to the Git repository root

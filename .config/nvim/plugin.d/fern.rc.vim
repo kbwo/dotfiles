@@ -1,4 +1,5 @@
-nmap <silent> <c-n> :Fern . -reveal=% -stay<CR>
+nmap <silent> <c-n> :execute 'Fern' FindNearestGitRoot() '-reveal=% -stay'<CR>
+
 nmap <silent> <c-w>c :Fern %:h -reveal=% -stay<CR>
 function! FernInit() abort
   nmap <silent><buffer> <c-n> :Fern .<CR>
