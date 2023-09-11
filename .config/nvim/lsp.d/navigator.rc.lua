@@ -64,6 +64,9 @@ require 'navigator'.setup({
   keymaps = key_maps,
   lsp = {
     disable_lsp = { "tsserver", "denols", "rust_analyzer" },
+    code_action = {
+      virtual_text = false
+    },
     display_diagnostic_qf = false,
     diagnostic_virtual_text = false,
     cssls = {
