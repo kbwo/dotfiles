@@ -29,7 +29,7 @@ require('formatter').setup({
     scss = { prettier },
     -- graphql = { prettier },
     -- markdown = { prettier },
-    -- vue = { prettier },
+    vue = { prettier },
     -- astro = { prettier },
     -- yaml = { prettier },
     rust = {
@@ -47,6 +47,6 @@ require('formatter').setup({
 vim.api.nvim_exec([[
 augroup FormatAutogroup
   autocmd!
-  autocmd BufWritePost *.js,*.jsx,*.ts,*.tsx,*.css,*.scss :FormatWrite
+  autocmd BufWritePost *.js,*.jsx,*.ts,*.tsx,*.css,*.scss,*.vue :FormatWrite
 augroup END
 ]], true)

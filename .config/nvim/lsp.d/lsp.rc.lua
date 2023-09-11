@@ -47,7 +47,6 @@ mason_lspconfig.setup({
     'rust_analyzer',
     'tsserver',
     'vimls',
-    'volar',
     'zls'
   }
 })
