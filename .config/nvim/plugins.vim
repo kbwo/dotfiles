@@ -44,6 +44,7 @@ Plug 'hrsh7th/vim-vsnip-integ'
 Plug 'hrsh7th/vim-vsnip'
 Plug 'rafamadriz/friendly-snippets'
 Plug 'mhinz/vim-signify'
+Plug 'kbwo/cmp-yank'
 Plug 'NvChad/nvim-colorizer.lua'
 if has('nvim')
   Plug 'nvim-lua/plenary.nvim'
