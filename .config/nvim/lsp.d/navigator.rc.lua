@@ -87,9 +87,8 @@ require 'navigator'.setup({
       end,
     },
     format_on_save = {
-      disable = { 'css', 'php' },
+      disable = { 'css' },
     },
-    disable_format_cap = { "cssls", "intelephense", "kotlin_language_server" }
   },
 })
 
