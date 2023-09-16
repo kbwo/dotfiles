@@ -123,3 +123,4 @@ function! s:GotoFirstFloat() abort
   endfor
 endfunction
 noremap <silent><c-w>w :<c-u>call <sid>GotoFirstFloat()<CR>
+
