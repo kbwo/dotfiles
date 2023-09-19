@@ -27,6 +27,7 @@ require('formatter').setup({
     html = { prettier },
     css = { prettier },
     scss = { prettier },
+    svelte = { prettier },
     -- graphql = { prettier },
     -- markdown = { prettier },
     vue = { prettier },

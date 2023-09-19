@@ -3,8 +3,8 @@ call plug#begin(expand('~/.vim/plugged'))
 Plug 'itchyny/lightline.vim'
 Plug 'tpope/vim-surround'
 Plug 'mattn/emmet-vim'
-Plug 'tomtom/tcomment_vim'
-" Plug 'numToStr/Comment.nvim'
+" Plug 'tomtom/tcomment_vim'
+Plug 'numToStr/Comment.nvim'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'Raimondi/delimitMate'
 Plug 'tpope/vim-dadbod'
@@ -53,7 +53,7 @@ if has('nvim')
   Plug 'antoinemadec/FixCursorHold.nvim'
   Plug 'phaazon/hop.nvim'
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-  " Plug 'nvim-treesitter/nvim-treesitter-context'
+  Plug 'JoosepAlviste/nvim-ts-context-commentstring'
 
   Plug 'neovim/nvim-lspconfig'
   Plug 'williamboman/mason.nvim'

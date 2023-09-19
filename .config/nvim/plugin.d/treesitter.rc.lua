@@ -10,8 +10,13 @@ require 'nvim-treesitter.configs'.setup {
     "markdown_inline",
     "rust",
     "json"
-  }
+  },
+  context_commentstring = {
+    enable = true,
+    enable_autocmd = false,
+  },
 }
+require('ts_context_commentstring').setup {}
 
 -- require 'treesitter-context'.setup {
 --   enable = true,            -- Enable this plugin (Can be enabled/disabled later via commands)
