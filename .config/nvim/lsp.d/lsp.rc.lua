@@ -52,10 +52,10 @@ mason_lspconfig.setup({
 })
 
 local on_attach = function(client, bufnr)
-      require('navigator.lspclient.mapping').setup({ client = client, bufnr = bufnr }) -- setup navigator keymaps here,
-      require("navigator.dochighlight").documentHighlight(bufnr)
-      require('navigator.codeAction').code_action_prompt(bufnr)
-    end
+  require('navigator.lspclient.mapping').setup({ client = client, bufnr = bufnr })     -- setup navigator keymaps here,
+  require("navigator.dochighlight").documentHighlight(bufnr)
+  require('navigator.codeAction').code_action_prompt(bufnr)
+end
 
 local rt_opts = {
   tools = {
@@ -121,6 +121,14 @@ mason_lspconfig.setup_handlers({
         documentFormatting = false,
         javascript = { suggest = { completeFunctionCalls = true } },
         typescript = { suggest = { completeFunctionCalls = true } },
+      }
+    elseif server_name == 'yamlls' then
+      opts.settings = {
+        yaml = {
+          schemas = {
+            ["https://raw.githubusercontent.com/instrumenta/kubernetes-json-schema/master/v1.18.0-standalone-strict/all.json"] = "/*.k8s.yaml",
+          }
+        }
       }
     elseif server_name == 'denols' then
       if is_node_repo then

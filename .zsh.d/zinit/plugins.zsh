@@ -14,6 +14,5 @@ zinit wait lucid light-mode for \
     'migutw42/zsh-fzf-ghq' \
     'zsh-users/zsh-autosuggestions' \
     'sindresorhus/pure' \
-    'jonmosco/kube-ps1' \
-    'olets/zsh-abbr'
+    'jonmosco/kube-ps1'
 autoload -Uz compinit && compinit
