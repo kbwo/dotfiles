@@ -61,8 +61,8 @@ endfunction
 
 nmap <silent><c-p> :call StartDduNoIgnore()<CR>
 nmap <silent><Leader>p :call StartDduIgnore()<CR>
-nmap <silent><Leader>r :call RgFindIgnore()<CR>
-nmap <silent><Leader><c-r> :call RgFindNoIgnore()<CR>
+nmap <Leader>r :RgFind ignore 
+nmap <Leader><c-r> :RgFind noignore 
 nmap <silent><c-d> :call ddu#start(#{
       \  ui: 'ff',
 	    \ sync: v:true,
@@ -161,16 +161,12 @@ function! StartDduIgnore() abort
 \  })
 endfunction
 
-function! RgFindIgnore() abort
-  let word = input("search word: ")
-  " :Copilot disable
-  call ddu#start({'sources': [{'name': 'rg', 'params': {'input': word, 'args': ['--smart-case', "--column", "--no-heading", '--hidden', '--glob', '!.git', '--color', 'never']}}]})
+function! RgFindIgnore(text) abort
+  call ddu#start({'sources': [{'name': 'rg', 'params': {'input': a:text, 'args': ['--smart-case', "--column", "--no-heading", '--hidden', '--glob', '!.git', '--color', 'never']}}]})
 endfunction
 
-function! RgFindNoIgnore() abort
-  let word = input("search word: ")
-  " :Copilot disable
-  call ddu#start({'sources': [{'name': 'rg', 'params': {'input': word, 'args': ['--smart-case', "--column", "--no-heading", '--hidden', '--glob', '!.git', '--color', 'never', "--no-ignore"]}}]})
+function! RgFindNoIgnore(text) abort
+  call ddu#start({'sources': [{'name': 'rg', 'params': {'input': a:text, 'args': ['--smart-case', "--column", "--no-heading", '--hidden', '--glob', '!.git', '--color', 'never', "--no-ignore"]}}]})
 endfunction
 
 " command! Symbols call ddu#start({
@@ -212,3 +208,13 @@ command! DduBuffer call ddu#start({
     \     },
     \   }
     \ })
+
+function! RgFind(type, text)
+  if a:type == 'ignore'
+    call RgFindIgnore(a:text)
+  else
+    call RgFindNoIgnore(a:text)
+  endif
+endfunction
+
+command! -nargs=* RgFind call RgFind(<f-args>)
