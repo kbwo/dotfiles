@@ -209,11 +209,15 @@ command! DduBuffer call ddu#start({
     \   }
     \ })
 
-function! RgFind(type, text)
+function! RgFind(type, ...)
+  let text = ''
+  for arg in a:000
+    let text .= ' ' . arg
+  endfor
   if a:type == 'ignore'
-    call RgFindIgnore(a:text)
+    call RgFindIgnore(text)
   else
-    call RgFindNoIgnore(a:text)
+    call RgFindNoIgnore(text)
   endif
 endfunction
 
