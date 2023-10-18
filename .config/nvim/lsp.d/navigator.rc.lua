@@ -69,6 +69,11 @@ require 'navigator'.setup({
     },
     display_diagnostic_qf = false,
     diagnostic_virtual_text = false,
+    diagnostic = {
+      float = {
+        focusable = true,
+      }
+    },
     cssls = {
       on_attach = function(client, bufnr)
         print("Disabling document format")
