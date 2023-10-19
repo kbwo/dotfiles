@@ -162,6 +162,7 @@ function! StartDduIgnore() abort
 endfunction
 
 function! RgFindIgnore(text) abort
+  echom a:text
   call ddu#start({'sources': [{'name': 'rg', 'params': {'input': a:text, 'args': ['--smart-case', "--column", "--no-heading", '--hidden', '--glob', '!.git', '--color', 'never']}}]})
 endfunction
 
@@ -212,7 +213,10 @@ command! DduBuffer call ddu#start({
 function! RgFind(type, ...)
   let text = ''
   for arg in a:000
-    let text .= ' ' . arg
+    if text != ''
+      let text .= ' '
+    endif
+    let text .= arg
   endfor
   if a:type == 'ignore'
     call RgFindIgnore(text)
