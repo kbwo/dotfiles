@@ -34,7 +34,7 @@ colors:
 
 font:
   # The size to use.
-  size: 7.5
+  size: 9
   # The normal (roman) font face to use.
   normal:
     family: Hack
