@@ -46,6 +46,7 @@ Plug 'rafamadriz/friendly-snippets'
 Plug 'mhinz/vim-signify'
 Plug 'kbwo/cmp-yank'
 Plug 'NvChad/nvim-colorizer.lua'
+Plug 'MrcJkb/haskell-tools.nvim'
 if has('nvim')
   Plug 'nvim-lua/plenary.nvim'
   Plug 'rebelot/kanagawa.nvim'
@@ -82,7 +83,7 @@ if has('nvim')
   Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
   Plug 'uga-rosa/cmp-dictionary'
 
-  Plug 'kbwo/ddu-source-lsp'
+  Plug 'uga-rosa/ddu-source-lsp'
 
   Plug 'lukas-reineke/indent-blankline.nvim'
   Plug 'rest-nvim/rest.nvim'
