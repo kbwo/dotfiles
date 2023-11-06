@@ -33,7 +33,7 @@ Plug 'matsui54/ddu-source-file_external'
 Plug 'dhruvasagar/vim-table-mode', { 'for': ['markdown']}
 Plug 'udalov/kotlin-vim'
 Plug 'kchmck/vim-coffee-script'
-Plug 'thosakwe/vim-flutter'
+Plug 'akinsho/flutter-tools.nvim'
 Plug 'lambdalisue/fern.vim'
 Plug 'Bakudankun/BackAndForward.vim'
 Plug 'skanehira/denops-docker.vim'
@@ -46,6 +46,7 @@ Plug 'rafamadriz/friendly-snippets'
 Plug 'mhinz/vim-signify'
 Plug 'kbwo/cmp-yank'
 Plug 'NvChad/nvim-colorizer.lua'
+Plug 'MrcJkb/haskell-tools.nvim'
 if has('nvim')
   Plug 'nvim-lua/plenary.nvim'
   Plug 'rebelot/kanagawa.nvim'
@@ -82,7 +83,7 @@ if has('nvim')
   Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
   Plug 'uga-rosa/cmp-dictionary'
 
-  Plug 'kbwo/ddu-source-lsp'
+  Plug 'uga-rosa/ddu-source-lsp'
 
   Plug 'lukas-reineke/indent-blankline.nvim'
   Plug 'rest-nvim/rest.nvim'

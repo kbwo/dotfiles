@@ -36,6 +36,8 @@ function! s:ddu_my_settings() abort
         \ <Cmd>call ddu#ui#ff#do_action('itemAction', {'params': {'command': 'split'}})<CR>
   nnoremap <buffer><silent> <Leader>tt
         \ <Cmd>call ddu#ui#ff#do_action('itemAction', {'params': {'command': 'tabnew'}})<CR>
+  nnoremap <buffer><silent> o
+        \ <Cmd>call ddu#ui#ff#do_action('expandItem', {'params': {'mode': 'toggle'}})<CR>
   nnoremap <buffer><silent> p
         \ <Cmd>call ddu#ui#ff#do_action('preview')<CR>
   nnoremap <buffer><silent> m
@@ -96,6 +98,11 @@ nmap <silent>csm :call ddu#start(#{
 	    \     volatile: v:true,
 	    \   },
 	    \ },
+	    \ uiParams: #{
+	    \   ff: #{
+      \     displayTree: v:true
+	    \   },
+	    \ }
 	    \})<CR>
 nmap <silent>csw :call ddu#start(#{
       \  ui: 'ff',

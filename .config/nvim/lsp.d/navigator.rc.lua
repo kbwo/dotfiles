@@ -59,13 +59,15 @@ require 'navigator'.setup({
   default_mapping = false,
   icons = {
     icons = false,
+    code_action_icon = '',
   },
   mason = true,
   keymaps = key_maps,
   lsp = {
     disable_lsp = "all",
     code_action = {
-      virtual_text = false
+      virtual_text = false,
+      enable = false,
     },
     display_diagnostic_qf = false,
     diagnostic_virtual_text = false,
