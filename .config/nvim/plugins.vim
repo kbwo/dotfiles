@@ -3,8 +3,8 @@ call plug#begin(expand('~/.vim/plugged'))
 Plug 'itchyny/lightline.vim'
 Plug 'tpope/vim-surround'
 Plug 'mattn/emmet-vim'
-" Plug 'tomtom/tcomment_vim'
-Plug 'numToStr/Comment.nvim'
+Plug 'tomtom/tcomment_vim'
+" Plug 'numToStr/Comment.nvim'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'Raimondi/delimitMate'
 Plug 'tpope/vim-dadbod'
@@ -15,8 +15,8 @@ Plug 'tyru/open-browser.vim'
 Plug 'simeji/winresizer'
 Plug 'AndrewRadev/tagalong.vim'
 Plug 'vim-denops/denops.vim'
-Plug 'lambdalisue/gina.vim'
-" Plug 'lambdalisue/gin.vim'
+" Plug 'lambdalisue/gina.vim'
+Plug 'lambdalisue/gin.vim'
 Plug 'lambdalisue/guise.vim'
 " Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install()}}
 Plug 'machakann/vim-sandwich'
@@ -54,7 +54,7 @@ if has('nvim')
   Plug 'antoinemadec/FixCursorHold.nvim'
   Plug 'phaazon/hop.nvim'
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-  Plug 'JoosepAlviste/nvim-ts-context-commentstring'
+  " Plug 'JoosepAlviste/nvim-ts-context-commentstring'
 
   Plug 'neovim/nvim-lspconfig'
   Plug 'williamboman/mason.nvim'
