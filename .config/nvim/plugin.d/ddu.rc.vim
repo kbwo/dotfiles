@@ -115,15 +115,14 @@ nmap <silent>csw :call ddu#start(#{
 	    \   },
 	    \ }
 	    \})<CR>
-" nmap <silent><Leader>iw :call ddu#start(#{
-" 	    \ sources: [#{
-" 	    \   name: 'lsp_diagnostic',
-" 	    \   params: #{
-" 	    \     buffer: 0,
-" 	    \   }
-" 	    \ }],
-" 	    \})<CR>
-<
+nmap <silent><Leader>iw :call ddu#start(#{
+	    \ sources: [#{
+	    \   name: 'lsp_diagnostic',
+	    \   params: #{
+	    \     buffer: 0,
+	    \   }
+	    \ }],
+	    \})<CR>
 " nmap <silent>cca :call ddu#start(#{
 "       \  ui: 'ff',
 " 	    \ sync: v:true,
@@ -167,6 +166,7 @@ function! StartDduIgnore() abort
   \   }
 \  })
 endfunction
+" call ddu#start(#{ sources: [ #{ name: 'file_rec', params: #{ path: expand('~') } }, ], })
 
 function! RgFindIgnore(text) abort
   echom a:text

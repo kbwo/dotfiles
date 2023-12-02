@@ -27,11 +27,11 @@ local key_maps = {
     func = require('navigator.diagnostics').show_diagnostics,
     desc = 'show_diagnostics',
   },
-  {
-    key = '<Leader>iw',
-    func = require('navigator.diagnostics').show_buf_diagnostics,
-    desc = 'show_buf_diagnostics',
-  },
+  -- {
+  --   key = '<Leader>iw',
+  --   func = require('navigator.diagnostics').show_buf_diagnostics,
+  --   desc = 'show_buf_diagnostics',
+  -- },
   {
     key = '<c-l>',
     func = vim.diagnostic.goto_next,

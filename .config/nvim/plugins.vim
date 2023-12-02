@@ -22,7 +22,7 @@ Plug 'lambdalisue/guise.vim'
 Plug 'machakann/vim-sandwich'
 " Plug 'kbwo/ddu-source-coc'
 Plug 'Shougo/ddu.vim'
-Plug 'Shougo/ddu-ui-ff', { 'commit': '2b9f9f9c36ee734dc13659c2829a2893b716ef5a'}
+Plug 'Shougo/ddu-ui-ff'
 Plug 'Shougo/ddu-source-file_rec'
 Plug 'Shougo/ddu-filter-matcher_substring'
 Plug 'Shougo/ddu-kind-file'
