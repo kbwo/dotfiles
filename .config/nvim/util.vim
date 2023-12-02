@@ -1,3 +1,8 @@
+function! StartsWith(string, prefix)
+  " Returns 1 (true) if 'string' starts with 'prefix', otherwise 0 (false)
+  return stridx(a:string, a:prefix) == 0
+endfunction
+
 function! FindNearestGitRoot()
   let l:current_directory = expand('%:p:h')
   let l:git_root = ''
@@ -13,6 +18,11 @@ function! FindNearestGitRoot()
 
   if l:git_root ==# ''
     return expand('%:p:h')
+  endif
+
+  let l:cwd = getcwd()
+  if StartsWith(l:cwd, l:git_root)
+    return l:cwd
   endif
 
   return l:git_root
