@@ -76,6 +76,27 @@ require 'navigator'.setup({
         focusable = true,
       }
     },
+    cssmodules_ls = {
+      on_attach = function(client, bufnr)
+        print("Disabling document format")
+        client.resolved_capabilities.document_formatting = false
+      end,
+      capabilities = capabilities,
+    },
+    eslint = {
+      on_attach = function(client, bufnr)
+        print("Disabling document format")
+        client.resolved_capabilities.document_formatting = false
+      end,
+      capabilities = capabilities,
+    },
+    tsserver = {
+      on_attach = function(client, bufnr)
+        print("Disabling document format")
+        client.resolved_capabilities.document_formatting = false
+      end,
+      capabilities = capabilities,
+    },
     cssls = {
       on_attach = function(client, bufnr)
         print("Disabling document format")
@@ -96,9 +117,7 @@ require 'navigator'.setup({
         client.resolved_capabilities.document_formatting = false
       end,
     },
-    format_on_save = {
-      disable = { 'css' },
-    },
+    format_on_save = false,
   },
 })
 

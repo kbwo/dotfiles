@@ -12,6 +12,7 @@ require("rest-nvim").setup({
       enabled = true,
       timeout = 150,
     },
+    skip_ssl_verification = true,
     result = {
       -- toggle showing URL, HTTP info, headers at top the of result window
       show_url = true,

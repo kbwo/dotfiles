@@ -80,6 +80,9 @@ local rt_opts = {
       -- to enable rust-analyzer settings visit:
       -- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
       ["rust-analyzer"] = {
+        cargo = {
+          features = "all"
+        },
         -- enable clippy on save
         checkOnSave = {
           command = "clippy",
@@ -89,7 +92,8 @@ local rt_opts = {
         },
         diagnostics = {
           disabled = {
-            "unresolved-proc-macro"
+            "unresolved-proc-macro",
+            "inactive-code"
           }
         }
       },
@@ -114,9 +118,9 @@ mason_lspconfig.setup_handlers({
     -- vim.api.nvim_echo({{'server_name'}, {server_name, 'warningmsg'}}, true, {})
 
     if server_name == 'vtsls' or server_name == 'tsserver' or server_name == "eslint" then
-      if not is_node_repo then
-        return
-      end
+      -- if not is_node_repo then
+      --   return
+      -- end
       opts.settings = {
         documentFormatting = false,
         javascript = { suggest = { completeFunctionCalls = true } },

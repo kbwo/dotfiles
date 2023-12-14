@@ -63,7 +63,7 @@ if has('nvim')
   Plug 'neovim/nvim-lspconfig'
 
   Plug 'simrat39/rust-tools.nvim'
-  Plug 'mhartington/formatter.nvim'
+  Plug 'stevearc/conform.nvim'
   Plug 'j-hui/fidget.nvim', { 'tag': 'legacy' }
 
   Plug 'mfussenegger/nvim-dap'
