@@ -4,7 +4,6 @@ rustfmt.args = function()
   return { "--edition", "2021", "--emit", "stdout" }
 end
 local eslint_d = require("conform.formatters.eslint_d")
--- eslint_d.command = util.from_node_modules("eslint")
 eslint_d.cwd = util.root_file({
   ".eslintrc",
   ".eslintrc.js",
