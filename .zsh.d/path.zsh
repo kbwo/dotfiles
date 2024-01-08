@@ -15,7 +15,7 @@ export PKG_CONFIG_PATH=/opt/homebrew/opt/expat/lib/pkgconfig
 export CLOUDSDK_PYTHON=~/.pyenv/shims/python
 
 # export CPPFLAGS=-I/usr/local/opt/llvm/include
-export GHQ_ROOT=$GOPATH/src
+export GHQ_ROOT=$GOPATH/projects
 export KBWO=$GHQ_ROOT/github.com/kbwo
 
 export PATH=$PATH:bin

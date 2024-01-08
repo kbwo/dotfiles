@@ -20,10 +20,13 @@ setopt auto_cd
 setopt auto_pushd
 # don't add duplicate directory
 setopt pushd_ignore_dups
-setopt share_history
+setopt SHARE_HISTORY
 setopt hist_ignore_all_dups
 setopt hist_ignore_space
 setopt hist_reduce_blanks
+HISTFILE=$HOME/.zsh_history
+HISTSIZE=100000
+SAVEHIST=100000
 # use wildcard
 setopt extended_glob
 setopt globdots

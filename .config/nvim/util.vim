@@ -4,6 +4,10 @@ function! StartsWith(string, prefix)
 endfunction
 
 function! FindNearestGitRoot()
+  " If filetype of current buffer is gin-status or gin-branch, return "."
+  if &filetype ==# 'gin-status' || &filetype ==# 'gin-branch'
+    return '.'
+  endif
   let l:current_directory = expand('%:p:h')
   let l:git_root = ''
 
