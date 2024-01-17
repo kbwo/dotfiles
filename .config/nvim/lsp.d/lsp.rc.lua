@@ -81,7 +81,10 @@ local rt_opts = {
       -- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
       ["rust-analyzer"] = {
         cargo = {
-          features = "all"
+          features = "all",
+          buildScripts = {
+            enable = true
+          }
         },
         -- enable clippy on save
         checkOnSave = {
@@ -130,7 +133,8 @@ mason_lspconfig.setup_handlers({
       opts.settings = {
         yaml = {
           schemas = {
-            ["https://raw.githubusercontent.com/instrumenta/kubernetes-json-schema/master/v1.18.0-standalone-strict/all.json"] = "/*.k8s.yaml",
+            ["https://raw.githubusercontent.com/instrumenta/kubernetes-json-schema/master/v1.18.0-standalone-strict/all.json"] =
+            "/*.k8s.yaml",
           }
         }
       }
