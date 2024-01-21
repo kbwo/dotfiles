@@ -70,6 +70,9 @@ nmap <silent><c-d> :call ddu#start(#{
 	    \ sync: v:true,
 	    \ sources: [#{
 	    \   name: 'lsp_definition',
+      \   params: #{
+      \     clientName: 'coc.nvim'
+      \   }
 	    \ }],
 	    \ uiParams: #{
 	    \   ff: #{
@@ -81,6 +84,9 @@ nmap <silent>gr :call ddu#start(#{
 	    \ sync: v:true,
 	    \ sources: [#{
 	    \   name: 'lsp_references',
+      \   params: #{
+      \     clientName: 'coc.nvim'
+      \   }
 	    \ }],
 	    \ uiParams: #{
 	    \   ff: #{
@@ -92,6 +98,9 @@ nmap <silent>csm :call ddu#start(#{
 	    \ sync: v:true,
 	    \ sources: [#{
 	    \   name: 'lsp_documentSymbol',
+      \   params: #{
+      \     clientName: 'coc.nvim'
+      \   }
 	    \ }],
 	    \ sourceOptions: #{
 	    \   lsp: #{
@@ -109,20 +118,23 @@ nmap <silent>csw :call ddu#start(#{
 	    \ sync: v:true,
 	    \ sources: [#{
 	    \   name: 'lsp_workspaceSymbol',
+      \   params: #{
+      \     clientName: 'coc.nvim'
+      \   }
 	    \ }],
 	    \ uiParams: #{
 	    \   ff: #{
 	    \   },
 	    \ }
 	    \})<CR>
-nmap <silent><Leader>iw :call ddu#start(#{
-	    \ sources: [#{
-	    \   name: 'lsp_diagnostic',
-	    \   params: #{
-	    \     buffer: 0,
-	    \   }
-	    \ }],
-	    \})<CR>
+" nmap <silent><Leader>iw :call ddu#start(#{
+" 	    \ sources: [#{
+" 	    \   name: 'lsp_diagnostic',
+" 	    \   params: #{
+" 	    \     buffer: 0,
+" 	    \   }
+" 	    \ }],
+" 	    \})<CR>
 " nmap <silent>cca :call ddu#start(#{
 "       \  ui: 'ff',
 " 	    \ sync: v:true,

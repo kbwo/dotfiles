@@ -44,7 +44,7 @@ Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'rest-nvim/rest.nvim'
 
 " Coc
-" Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install()}}
+Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install()}}
 
 " ddu
 " Plug 'kbwo/ddu-source-coc'
@@ -63,26 +63,26 @@ Plug 'stevearc/conform.nvim'
 Plug 'mfussenegger/nvim-dap'
 
 " neovim-lsp
-Plug 'neovim/nvim-lspconfig'
-Plug 'williamboman/mason.nvim'
-Plug 'williamboman/mason-lspconfig.nvim'
-Plug 'WhoIsSethDaniel/mason-tool-installer.nvim'
-Plug 'neovim/nvim-lspconfig'
-Plug 'simrat39/rust-tools.nvim'
-Plug 'j-hui/fidget.nvim', { 'tag': 'legacy' }
-Plug 'ray-x/navigator.lua'
-Plug 'hrsh7th/nvim-cmp'
-Plug 'hrsh7th/cmp-nvim-lsp'
-Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
-Plug 'hrsh7th/cmp-nvim-lsp-document-symbol'
-Plug 'hrsh7th/cmp-emoji'
-Plug 'hrsh7th/cmp-path'
-Plug 'hrsh7th/cmp-buffer'
-Plug 'hrsh7th/cmp-calc'
-Plug 'hrsh7th/cmp-vsnip'
-Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
-Plug 'uga-rosa/cmp-dictionary'
-Plug 'kbwo/cmp-yank'
+" Plug 'neovim/nvim-lspconfig'
+" Plug 'williamboman/mason.nvim'
+" Plug 'williamboman/mason-lspconfig.nvim'
+" Plug 'WhoIsSethDaniel/mason-tool-installer.nvim'
+" Plug 'neovim/nvim-lspconfig'
+" Plug 'simrat39/rust-tools.nvim'
+" Plug 'j-hui/fidget.nvim', { 'tag': 'legacy' }
+" Plug 'ray-x/navigator.lua'
+" Plug 'hrsh7th/nvim-cmp'
+" Plug 'hrsh7th/cmp-nvim-lsp'
+" Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
+" Plug 'hrsh7th/cmp-nvim-lsp-document-symbol'
+" Plug 'hrsh7th/cmp-emoji'
+" Plug 'hrsh7th/cmp-path'
+" Plug 'hrsh7th/cmp-buffer'
+" Plug 'hrsh7th/cmp-calc'
+" Plug 'hrsh7th/cmp-vsnip'
+" Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
+" Plug 'uga-rosa/cmp-dictionary'
+" Plug 'kbwo/cmp-yank'
 
 if executable("yarn")
   Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
@@ -107,5 +107,6 @@ function! s:load_configurations(directory) abort
 endfunction
 
 call s:load_configurations('~/dotfiles/.config/nvim/plugin.d')
-call s:load_configurations('~/dotfiles/.config/nvim/lsp.d')
+" call s:load_configurations('~/dotfiles/.config/nvim/lsp.d')
+call s:load_configurations('~/dotfiles/.config/nvim/coc.d')
 
