@@ -29,23 +29,23 @@ call ddu#custom#patch_global({
 autocmd FileType ddu-ff call s:ddu_my_settings()
 function! s:ddu_my_settings() abort
   nnoremap <buffer><silent> <CR>
-        \ <Cmd>call ddu#ui#ff#do_action('itemAction')<CR>
+        \ <Cmd>call ddu#ui#do_action('itemAction')<CR>
   nnoremap <buffer><silent> <Leader>vv
-        \ <Cmd>call ddu#ui#ff#do_action('itemAction', {'params': {'command': 'vsplit'}})<CR>
+        \ <Cmd>call ddu#ui#do_action('itemAction', {'params': {'command': 'vsplit'}})<CR>
   nnoremap <buffer><silent> <Leader>ss
-        \ <Cmd>call ddu#ui#ff#do_action('itemAction', {'params': {'command': 'split'}})<CR>
+        \ <Cmd>call ddu#ui#do_action('itemAction', {'params': {'command': 'split'}})<CR>
   nnoremap <buffer><silent> <Leader>tt
-        \ <Cmd>call ddu#ui#ff#do_action('itemAction', {'params': {'command': 'tabnew'}})<CR>
+        \ <Cmd>call ddu#ui#do_action('itemAction', {'params': {'command': 'tabnew'}})<CR>
   nnoremap <buffer><silent> o
-        \ <Cmd>call ddu#ui#ff#do_action('expandItem', {'params': {'mode': 'toggle'}})<CR>
+        \ <Cmd>call ddu#ui#do_action('expandItem', {'params': {'mode': 'toggle'}})<CR>
   nnoremap <buffer><silent> p
-        \ <Cmd>call ddu#ui#ff#do_action('preview')<CR>
+        \ <Cmd>call ddu#ui#do_action('preview')<CR>
   nnoremap <buffer><silent> m
-        \ <Cmd>call ddu#ui#ff#do_action('toggleSelectItem')<CR>
+        \ <Cmd>call ddu#ui#do_action('toggleSelectItem')<CR>
   nnoremap <buffer><silent> i
-        \ <Cmd>call ddu#ui#ff#do_action('openFilterWindow')<CR>
+        \ <Cmd>call ddu#ui#do_action('openFilterWindow')<CR>
   nnoremap <buffer><silent> x
-      \ <Cmd>call ddu#ui#ff#do_action('quit')<CR>
+      \ <Cmd>call ddu#ui#do_action('quit')<CR>
 endfunction
 
 autocmd FileType ddu-ff-filter call s:ddu_filter_my_settings()
