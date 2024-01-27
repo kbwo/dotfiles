@@ -46,17 +46,25 @@ function! LightlineFilename()
 endfunction
 
 let g:lightline.tab = {
-      \ 'active': [ 'tabnum', 'filename', 'modified' ],
+      \ 'active': [ 'tabnum', 'pathname', 'modified' ],
       \ 'inactive': [ 'tabnum', 'filename', 'modified' ]
       \ }
 
 let g:lightline.tab_component_function = {
       \ 'filename': 'LightlineTabFilename',
+      \ 'pathname': 'LightlineTabPathname',
       \ 'modified': 'lightline#tab#modified',
       \ 'readonly': 'lightline#tab#readonly',
       \ 'tabnum': 'lightline#tab#tabnum' }
 
 function! LightlineTabFilename(n) abort
+  let buflist = tabpagebuflist(a:n)
+  let winnr = tabpagewinnr(a:n)
+  let _ = fnamemodify(expand('#'.buflist[winnr - 1].':f'), ':t')
+  return _ !=# '' ? _ : '[No Name]'
+endfunction
+
+function! LightlineTabPathname(n) abort
   let buflist = tabpagebuflist(a:n)
   let winnr = tabpagewinnr(a:n)
   let _ = pathshorten(expand('#'.buflist[winnr - 1].':f'))
