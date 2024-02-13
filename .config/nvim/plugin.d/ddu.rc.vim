@@ -2,9 +2,6 @@ call ddu#custom#patch_global(#{
       \  ui: 'ff',
       \  uiParams: #{
       \     ff: #{
-      \       autoAction: #{
-      \         name: 'preview',
-      \       },
       \       startAutoAction: v:true
       \     },
       \  },
@@ -79,13 +76,6 @@ nmap <silent><c-d> :call ddu#start(#{
       \ sources: [#{
       \   name: 'lsp_definition',
       \ }],
-      \ uiParams: #{
-      \   ff: #{
-      \       autoAction: #{
-      \         name: 'preview',
-      \       },
-      \   },
-      \ }
       \})<CR>
 nmap <silent>gr :call ddu#start(#{
       \  ui: 'ff',
@@ -93,17 +83,15 @@ nmap <silent>gr :call ddu#start(#{
       \ sources: [#{
       \   name: 'lsp_references',
       \ }],
-      \ uiParams: #{
-      \   ff: #{
-      \       autoAction: #{
-      \         name: 'preview',
-      \       },
-      \   },
-      \ }
       \})<CR>
 nmap <silent>csm :call ddu#start(#{
       \  ui: 'ff',
       \ sync: v:true,
+      \  uiParams: #{
+      \     ff: #{
+      \       displayTree: v:true
+      \     },
+      \  },
       \ sources: [#{
       \   name: 'lsp_documentSymbol',
       \ }],
@@ -112,14 +100,6 @@ nmap <silent>csm :call ddu#start(#{
       \     volatile: v:true,
       \   },
       \ },
-      \ uiParams: #{
-      \   ff: #{
-      \       autoAction: #{
-      \         name: 'preview',
-      \       },
-      \     displayTree: v:true
-      \   },
-      \ }
       \})<CR>
 nmap <silent>csw :call ddu#start(#{
       \  ui: 'ff',
@@ -127,13 +107,6 @@ nmap <silent>csw :call ddu#start(#{
       \ sources: [#{
       \   name: 'lsp_workspaceSymbol',
       \ }],
-      \ uiParams: #{
-      \   ff: #{
-      \       autoAction: #{
-      \         name: 'preview',
-      \       },
-      \   },
-      \ }
       \})<CR>
 nmap <silent><Leader>iw :call ddu#start(#{
       \ sources: [#{
