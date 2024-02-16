@@ -159,11 +159,6 @@ endfunction
 command! DduBuffer call ddu#start(#{
       \   ui: 'ff',
       \   sources: [#{name: 'buffer'}],
-      \   sourceOptions: #{
-      \     _: {
-      \       matchers: ['matcher_fzf'],
-      \     },
-      \   },
       \   kindOptions: #{
       \     file: #{
       \       defaultAction: 'open',
