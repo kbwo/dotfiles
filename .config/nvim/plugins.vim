@@ -29,7 +29,7 @@ Plug 'lambdalisue/fern.vim'
 Plug 'Bakudankun/BackAndForward.vim'
 Plug 'skanehira/denops-docker.vim'
 Plug '~/go/src/github.com/kbwo/rustrekker/rs_module'
-Plug 'Exafunction/codeium.vim'
+" Plug 'Exafunction/codeium.vim'
 Plug 'hrsh7th/vim-vsnip-integ'
 Plug 'hrsh7th/vim-vsnip'
 Plug 'rafamadriz/friendly-snippets'
@@ -80,9 +80,9 @@ Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-calc'
 Plug 'hrsh7th/cmp-vsnip'
-Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
 Plug 'uga-rosa/cmp-dictionary'
 Plug 'kbwo/cmp-yank'
+Plug 'Exafunction/codeium.nvim'
 
 if executable("yarn")
   Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }

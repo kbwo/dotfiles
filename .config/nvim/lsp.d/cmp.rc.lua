@@ -1,5 +1,8 @@
 local cmp = require 'cmp'
 cmp.setup({
+  experimental = {
+    ghost_text = { hlgroup = "Comment" }
+  },
   preselect = 'none',
   completion = {
     completeopt = 'menu,menuone,noinsert,noselect'
@@ -33,7 +36,7 @@ cmp.setup({
     { name = 'nvim_lsp_signature_help' },  -- display function signatures with current parameter emphasized
     { name = 'nvim_lsp_document_symbol' }, -- display function signatures with current parameter emphasized
     { name = 'emoji' },                    -- display function signatures with current parameter emphasized
-    { name = 'cmp_tabnine' },
+    { name = "codeium" },
     { name = 'html-css' },
     { name = 'crates',                  keyword_length = 2 },
     { name = 'nvim_lua',                keyword_length = 2 }, -- complete neovim's Lua runtime API such vim.lsp.*
@@ -74,20 +77,4 @@ dict.setup({
   sqlite = false,
   max_number_items = -1,
   debug = false,
-})
-
-local tabnine = require('cmp_tabnine.config')
-
-tabnine:setup({
-  max_lines = 1000,
-  max_num_results = 20,
-  sort = true,
-  run_on_every_keystroke = true,
-  snippet_placeholder = '..',
-  ignored_file_types = {
-    -- default is not to ignore
-    -- uncomment to ignore in lua:
-    -- lua = true
-  },
-  show_prediction_strength = false
 })
