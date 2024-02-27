@@ -42,7 +42,6 @@ key_bindings:
   - { key: Slash, mods: Control, chars: "\x1f" }
 
 window:
-  opacity: 0.8
   padding:
     y: 4
     x: 4
