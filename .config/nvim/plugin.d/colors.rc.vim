@@ -24,6 +24,12 @@ hi ErrorMsg guifg=#F7768E
 hi PreProc guifg=#FF9E64
 hi DiagnosticError guifg=#F7768E
 hi DiagnosticSignError guifg=#F7768E
+hi DiagnosticUnderlineError guifg=#F7768E
+hi DiagnosticFloatingError guifg=#F7768E
+hi NvimInternalError guifg=#F7768E
+hi healthError guifg=#F7768E
+hi DapUIWatchesError guifg=#F7768E
+hi DapUIWatchesEmpty guifg=#F7768E
 hi FloatShadowThrough cterm=bold gui=bold guifg=#938aa9 guibg=#16161d
 hi FloatShadow cterm=bold gui=bold guifg=#938aa9 guibg=#16161d
 
