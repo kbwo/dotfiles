@@ -26,6 +26,7 @@ nmap - <C-x>
 nmap <c-t> :tabnew<CR>
 nmap <Leader>l :lcd %:h<CR>
 nmap <Leader>h :noh<CR>
+tnoremap <C-\> <C-\><C-n>
 command Sov so ~/.config/nvim/init.vim
 command Cdv vsp ~/dotfiles/.config/nvim/init.vim
 
