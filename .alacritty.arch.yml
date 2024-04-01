@@ -6,7 +6,7 @@ colors:
 
   normal:
     black:   '0x090618'
-    red:     '0xe46876'
+    red:     '0xf7768e'
     green:   '0x76946a'
     yellow:  '0xc0a36e'
     blue:    '0x7e9cd8'
@@ -16,7 +16,7 @@ colors:
 
   bright:
     black:   '0x727169'
-    red:     '0xe46876'
+    red:     '0xf7768e'
     green:   '0x98bb6c'
     yellow:  '0xe6c384'
     blue:    '0x7fb4ca'
