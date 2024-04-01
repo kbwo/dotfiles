@@ -160,7 +160,19 @@ mason_lspconfig.setup_handlers({
       }
     end
 
-    opts.on_attach = on_attach
+    if server_name == 'svelte' then
+      opts.on_attach = function(client, bufnr)
+        vim.api.nvim_create_autocmd("BufWritePost", {
+          pattern = { "*.js", "*.ts" },
+          callback = function(ctx)
+            client.notify("$/onDidChangeTsOrJsFile", { uri = ctx.match })
+          end,
+        })
+        on_attach(client, bufnr)
+      end
+    else
+      opts.on_attach = on_attach
+    end
 
     nvim_lsp[server_name].setup(opts)
   end,
