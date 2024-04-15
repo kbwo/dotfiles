@@ -83,6 +83,7 @@ command! Symbols call ddu#start({
     \   }
     \ })
 
+let g:coc_enable_locationlist = 0
 autocmd! User CocLocationsChange call ddu#start({
     \   'ui': 'ff',
     \   'sources': [{'name': 'coc-locations', 'params': {}}],
