@@ -4,7 +4,9 @@ function! StartsWith(string, prefix)
 endfunction
 
 function! FindNearestGitRoot()
-  if &filetype ==# '' || &filetype ==# 'gin-status' || &filetype ==# 'gin-branch' || &filetype ==# 'gin-log'
+  let s:gin_filetypes = ['', 'gin-status', 'gin-branch', 'gin-log', 'gin-diff']
+
+  if index(s:gin_filetypes, &filetype) != -1
     return '.'
   endif
   let l:current_directory = expand('%:p:h')
