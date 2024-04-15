@@ -17,8 +17,8 @@ hi Comment guifg=gray70
 hi rustCommentLineDoc guifg=gray70
 hi link CocMenuSel PmenuSel
 hi HopNextKey cterm=bold ctermfg=45 gui=bold guifg=#00dfff
-hi AnsiColor1 guifg=#e46876
-hi FgCocErrorFloatBgCocFloating guifg=#e46876
+hi AnsiColor1 guifg=#F7768E
+hi FgCocErrorFloatBgCocFloating guifg=#F7768E
 hi Error guifg=#F7768E
 hi ErrorMsg guifg=#F7768E
 hi PreProc guifg=#FF9E64
