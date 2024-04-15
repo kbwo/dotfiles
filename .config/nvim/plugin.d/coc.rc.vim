@@ -25,7 +25,6 @@ let g:coc_global_extensions = [
       \'coc-pairs',
       \'@yaegassy/coc-intelephense',
       \'coc-post',
-      \'coc-prettier',
       \'coc-prisma',
       \'coc-python',
       \'coc-react-refactor',
@@ -78,9 +77,6 @@ function! s:show_documentation()
   endif
 endfunction
 
-let g:coc_enable_locationlist = 0
-command! -nargs=0 Prettier :CocCommand prettier.formatFile
-
 nnoremap <nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
 nnoremap <nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
 " highlight CocUnusedHighlight guifg=#ad8ee6 gui=bold
@@ -88,7 +84,7 @@ nnoremap <nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<
 " hi link CocUnusedHighlight CocUnderline guifg=darkgray
 
 
-autocmd CursorHold * silent call CocActionAsync('highlight')
+" autocmd CursorHold * silent call CocActionAsync('highlight')
 
 nmap tr <Plug>(coc-translator-p)
 vmap tr <Plug>(coc-translator-pv)
@@ -109,3 +105,4 @@ inoremap <silent><expr> <TAB>
 \ <SID>check_back_space() ? "\<Tab>" :
 \ coc#refresh()
 inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+

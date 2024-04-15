@@ -44,14 +44,12 @@
   "[dart]": {
     "coc.preferences.formatOnSave": true
   },
-  "rust-analyzer.diagnostics.disabled": ["unresolved-proc-macro"],
   "rust-analyzer.procMacro.enable": true,
-  "rust-analyzer.checkOnSave.command": "clippy",
   "rust-analyzer.check.command": "clippy",
-  "rust-analyzer.checkOnSave.allTargets": true,
-  "rust-analyzer.checkOnSave.allFeatures": true,
   "translator.toLang": "ja",
-  "translator.engines": ["google"],
+  "translator.engines": [
+    "google"
+  ],
   "cssmodules.hintName": "cssmodules",
   "prettier.onlyUseLocalVersion": true,
   "python.pythonPath": "~/.pyenv/shims/python",
@@ -97,13 +95,15 @@
     },
     "terraform": {
       "command": "terraform-ls",
-			"args": ["serve"],
-			"filetypes": [
-				"terraform",
-				"tf"
-			],
-			"initializationOptions": {},
-			"settings": {}
+      "args": [
+        "serve"
+      ],
+      "filetypes": [
+        "terraform",
+        "tf"
+      ],
+      "initializationOptions": {},
+      "settings": {}
     }
   },
   "svelte.enable-ts-plugin": true,

@@ -41,7 +41,7 @@ Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'rest-nvim/rest.nvim'
 
 " Coc
-Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install()}}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " ddu
 Plug 'kbwo/ddu-source-coc'
