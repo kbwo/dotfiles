@@ -82,6 +82,7 @@ command! Symbols call ddu#start({
     \     },
     \   }
     \ })
+nmap csm :Symbols<CR>
 
 let g:coc_enable_locationlist = 0
 autocmd! User CocLocationsChange call ddu#start({
