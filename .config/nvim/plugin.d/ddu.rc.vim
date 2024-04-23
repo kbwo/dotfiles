@@ -149,6 +149,8 @@ command! DduBuffer call ddu#start(#{
       \   }
       \ })
 
+nmap <Leader>b :DduBuffer<CR>
+
 function! RgFind(type, ...)
   let text = ''
   for arg in a:000

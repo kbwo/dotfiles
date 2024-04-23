@@ -116,10 +116,11 @@
       "settings": {}
     }
   },
+  "notification.disabledProgressSources": [
+    "*"
+  ],
   "svelte.enable-ts-plugin": true,
-  "tabnine.priority": 50,
   "suggest.noselect": true,
-  "tabnine.enablePreselect": false,
   "suggest.enablePreselect": false,
   "snippets.editSnippetsCommand": "vsplit",
   "snippets.ultisnips.pythonPrompt": false,
