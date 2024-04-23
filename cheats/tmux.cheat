@@ -1,4 +1,0 @@
-% kbwo, tmux
-
-# source current tmux configuration
-tmux source ~/.tmux.conf
