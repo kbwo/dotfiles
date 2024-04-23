@@ -18,3 +18,8 @@ require('smart-splits').setup({
 })
 
 vim.keymap.set('n', '<C-a>', function() require('smart-splits').start_resize_mode() end)
+vim.keymap.set('n', '<C-w>h', require('smart-splits').move_cursor_left)
+vim.keymap.set('n', '<C-w>j', require('smart-splits').move_cursor_down)
+vim.keymap.set('n', '<C-w>k', require('smart-splits').move_cursor_up)
+vim.keymap.set('n', '<C-w>l', require('smart-splits').move_cursor_right)
+vim.keymap.set('n', '<C-w>p', require('smart-splits').move_cursor_previous)
