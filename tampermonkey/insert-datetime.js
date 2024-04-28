@@ -27,7 +27,7 @@
     // alt+ctrl+d
     if (event.altKey && event.ctrlKey && event.keyCode === 68) {
       const input = document.activeElement;
-      input.value = getCurrentDateTime();
+      input.value = input.value + getCurrentDateTime();
       input.dispatchEvent(new Event('input', {bubbles: true, cancelable: true}));
       input.dispatchEvent(new Event('change', {bubbles: true, cancelable: true}));
     }

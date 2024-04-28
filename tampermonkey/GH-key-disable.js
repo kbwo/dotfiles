@@ -3,6 +3,8 @@
 // @namespace    http://tampermonkey.net
 // @match        https://github.com/*
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
+// @description
+// @version      0.0.1
 // @grant        none
 // ==/UserScript==
 
