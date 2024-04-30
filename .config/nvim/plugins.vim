@@ -1,8 +1,6 @@
 " plugin
 call plug#begin(expand('~/.vim/plugged'))
 Plug 'nvim-lua/plenary.nvim'
-Plug 'ray-x/guihua.lua', {'do': 'cd lua/fzy && make' }
-
 Plug 'itchyny/lightline.vim'
 Plug 'tpope/vim-surround'
 Plug 'mattn/emmet-vim'
@@ -22,23 +20,17 @@ Plug 'lambdalisue/gin.vim'
 Plug 'lambdalisue/guise.vim'
 Plug 'machakann/vim-sandwich'
 Plug 'dhruvasagar/vim-table-mode', { 'for': ['markdown']}
-Plug 'udalov/kotlin-vim'
 Plug 'kchmck/vim-coffee-script'
-Plug 'akinsho/flutter-tools.nvim'
 Plug 'lambdalisue/fern.vim'
 Plug 'Bakudankun/BackAndForward.vim'
 Plug 'skanehira/denops-docker.vim'
-Plug '~/go/src/github.com/kbwo/rustrekker/rs_module'
 Plug 'Exafunction/codeium.vim'
 Plug 'mhinz/vim-signify'
 Plug 'NvChad/nvim-colorizer.lua'
-Plug 'MrcJkb/haskell-tools.nvim'
 Plug 'rebelot/kanagawa.nvim'
-Plug 'antoinemadec/FixCursorHold.nvim'
 Plug 'phaazon/hop.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'lukas-reineke/indent-blankline.nvim'
-Plug 'rest-nvim/rest.nvim'
 
 " Coc
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
