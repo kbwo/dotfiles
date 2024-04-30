@@ -12,3 +12,5 @@ export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
 [ -f "/Users/kbwo/.ghcup/env" ] && source "/Users/kbwo/.ghcup/env" # ghcup-env
+# bun completions
+[ -s "/home/kbwo/.bun/_bun" ] && source "/home/kbwo/.bun/_bun"

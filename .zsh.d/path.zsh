@@ -13,6 +13,7 @@ export DENO_INSTALL=$HOME/.deno
 export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/path/to/parent/dir
 export PKG_CONFIG_PATH=/opt/homebrew/opt/expat/lib/pkgconfig
 export CLOUDSDK_PYTHON=~/.pyenv/shims/python
+export BUN_INSTALL="$HOME/.bun"
 
 # export CPPFLAGS=-I/usr/local/opt/llvm/include
 export GHQ_ROOT=$GOPATH/projects
@@ -58,11 +59,12 @@ export PATH=$PATH:$PYENV_ROOT/bin
 export PATH=$PATH:/opt/homebrew/opt/openssl@3/bin
 export VOLTA_HOME=$HOME/.volta
 export PATH=$PATH:/opt/homebrew/Cellar
-export PATH=$VOLTA_HOME/bin:$PATH
-export PATH=$PYENV_ROOT/bin:$PATH
-export PATH=$PYENV_ROOT/shims:$PATH
-export PATH=$HOME/.rbenv/shims:$PATH
-export PATH=$HOME/.rye/shims:$PATH
+export PATH=$PATH:$VOLTA_HOME/bin
+export PATH=$PATH:$PYENV_ROOT/bin
+export PATH=$PATH:$PYENV_ROOT/shims
+export PATH=$PATH:$HOME/.rbenv/shims
+export PATH=$PATH:$HOME/.rye/shims
+export PATH=$PATH:$BUN_INSTALL/bin
 unset _VOLTA_TOOL_RECURSION
 
 if [ -d "$HOME/google-cloud-sdk" ];then
