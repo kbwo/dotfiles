@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         GH-key-disable
+// @name         gh-key-disable
 // @namespace    http://tampermonkey.net
 // @match        https://github.com/*
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
@@ -12,7 +12,7 @@
   'use strict';
 
   const f = eventName => event => {
-    if (event.ctrlKey && event.key === 'b') {
+    if (event.ctrlKey && ['b', 'c'].includes(event.key.toLowerCase())) {
       event.cancelBubble = true;
       event.stopImmediatePropagation();
     }
