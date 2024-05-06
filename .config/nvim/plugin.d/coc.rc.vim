@@ -1,6 +1,7 @@
 let g:coc_global_extensions = [
       \'coc-angular',
       \'@yaegassy/coc-ansible',
+      \'coc-biome',
       \'coc-emmet',
       \'coc-emoji',
       \'coc-calc',
@@ -13,7 +14,6 @@ let g:coc_global_extensions = [
       \'coc-docker',
       \'coc-eslint',
       \'coc-flutter',
-      \'coc-git',
       \'coc-go',
       \'coc-highlight',
       \'coc-html',
@@ -26,6 +26,7 @@ let g:coc_global_extensions = [
       \'@yaegassy/coc-intelephense',
       \'coc-post',
       \'coc-prisma',
+      \'coc-prettier',
       \'coc-python',
       \'coc-react-refactor',
       \'coc-rust-analyzer',

@@ -1,7 +1,7 @@
 require('smart-splits').setup({
   resize_mode = {
     -- key to exit persistent resize mode
-    quit_key = '<CR>',
+    quit_key = '<ESC>',
     -- keys to use for moving in resize mode
     -- in order of left, down, up' right
     resize_keys = { 'h', 'j', 'k', 'l' },
