@@ -51,17 +51,11 @@
   ],
   "rust-analyzer.cargo.features": "all",
   "rust-analyzer.check.command": "clippy",
-  "workspace.ignoredFolders": [
-    "$HOME",
-    "$HOME/.cargo/**",
-    "$HOME/.rustup/**"
-  ],
+  "rust-analyzer.imports.granularity.group": "crate",
+  "workspace.ignoredFolders": ["$HOME", "$HOME/.cargo/**", "$HOME/.rustup/**"],
   "translator.toLang": "ja",
-  "translator.engines": [
-    "google"
-  ],
+  "translator.engines": ["google"],
   "cssmodules.hintName": "cssmodules",
-  "prettier.onlyUseLocalVersion": true,
   "python.pythonPath": "~/.pyenv/shims/python",
   "python.jediEnabled": false,
   "css.validate": false,
@@ -81,21 +75,28 @@
   "languageserver": {
     "kotlin": {
       "command": "~/go/src/github.com/fwcd/kotlin-language-server/server/build/install/server/bin/kotlin-language-server",
-      "filetypes": [
-        "kotlin"
-      ]
+      "filetypes": ["kotlin"]
+    },
+    "testing": {
+      "command": "/home/kbwo/go/projects/github.com/kbwo/testing-language-server/target/debug/testing-language-server",
+      "trace.server": "verbose",
+      "filetypes": ["rust", "javascript"],
+      "initializationOptions": {
+        "adapterCommand": {
+          ".rs": [
+            "/home/kbwo/go/projects/github.com/kbwo/testing-language-server/target/debug/testing-ls-rust-adapter"
+          ],
+          ".js": [
+            "/home/kbwo/go/projects/github.com/kbwo/testing-language-server/target/debug/testing-ls-jest-adapter"
+          ]
+        }
+      }
     },
     "elmLS": {
       "command": "elm-language-server",
-      "args": [
-        "--stdio"
-      ],
-      "filetypes": [
-        "elm"
-      ],
-      "rootPatterns": [
-        "elm.json"
-      ],
+      "args": ["--stdio"],
+      "filetypes": ["elm"],
+      "rootPatterns": ["elm.json"],
       "initializationOptions": {
         "elmPath": "./node_modules/.bin/elm",
         "elmFormatPath": "elm-format",
@@ -105,25 +106,25 @@
     },
     "terraform": {
       "command": "terraform-ls",
-      "args": [
-        "serve"
-      ],
-      "filetypes": [
-        "terraform",
-        "tf"
-      ],
+      "args": ["serve"],
+      "filetypes": ["terraform", "tf"],
       "initializationOptions": {},
       "settings": {}
     }
   },
-  "notification.disabledProgressSources": [
-    "*"
-  ],
+  "notification.disabledProgressSources": ["*"],
   "svelte.enable-ts-plugin": true,
   "suggest.noselect": true,
   "suggest.enablePreselect": false,
   "snippets.editSnippetsCommand": "vsplit",
   "snippets.ultisnips.pythonPrompt": false,
   "typescript.preferences.jsxAttributeCompletionStyle": "none",
-  "zig.zls.path": "/Users/kbwo/.config/coc/extensions/coc-zls-data/zls_install/zls"
+  "zig.zls.path": "/Users/kbwo/.config/coc/extensions/coc-zls-data/zls_install/zls",
+  "Lua.workspace.library": [
+    "/usr/share/nvim/runtime/lua",
+    "/usr/share/nvim/runtime/lua/vim",
+    "/usr/share/nvim/runtime/lua/vim/lsp",
+    "~/.vim/plugged"
+  ],
+  "Lua.diagnostics.globals": ["vim"]
 }
