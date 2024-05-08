@@ -11,7 +11,7 @@
   'use strict';
 
   document.addEventListener('keydown', (e) => {
-    if (e.ctrlKey && e.altKey && e.key === 'c') {
+    if (e.ctrlKey && e.altKey && (e.key === 'c' || e.code === 'KeyC')) {
       const title = document.title;
       const url = document.URL;
       window.navigator.clipboard.writeText(`${title}\n${url}`).then(() => {
