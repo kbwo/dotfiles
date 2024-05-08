@@ -7,10 +7,7 @@ endif
 filetype plugin indent on
 
 inoremap <c-u> <Nop>
-inoremap \<Space> <Nop>
 let mapleader="\<Space>"
-
-" match Ignore /\r$/
 
 map K gt
 map J gT
