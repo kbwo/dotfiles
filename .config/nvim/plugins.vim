@@ -31,6 +31,7 @@ Plug 'rebelot/kanagawa.nvim'
 Plug 'phaazon/hop.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'lukas-reineke/indent-blankline.nvim'
+Plug 'andrewferrier/debugprint.nvim'
 
 " Coc
 Plug 'neoclide/coc.nvim', {'commit': 'release'}
