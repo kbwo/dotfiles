@@ -10,11 +10,13 @@
 (() => {
   "use strict";
 
-  const url = new URL(location.href);
-  const w = url.searchParams.get("w");
-  if (w === "1") {
-    return;
-  }
-  url.searchParams.set("w", "1");
-  location.href = url.href;
+  setInterval(() => {
+    const url = new URL(location.href);
+    const w = url.searchParams.get("w");
+    if (w === "1") {
+      return;
+    }
+    url.searchParams.set("w", "1");
+    location.href = url.href;
+  }, 1000);
 })();

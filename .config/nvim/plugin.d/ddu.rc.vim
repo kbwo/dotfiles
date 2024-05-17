@@ -101,7 +101,10 @@ autocmd! User CocLocationsChange call ddu#start({
     \ })
 
 function! StartDduNoIgnore() abort
-  " :Copilot disable
+  if &filetype == 'fern'
+    call timer_start(100, { -> ddu#start({}) })
+    return
+  endif
   call ddu#start({})
 endfunction
 

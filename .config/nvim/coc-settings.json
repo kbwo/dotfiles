@@ -51,7 +51,15 @@
   ],
   "rust-analyzer.cargo.features": "all",
   "rust-analyzer.check.command": "clippy",
-  "rust-analyzer.imports.granularity.group": "crate",
+  // "rust-analyzer.inlayHints.bindingModeHints.enable": true,
+  // "rust-analyzer.inlayHints.chainingHints.enable": true,
+  // "rust-analyzer.inlayHints.closureReturnTypeHints.enable": "always",
+  // "rust-analyzer.inlayHints.expressionAdjustmentHints.enable": "always",
+  // "rust-analyzer.inlayHints.lifetimeElisionHints.enable": "always",
+  "typescript.inlayHints.variableTypes.enabled": true,
+  "typescript.inlayHints.parameterNames.enabled": "all",
+  "typescript.inlayHints.parameterTypes.enabled": true,
+  "typescript.inlayHints.enumMemberValues.enabled": true,
   "workspace.ignoredFolders": ["$HOME", "$HOME/.cargo/**", "$HOME/.rustup/**"],
   "translator.toLang": "ja",
   "translator.engines": ["google"],
@@ -60,7 +68,6 @@
   "python.jediEnabled": false,
   "css.validate": false,
   "css.completion.completePropertyWithSemicolon": false,
-  "coc.preferences.colorSupport": true,
   "coc.source.file.ignoreHidden": true,
   "deno.enable": false,
   "flutter.lsp.initialization.closingLabels": true,
@@ -76,21 +83,6 @@
     "kotlin": {
       "command": "~/go/src/github.com/fwcd/kotlin-language-server/server/build/install/server/bin/kotlin-language-server",
       "filetypes": ["kotlin"]
-    },
-    "testing": {
-      "command": "/home/kbwo/go/projects/github.com/kbwo/testing-language-server/target/debug/testing-language-server",
-      "trace.server": "verbose",
-      "filetypes": ["rust", "javascript"],
-      "initializationOptions": {
-        "adapterCommand": {
-          ".rs": [
-            "/home/kbwo/go/projects/github.com/kbwo/testing-language-server/target/debug/testing-ls-rust-adapter"
-          ],
-          ".js": [
-            "/home/kbwo/go/projects/github.com/kbwo/testing-language-server/target/debug/testing-ls-jest-adapter"
-          ]
-        }
-      }
     },
     "elmLS": {
       "command": "elm-language-server",
@@ -116,8 +108,6 @@
   "svelte.enable-ts-plugin": true,
   "suggest.noselect": true,
   "suggest.enablePreselect": false,
-  "snippets.editSnippetsCommand": "vsplit",
-  "snippets.ultisnips.pythonPrompt": false,
   "typescript.preferences.jsxAttributeCompletionStyle": "none",
   "zig.zls.path": "/Users/kbwo/.config/coc/extensions/coc-zls-data/zls_install/zls",
   "Lua.workspace.library": [
@@ -126,5 +116,37 @@
     "/usr/share/nvim/runtime/lua/vim/lsp",
     "~/.vim/plugged"
   ],
-  "Lua.diagnostics.globals": ["vim"]
+  "Lua.diagnostics.globals": ["vim"],
+  "yaml.customTags": [
+    "!And",
+    "!Base64",
+    "!Cidr",
+    "!Equals",
+    "!FindInMap scalar",
+    "!FindInMap sequence",
+    "!GetAtt",
+    "!GetAZs",
+    "!If",
+    "!ImportValue",
+    "!Join",
+    "!Not",
+    "!Or",
+    "!Ref scalar",
+    "!Select",
+    "!Split",
+    "!Sub scalar",
+    "!Sub sequence",
+    "!And sequence",
+    "!If sequence",
+    "!Not sequence",
+    "!Equals sequence",
+    "!Or sequence",
+    "!FindInMap",
+    "!Join sequence",
+    "!Ref",
+    "!Sub",
+    "!ImportValue sequence",
+    "!Select sequence",
+    "!Split sequence"
+  ]
 }
