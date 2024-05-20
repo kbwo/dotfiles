@@ -51,15 +51,16 @@
   ],
   "rust-analyzer.cargo.features": "all",
   "rust-analyzer.check.command": "clippy",
-  // "rust-analyzer.inlayHints.bindingModeHints.enable": true,
-  // "rust-analyzer.inlayHints.chainingHints.enable": true,
+  "rust-analyzer.inlayHints.bindingModeHints.enable": false,
+  "rust-analyzer.inlayHints.chainingHints.enable": false,
+  "inlayHint.enable": false,
   // "rust-analyzer.inlayHints.closureReturnTypeHints.enable": "always",
   // "rust-analyzer.inlayHints.expressionAdjustmentHints.enable": "always",
   // "rust-analyzer.inlayHints.lifetimeElisionHints.enable": "always",
-  "typescript.inlayHints.variableTypes.enabled": true,
-  "typescript.inlayHints.parameterNames.enabled": "all",
-  "typescript.inlayHints.parameterTypes.enabled": true,
-  "typescript.inlayHints.enumMemberValues.enabled": true,
+  // "typescript.inlayHints.variableTypes.enabled": true,
+  // "typescript.inlayHints.parameterNames.enabled": "all",
+  // "typescript.inlayHints.parameterTypes.enabled": true,
+  // "typescript.inlayHints.enumMemberValues.enabled": true,
   "workspace.ignoredFolders": ["$HOME", "$HOME/.cargo/**", "$HOME/.rustup/**"],
   "translator.toLang": "ja",
   "translator.engines": ["google"],
@@ -84,6 +85,27 @@
       "command": "~/go/src/github.com/fwcd/kotlin-language-server/server/build/install/server/bin/kotlin-language-server",
       "filetypes": ["kotlin"]
     },
+    // "testing": {
+    //   "command": "/home/kbwo/go/projects/github.com/kbwo/testing-language-server/target/debug/testing-language-server",
+    //   "trace.server": "verbose",
+    //   "filetypes": ["rust", "javascript"],
+    //   "initializationOptions": {
+    //     "adapterCommand": {
+    //       ".rs": [
+    //         {
+    //           "path": "/home/kbwo/go/projects/github.com/kbwo/testing-language-server/target/debug/testing-ls-adapter",
+    //           "extra_args": ["--test-kind=cargo-test"]
+    //         }
+    //       ],
+    //       ".js": [
+    //         {
+    //           "path": "/home/kbwo/go/projects/github.com/kbwo/testing-language-server/target/debug/testing-ls-adapter",
+    //           "extra_args": ["--test-kind=jest"]
+    //         }
+    //       ]
+    //     }
+    //   }
+    // },
     "elmLS": {
       "command": "elm-language-server",
       "args": ["--stdio"],

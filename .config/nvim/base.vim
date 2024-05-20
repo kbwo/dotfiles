@@ -76,6 +76,8 @@ set mouse=a
 set whichwrap=b,s,h,l,<,>,[,]
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
 set clipboard+=unnamedplus
+nnoremap gno o<Esc>j
+nnoremap gnO O<Esc>k
 if has('nvim')
   set guicursor=a:blinkon0
 else
