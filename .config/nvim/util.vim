@@ -10,6 +10,7 @@ function! FindNearestGitRoot()
     return '.'
   endif
   let l:current_directory = expand('%:p:h')
+  let l:current_file = expand('%:p')
   let l:git_root = ''
 
   while l:current_directory !=# '/'
@@ -26,6 +27,11 @@ function! FindNearestGitRoot()
   endif
 
   let l:cwd = getcwd()
+
+  if StartsWith(l:current_directory, l:git_root) && !StartsWith(l:current_file, l:cwd)
+    return l:git_root
+  endif
+
   if StartsWith(l:cwd, l:git_root)
     return l:cwd
   endif
