@@ -27,7 +27,7 @@ let g:coc_global_extensions = [
       \'coc-post',
       \'coc-prisma',
       \'coc-prettier',
-      \'coc-python',
+      \'coc-pyright',
       \'coc-react-refactor',
       \'coc-rust-analyzer',
       \'coc-sh',
@@ -73,7 +73,7 @@ function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
   else
-    call CocAction('doHover')
+    call CocActionAsync('doHover')
   endif
 endfunction
 
