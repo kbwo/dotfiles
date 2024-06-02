@@ -44,8 +44,6 @@ let g:coc_global_extensions = [
       \'coc-xml',
       \'coc-yaml',
       \'coc-yank',
-      \'coc-zig',
-      \'coc-zls',
       \]
 nnoremap <Leader>c  :call CocActionAsync('highlight')<CR>
 nmap <silent> <c-d> <Plug>(coc-definition)

@@ -65,8 +65,6 @@
   "translator.toLang": "ja",
   "translator.engines": ["google"],
   "cssmodules.hintName": "cssmodules",
-  "python.pythonPath": "~/.pyenv/shims/python",
-  "python.jediEnabled": false,
   "css.validate": false,
   "css.completion.completePropertyWithSemicolon": false,
   "coc.source.file.ignoreHidden": true,
@@ -106,6 +104,13 @@
     //     }
     //   }
     // },
+    "zig": {
+      "command": "zls",
+      "filetypes": ["zig"],
+      "initializationOptions": {
+        "enable": true
+      }
+    },
     "elmLS": {
       "command": "elm-language-server",
       "args": ["--stdio"],
@@ -131,7 +136,6 @@
   "suggest.noselect": true,
   "suggest.enablePreselect": false,
   "typescript.preferences.jsxAttributeCompletionStyle": "none",
-  "zig.zls.path": "/Users/kbwo/.config/coc/extensions/coc-zls-data/zls_install/zls",
   "Lua.workspace.library": [
     "/usr/share/nvim/runtime/lua",
     "/usr/share/nvim/runtime/lua/vim",
