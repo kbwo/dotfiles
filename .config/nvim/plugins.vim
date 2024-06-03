@@ -32,6 +32,7 @@ Plug 'phaazon/hop.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'andrewferrier/debugprint.nvim'
+Plug 'sindrets/diffview.nvim'
 
 " Coc
 Plug 'neoclide/coc.nvim', {'commit': 'release'}
@@ -42,7 +43,7 @@ Plug 'Shougo/ddu.vim'
 Plug 'Shougo/ddu-ui-ff'
 Plug 'Shougo/ddu-source-file_rec'
 Plug 'Shougo/ddu-filter-matcher_substring'
-Plug 'Shougo/ddu-kind-file'
+Plug 'Shougo/ddu-kind-file', {'commit': '9aaa2f3ea31d365a8fb6e5fca304489dc6826693'}
 Plug 'shun/ddu-source-rg'
 Plug 'yuki-yano/ddu-filter-fzf'
 Plug 'shun/ddu-source-buffer'
