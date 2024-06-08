@@ -102,7 +102,7 @@ autocmd! User CocLocationsChange call ddu#start({
 
 function! StartDduNoIgnore() abort
   if &filetype == 'fern'
-    call timer_start(100, { -> ddu#start({}) })
+    call timer_start(300, { -> ddu#start({}) })
     return
   endif
   call ddu#start({})
