@@ -22,11 +22,13 @@ function! FindNearestGitRoot()
       let l:current_directory = fnamemodify(l:current_directory, ':h')
   endwhile
 
-  if l:git_root ==# ''
+  let l:cwd = getcwd()
+
+  if l:git_root ==# '' && StartsWith(l:current_file, l:cwd)
+    return l:cwd
+  elseif l:git_root ==# ''
     return expand('%:p:h')
   endif
-
-  let l:cwd = getcwd()
 
   if StartsWith(l:current_directory, l:git_root) && !StartsWith(l:current_file, l:cwd)
     return l:git_root
