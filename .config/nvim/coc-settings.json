@@ -104,13 +104,6 @@
     //     }
     //   }
     // },
-    "zig": {
-      "command": "zls",
-      "filetypes": ["zig"],
-      "initializationOptions": {
-        "enable": true
-      }
-    },
     "elmLS": {
       "command": "elm-language-server",
       "args": ["--stdio"],
