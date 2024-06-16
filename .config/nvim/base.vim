@@ -69,7 +69,6 @@ set modelines=10
 set title
 set titleold="Terminal"
 set titlestring=%F
-set statusline=%F%m%r%h%w%=(%{&ff}/%Y)\ (line\ %l\/%L,\ col\ %c)\
 set autoread
 set noerrorbells visualbell t_vb=
 set mouse=a

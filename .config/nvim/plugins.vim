@@ -1,7 +1,7 @@
 " plugin
 call plug#begin(expand('~/.vim/plugged'))
 Plug 'nvim-lua/plenary.nvim'
-Plug 'itchyny/lightline.vim'
+Plug 'nvim-lualine/lualine.nvim'
 Plug 'tpope/vim-surround'
 Plug 'mattn/emmet-vim'
 Plug 'JoosepAlviste/nvim-ts-context-commentstring'
