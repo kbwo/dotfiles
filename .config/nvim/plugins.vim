@@ -20,11 +20,10 @@ Plug 'vim-denops/denops.vim'
 Plug 'lambdalisue/gin.vim'
 Plug 'lambdalisue/guise.vim'
 Plug 'machakann/vim-sandwich'
-Plug 'dhruvasagar/vim-table-mode', { 'for': ['markdown']}
+" Plug 'dhruvasagar/vim-table-mode', { 'for': ['markdown']}
 Plug 'kchmck/vim-coffee-script'
 Plug 'lambdalisue/fern.vim'
 Plug 'Bakudankun/BackAndForward.vim'
-Plug 'skanehira/denops-docker.vim'
 Plug 'Exafunction/codeium.vim'
 Plug 'mhinz/vim-signify'
 Plug 'NvChad/nvim-colorizer.lua'

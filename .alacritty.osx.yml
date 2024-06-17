@@ -35,7 +35,7 @@ font:
   size: 7.5
   normal:
     family: Hack
-    style: Regular
+    style: Bold
 
 key_bindings:
   - { key: Q, mods: Control, chars: "\x11" }

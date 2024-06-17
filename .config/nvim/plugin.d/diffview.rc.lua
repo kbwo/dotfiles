@@ -215,3 +215,28 @@ require("diffview").setup({
     },
   },
 })
+
+vim.api.nvim_create_user_command(
+  'DiffBranch',
+  function(opts)
+    local branch = opts.args
+    vim.cmd('DiffviewOpen origin/' .. branch .. '..HEAD')
+  end,
+  { nargs = 1 }
+)
+
+local function diff_branch()
+  local branch = vim.fn.input("Enter branch: ")
+  if branch == "" then
+    return
+  end
+  vim.cmd('DiffBranch ' .. branch)
+end
+_G.diff_branch = diff_branch
+
+vim.api.nvim_set_keymap(
+  'n', 
+  '<leader>dd', 
+  ':lua diff_branch()<CR>', 
+  { noremap = true, silent = true }
+)

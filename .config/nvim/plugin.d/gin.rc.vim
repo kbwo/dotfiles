@@ -44,3 +44,12 @@ augroup GinBranchMappings
   autocmd FileType gin-branch nmap <buffer><nowait> <Return> <Plug>(gin-action-switch)
   autocmd FileType gin-branch map <buffer><nowait> . <Plug>(gin-action-repeat)
 augroup END
+
+function! DiffBranchAll()
+  let l:branch = input("Enter branch: ")
+  if !empty(l:branch)
+    execute 'GinDiff ' . l:branch
+  endif
+endfunction
+
+nnoremap <leader>da :call DiffBranchAll()<CR>
