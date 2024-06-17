@@ -9,7 +9,6 @@ else
 endif
 
 hi CursorLine term=bold cterm=bold guibg=Grey10
-hi Normal ctermbg=NONE guibg=NONE
 hi NonText ctermbg=NONE guibg=NONE
 hi SpecialKey ctermbg=NONE guibg=NONE
 hi EndOfBuffer ctermbg=NONE guibg=NONE

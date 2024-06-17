@@ -49,7 +49,7 @@
     "unresolved-proc-macro",
     "inactive-code"
   ],
-  "rust-analyzer.cargo.features": "all",
+  // "rust-analyzer.cargo.features": "all",
   "rust-analyzer.check.command": "clippy",
   "rust-analyzer.inlayHints.bindingModeHints.enable": false,
   "rust-analyzer.inlayHints.chainingHints.enable": false,
@@ -104,13 +104,6 @@
     //     }
     //   }
     // },
-    "zig": {
-      "command": "zls",
-      "filetypes": ["zig"],
-      "initializationOptions": {
-        "enable": true
-      }
-    },
     "elmLS": {
       "command": "elm-language-server",
       "args": ["--stdio"],
@@ -131,7 +124,8 @@
       "settings": {}
     }
   },
-  "notification.disabledProgressSources": ["*"],
+  "notification.disabledProgressSources": [],
+  "notification.statusLineProgress": false,
   "svelte.enable-ts-plugin": true,
   "suggest.noselect": true,
   "suggest.enablePreselect": false,
