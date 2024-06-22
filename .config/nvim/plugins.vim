@@ -34,6 +34,7 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'andrewferrier/debugprint.nvim'
 Plug 'sindrets/diffview.nvim'
+Plug 'akinsho/toggleterm.nvim'
 
 " Coc
 Plug 'neoclide/coc.nvim', {'commit': 'release'}
