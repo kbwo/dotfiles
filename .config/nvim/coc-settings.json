@@ -92,13 +92,17 @@
     //       ".rs": [
     //         {
     //           "path": "/home/kbwo/go/projects/github.com/kbwo/testing-language-server/target/debug/testing-ls-adapter",
-    //           "extra_args": ["--test-kind=cargo-test"]
+    //           "extra_args": ["--test-kind=cargo-test"],
+    //           "include_patterns": ["/**/*.rs"],
+    //           "exclude_patterns": ["/**/target/**"]
     //         }
     //       ],
     //       ".js": [
     //         {
     //           "path": "/home/kbwo/go/projects/github.com/kbwo/testing-language-server/target/debug/testing-ls-adapter",
-    //           "extra_args": ["--test-kind=jest"]
+    //           "extra_args": ["--test-kind=jest"],
+    //           "include_patterns": ["/**/*.js"],
+    //           "exclude_patterns": ["/node_modules/**/*"]
     //         }
     //       ]
     //     }
