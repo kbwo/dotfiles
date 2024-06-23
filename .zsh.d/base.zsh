@@ -30,7 +30,6 @@ SAVEHIST=100000
 # use wildcard
 setopt extended_glob
 setopt globdots
-bindkey '^[[Z' reverse-menu-complete
 
 select-word-style default
     zstyle ':zle:*' word-chars " /=;@:{},|"

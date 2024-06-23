@@ -13,6 +13,7 @@ map K gt
 map J gT
 nmap j gj
 nmap k gk
+nmap Q :confirm qa<CR>
 nmap <Leader>j <c-d>
 nmap <Leader>k <c-u>
 nmap R :join<CR>

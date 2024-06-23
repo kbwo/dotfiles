@@ -22,6 +22,7 @@ alias .. 'cd ..'
 
 alias ex 'exit'
 alias :q 'exit'
+alias Q 'exit'
 alias so 'source'
 
 alias la 'ls -a'

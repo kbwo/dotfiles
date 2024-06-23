@@ -1,4 +1,6 @@
+alias v="nvim"
 alias :q="exit"
+alias Q="exit"
 alias cp="cp -i"
 alias d="docker"
 alias dc="docker compose"
