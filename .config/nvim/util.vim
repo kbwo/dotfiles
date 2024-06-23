@@ -13,6 +13,12 @@ function! FindNearestGitRoot()
   let l:current_file = expand('%:p')
   let l:git_root = ''
 
+  if l:current_file =~ '\v^\w+://'
+    if l:current_file !~ '\v^file://'
+      return '.'
+    endif
+  endif
+
   while l:current_directory !=# '/'
       let l:git_path = l:current_directory . '/.git'
       if isdirectory(l:git_path)
