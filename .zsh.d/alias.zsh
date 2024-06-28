@@ -1,4 +1,5 @@
 alias v="nvim"
+alias v.="nvim ."
 alias :q="exit"
 alias Q="exit"
 alias cp="cp -i"
