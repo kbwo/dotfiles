@@ -141,6 +141,7 @@
     "~/.vim/plugged"
   ],
   "Lua.diagnostics.globals": ["vim"],
+  "Lua.workspace.checkThirdParty": "Apply",
   "yaml.customTags": [
     "!And",
     "!Base64",
