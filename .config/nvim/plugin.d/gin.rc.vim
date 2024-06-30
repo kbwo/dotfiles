@@ -2,8 +2,9 @@ let g:gin_branch_disable_default_mappings = 1
 let g:gin_status_disable_default_mappings = 1
 let g:gin_log_disable_default_mappings = 1
 
-nmap gns :GinStatus<CR>
+nmap gns :GinStatus ++opener=split<CR>
 nmap gnc :Gin commit<CR>
+let g:gin_proxy_editor_opener = "vsplit"
 nmap gnb :GinBranch<CR>
 nmap gnh :Gin checkout -b
 nmap gnps :Gin push
