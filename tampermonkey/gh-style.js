@@ -9,7 +9,7 @@
 // ==/UserScript==
 
 (() => {
-  'use strict';
+  "use strict";
 
   GM_addStyle(`
     pre {
@@ -20,6 +20,9 @@
     }
     .feed-right-sidebar {
       display: none;
+    }
+     .markdown-body img {
+      max-height: 30rem;
     }
     `);
 })();

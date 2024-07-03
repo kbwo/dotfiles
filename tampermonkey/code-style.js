@@ -11,7 +11,7 @@
   "use strict";
 
   GM_addStyle(`
-    pre, code {
+    pre {
       white-space: pre-wrap !important;
     }
     `);

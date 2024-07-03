@@ -5,14 +5,15 @@ let g:gin_log_disable_default_mappings = 1
 nmap gns :GinStatus ++opener=split<CR>
 nmap gnc :Gin commit<CR>
 let g:gin_proxy_editor_opener = "vsplit"
-nmap gnb :GinBranch<CR>
+nmap gnb :GinBranch ++opener=split<CR>
 nmap gnh :Gin checkout -b
 nmap gnps :Gin push
 nmap gnpl :Gin pull<CR>
-nmap gnl :GinLog --oneline --graph -n 1000
+nmap gnam :Gin commit --amend<CR>
+nmap gnl :GinLog ++opener=vsplit --oneline --graph -n 1000
 
 function! CurrentFileLog() abort
-  execute 'GinLog --graph -p -- ' . expand('%:p')
+  execute 'GinLog --graph -p ++opener=vsplit -- ' . expand('%:p')
 endfunction
 
 nmap gncl :call CurrentFileLog()<CR>
