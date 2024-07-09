@@ -8,7 +8,9 @@ else
   hi Visual guibg=#FFFFFF guifg=SlateBlue gui=none
 endif
 
-hi CursorLine term=bold cterm=bold guibg=Grey10
+hi CursorLine term=bold cterm=bold guibg=#3E4452
+hi Search term=bold cterm=bold guifg=#ffffff guibg=#b26e29
+hi CurSearch term=bold cterm=bold guifg=#ffffff guibg=#b26e29
 hi NonText ctermbg=NONE guibg=NONE
 hi SpecialKey ctermbg=NONE guibg=NONE
 hi EndOfBuffer ctermbg=NONE guibg=NONE
