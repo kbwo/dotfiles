@@ -6,3 +6,4 @@ ln -sf ~/dotfiles/.zshrc ~/.zsh.d/.zshrc
 ln -sf ~/dotfiles/.tmux.conf ~/.tmux.conf
 ln -sf ~/dotfiles/.alacritty.arch.yml ~/.alacritty.yml
 ln -sf ~/dotfiles/.skhdrc ~/.skhdrc
+ln -sf ~/dotfiles/.config/nvim/coc-settings.json ~/.config/nvim/coc-settings.json
