@@ -9,22 +9,19 @@
 // ==/UserScript==
 
 (() => {
-  'use strict';
+  "use strict";
 
-  const f = eventName => event => {
-    if (event.ctrlKey && ['b', 'c'].includes(event.key.toLowerCase())) {
+  const f = (eventName) => (event) => {
+    if (
+      event.ctrlKey &&
+      !e.altKey &&
+      ["b", "c"].includes(event.key.toLowerCase())
+    ) {
       event.cancelBubble = true;
       event.stopImmediatePropagation();
     }
   };
-  [
-    'keydown',
-  ].map(eventName => {
-    document.addEventListener(
-      eventName,
-      f(eventName),
-      true,
-    );
+  ["keydown"].map((eventName) => {
+    document.addEventListener(eventName, f(eventName), true);
   });
-
 })();
