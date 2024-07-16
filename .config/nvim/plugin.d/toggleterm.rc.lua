@@ -1,4 +1,6 @@
-require("toggleterm").setup{}
+require("toggleterm").setup{
+  size = 20
+}
 local terminal_id = 1
 
 function open_new_terminal()
@@ -6,5 +8,13 @@ function open_new_terminal()
   terminal_id = terminal_id + 1
 end
 
-vim.api.nvim_set_keymap('n', '<Leader>gt', ':ToggleTerm size=20<CR>', { noremap = true, silent = true })
+function toggle_or_new_terminal()
+  if terminal_id == 1 then
+    open_new_terminal()
+  else
+    vim.cmd('ToggleTerm')
+  end
+end
+
+vim.api.nvim_set_keymap('n', '<Leader>gt', '<cmd>lua toggle_or_new_terminal()<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<Leader>gn", "<cmd>lua open_new_terminal()<CR>", { noremap = true, silent = true })

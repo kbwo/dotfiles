@@ -24,7 +24,7 @@ Plug 'machakann/vim-sandwich'
 Plug 'kchmck/vim-coffee-script'
 Plug 'lambdalisue/fern.vim'
 Plug 'Bakudankun/BackAndForward.vim'
-" Plug 'Exafunction/codeium.vim', { 'branch': 'main' }
+Plug 'Exafunction/codeium.vim', { 'branch': 'main' }
 Plug 'mhinz/vim-signify'
 Plug 'NvChad/nvim-colorizer.lua'
 Plug 'rebelot/kanagawa.nvim'
