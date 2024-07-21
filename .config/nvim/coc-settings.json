@@ -68,7 +68,6 @@
   "css.validate": false,
   "css.completion.completePropertyWithSemicolon": false,
   "coc.source.file.ignoreHidden": true,
-  "deno.enable": false,
   "flutter.lsp.initialization.closingLabels": true,
   "html-css-support.enabledLanguages": [
     "html",
@@ -175,5 +174,6 @@
     "!Split sequence"
   ],
   "java.progressReports.enabled": false,
-  "intelephense.format.braces": "psr12"
+  "intelephense.format.braces": "per",
+  "workspace.rootPatterns": [".git", ".hg", ".projections.json", ".vim"]
 }
