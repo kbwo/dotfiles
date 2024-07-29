@@ -2,15 +2,24 @@ let g:gin_branch_disable_default_mappings = 1
 let g:gin_status_disable_default_mappings = 1
 let g:gin_log_disable_default_mappings = 1
 
-nmap gns :GinStatus ++opener=split<CR>
+nmap gnss :GinStatus ++opener=split<CR>
+nmap gnsv :GinStatus ++opener=vsplit<CR>
+nmap gnst :GinStatus ++opener=tabedit<CR>
+nmap gns :GinStatus
 nmap gnc :Gin commit<CR>
 let g:gin_proxy_editor_opener = "vsplit"
-nmap gnb :GinBranch ++opener=split<CR>
+nmap gnb :GinBranch
+nmap gnbs :GinBranch ++opener=split<CR>
+nmap gnbv :GinBranch ++opener=vsplit<CR>
+nmap gnbt :GinBranch ++opener=tabedit<CR>
 nmap gnh :Gin checkout -b
 nmap gnps :Gin push
 nmap gnpl :Gin pull<CR>
 nmap gnam :Gin commit --amend<CR>
-nmap gnl :GinLog ++opener=vsplit --oneline --graph -n 1000
+nmap gnl :GinLog --oneline --graph -n 1000
+nmap gnls :GinLog --oneline --graph -n 1000 ++opener=split<CR>
+nmap gnlv :GinLog --oneline --graph -n 1000 ++opener=vsplit<CR>
+nmap gnlt :GinLog --oneline --graph -n 1000 ++opener=tabedit<CR>
 
 function! CurrentFileLog() abort
   execute 'GinLog --graph -p ++opener=vsplit -- ' . expand('%:p')
