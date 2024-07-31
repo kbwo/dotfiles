@@ -14,3 +14,5 @@ export SDKMAN_DIR="$HOME/.sdkman"
 [ -f "/Users/kbwo/.ghcup/env" ] && source "/Users/kbwo/.ghcup/env" # ghcup-env
 # bun completions
 [ -s "/home/kbwo/.bun/_bun" ] && source "/home/kbwo/.bun/_bun"
+
+eval "$(~/.local/bin/mise activate zsh)"

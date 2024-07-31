@@ -5,7 +5,6 @@ let g:coc_global_extensions = [
       \'coc-emmet',
       \'coc-emoji',
       \'coc-calc',
-      \'coc-clangd',
       \'coc-conjure',
       \'coc-css',
       \'coc-cssmodules',
