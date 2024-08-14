@@ -47,7 +47,12 @@ autocmd FileType markdown setlocal expandtab
 autocmd FileType markdown setlocal tabstop=2
 autocmd FileType markdown setlocal shiftwidth=2
 autocmd FileType markdown setlocal softtabstop=2
-autocmd BufWritePre * :%s/\s\+$//e
+augroup TrimCmd
+  autocmd!
+  " Exclude .vim files from the autocmd
+  autocmd BufWritePre * if &filetype != 'vim' | :%s/\s\+$//e | endif
+augroup END
+
 set autoindent
 set splitright
 set splitbelow

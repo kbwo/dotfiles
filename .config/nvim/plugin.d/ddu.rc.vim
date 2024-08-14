@@ -8,7 +8,7 @@ call ddu#custom#patch_global(#{
       \  },
       \  sources: [
       \    {
-      \      'name': 'file_external', 
+      \      'name': 'file_external',
       \      'params': {
       \      'cmd': ['rg', '--files', '--hidden', '--glob', '!.git', '--color', 'never']
       \      }
@@ -83,6 +83,11 @@ command! Symbols call ddu#start({
     \   }
     \ })
 nmap csm :Symbols<CR>
+command! Diagnostics call ddu#start({
+    \   'ui': 'ff',
+    \   'sources': [{'name': 'coc-diagnostics'}],
+    \ })
+nmap <Leader>id :Diagnostics<CR>
 
 let g:coc_enable_locationlist = 0
 autocmd! User CocLocationsChange call ddu#start({
@@ -93,11 +98,6 @@ autocmd! User CocLocationsChange call ddu#start({
     \       'matchers': ['matcher_fzf'],
     \     },
     \   },
-    \   'kindOptions': {
-    \     'file': {
-    \       'defaultAction': 'open',
-    \     },
-    \   }
     \ })
 
 function! StartDduNoIgnore() abort
@@ -114,7 +114,7 @@ function! StartDduIgnore() abort
         \  ui: 'ff',
         \  sources: [
         \    #{
-        \    name: 'file_external', 
+        \    name: 'file_external',
         \    params: {
         \        'cmd': ['rg', '--files', '--hidden','--no-ignore', '--color', 'never']
         \      }
