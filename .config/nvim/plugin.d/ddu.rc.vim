@@ -1,6 +1,11 @@
 let g:ddu_source_lsp_clientName = 'coc.nvim'
 call ddu#custom#patch_global(#{
       \  ui: 'ff',
+      \ filterParams: #{
+      \  matcher_fzf: #{
+      \    highlightMatched: 'Search',
+      \  },
+      \},
       \  uiParams: #{
       \     ff: #{
       \       startAutoAction: v:true

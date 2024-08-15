@@ -184,6 +184,6 @@
     "!Split sequence"
   ],
   "java.progressReports.enabled": false,
-  "intelephense.format.braces": "per",
+  "intelephense.format.braces": "psr12",
   "workspace.rootPatterns": [".git", ".hg", ".projections.json", ".vim"]
 }
