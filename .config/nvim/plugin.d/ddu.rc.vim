@@ -1,14 +1,10 @@
 let g:ddu_source_lsp_clientName = 'coc.nvim'
 call ddu#custom#patch_global(#{
       \  ui: 'ff',
-      \ filterParams: #{
-      \  matcher_fzf: #{
-      \    highlightMatched: 'Search',
-      \  },
-      \},
       \  uiParams: #{
       \     ff: #{
-      \       startAutoAction: v:true
+      \       startAutoAction: v:true,
+      \       maxHighlightItems: 10000
       \     },
       \  },
       \  sources: [
@@ -74,8 +70,8 @@ endfunction
 
 nmap <silent><c-p> :call StartDduNoIgnore()<CR>
 nmap <silent><Leader>p :call StartDduIgnore()<CR>
-nmap <Leader>r :RgFind ignore 
-nmap <Leader><c-r> :RgFind noignore 
+nmap <Leader>r :RgFind ignore
+nmap <Leader><c-r> :RgFind noignore
 
 
 command! Symbols call ddu#start({
