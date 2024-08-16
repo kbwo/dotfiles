@@ -17,7 +17,7 @@ hi EndOfBuffer ctermbg=NONE guibg=NONE
 hi Comment guifg=gray70
 hi rustCommentLineDoc guifg=gray70
 hi link CocMenuSel PmenuSel
-hi HopNextKey cterm=bold ctermfg=45 gui=bold guifg=#00dfff
+hi HopNextKey guifg=#ff9dcd gui=bold ctermfg=198 cterm=bold
 hi AnsiColor1 guifg=#F7768E
 hi FgCocErrorFloatBgCocFloating guifg=#F7768E
 hi Error guifg=#F7768E

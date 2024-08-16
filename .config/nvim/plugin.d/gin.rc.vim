@@ -20,6 +20,7 @@ nmap gnl<Space> :GinLog --oneline --graph -n 1000<CR>
 nmap gnls :GinLog --oneline --graph -n 1000 ++opener=split<CR>
 nmap gnlv :GinLog --oneline --graph -n 1000 ++opener=vsplit<CR>
 nmap gnlt :GinLog --oneline --graph -n 1000 ++opener=tabedit<CR>
+nmap gnw :GinBrowse<CR>
 
 function! CurrentFileLog() abort
   execute 'GinLog --graph -p ++opener=vsplit -- ' . expand('%:p')

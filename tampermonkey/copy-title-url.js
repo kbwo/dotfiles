@@ -23,14 +23,13 @@
   };
 
   document.addEventListener("keydown", (e) => {
+    // #xxx (xxxは空白以外の文字列)の部分だけ消す
+    const title = document.title.replace(/^\(\d+\)\s/, "").replace(/#.+/, "");
+    const url = document.URL;
     if (e.ctrlKey && e.altKey && (e.key === "c" || e.code === "KeyC")) {
-      const title = document.title.replace(/^\(\d+\)\s/, "");
-      const url = document.URL;
       copy(`${title}\n${url}`);
     }
     if (e.ctrlKey && e.altKey && (e.key === "s" || e.code === "KeyS")) {
-      const title = document.title.replace(/^\(\d+\)\s/, "");
-      const url = document.URL;
       copy(`${title} ${url}`);
     }
   });
