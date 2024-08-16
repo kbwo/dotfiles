@@ -185,5 +185,15 @@
   ],
   "java.progressReports.enabled": false,
   "intelephense.format.braces": "per",
-  "workspace.rootPatterns": [".git", ".hg", ".projections.json", ".vim"]
+  "workspace.rootPatterns": [".git", ".hg", ".projections.json", ".vim"],
+  "rust-analyzer.check.overrideCommand": [
+    "cargo",
+    "check",
+    "--all-targets",
+    "--workspace",
+    "--all-features",
+    "--message-format=json",
+    "--jobs",
+    "4"
+  ]
 }
