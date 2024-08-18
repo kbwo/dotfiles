@@ -32,6 +32,7 @@ export PATH=$PATH:/usr/local/opt/llvm/bin
 export PATH=$PATH:/Library/Apple/usr/bin
 export PATH=$PATH:node_modules/.bin
 export PATH=$PATH:./node_modules/.bin
+export PATH=$PATH:./vendor/bin
 export PATH=$PATH:/opt/homebrew/bin
 export PATH=$PATH:/opt/homebrew/opt/llvm/bin
 export PATH=$PATH:/opt/homebrew/opt/expat/bin
