@@ -24,7 +24,11 @@ Plug 'machakann/vim-sandwich'
 Plug 'kchmck/vim-coffee-script'
 Plug 'lambdalisue/fern.vim'
 Plug 'Bakudankun/BackAndForward.vim'
-Plug 'Exafunction/codeium.vim', { 'branch': 'main' }
+" Plug 'github/copilot.vim'
+" Plug 'Exafunction/codeium.vim', { 'branch': 'main' }
+Plug 'zbirenbaum/copilot.lua'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'CopilotC-Nvim/CopilotChat.nvim', { 'branch': 'canary' }
 Plug 'mhinz/vim-signify'
 Plug 'NvChad/nvim-colorizer.lua'
 Plug 'rebelot/kanagawa.nvim'
@@ -36,7 +40,10 @@ Plug 'sindrets/diffview.nvim'
 Plug 'akinsho/toggleterm.nvim'
 
 " Coc
-Plug 'neoclide/coc.nvim', {'commit': 'release'}
+" Plug 'neoclide/coc.nvim', {'commit': 'release'}
+Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'npm ci'}
+
+" Plug 'neoclide/coc.nvim', {'commit': '48bae5f'}
 
 " ddu
 Plug 'kbwo/ddu-source-coc'

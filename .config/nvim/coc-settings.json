@@ -195,5 +195,6 @@
     "4"
   ],
   "intelephense.format.braces": "psr12",
-  "workspace.rootPatterns": [".git", ".hg", ".projections.json", ".vim"]
+  "workspace.rootPatterns": [".git", ".hg", ".projections.json", ".vim"],
+  "tsserver.log": "verbose"
 }

@@ -66,8 +66,8 @@ export PATH=$PATH:$PYENV_ROOT/shims
 export PATH=$PATH:$HOME/.rbenv/shims
 export PATH=$PATH:$HOME/.rye/shims
 export PATH=$PATH:$BUN_INSTALL/bin
-export PATH=$PATH:/home/kbwo/.night.zig/latest
-export PATH=$PATH:/home/kbwo/.night.zig/nz
+export PATH=$PATH:$HOME/.night.zig/latest
+export PATH=$PATH:$HOME/.night.zig/nz
 unset _VOLTA_TOOL_RECURSION
 
 if [ -d "$HOME/google-cloud-sdk" ];then

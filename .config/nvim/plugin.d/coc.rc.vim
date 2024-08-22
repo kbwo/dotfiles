@@ -31,7 +31,6 @@ let g:coc_global_extensions = [
       \'coc-rust-analyzer',
       \'coc-sh',
       \'coc-solargraph',
-      \'coc-spell-checker',
       \'coc-sql',
       \'coc-stylelint',
       \'coc-sourcekit',
