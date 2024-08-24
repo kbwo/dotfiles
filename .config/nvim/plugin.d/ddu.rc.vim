@@ -4,7 +4,7 @@ call ddu#custom#patch_global(#{
       \  uiParams: #{
       \     ff: #{
       \       startAutoAction: v:true,
-      \       maxHighlightItems: 10000
+      \       maxHighlightItems: 10000,
       \     },
       \  },
       \  sources: [
@@ -69,9 +69,10 @@ function! s:ddu_filter_my_settings() abort
 endfunction
 
 nmap <silent><c-p> :call StartDduNoIgnore()<CR>
-nmap <silent><Leader>p :call StartDduIgnore()<CR>
-nmap <Leader>r :RgFind ignore 
-nmap <Leader><c-r> :RgFind noignore 
+nmap <silent><Leader>pp :call StartDduIgnore()<CR>
+nmap <silent><Leader>pt :call TabFind()<CR>
+nmap <Leader>rr :RgFind ignore 
+nmap <Leader>rn :RgFind noignore 
 
 
 command! Symbols call ddu#start({
@@ -171,3 +172,22 @@ function! RgFind(type, ...)
 endfunction
 
 command! -nargs=* RgFind call RgFind(<f-args>)
+
+function TabFind() abort
+  call ddu#start({
+	   \ 'uiParams': {
+	   \     'ff': {
+	   \         'autoAction': { 
+	   \             'name': 'preview',
+	   \             'params': { 'border': ['.'], 'focusBorder': ['+', '-', '+', '\|'] }
+	   \         },
+	   \     },
+	   \ },
+     \ 'sources': [{'name': 'window', 'params': {'format': 'tab%tn: %w:%wi'}}],
+     \ 'kindOptions': {
+      \     'window': {
+      \       'defaultAction': 'open',
+      \     },
+      \   }
+	   \ })
+endfunction
