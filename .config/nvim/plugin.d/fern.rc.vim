@@ -4,7 +4,7 @@ nmap <silent> <c-n> :execute 'Fern' FindNearestGitRoot() '-reveal=% -drawer -tog
 
 nmap <silent> <c-w>c :Fern %:h -reveal=% -drawer -toggle<CR>
 function! FernInit() abort
-  nmap <silent><buffer> <Leader>n :Fern . -drawer<CR>
+  nmap <silent><buffer> B :Fern . -drawer<CR>
   nmap <silent><buffer> <Leader>ss <Plug>(fern-action-open:split)
   nmap <silent><buffer> <Leader>vv <Plug>(fern-action-open:vsplit)
   nmap <silent><buffer> <Leader>tt <Plug>(fern-action-open:tabedit)
@@ -15,7 +15,7 @@ function! FernInit() abort
   nmap <silent><buffer> <Leader>m <Plug>(fern-action-clipboard-move)
   nmap <silent><buffer> p <Plug>(fern-action-clipboard-paste)
   nmap <silent><buffer> M <Plug>(fern-action-new-file)
-  nmap <silent><buffer> F <Plug>(fern-action-open-or-enter)
+  nmap <silent><buffer> > <Plug>(fern-action-open-or-enter)
   nmap <silent><buffer> <cr> <Plug>(fern-action-open-or-enter)
   nmap <buffer><expr>
 	      \ <Plug>(fern-my-open-or-expand-or-collapse)
@@ -35,7 +35,7 @@ function! FernInit() abort
   nmap <silent><buffer> dl <Plug>(fern-action-remove)
   " nmap <buffer> B <Plug>(fern-action-save-as-bookmark)
   nmap <silent><buffer> cd <Plug>(fern-action-tcd)
-  nmap <silent><buffer> B <Plug>(fern-action-leave)
+  nmap <silent><buffer> < <Plug>(fern-action-leave)
   " nmap <silent><buffer> x :Back<CR>
   nmap <silent><buffer> x :Fern . -drawer -toggle<CR>
 endfunction
