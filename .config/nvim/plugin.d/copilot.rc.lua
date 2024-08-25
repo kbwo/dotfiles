@@ -111,3 +111,11 @@ require("CopilotChat").setup {
 }
 
 vim.api.nvim_set_keymap('n', '<Leader>cc', '<Cmd>lua require("CopilotChat").toggle()<CR>', { noremap = true, silent = true })
+
+-- Define an autocmd in Lua to set conceallevel to 0 for Markdown and Copilot Chat files
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = { "markdown", "copilot-chat" },
+    callback = function()
+        vim.opt_local.conceallevel = 0
+    end
+})

@@ -13,19 +13,14 @@ Plug 'kristijanhusak/vim-dadbod-ui'
 Plug 'glidenote/memolist.vim'
 Plug 'tyru/eskk.vim'
 Plug 'tyru/open-browser.vim'
-" Plug 'mrjones2014/smart-splits.nvim'
 Plug 'simeji/winresizer'
 Plug 'windwp/nvim-ts-autotag'
 Plug 'vim-denops/denops.vim'
 Plug 'lambdalisue/gin.vim'
-" Plug 'lambdalisue/guise.vim'
 Plug 'machakann/vim-sandwich'
-" Plug 'dhruvasagar/vim-table-mode', { 'for': ['markdown']}
 Plug 'kchmck/vim-coffee-script'
 Plug 'lambdalisue/fern.vim'
 Plug 'Bakudankun/BackAndForward.vim'
-" Plug 'github/copilot.vim'
-" Plug 'Exafunction/codeium.vim', { 'branch': 'main' }
 Plug 'zbirenbaum/copilot.lua'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'CopilotC-Nvim/CopilotChat.nvim', { 'branch': 'canary' }
@@ -38,12 +33,9 @@ Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'andrewferrier/debugprint.nvim'
 Plug 'sindrets/diffview.nvim'
 Plug 'akinsho/toggleterm.nvim'
+Plug 'jedrzejboczar/possession.nvim'
 
-" Coc
-" Plug 'neoclide/coc.nvim', {'commit': 'release'}
 Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'npm ci'}
-
-" Plug 'neoclide/coc.nvim', {'commit': '48bae5f'}
 
 " ddu
 Plug 'kbwo/ddu-source-coc'
