@@ -5,6 +5,7 @@ call ddu#custom#patch_global(#{
       \     ff: #{
       \       startAutoAction: v:true,
       \       maxHighlightItems: 10000,
+	    \       previewHeight: 20,
       \     },
       \  },
       \  sources: [
@@ -181,6 +182,7 @@ function TabFind() abort
 	   \             'name': 'preview',
 	   \             'params': { 'border': ['.'], 'focusBorder': ['+', '-', '+', '\|'] }
 	   \         },
+	    \       'previewHeight': 30,
 	   \     },
 	   \ },
      \ 'sources': [{'name': 'window', 'params': {'format': 'tab%tn: %w:%wi'}}],

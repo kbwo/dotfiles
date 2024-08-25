@@ -53,7 +53,7 @@ nmap <silent> <C-l> <Plug>(coc-diagnostic-next)
 nmap <silent> <C-h> <Plug>(coc-diagnostic-prev)
 nmap <Leader>ic <Plug>(coc-diagnostic-info)
 nmap <Leader>iw  :CocDiagnostics<CR>
-nmap <Leader>is  :CocList outline<CR>
+nmap <Leader>is  :CocOutline<CR>
 " nmap <Leader>id  :CocList diagnostics<CR>
 nmap <silent> gr <Plug>(coc-references)
 nmap <silent> ccn <Plug>(coc-rename)

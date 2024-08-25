@@ -1,8 +1,10 @@
-nmap <silent> <c-n> :execute 'Fern' FindNearestGitRoot() '-reveal=% -stay'<CR>
+let g:fern#drawer_width = 45
 
-nmap <silent> <c-w>c :Fern %:h -reveal=% -stay<CR>
+nmap <silent> <c-n> :execute 'Fern' FindNearestGitRoot() '-reveal=% -drawer -toggle'<CR>
+
+nmap <silent> <c-w>c :Fern %:h -reveal=% -drawer -toggle<CR>
 function! FernInit() abort
-  nmap <silent><buffer> <c-n> :Fern .<CR>
+  nmap <silent><buffer> <Leader>n :Fern . -drawer<CR>
   nmap <silent><buffer> <Leader>ss <Plug>(fern-action-open:split)
   nmap <silent><buffer> <Leader>vv <Plug>(fern-action-open:vsplit)
   nmap <silent><buffer> <Leader>tt <Plug>(fern-action-open:tabedit)
@@ -34,7 +36,8 @@ function! FernInit() abort
   " nmap <buffer> B <Plug>(fern-action-save-as-bookmark)
   nmap <silent><buffer> cd <Plug>(fern-action-tcd)
   nmap <silent><buffer> B <Plug>(fern-action-leave)
-  nmap <silent><buffer> x :Back<CR>
+  " nmap <silent><buffer> x :Back<CR>
+  nmap <silent><buffer> x :Fern . -drawer -toggle<CR>
 endfunction
 augroup FernEvents
   autocmd!
@@ -43,4 +46,4 @@ augroup END
 let g:fern#disable_default_mappings = 1
 let g:fern#default_hidden = 1
 
-nmap <silent> rel :Fern ~/.http -reveal=% -stay<CR>
+nmap <silent> rel :Fern ~/.http -reveal=% -drawer -toggle<CR>

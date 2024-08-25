@@ -134,3 +134,18 @@ function! s:GotoFirstFloat() abort
 endfunction
 noremap <silent><c-w>w :<c-u>call <sid>GotoFirstFloat()<CR>
 
+" https://www.rasukarusan.com/entry/2021/09/19/125635
+function! s:show_ex_result(cmd)
+  redir => message
+  silent execute a:cmd
+  redir END
+  if empty(message)
+    echoerr "no output"
+  else
+    tabnew
+    setlocal buftype=nofile bufhidden=wipe noswapfile nobuflisted nomodified
+    silent put=message
+    normal gg
+  endif
+endfunction
+command! -nargs=+ -complete=command ShowExResult call s:show_ex_result(<q-args>)
