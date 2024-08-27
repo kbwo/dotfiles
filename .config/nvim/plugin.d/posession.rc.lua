@@ -6,7 +6,7 @@ require('possession').setup {
         list = 'SList',
     },
     autosave = {
-      current = false,
+      current = true,
       cwd = true,
       tmp = false,
       on_load = false,

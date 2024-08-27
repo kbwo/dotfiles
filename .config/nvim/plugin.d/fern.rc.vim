@@ -4,7 +4,7 @@ nmap <silent> <c-n> :execute 'Fern' FindNearestGitRoot() '-reveal=% -drawer -tog
 
 nmap <silent> <c-w>c :Fern %:h -reveal=% -drawer -toggle<CR>
 function! FernInit() abort
-  nmap <silent><buffer> B :Fern . -drawer<CR>
+  nmap <silent><buffer> R :Fern . -drawer<CR>
   nmap <silent><buffer> <Leader>ss <Plug>(fern-action-open:split)
   nmap <silent><buffer> <Leader>vv <Plug>(fern-action-open:vsplit)
   nmap <silent><buffer> <Leader>tt <Plug>(fern-action-open:tabedit)
