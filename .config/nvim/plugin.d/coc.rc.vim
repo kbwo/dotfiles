@@ -53,7 +53,6 @@ nmap <silent> <C-l> <Plug>(coc-diagnostic-next)
 nmap <silent> <C-h> <Plug>(coc-diagnostic-prev)
 nmap <Leader>ic <Plug>(coc-diagnostic-info)
 nmap <Leader>iw  :CocDiagnostics<CR>
-nmap <Leader>is  :CocOutline<CR>
 " nmap <Leader>id  :CocList diagnostics<CR>
 nmap <silent> gr <Plug>(coc-references)
 nmap <silent> ccn <Plug>(coc-rename)
@@ -105,3 +104,24 @@ inoremap <silent><expr> <TAB>
 inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
 set pumheight=30
+
+autocmd BufEnter * call CheckOutline()
+function! CheckOutline() abort
+  if &filetype ==# 'coctree' && winnr('$') == 1
+    if tabpagenr('$') != 1
+      close
+    else
+      bdelete
+    endif
+  endif
+endfunction
+
+nnoremap <silent><nowait> <Leader>is  :call ToggleOutline()<CR>
+function! ToggleOutline() abort
+  let winid = coc#window#find('cocViewId', 'OUTLINE')
+  if winid == -1
+    call CocActionAsync('showOutline', 1)
+  else
+    call coc#window#close(winid)
+  endif
+endfunction
