@@ -1,1 +1,2 @@
 .zcompdump*
+.config/nvim/plugin.d/env.vim

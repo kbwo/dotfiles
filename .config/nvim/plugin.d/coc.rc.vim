@@ -117,6 +117,7 @@ function! CheckOutline() abort
 endfunction
 
 nnoremap <silent><nowait> <Leader>is  :call ToggleOutline()<CR>
+nnoremap <silent><nowait> <Leader>cs  :call ToggleOutline()<CR>
 function! ToggleOutline() abort
   let winid = coc#window#find('cocViewId', 'OUTLINE')
   if winid == -1
