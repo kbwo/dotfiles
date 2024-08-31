@@ -26,7 +26,7 @@ let g:coc_global_extensions = [
       \'coc-post',
       \'coc-prisma',
       \'coc-prettier',
-      \'coc-pyright',
+      \'coc-basedpyright',
       \'coc-react-refactor',
       \'coc-rust-analyzer',
       \'coc-sh',
