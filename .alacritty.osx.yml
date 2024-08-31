@@ -32,7 +32,7 @@ colors:
     - { index: 16, color: '0xffa066' }
 
 font:
-  size: 8
+  size: 7
   normal:
     family: Hack
     style: Bold

@@ -42,7 +42,7 @@ set tabstop=2
 set softtabstop=2
 set shiftwidth=2
 set expandtab
-" autocmd FileType php setlocal tabstop=4 softtabstop=4 shiftwidth=4
+autocmd FileType php setlocal tabstop=4 softtabstop=4 shiftwidth=4
 autocmd FileType markdown setlocal expandtab
 autocmd FileType markdown setlocal tabstop=2
 autocmd FileType markdown setlocal shiftwidth=2
