@@ -46,9 +46,13 @@ let g:coc_global_extensions = [
       \]
 nnoremap <Leader>c  :call CocActionAsync('highlight')<CR>
 nmap <silent> <c-d> <Plug>(coc-definition)
+nmap <silent> <Leader>ci <Plug>(coc-implementation)
 nmap <silent> <Leader>v<c-d> :call CocAction('jumpDefinition', 'vsplit')<CR>
 nmap <silent> <Leader>s<c-d> :call CocAction('jumpDefinition', 'split')<CR>
 nmap <silent> <Leader>t<c-d> :call CocAction('jumpDefinition', 'tabe')<CR>
+nmap <silent> <Leader>vci :call CocAction('jumpImplementation', 'vsplit')<CR>
+nmap <silent> <Leader>sci :call CocAction('jumpImplementation', 'split')<CR>
+nmap <silent> <Leader>tci :call CocAction('jumpImplementation', 'tabe')<CR>
 nmap <silent> <C-l> <Plug>(coc-diagnostic-next)
 nmap <silent> <C-h> <Plug>(coc-diagnostic-prev)
 nmap <Leader>ic <Plug>(coc-diagnostic-info)

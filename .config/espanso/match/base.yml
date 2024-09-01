@@ -1,0 +1,21 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/espanso/espanso/dev/schemas/match.schema.json
+
+matches:
+  # But matches can also be dynamic:
+
+  # Print the current date
+  - trigger: ":now"
+    replace: "{{mydate}}"
+    vars:
+      - name: mydate
+        type: date
+        params:
+          format: "%m/%d/%Y"
+
+  # - trigger: ":shell"
+  #   replace: "{{output}}"
+  #   vars:
+  #     - name: output
+  #       type: shell
+  #       params:
+  #         cmd: "echo 'Hello from your shell'"

@@ -31,11 +31,11 @@ require('copilot').setup({
     },
   },
   filetypes = {
-    yaml = false,
-    markdown = false,
-    help = false,
-    gitcommit = false,
-    gitrebase = false,
+    yaml = true,
+    markdown = true,
+    help = true,
+    gitcommit = true,
+    gitrebase = true,
     hgcommit = false,
     svn = false,
     cvs = false,
@@ -60,9 +60,9 @@ require("CopilotChat").setup {
   separator = '───', -- Separator to use in chat
 
   show_folds = false, -- Shows folds for sections in chat
-  highlight_selection = true, -- Highlight selection in the source buffer when in the chat window
+  highlight_selection = false, -- Highlight selection in the source buffer when in the chat window
   window = {
-    layout = 'replace', -- 'vertical', 'horizontal', 'float', 'replace'
+    layout = 'vertical', -- 'vertical', 'horizontal', 'float', 'replace'
     width = 0.5, -- fractional width of parent, or absolute width in columns when > 1
     height = 0.5, -- fractional height of parent, or absolute height in rows when > 1
     -- Options below only apply to floating windows

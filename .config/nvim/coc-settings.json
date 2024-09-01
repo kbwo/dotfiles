@@ -203,5 +203,15 @@
   "tsserver.log": "verbose",
   "tree.key.close": "x",
   "tree.key.activeFilter": "i",
-  "outline.expandLevel": 3
+  "outline.expandLevel": 10,
+  "outline.autoWidth": true,
+  "tree.key.toggleSelection": "m",
+  "tree.key.collapseAll": "O",
+  "outline.autoPreview": false,
+  "outline.sortBy": "position",
+  "yaml.schemas": {
+    "espanso": [
+      "https://raw.githubusercontent.com/espanso/espanso/dev/schemas/match.schema.json"
+    ]
+  }
 }
