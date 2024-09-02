@@ -62,7 +62,7 @@ require("CopilotChat").setup {
   show_folds = false, -- Shows folds for sections in chat
   highlight_selection = false, -- Highlight selection in the source buffer when in the chat window
   window = {
-    layout = 'vertical', -- 'vertical', 'horizontal', 'float', 'replace'
+    layout = 'replace', -- 'vertical', 'horizontal', 'float', 'replace'
     width = 0.5, -- fractional width of parent, or absolute width in columns when > 1
     height = 0.5, -- fractional height of parent, or absolute height in rows when > 1
     -- Options below only apply to floating windows
@@ -114,8 +114,14 @@ require("CopilotChat").setup {
 
 vim.api.nvim_set_keymap('n', '<Leader>cc', '<Cmd>lua require("CopilotChat").toggle()<CR>', { noremap = true, silent = true })
 
--- Define an autocmd in Lua to set conceallevel to 0 for Markdown and Copilot Chat files
 vim.api.nvim_create_autocmd("FileType", {
+    pattern = { "markdown", "copilot-chat" },
+    callback = function()
+        vim.opt_local.conceallevel = 0
+    end
+})
+
+vim.api.nvim_create_autocmd("BufEnter", {
     pattern = { "markdown", "copilot-chat" },
     callback = function()
         vim.opt_local.conceallevel = 0

@@ -17,6 +17,7 @@ nmap gnps :Gin push
 nmap gnpl :Gin pull<CR>
 nmap gnam :Gin commit --amend<CR>
 nmap gnl<Space> :GinLog --oneline --graph -n 1000<CR>
+nmap gnlp :GinLog -p -n 100<CR>
 nmap gnls :GinLog --oneline --graph -n 1000 ++opener=split<CR>
 nmap gnlv :GinLog --oneline --graph -n 1000 ++opener=vsplit<CR>
 nmap gnlt :GinLog --oneline --graph -n 1000 ++opener=tabedit<CR>
