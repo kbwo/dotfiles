@@ -1,3 +1,4 @@
+-- https://hiroki-sawano.hatenablog.com/entry/autocomplete-commit-message-using-copilot-chat-nvim
 local has_copilot = vim.fn.exists(":CopilotChat") == 2
 
 if has_copilot then
