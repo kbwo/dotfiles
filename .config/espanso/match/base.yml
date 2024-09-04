@@ -4,13 +4,34 @@ matches:
   # But matches can also be dynamic:
 
   # Print the current date
-  - trigger: ":now"
+  - trigger: ":now:"
     replace: "{{mydate}}"
     vars:
       - name: mydate
         type: date
         params:
-          format: "%m/%d/%Y"
+          format: "%Y-%m-%d %H:%M:%S"
+  # Emoji
+  - trigger: ":ok:"
+    replace: "👍"
+  - trigger: ":next:"
+    replace: "⏭️"
+  - trigger: ":back:"
+    replace: "⏮️"
+  - trigger: ":check:"
+    replace: "✅"
+  - trigger: ":question:"
+    replace: "❓"
+  - trigger: ":exclamation:"
+    replace: "❗"
+  - trigger: ":warning:"
+    replace: "⚠️"
+  - trigger: ":info:"
+    replace: "ℹ️"
+  - trigger: ":stop:"
+    replace: "🛑"
+  - trigger: ":cross:"
+    replace: "❌"
 
   # - trigger: ":shell"
   #   replace: "{{output}}"
