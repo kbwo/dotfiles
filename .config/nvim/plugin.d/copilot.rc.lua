@@ -124,6 +124,8 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.api.nvim_create_autocmd("BufEnter", {
     pattern = { "markdown", "copilot-chat" },
     callback = function()
+      vim.schedule(function()
         vim.opt_local.conceallevel = 0
+      end)
     end
 })
