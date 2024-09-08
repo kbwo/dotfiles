@@ -1,0 +1,9 @@
+[Unit]
+Description=xremap
+
+[Service]
+Restart=always
+ExecStart=xremap %h/.config/xremap/config.yml --watch
+
+[Install]
+WantedBy=default.target
