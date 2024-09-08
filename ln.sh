@@ -12,3 +12,6 @@ ln -sf ~/dotfiles/.config/nvim/coc-settings.json ~/.config/nvim/coc-settings.jso
 ln -sf ~/dotfiles/.config/nvim/coc-extensions ~/.config/nvim/coc-extensions
 mkdir -p ~/.config/espanso
 ln -sf ~/dotfiles/.config/espanso/* ~/.config/espanso
+
+mkdir -p ~/.themes
+ln -sf ~/dotfiles/.themes/gtk-kbwo-text-entry ~/themes/gtk-kbwo-text-entry
