@@ -32,6 +32,12 @@ matches:
     replace: "🛑"
   - trigger: ":cross:"
     replace: "❌"
+  - trigger: ":speech:"
+    replace: "💬"
+  - trigger: ":construction:"
+    replace: "🚧"
+  - trigger: ":rocket:"
+    replace: "🚀"
 
   # - trigger: ":shell"
   #   replace: "{{output}}"
