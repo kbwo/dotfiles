@@ -20,6 +20,7 @@ let g:coc_global_extensions = [
       \'coc-java',
       \'coc-json',
       \'coc-lua',
+      \'@yaegassy/coc-marksman',
       \'coc-tsserver',
       \'coc-pairs',
       \'@yaegassy/coc-intelephense',
