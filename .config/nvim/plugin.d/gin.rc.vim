@@ -45,12 +45,19 @@ augroup END
 augroup GinStatusMappings
   autocmd FileType gin-status map <buffer><nowait> . <Plug>(gin-action-repeat)
   autocmd FileType gin-status map <buffer><nowait> <Return> <Plug>(gin-action-edit)zv
-  autocmd FileType gin-status map <buffer><nowait> dd <Plug>(gin-action-diff:smart)
+  autocmd FileType gin-status map <buffer><nowait> dd<Space> <Plug>(gin-action-diff:smart)
+  autocmd FileType gin-status map <buffer><nowait> dds <Plug>(gin-action-diff:smart:split)
+  autocmd FileType gin-status map <buffer><nowait> ddv <Plug>(gin-action-diff:smart:vsplit)
+  autocmd FileType gin-status map <buffer><nowait> ddt <Plug>(gin-action-diff:smart:tabedit)
   autocmd FileType gin-status map <buffer><nowait> pp <Plug>(gin-action-patch)
   autocmd FileType gin-status map <buffer><nowait> !! <Plug>(gin-action-chaperon)
   autocmd FileType gin-status map <buffer><nowait> < <Plug>(gin-action-stage)
   autocmd FileType gin-status map <buffer><nowait> > <Plug>(gin-action-unstage)
   autocmd FileType gin-status map <buffer><nowait> == <Plug>(gin-action-stash)
+  autocmd FileType gin-status map <buffer><nowait> g? <Plug>(gin-action-help:all)
+  autocmd FileType gin-status map <buffer><nowait> <Leader>vv <Plug>(gin-action-edit:local:vsplit)
+  autocmd FileType gin-status map <buffer><nowait> <Leader>ss <Plug>(gin-action-edit:local:split)
+  autocmd FileType gin-status map <buffer><nowait> <Leader>tt <Plug>(gin-action-edit:local:tabedit)
 augroup END
 
 augroup GinBranchMappings
