@@ -49,8 +49,6 @@ require("CopilotChat").setup {
   proxy = nil, -- [protocol://]host[:port] Use this proxy
   allow_insecure = false, -- Allow insecure server connections
 
-  yank_diff_register = '"', -- Allow overriding the register for yanking diffs
-
   model = 'gpt-4o', -- GPT model to use, 'gpt-3.5-turbo', 'gpt-4', or 'gpt-4o'
   temperature = 0.1, -- GPT temperature
 
