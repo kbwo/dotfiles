@@ -14,7 +14,6 @@ let g:coc_global_extensions = [
       \'coc-eslint',
       \'coc-flutter',
       \'coc-go',
-      \'coc-highlight',
       \'coc-html',
       \'coc-html-css-support',
       \'coc-java',
