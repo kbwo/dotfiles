@@ -34,6 +34,7 @@ Plug 'andrewferrier/debugprint.nvim'
 Plug 'sindrets/diffview.nvim'
 Plug 'akinsho/toggleterm.nvim'
 Plug 'jedrzejboczar/possession.nvim'
+Plug 'chenasraf/text-transform.nvim'
 
 Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'npm ci'}
 
