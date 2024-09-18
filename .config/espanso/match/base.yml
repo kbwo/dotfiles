@@ -26,6 +26,8 @@ matches:
     replace: "✅"
   - trigger: ":question:"
     replace: "❓"
+  - trigger: ":q:"
+    replace: "❓"
   - trigger: ":exclamation:"
     replace: "❗"
   - trigger: ":warning:"
