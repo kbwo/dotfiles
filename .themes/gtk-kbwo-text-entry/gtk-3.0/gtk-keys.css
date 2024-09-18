@@ -1,7 +1,5 @@
-@binding-set gtk-kbwo-text-entry
-{
-  bind "<ctrl>u" { "move-cursor" (paragraph-ends, -1, 0)
-                   "delete-from-cursor" (paragraph-ends, 1) };
+@binding-set gtk-kbwo-text-entry {
+  bind "<ctrl>h" { "delete-from-cursor" (chars, -1) };
 }
 
 entry {
