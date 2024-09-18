@@ -9,6 +9,7 @@ require("diffview").setup({
   use_icons = false,         -- Requires nvim-web-devicons
   show_help_hints = true,   -- Show hints for how to open the help panel
   watch_index = true,       -- Update views and index buffers when the git index changes.
+  icons = nil,
   view = {
     -- Configure the layout and behavior of different types of views.
     -- Available layouts:
@@ -235,8 +236,8 @@ end
 _G.diff_branch = diff_branch
 
 vim.api.nvim_set_keymap(
-  'n', 
-  '<leader>dd', 
-  ':lua diff_branch()<CR>', 
+  'n',
+  '<leader>dd',
+  ':lua diff_branch()<CR>',
   { noremap = true, silent = true }
 )
