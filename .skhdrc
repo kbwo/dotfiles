@@ -2,4 +2,5 @@ cmd - 1 : open -a /Applications/Alacritty.app
 cmd - 2 : open -a /Applications/Vivaldi.app
 cmd - 3 : open -a /Applications/Slack.app
 cmd - 4 : open -a /Applications/Firefox.app
-alt - 1 : open -a /Applications/Obsidian.app
+alt - 1 : open -a /Applications/Cursor.app
+alt - 2 : open -a /Applications/Obsidian.app
