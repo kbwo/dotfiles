@@ -1,38 +1,31 @@
 set termguicolors
 
-if has('nvim')
-  colorscheme kanagawa
-  highlight Visual guifg=#FFFFFF guibg=SlateBlue gui=none term=reverse cterm=reverse
-else
-  colorscheme tokyonight
-  hi Visual guibg=#FFFFFF guifg=SlateBlue gui=none
-endif
-
-hi CursorLine term=bold cterm=bold guibg=#3E4452
-hi Search term=bold cterm=bold guifg=#ffffff guibg=#b26e29
-hi CurSearch term=bold cterm=bold guifg=#ffffff guibg=#b26e29
-hi NonText ctermbg=NONE guibg=NONE
-hi SpecialKey ctermbg=NONE guibg=NONE
-hi EndOfBuffer ctermbg=NONE guibg=NONE
-hi Comment guifg=gray70
-hi rustCommentLineDoc guifg=gray70
-hi link CocMenuSel PmenuSel
-hi HopNextKey guifg=#ff9dcd gui=bold ctermfg=198 cterm=bold
-hi AnsiColor1 guifg=#F7768E
-hi FgCocErrorFloatBgCocFloating guifg=#F7768E
-hi Error guifg=#F7768E
-hi ErrorMsg guifg=#F7768E
-hi PreProc guifg=#FF9E64
-hi DiagnosticError guifg=#F7768E
-hi DiagnosticSignError guifg=#F7768E
-hi DiagnosticUnderlineError guifg=#F7768E
-hi DiagnosticFloatingError guifg=#F7768E
-hi NvimInternalError guifg=#F7768E
-hi healthError guifg=#F7768E
-hi DapUIWatchesError guifg=#F7768E
-hi DapUIWatchesEmpty guifg=#F7768E
-hi FloatShadowThrough cterm=bold gui=bold guifg=#938aa9 guibg=#16161d
-hi FloatShadow cterm=bold gui=bold guifg=#938aa9 guibg=#16161d
+" set in kanagawa.rc.lua
+" hi CursorLine term=bold cterm=bold guibg=#3E4452
+" hi Search term=bold cterm=bold guifg=#ffffff guibg=#b26e29
+" hi CurSearch term=bold cterm=bold guifg=#ffffff guibg=#b26e29
+" hi NonText ctermbg=NONE guibg=NONE
+" hi SpecialKey ctermbg=NONE guibg=NONE
+" hi EndOfBuffer ctermbg=NONE guibg=NONE
+" hi Comment guifg=gray70
+" hi rustCommentLineDoc guifg=gray70
+" hi link CocMenuSel PmenuSel
+" hi HopNextKey guifg=#ff9dcd gui=bold ctermfg=198 cterm=bold
+" hi AnsiColor1 guifg=#F7768E
+" hi FgCocErrorFloatBgCocFloating guifg=#F7768E
+" hi Error guifg=#F7768E
+" hi ErrorMsg guifg=#F7768E
+" hi PreProc guifg=#FF9E64
+" hi DiagnosticError guifg=#F7768E
+" hi DiagnosticSignError guifg=#F7768E
+" hi DiagnosticUnderlineError guifg=#F7768E
+" hi DiagnosticFloatingError guifg=#F7768E
+" hi NvimInternalError guifg=#F7768E
+" hi healthError guifg=#F7768E
+" hi DapUIWatchesError guifg=#F7768E
+" hi DapUIWatchesEmpty guifg=#F7768E
+" hi FloatShadowThrough cterm=bold gui=bold guifg=#938aa9 guibg=#16161d
+" hi FloatShadow cterm=bold gui=bold guifg=#938aa9 guibg=#16161d
 
 " show highlight information under the cursor
 function! s:get_syn_id(transparent)
