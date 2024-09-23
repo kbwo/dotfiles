@@ -1,41 +1,13 @@
 {
-    "vim.leader": "<space>",
-    "vim.easymotion": true,
-    "vim.incsearch": true,
-    "vim.useSystemClipboard": true,
-    "vim.useCtrlKeys": true,
-    "vim.hlsearch": true,
-    "vim.surround": true,
-    "vim.normalModeKeyBindingsNonRecursive": [
-        {
-            "before": ["leader", "f"],
-            "after": ["leader", "leader", "leader", "b", "d", "w"]
-        },
-        {
-            "before": [
-                "J"
-            ],
-            "after": [
-                "g",
-                "T"
-            ]
-        },
-        {
-        "before": [
-            "K"
-        ],
-        "after": [
-            "g",
-            "t"
-        ]
-    }
-    ],
-    "macros": {
-        "selectAndToggleSidebar": [
-            "list.select",
-            "workbench.action.toggleSidebarVisibility"
-        ]
-    },
-    "editor.fontSize": 8.5,
-    "editor.minimap.enabled": false
+  "editor.fontSize": 11,
+  "editor.minimap.enabled": false,
+  "editor.wordWrap": "on",
+  "git.openRepositoryInParentFolders": "never",
+  "terminal.integrated.shellIntegration.enabled": false,
+  "explorer.confirmDelete": false,
+  "svelte.enable-ts-plugin": true,
+  "editor.fontWeight": "600",
+  "window.zoomLevel": 1,
+  "editor.mouseWheelScrollSensitivity": 2,
+  "editor.smoothScrolling": true
 }
