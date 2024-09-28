@@ -6,7 +6,6 @@
   "explorer.confirmDelete": false,
   "svelte.enable-ts-plugin": true,
   "editor.fontWeight": "600",
-  "window.zoomLevel": 1,
   "editor.mouseWheelScrollSensitivity": 2,
   "editor.smoothScrolling": true,
   "vim.leader": "<space>",
@@ -30,5 +29,10 @@
       "after": ["g", "t"]
     }
   ],
-  "workbench.tree.enableStickyScroll": false
+  "vim.handleKeys": {
+    "<C-d>": false
+  },
+  "workbench.tree.enableStickyScroll": false,
+  "editor.fontSize": 11,
+  "workbench.colorTheme": "Kanagawa"
 }

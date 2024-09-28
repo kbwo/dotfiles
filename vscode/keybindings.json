@@ -15,7 +15,7 @@
     "when": "isDevelopment"
   },
   {
-    "key": "ctrl+d",
+    "key": "ctrl+alt+d",
     "command": "editor.action.revealDefinition",
     "when": "editorHasDefinitionProvider && editorTextFocus"
   },
@@ -61,9 +61,9 @@
     "command": "-workbench.action.nextEditor"
   },
   {
-    "key": "g r",
+    "key": "ctrl+alt+r",
     "command": "editor.action.goToReferences",
-    "when": "editorHasReferenceProvider && editorTextFocus && !inReferenceSearchEditor && !isInEmbeddedEditor"
+    "when": "editorHasReferenceProvider && editorTextFocus && !inReferenceSearchEditor && !isInEmbeddedEditor && vim.mode != 'Insert'"
   },
   {
     "key": "shift+f12",
@@ -87,7 +87,7 @@
     "command": "-workbench.action.quickOpen"
   },
   {
-    "key": "ctrl+shift+c",
+    "key": "ctrl+alt+c",
     "command": "copyFilePath",
     "when": "editorFocus"
   },
@@ -97,7 +97,7 @@
     "when": "editorFocus"
   },
   {
-    "key": "ctrl+shift+c",
+    "key": "ctrl+alt+c",
     "command": "copyFilePath",
     "when": "!editorFocus"
   },
@@ -109,5 +109,15 @@
   {
     "key": "alt+r",
     "command": "workbench.action.files.revert"
+  },
+  {
+    "key": "ctrl+d",
+    "command": "editor.action.revealDefinition",
+    "when": "false"
+  },
+  {
+    "key": "cmd+f12",
+    "command": "-editor.action.revealDefinition",
+    "when": "editorHasDefinitionProvider && editorTextFocus && isWeb"
   }
 ]
