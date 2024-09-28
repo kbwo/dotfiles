@@ -6,7 +6,6 @@ Plug 'tpope/vim-surround'
 Plug 'mattn/emmet-vim'
 Plug 'JoosepAlviste/nvim-ts-context-commentstring'
 Plug 'numToStr/Comment.nvim'
-Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'Raimondi/delimitMate'
 Plug 'tpope/vim-dadbod'
 Plug 'kristijanhusak/vim-dadbod-ui'
@@ -55,6 +54,7 @@ Plug 'kamecha/ddu-source-window'
 
 Plug 'stevearc/conform.nvim'
 Plug 'mfussenegger/nvim-dap'
+Plug 'jake-stewart/multicursor.nvim'
 
 if executable("yarn")
   Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
