@@ -36,6 +36,9 @@ require('kanagawa').setup({
       DapUIWatchesError = { fg = '#F7768E' },
       FloatShadowThrough = { bold = true, fg = '#938aa9', bg = '#16161d' },
       FloatShadow = { bold = true, fg = '#938aa9', bg = '#16161d' },
+      TabLine = { fg = '#C0C0C0', bg = '#1E1E2E' },
+      TabLineSel = { fg = '#FFFFFF', bg = '#b26e29' },
+      TabLineFill = { fg = '#C0C0C0', bg = '#2E3440' },
     }
   end,
 })
