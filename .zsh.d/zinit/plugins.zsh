@@ -1,7 +1,7 @@
 bindkey '^j' autosuggest-accept
 zinit wait lucid light-mode for \
     'agkozak/zsh-z' \
-    'zdharma-continuum/history-search-multi-word' \
+    'joshskidmore/zsh-fzf-history-search' \
     'zsh-users/zsh-syntax-highlighting' \
     'zsh-users/zsh-completions' \
     'migutw42/zsh-fzf-ghq' \
