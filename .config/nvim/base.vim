@@ -14,8 +14,6 @@ map J gT
 nmap j gj
 nmap k gk
 nmap Q :CloseToggletermBuffers<CR>:confirm qa<CR>
-nmap <Leader>j <c-d>
-nmap <Leader>k <c-u>
 nmap R :join<CR>
 nmap <Down> gj
 nmap <Up> gk
