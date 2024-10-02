@@ -12,7 +12,7 @@ require('kanagawa').setup({
   },
   overrides = function(colors)
     return {
-      Visual = { fg = '#FFFFFF', bg = 'SlateBlue' },
+      Visual = { bg = '#5a6773' },
       CursorLine = { bg = '#3E4452', bold = true },
       Search = { fg = '#FFFFFF', bg = '#b26e29', bold = true },
       CurSearch = { fg = '#FFFFFF', bg = '#b26e29', bold = true },
@@ -36,9 +36,9 @@ require('kanagawa').setup({
       DapUIWatchesError = { fg = '#F7768E' },
       FloatShadowThrough = { bold = true, fg = '#938aa9', bg = '#16161d' },
       FloatShadow = { bold = true, fg = '#938aa9', bg = '#16161d' },
-      TabLine = { fg = '#C0C0C0', bg = '#1E1E2E' },
-      TabLineSel = { fg = '#FFFFFF', bg = '#b26e29' },
-      TabLineFill = { fg = '#C0C0C0', bg = '#2E3440' },
+      TabLine = { bg = '#1E1E2E', fg = '#7F848E', sp = '#3E4451' },
+      TabLineSel = { bg = '#F7768E', fg = '#3E4452', sp = '#F7768E' },
+      TabLineFill = { bg = '#21252B', fg = '#7F848E', sp = '#21252B' },
     }
   end,
 })
