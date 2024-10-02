@@ -1,3 +1,6 @@
+let g:fern#disable_default_mappings = 1
+let g:fern#default_hidden = 1
+
 nmap <silent> <c-n> :execute 'Fern' FindNearestGitRoot() '-reveal=% -stay'<CR>
 
 nmap <silent> <c-w>c :Fern %:h -reveal=% -stay<CR>
@@ -36,12 +39,11 @@ function! FernInit() abort
   nmap <silent><buffer> > <Plug>(fern-action-open-or-enter)
   nmap <silent><buffer> x :Back<CR>
   nmap <silent><buffer> R <Plug>(fern-action-redraw)
+  nmap <silent><buffer> g? <Plug>(fern-action-help)
 endfunction
 augroup FernEvents
   autocmd!
   autocmd FileType fern call FernInit()
 augroup END
-let g:fern#disable_default_mappings = 1
-let g:fern#default_hidden = 1
 
 nmap <silent> rel :Fern ~/.http -reveal=% -stay<CR>

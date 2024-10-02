@@ -24,7 +24,7 @@ end
 -- Map the enhanced function to <leader>c in visual mode
 vim.api.nvim_set_keymap(
   'v',
-  '<leader>`',
+  's`',
   ':lua SurroundWithCodeblock()<CR>',
   { noremap = true, silent = true }
 )
