@@ -40,7 +40,6 @@ set tabstop=2
 set softtabstop=2
 set shiftwidth=2
 set expandtab
-autocmd FileType php setlocal tabstop=4 softtabstop=4 shiftwidth=4
 augroup TrimCmd
   autocmd!
   " Exclude .vim files from the autocmd
@@ -144,3 +143,58 @@ function! s:show_ex_result(cmd)
   endif
 endfunction
 command! -nargs=+ -complete=command ShowExResult call s:show_ex_result(<q-args>)
+
+" Function to get parent directory name/file name
+function! GetTabLabel(tabnr)
+  " Get the first buffer of the specified tab
+  let bufnr = tabpagebuflist(a:tabnr)[0]
+  let bufname = bufname(bufnr)
+
+  " Default label if buffer doesn't exist
+  if bufname ==# '' || buflisted(bufnr) == 0
+    return 'No Name'
+  endif
+
+  " Get parent directory name and file name from full path
+  let parent_dir = fnamemodify(bufname, ':p:h:t') " Parent directory name
+  let file_name = fnamemodify(bufname, ':t')      " File name
+
+  return parent_dir . '/' . file_name
+endfunction
+
+" Function to build custom tabline
+function! FileWithParent()
+  let s = ''
+
+  " Loop through all tabs
+  for tabnr in range(1, tabpagenr('$'))
+    " Change highlight based on whether it's the active tab
+    if tabnr == tabpagenr()
+      let s .= '%#TabLineSel#'        " Highlight for active tab
+    else
+      let s .= '%#TabLine#'           " Highlight for inactive tab
+    endif
+
+    " Make tab clickable
+    let s .= '%' . tabnr . 'T'
+
+    " Add tab label
+    let s .= ' ' . GetTabLabel(tabnr) . ' '
+
+    " Separator between tabs
+    let s .= '%#TabLine# | '
+
+  endfor
+
+  " Remove the last separator
+  let s = substitute(s, ' | $', '', '')
+
+  " Fill remaining space with TabLineFill
+  let s .= '%#TabLineFill#'
+
+  return s
+endfunction
+
+" Set custom tabline
+set tabline=%!FileWithParent()
+
