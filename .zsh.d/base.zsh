@@ -75,3 +75,45 @@ case ${OSTYPE} in
         alias ls='ls -F --color=auto'
         ;;
 esac
+
+colortest() {
+  local color escapes intensity style
+  echo "NORMAL bold  dim   itali under rever strik  BRIGHT bold  dim   itali under rever strik"
+  for color in $(seq 0 7); do
+    for intensity in 3 9; do  # normal, bright
+      escapes="${intensity}${color}"
+      printf '\e[%sm\\e[%sm\e[0m ' "$escapes" "$escapes" # normal
+      for style in 1 2 3 4 7 9; do  # bold, dim, italic, underline, reverse, strikethrough
+        escapes="${intensity}${color};${style}"
+        printf '\e[%sm\\e[%sm\e[0m ' "$escapes" "$style"
+      done
+      echo -n " "
+    done
+    echo
+  done
+  echo -n "TRUECOLOR "
+  awk 'BEGIN{
+    columns = 78;
+    step = columns / 6;
+    for (hue = 0; hue<columns; hue++) {
+      x = (hue % step) * 255 / step;
+      if (hue < step) {
+        r = 255; g = x; b = 0;
+      } else if (hue < step*2) {
+        r = 255-x; g = 255; b = 0;
+      } else if (hue < step*3) {
+        r = 0; g = 255; b = x;
+      } else if (hue < step*4) {
+        r = 0; g = 255-x; b = 255;
+      } else if (hue < step*5) {
+        r = x; g = 0; b = 255;
+      } else {
+        r = 255; g = 0; b = 255-x;
+      }
+      printf "\033[48;2;%d;%d;%dm", r, g, b;
+      printf "\033[38;2;%d;%d;%dm", 255-r, 255-g, 255-b;
+      printf " \033[0m";
+    }
+    printf "\n";
+  }'
+}
