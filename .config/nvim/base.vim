@@ -9,6 +9,44 @@ filetype plugin indent on
 inoremap <c-u> <Nop>
 let mapleader="\<Space>"
 
+" Function to close all toggleterm buffers
+function! CloseAllToggletermBuffers()
+  " Get a list of all buffers
+  let bufs = getbufinfo()
+  
+  " Iterate over each buffer
+  for buf in bufs
+    " Check if the buffer is loaded
+    if buf.loaded
+      " Retrieve the 'filetype' and 'buftype' options of the buffer
+      let ft = getbufvar(buf.bufnr, '&filetype')
+      let bt = getbufvar(buf.bufnr, '&buftype')
+      
+      " Check if the buffer is of type 'toggleterm' or has buftype 'terminal'
+      if ft ==# 'toggleterm' || bt ==# 'terminal'
+        " Get a list of window IDs displaying this buffer
+        let wins = buf.windows
+        
+        if !empty(wins)
+          " Iterate over each window displaying the buffer
+          for winid in wins
+            " Switch to the window
+            call win_gotoid(winid)
+            " Close the window without saving changes
+            execute 'close'
+          endfor
+        else
+          " If the buffer is not displayed in any window, delete it forcefully
+          execute 'bdelete! ' . buf.bufnr
+        endif
+      endif
+    endif
+  endfor
+endfunction
+
+" Define a user command to close all toggleterm buffers
+command! CloseToggletermBuffers call CloseAllToggletermBuffers()
+
 map K gt
 map J gT
 nmap j gj
