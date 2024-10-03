@@ -49,7 +49,7 @@ function! s:ddu_my_settings() abort
   nnoremap <buffer><silent> p
         \ <Cmd>call ddu#ui#do_action('preview')<CR>
   nnoremap <buffer><silent> m
-        \ <Cmd>call ddu#ui#do_action('toggleSelectItem')<CR>
+        \ <Cmd>call ddu#ui#do_action('toggleSelectItem')<CR>gj
   nnoremap <buffer><silent> i
         \ <Cmd>call ddu#ui#do_action('openFilterWindow')<CR>
   nnoremap <buffer><silent> x

@@ -11,7 +11,7 @@ function! FernInit() abort
   nmap <silent><buffer> <Leader>tt <Plug>(fern-action-open:tabedit)
   nmap <silent><buffer> D <Plug>(fern-action-new-dir)
   nmap <silent><buffer> ! <Plug>(fern-action-hidden:toggle)
-  nmap <silent><buffer> m <Plug>(fern-action-mark:toggle)
+  nmap <silent><buffer> m <Plug>(fern-action-mark:toggle)gj
   nmap <silent><buffer> c <Plug>(fern-action-clipboard-copy)
   nmap <silent><buffer> <Leader>m <Plug>(fern-action-clipboard-move)
   nmap <silent><buffer> p <Plug>(fern-action-clipboard-paste)
