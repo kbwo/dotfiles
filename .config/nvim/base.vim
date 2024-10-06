@@ -118,6 +118,7 @@ set whichwrap=b,s,h,l,<,>,[,]
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
 set clipboard+=unnamedplus
 set diffopt=iwhiteall
+set showtabline=2
 nnoremap gno o<Esc>
 nnoremap gnO O<Esc>
 if has('nvim')
