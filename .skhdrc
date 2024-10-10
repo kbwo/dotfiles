@@ -1,4 +1,4 @@
-cmd - 1 : open -a /Applications/Alacritty.app
+cmd - 1 : open -a /Applications/kitty.app
 cmd - 2 : open -a /Applications/Vivaldi.app
 cmd - 3 : open -a /Applications/Slack.app
 cmd - 4 : open -a /Applications/Firefox.app
