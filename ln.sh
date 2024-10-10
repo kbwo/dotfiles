@@ -17,5 +17,9 @@ mkdir -p ~/.themes
 ln -sf ~/dotfiles/.themes/gtk-kbwo-text-entry ~/themes/gtk-kbwo-text-entry
 ln -sf ~/dotfiles/.config/autostart/xremap.desktop ~/.config/autostart/xremap.desktop
 ln -sf ~/dotfiles/.config/systemd/user/xremap.service ~/.config/systemd/user/xremap.service
+
 mkdir -p ~/.config/xremap
 ln -sf ~/dotfiles/.config/xremap/config.yml ~/.config/xremap/config.yml
+
+mkdir -p ~/.config/kitty
+ln -sf ~/dotfiles/.config/kitty/kitty.conf ~/.config/kitty/kitty.conf
