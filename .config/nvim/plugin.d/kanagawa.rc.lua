@@ -8,7 +8,8 @@ require('kanagawa').setup({
     palette = {
       oniViolet = "#B6A7CE",
       oniViolet2 = "#E5E3ED",
-      samuraiRed = '#f7768e'
+      samuraiRed = '#f7768e',
+      autumnRed = '#CE6466'
     },
   },
   overrides = function(colors)
