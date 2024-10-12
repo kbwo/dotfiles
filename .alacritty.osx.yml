@@ -48,3 +48,6 @@ window:
   dynamic_padding: true
 
   decorations: Buttonless
+
+env:
+  TERM: xterm-256color

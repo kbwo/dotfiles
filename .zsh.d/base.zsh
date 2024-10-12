@@ -117,3 +117,5 @@ colortest() {
     printf "\n";
   }'
 }
+
+export COLORTERM=truecolor
