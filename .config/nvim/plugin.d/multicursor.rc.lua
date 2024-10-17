@@ -7,6 +7,7 @@ vim.keymap.set({"n", "v"}, "<down>", function() mc.addCursor("j") end)
 
 -- Add a cursor and jump to the next word under cursor.
 vim.keymap.set({"n", "v"}, "<c-j>", function() mc.addCursor("*") end)
+vim.keymap.set({"n", "v"}, "<c-k>", function() mc.prevCursor() end)
 
 -- Jump to the next word under cursor but do not add a cursor.
 vim.keymap.set({"n", "v"}, "<Leader>q", function() mc.skipCursor("*") end)
