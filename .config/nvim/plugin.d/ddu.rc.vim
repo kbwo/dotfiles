@@ -56,19 +56,6 @@ function! s:ddu_my_settings() abort
         \ <Cmd>call ddu#ui#do_action('quit')<CR>
 endfunction
 
-autocmd FileType ddu-ff-filter call s:ddu_filter_my_settings()
-
-function! s:ddu_filter_my_settings() abort
-  " https://github.com/Shougo/ddu-ui-ff/issues/44
-  inoremap <buffer><silent> <CR>
-        \ <Esc><Cmd>close<CR>
-        \<Cmd>call win_gotoid(g:ddu#ui#ff#_filter_parent_winid)<CR>
-  nnoremap <buffer><silent> <CR>
-        \ <Cmd>close<CR>
-  nnoremap <buffer><silent> q
-        \ <Cmd>close<CR>
-endfunction
-
 nmap <silent><c-p> :call StartDduNoIgnore()<CR>
 nmap <silent><Leader>pp :call StartDduIgnore()<CR>
 nmap <silent><Leader>pt :call TabFind()<CR>
@@ -146,7 +133,6 @@ function! RgFindNoIgnore(text) abort
 endfunction
 
 command! DduBuffer call ddu#start(#{
-      \   ui: 'ff',
       \   sources: [#{name: 'buffer'}],
       \   kindOptions: #{
       \     file: #{
