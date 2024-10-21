@@ -20,6 +20,7 @@ let g:coc_global_extensions = [
       \'coc-json',
       \'coc-lua',
       \'@yaegassy/coc-marksman',
+      \'coc-tsdetect',
       \'coc-tsserver',
       \'coc-pairs',
       \'@yaegassy/coc-intelephense',
@@ -131,3 +132,17 @@ function! ToggleOutline() abort
     call coc#window#close(winid)
   endif
 endfunction
+
+function! s:coc_tsdetect_buf_write_post() abort
+  if !get(g:, 'coc_enabled', 0)
+    return
+  endif
+  if exists('b:tsdetect_is_node') && !b:tsdetect_is_node
+    CocCommand deno.cache
+  endif
+endfunction
+
+augroup my-coc-tsdetect
+  autocmd!
+  autocmd BufWritePost * call <SID>coc_tsdetect_buf_write_post()
+augroup END
