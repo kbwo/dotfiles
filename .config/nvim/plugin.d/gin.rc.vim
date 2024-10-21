@@ -39,7 +39,7 @@ nmap gncl :call CurrentFileLog()<CR>
 " vunmap <buffer><nowait> y
 augroup GinLogMappings
   autocmd!
-  autocmd FileType gin-log map <buffer><nowait> a <Plug>(gin-action-choice)
+  autocmd FileType gin-log map <buffer><nowait> a<Space> <Plug>(gin-action-choice)
   autocmd FileType gin-log map <buffer><nowait> . <Plug>(gin-action-repeat)
   autocmd FileType gin-status map <buffer><nowait> g? <Plug>(gin-action-help:all)
   autocmd FileType gin-log map <buffer><nowait>dd<Space> <Plug>(gin-action-show)zv
@@ -49,7 +49,7 @@ augroup GinLogMappings
 augroup END
 
 augroup GinStatusMappings
-  autocmd FileType gin-log map <buffer><nowait> a <Plug>(gin-action-choice)
+  autocmd FileType gin-log map <buffer><nowait> a<Space> <Plug>(gin-action-choice)
   autocmd FileType gin-status map <buffer><nowait> . <Plug>(gin-action-repeat)
   autocmd FileType gin-status map <buffer><nowait> <Return> <Plug>(gin-action-edit)zv
   autocmd FileType gin-status map <buffer><nowait> dd<Space> <Plug>(gin-action-diff:smart)
@@ -68,7 +68,7 @@ augroup GinStatusMappings
 augroup END
 
 augroup GinBranchMappings
-  autocmd FileType gin-log map <buffer><nowait> a <Plug>(gin-action-choice)
+  autocmd FileType gin-log map <buffer><nowait> a<Space> <Plug>(gin-action-choice)
   autocmd FileType gin-status map <buffer><nowait> . <Plug>(gin-action-repeat)
   autocmd FileType gin-branch nmap <buffer><nowait> <Return> <Plug>(gin-action-switch)
   autocmd FileType gin-branch map <buffer><nowait> . <Plug>(gin-action-repeat)

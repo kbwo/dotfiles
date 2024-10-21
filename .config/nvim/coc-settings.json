@@ -1,48 +1,10 @@
 {
-  "[go]": {
-    "coc.preferences.formatOnSave": true
+  "[javascript][typescript][typescriptreact][json][jsonc][html][css][scss][html]": {
+    "coc.preferences.formatOnSave": true,
+    "coc.preferences.formatterExtension": "coc-prettier"
   },
-  "[python]": {
-    "coc.preferences.formatOnSave": true
-  },
-  "[javascript]": {
-    "coc.preferences.formatOnSave": true
-  },
-  "[typescript]": {
-    "coc.preferences.formatOnSave": true
-  },
-  "[typescriptreact]": {
-    "coc.preferences.formatOnSave": true
-  },
-  "[rust]": {
-    "coc.preferences.formatOnSave": true
-  },
-  "[json]": {
-    "coc.preferences.formatOnSave": true
-  },
-  "[jsonc]": {
-    "coc.preferences.formatOnSave": true
-  },
-  "[html]": {
-    "coc.preferences.formatOnSave": true
-  },
-  "[css]": {
-    "coc.preferences.formatOnSave": true
-  },
-  "[scss]": {
-    "coc.preferences.formatOnSave": true
-  },
-  "[prisma]": {
-    "coc.preferences.formatOnSave": true
-  },
-  "[elm]": {
-    "coc.preferences.formatOnSave": true
-  },
-  "[vue]": {
-    "coc.preferences.formatOnSave": true
-  },
-  "[dart]": {
-    "coc.preferences.formatOnSave": true
+  "[go][python][rust][prisma][elm][vue][dart]": {
+    "coc.preferences.formatOnSave": true,
   },
   "rust-analyzer.procMacro.enable": true,
   "rust-analyzer.diagnostics.disabled": [
@@ -96,31 +58,6 @@
       "command": "~/go/src/github.com/fwcd/kotlin-language-server/server/build/install/server/bin/kotlin-language-server",
       "filetypes": ["kotlin"]
     },
-    // "testing": {
-    //   "command": "/home/kbwo/go/projects/github.com/kbwo/testing-language-server/target/debug/testing-language-server",
-    //   "trace.server": "verbose",
-    //   "filetypes": ["rust", "javascript"],
-    //   "initializationOptions": {
-    //     "adapterCommand": {
-    //       ".rs": [
-    //         {
-    //           "path": "/home/kbwo/go/projects/github.com/kbwo/testing-language-server/target/debug/testing-ls-adapter",
-    //           "extra_args": ["--test-kind=cargo-test"],
-    //           "include_patterns": ["/**/*.rs"],
-    //           "exclude_patterns": ["/**/target/**"]
-    //         }
-    //       ],
-    //       ".js": [
-    //         {
-    //           "path": "/home/kbwo/go/projects/github.com/kbwo/testing-language-server/target/debug/testing-ls-adapter",
-    //           "extra_args": ["--test-kind=jest"],
-    //           "include_patterns": ["/**/*.js"],
-    //           "exclude_patterns": ["/node_modules/**/*"]
-    //         }
-    //       ]
-    //     }
-    //   }
-    // },
     "elmLS": {
       "command": "elm-language-server",
       "args": ["--stdio"],

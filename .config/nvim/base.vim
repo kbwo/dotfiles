@@ -235,3 +235,4 @@ endfunction
 " Set custom tabline
 set tabline=%!FileWithParent()
 
+autocmd BufRead,BufNewFile *.mdx set filetype=markdown

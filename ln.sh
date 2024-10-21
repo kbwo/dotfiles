@@ -22,4 +22,4 @@ mkdir -p ~/.config/xremap
 ln -sf ~/dotfiles/.config/xremap/config.yml ~/.config/xremap/config.yml
 
 mkdir -p ~/.config/kitty
-ln -sf ~/dotfiles/.config/kitty/kitty.conf ~/.config/kitty/kitty.conf
+ln -sf ~/dotfiles/.config/kitty/kitty.gnome.conf ~/.config/kitty/kitty.conf
