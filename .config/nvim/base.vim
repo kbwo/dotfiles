@@ -10,7 +10,7 @@ inoremap <c-u> <Nop>
 let mapleader="\<Space>"
 
 " Function to close all toggleterm buffers
-function! CloseAllToggletermBuffers()
+function! QuitAll()
   " Get a list of all buffers
   let bufs = getbufinfo()
   
@@ -42,16 +42,14 @@ function! CloseAllToggletermBuffers()
       endif
     endif
   endfor
+  confirm qa
 endfunction
-
-" Define a user command to close all toggleterm buffers
-command! CloseToggletermBuffers call CloseAllToggletermBuffers()
 
 map K gt
 map J gT
 nmap j gj
 nmap k gk
-nmap Q :CloseToggletermBuffers<CR>:confirm qa<CR>
+nmap Q :call QuitAll()<CR>
 nmap R :join<CR>
 nmap <Down> gj
 nmap <Up> gk
