@@ -236,3 +236,15 @@ endfunction
 set tabline=%!FileWithParent()
 
 autocmd BufRead,BufNewFile *.mdx set filetype=markdown
+
+function! YankRelativePath()
+  let l:relpath = expand('%')
+  if empty(l:relpath)
+    echo 'No file to yank'
+  else
+    let @+ = l:relpath
+    echo 'Copied relative path'
+  endif
+endfunction
+
+nnoremap <silent> <leader>yp :call YankRelativePath()<CR>
