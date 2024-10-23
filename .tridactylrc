@@ -3,4 +3,3 @@ bind K tabprev
 bind <c-1> tabfirst
 bind <c-2> tab 2
 bind <c-3> tab 3
-set smoothscroll true
