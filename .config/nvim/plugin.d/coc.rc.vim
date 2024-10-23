@@ -132,7 +132,7 @@ function! s:coc_tsdetect_buf_write_post() abort
     return
   endif
   if exists('b:tsdetect_is_node') && !b:tsdetect_is_node
-    CocCommand deno.cache
+    CocCommand deno.cacheActiveDocument
   endif
 endfunction
 
