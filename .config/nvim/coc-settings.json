@@ -1,10 +1,9 @@
 {
   "[javascript][typescript][typescriptreact][json][jsonc][html][css][scss][html]": {
-    "coc.preferences.formatOnSave": true,
-    "coc.preferences.formatterExtension": "coc-prettier"
+    "coc.preferences.formatOnSave": true
   },
   "[go][python][rust][prisma][elm][vue][dart]": {
-    "coc.preferences.formatOnSave": true,
+    "coc.preferences.formatOnSave": true
   },
   "rust-analyzer.procMacro.enable": true,
   "rust-analyzer.diagnostics.disabled": [

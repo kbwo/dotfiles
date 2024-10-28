@@ -4,22 +4,20 @@
 // @match        *://*/*
 // @description
 // @version      0.0.1
-// @grant        none
+// @grant GM_setClipboard
 // ==/UserScript==
 
 (() => {
   "use strict";
 
-  const copy = (text) => {
-    window.navigator.clipboard
-      .writeText(text)
-      .then(() => {
-        alert("copied to clipboard");
-      })
-      .catch((e) => {
-        console.error(e);
-        alert("failed to copy");
-      });
+  const copy = async (text) => {
+    try {
+      await GM.setClipboard(text, "text");
+      alert("copied to clipboard");
+    } catch (e) {
+      console.error(e);
+      alert("failed to copy");
+    }
   };
 
   document.addEventListener("keydown", (e) => {
