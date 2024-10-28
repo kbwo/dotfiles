@@ -42,7 +42,7 @@ function! QuitAll()
       endif
     endif
   endfor
-  confirm qa
+  call timer_start(100, { -> execute('confirm qa') })
 endfunction
 
 map K gt
@@ -50,7 +50,7 @@ map J gT
 nmap j gj
 nmap k gk
 nmap Q :call QuitAll()<CR>
-nmap R :join<CR>
+nmap R :join!<CR>
 nmap <Down> gj
 nmap <Up> gk
 nmap + <C-a>

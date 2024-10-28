@@ -1,11 +1,12 @@
 require("toggleterm").setup{
-  size = 20,
+  size = 25,
   close_on_exit = true,
+  auto_scroll = true
 }
 local terminal_id = 1
 
 function open_new_terminal()
-  require("toggleterm.terminal").Terminal:new({ id = terminal_id, close_on_exit = true }):toggle()
+  require("toggleterm.terminal").Terminal:new({ id = terminal_id, close_on_exit = true, auto_scroll = true }):toggle()
   terminal_id = terminal_id + 1
 end
 
