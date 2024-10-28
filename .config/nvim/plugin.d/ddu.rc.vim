@@ -5,7 +5,7 @@ call ddu#custom#patch_global(#{
       \     ff: #{
       \       startAutoAction: v:true,
       \       maxHighlightItems: 10000,
-	    \       previewHeight: 20,
+	    \       previewHeight: 25,
       \     },
       \  },
       \  sources: [
