@@ -38,17 +38,6 @@ select-word-style default
     zstyle ':completion:*' menu select
     zstyle ':completion:*' special-dirs true
     zstyle ':completion:*' ignore-parents parent pwd ..
-    zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
-        /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin
-            zstyle ':completion:*:processes' command 'ps x -o pid,s,args'
-            zstyle ':vcs_info:*' formats '%F{green}(%s)-[%b]%f'
-            zstyle ':vcs_info:*' actionformats '%F{red}(%s)-[%b|%a]%f'
-
-            function _update_vcs_info_msg() {
-                LANG=en_US.UTF-8 vcs_info
-                RPROMPT="${vcs_info_msg_0_}"
-            }
-        add-zsh-hook precmd _update_vcs_info_msg
 
 bindkey '^R' history-incremental-pattern-search-backward
 
