@@ -33,7 +33,7 @@ function! QuitAll()
             " Switch to the window
             call win_gotoid(winid)
             " Close the window without saving changes
-            execute 'close'
+            execute 'quit!'
           endfor
         else
           " If the buffer is not displayed in any window, delete it forcefully
