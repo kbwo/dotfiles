@@ -50,7 +50,7 @@ map J gT
 nmap j gj
 nmap k gk
 nmap Q :call QuitAll()<CR>
-nmap R :join!<CR>
+nmap R :join<CR>
 nmap <Down> gj
 nmap <Up> gk
 nmap + <C-a>
@@ -58,6 +58,7 @@ nmap - <C-x>
 nmap <c-t> :tabnew<CR>
 nmap <Leader>l :lcd %:h<CR>
 nmap <Leader>h :noh<CR>
+nmap <Leader>e<Space> :e!<CR>
 tnoremap <C-\> <C-\><C-n>
 command Sov so ~/.config/nvim/init.vim
 command Cdv vsp ~/dotfiles/.config/nvim/init.vim
@@ -117,6 +118,7 @@ set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
 set clipboard+=unnamedplus
 set diffopt=iwhiteall
 set showtabline=2
+set previewheight=25
 nnoremap gno o<Esc>
 nnoremap gnO O<Esc>
 if has('nvim')
