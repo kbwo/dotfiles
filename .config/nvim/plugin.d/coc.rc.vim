@@ -55,16 +55,9 @@ function! ChoseAction(actions) abort
   return len(result) ? result[0].value : ""
 endfunction
 
-function! CocJumpAction() abort
-  let actions = [
-        \ {"text": "(s)plit", "value": "split"},
-        \ {"text": "(v)slit", "value": "vsplit"},
-        \ {"text": "(t)ab", "value": "tabedit"},
-        \ ]
-  return ChoseAction(actions)
-endfunction
-
-nmap <silent> gd :<C-u>call CocActionAsync('jumpDefinition', CocJumpAction())<CR>
+nmap <silent> <Leader>v<c-d> :call CocActionAsync('jumpDefinition', 'vsplit')<CR>
+nmap <silent> <Leader>s<c-d> :call CocActionAsync('jumpDefinition', 'split')<CR>
+nmap <silent> <Leader>t<c-d> :call CocActionAsync('jumpDefinition', 'tabe')<CR>
 nmap <silent> <Leader>vci :call CocActionAsync('jumpImplementation', 'vsplit')<CR>
 nmap <silent> <Leader>sci :call CocActionAsync('jumpImplementation', 'split')<CR>
 nmap <silent> <Leader>tci :call CocActionAsync('jumpImplementation', 'tabe')<CR>
