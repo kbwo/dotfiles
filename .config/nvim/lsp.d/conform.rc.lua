@@ -12,12 +12,7 @@ eslint_d.cwd = util.root_file({
   "eslintrc.json",
 })
 
-local is_available = function(name, bufnr)
-  return require("conform").get_formatter_info(name, bufnr).available
-end
-
 local eslint_or_prettier_or_lsp = { "eslint_d", "prettierd", "prettier" }
-local stylua_or_lsp = { "stylua" }
 
 require("conform").setup({
   log_level = vim.log.levels.DEBUG,

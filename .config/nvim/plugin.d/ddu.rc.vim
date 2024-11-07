@@ -63,32 +63,6 @@ nmap <Leader>rr :RgFind ignore
 nmap <Leader>rn :RgFind noignore 
 
 
-command! Symbols call ddu#start({
-    \   'ui': 'ff',
-    \   'sources': [{'name': 'coc-symbols', 'params': {'symbols': g:CocAction('documentSymbols'), 'filePath': expand('%:p')}}],
-    \   'kindOptions': {
-    \     'file': {
-    \       'defaultAction': 'open',
-    \     },
-    \   }
-    \ })
-nmap csm :Symbols<CR>
-command! Diagnostics call ddu#start({
-    \   'ui': 'ff',
-    \   'sources': [{'name': 'coc-diagnostics'}],
-    \ })
-nmap <Leader>id :Diagnostics<CR>
-
-let g:coc_enable_locationlist = 0
-autocmd! User CocLocationsChange call ddu#start({
-    \   'ui': 'ff',
-    \   'sources': [{'name': 'coc-locations', 'params': {}}],
-    \   'sourceOptions': {
-    \     '_': {
-    \       'matchers': ['matcher_fzf'],
-    \     },
-    \   },
-    \ })
 
 function! StartDduNoIgnore() abort
   if &filetype == 'fern'
@@ -179,3 +153,50 @@ function TabFind() abort
       \   }
 	   \ })
 endfunction
+
+nmap <silent><c-d> :call ddu#start(#{
+      \  ui: 'ff',
+      \ sync: v:true,
+      \ sources: [#{
+      \   name: 'lsp_definition',
+      \ }],
+      \})<CR>
+nmap <silent>gr :call ddu#start(#{
+      \  ui: 'ff',
+      \ sync: v:true,
+      \ sources: [#{
+      \   name: 'lsp_references',
+      \ }],
+      \})<CR>
+nmap <silent>csm :call ddu#start(#{
+      \  ui: 'ff',
+      \ sync: v:true,
+      \  uiParams: #{
+      \     ff: #{
+      \       displayTree: v:true
+      \     },
+      \  },
+      \ sources: [#{
+      \   name: 'lsp_documentSymbol',
+      \ }],
+      \ sourceOptions: #{
+      \   lsp: #{
+      \     volatile: v:true,
+      \   },
+      \ },
+      \})<CR>
+nmap <silent>csw :call ddu#start(#{
+      \  ui: 'ff',
+      \ sync: v:true,
+      \ sources: [#{
+      \   name: 'lsp_workspaceSymbol',
+      \ }],
+      \})<CR>
+nmap <silent><Leader>id :call ddu#start(#{
+      \ sources: [#{
+      \   name: 'lsp_diagnostic',
+      \   params: #{
+      \     buffer: 0,
+      \   }
+      \ }],
+      \})<CR>
