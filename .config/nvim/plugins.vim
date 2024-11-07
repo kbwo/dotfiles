@@ -56,6 +56,8 @@ Plug 'stevearc/conform.nvim'
 Plug 'mfussenegger/nvim-dap'
 Plug 'jake-stewart/multicursor.nvim'
 
+Plug 'EgZvor/vim-fluffy'
+
 if executable("yarn")
   Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 else
