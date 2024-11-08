@@ -44,64 +44,12 @@ mason_lspconfig.setup({
     'intelephense',
     'jsonls',
     'prismals',
+    'ts_ls',
     'rust_analyzer',
     'vimls',
     'zls'
   }
 })
-
-local on_attach = function(client, bufnr)
-  require('navigator.lspclient.mapping').setup({ client = client, bufnr = bufnr }) -- setup navigator keymaps here,
-  require("navigator.dochighlight").documentHighlight(bufnr)
-  -- require('navigator.codeAction').code_action_prompt(bufnr)
-end
-
-local rt_opts = {
-  tools = {
-    runnables = {
-      use_telescope = true,
-    },
-    inlay_hints = {
-      auto = true,
-      show_parameter_hints = false,
-      parameter_hints_prefix = "",
-      other_hints_prefix = "",
-    },
-  },
-
-  -- all the opts to send to nvim-lspconfig
-  -- these override the defaults set by rust-tools.nvim
-  -- see https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#rust_analyzer
-  server = {
-    -- on_attach is a callback called when the language server attachs to the buffer
-    on_attach = on_attach,
-    settings = {
-      -- to enable rust-analyzer settings visit:
-      -- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
-      ["rust-analyzer"] = {
-        cargo = {
-          features = "all",
-          buildScripts = {
-            enable = true
-          }
-        },
-        -- enable clippy on save
-        checkOnSave = {
-          command = "clippy",
-        },
-        check = {
-          command = "clippy",
-        },
-        diagnostics = {
-          disabled = {
-            "unresolved-proc-macro",
-            "inactive-code"
-          }
-        }
-      },
-    },
-  },
-}
 
 mason_lspconfig.setup_handlers({
   function(server_name)
@@ -119,7 +67,7 @@ mason_lspconfig.setup_handlers({
     opts.capabilities = update_capabilities(vim.lsp.protocol.make_client_capabilities())
     -- vim.api.nvim_echo({{'server_name'}, {server_name, 'warningmsg'}}, true, {})
 
-    if server_name == 'vtsls' or server_name == 'tsserver' or server_name == "eslint" then
+    if server_name == 'vtsls' or server_name == "ts_ls" or server_name == "eslint" then
       -- if not is_node_repo then
       --   return
       -- end
@@ -167,20 +115,75 @@ mason_lspconfig.setup_handlers({
             client.notify("$/onDidChangeTsOrJsFile", { uri = ctx.match })
           end,
         })
-        on_attach(client, bufnr)
       end
-    else
-      opts.on_attach = on_attach
     end
 
     nvim_lsp[server_name].setup(opts)
   end,
-  ["rust_analyzer"] = function() end,
+  ["rust_analyzer"] = function()
+  end,
+  ["ts_ls"] = function()
+  end
 })
 
-vim.g.rustaceanvim = rt_opts
+vim.g.rustaceanvim = {
+  tools = {
+    runnables = {
+      use_telescope = true,
+    },
+    inlay_hints = {
+      auto = true,
+      show_parameter_hints = false,
+      parameter_hints_prefix = "",
+      other_hints_prefix = "",
+    },
+  },
+
+  -- all the opts to send to nvim-lspconfig
+  -- these override the defaults set by rust-tools.nvim
+  -- see https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#rust_analyzer
+  server = {
+    settings = {
+      -- to enable rust-analyzer settings visit:
+      -- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
+      ["rust-analyzer"] = {
+        cargo = {
+          features = "all",
+          buildScripts = {
+            enable = true
+          }
+        },
+        -- enable clippy on save
+        checkOnSave = {
+          command = "clippy",
+        },
+        check = {
+          command = "clippy",
+        },
+        diagnostics = {
+          disabled = {
+            "unresolved-proc-macro",
+            "inactive-code"
+          }
+        }
+      },
+    },
+  },
+}
 lspconfig.coffeesense.setup({
-  on_attach = on_attach,
   capabilities = update_capabilities(vim.lsp.protocol.make_client_capabilities()),
 })
 
+vim.diagnostic.config({virtual_text = false})
+
+
+require("typescript-tools").setup ({})
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = {"typescript", "typescriptreact", "javascript", "javascriptreact"},
+  callback = function()
+    vim.api.nvim_buf_set_keymap(0, "n", "cco", ":TSToolsAddMissingImports<CR>", { noremap = true, silent = true })
+
+    vim.api.nvim_buf_set_keymap(0, "n", "ccr", ":TSToolsRemoveUnusedImports<CR>", { noremap = true, silent = true })
+  end,
+})

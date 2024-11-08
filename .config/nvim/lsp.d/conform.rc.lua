@@ -28,7 +28,7 @@ require("conform").setup({
     rust = { "rustfmt" },
   },
   format_on_save = {
-    -- I recommend these options. See :help conform.format for details.
+    -- Recommended options. See :help conform.format for details.
     lsp_fallback = true,
     timeout_ms = 500,
   },
@@ -45,3 +45,5 @@ vim.api.nvim_create_user_command("Format", function(args)
   end
   require("conform").format({ async = true, lsp_fallback = true, range = range })
 end, { range = true })
+
+vim.keymap.set("n", "ccf", ":Format<CR>, {silent = true}")

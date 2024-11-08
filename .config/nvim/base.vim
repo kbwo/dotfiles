@@ -55,7 +55,8 @@ nmap <Down> gj
 nmap <Up> gk
 nmap + <C-a>
 nmap - <C-x>
-nmap <c-t> :tabnew<CR>
+" tabnew and preserve cursor position
+nmap <c-t> :tab split<CR>
 nmap <Leader>l :lcd %:h<CR>
 nmap <Leader>h :noh<CR>
 nmap <Leader>e<Space> :e!<CR>
@@ -119,6 +120,7 @@ set clipboard+=unnamedplus
 set diffopt=iwhiteall
 set showtabline=2
 set previewheight=25
+set pumheight=30
 nnoremap gno o<Esc>
 nnoremap gnO O<Esc>
 if has('nvim')
@@ -250,3 +252,6 @@ function! YankRelativePath()
 endfunction
 
 nnoremap <silent> <leader>yp :call YankRelativePath()<CR>
+
+nmap <Leader>w :noa w<CR>
+

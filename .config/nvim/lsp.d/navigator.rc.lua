@@ -1,128 +1,167 @@
-local key_maps = {
-  {
-    key = 'csd',
-    func = vim.lsp.buf.hover,
-    desc = 'hover'
+-- local capabilities = vim.lsp.protocol.make_client_capabilities()
+-- capabilities.textDocument.completion.completionItem.snippetSupport = true
+--
+-- require 'navigator'.setup({
+--   default_mapping = false,
+--   icons = {
+--     icons = false,
+--     code_action_icon = '',
+--   },
+--   mason = true,
+--   keymaps = key_maps,
+--   lsp = {
+--     disable_lsp = "all",
+--     code_action = {
+--       virtual_text = false,
+--       enable = false,
+--     },
+--     display_diagnostic_qf = false,
+--     diagnostic_virtual_text = false,
+--     diagnostic = {
+--       float = {
+--         focusable = true,
+--       }
+--     },
+--     cssmodules_ls = {
+--       on_attach = function(client, bufnr)
+--         print("Disabling document format")
+--         client.resolved_capabilities.document_formatting = false
+--       end,
+--       capabilities = capabilities,
+--     },
+--     eslint = {
+--       on_attach = function(client, bufnr)
+--         print("Disabling document format")
+--         client.resolved_capabilities.document_formatting = false
+--       end,
+--       capabilities = capabilities,
+--     },
+--     tsserver = {
+--       on_attach = function(client, bufnr)
+--         print("Disabling document format")
+--         client.resolved_capabilities.document_formatting = false
+--       end,
+--       capabilities = capabilities,
+--     },
+--     cssls = {
+--       on_attach = function(client, bufnr)
+--         print("Disabling document format")
+--         client.resolved_capabilities.document_formatting = false
+--       end,
+--       capabilities = capabilities,
+--     },
+--     kotlin_language_server = {
+--       on_attach = function(client, bufnr)
+--         print("Disabling document format")
+--         client.resolved_capabilities.document_formatting = false
+--       end,
+--       capabilities = capabilities,
+--     },
+--     intelephense = {
+--       on_attach = function(client, bufnr)
+--         print("Disabling document format")
+--         client.resolved_capabilities.document_formatting = false
+--       end,
+--     },
+--     format_on_save = false,
+--   },
+-- })
+
+-- require('guihua.maps').setup({
+--   maps = {
+--     jump_to_preview = 'cj',
+--   }
+-- })
+--
+require("actions-preview").setup ({
+  keymap = {
+    close = { "<Esc>", "<C-c>" },
   },
-  -- {
-  --   key = 'gr',
-  --   func = require('navigator.reference').async_ref,
-  --   desc = 'async_ref'
-  -- },
-  {
-    key = 'csn',
-    func = require('navigator.symbols').document_symbols,
-    desc = 'document_symbols',
+  backend = { "nui" }
+})
+
+vim.keymap.set({ "n" }, "cca", require("actions-preview").code_actions)
+
+require("hover").setup {
+  init = function()
+    require("hover.providers.lsp")
+  end,
+  preview_opts = {
+    border = 'single'
   },
-  {
-    key = 'cca',
-    mode = 'n',
-    func = require('navigator.codeAction').code_action,
-    desc = 'code_action',
+  preview_window = false,
+  title = true,
+  mouse_providers = {
+    'LSP'
   },
-  -- { key = '<Leader>re', func = 'rename()' },
-  { key = 'ccn', func = require('navigator.rename').rename, desc = 'rename' },
-  {
-    key = '<Leader>ia',
-    func = require('navigator.diagnostics').show_diagnostics,
-    desc = 'show_diagnostics',
-  },
-  -- {
-  --   key = '<Leader>iw',
-  --   func = require('navigator.diagnostics').show_buf_diagnostics,
-  --   desc = 'show_buf_diagnostics',
-  -- },
-  {
-    key = '<c-l>',
-    func = vim.diagnostic.goto_next,
-    desc = 'next diagnostics',
-  },
-  {
-    key = '<c-h>',
-    func = vim.diagnostic.goto_prev,
-    desc = 'prev diagnostics',
-  },
-  -- { key = '<Space>ff', func = vim.lsp.buf.format, mode = 'n', desc = 'format' },
-  -- { key = '<Space>ff', func = vim.lsp.buf.range_formatting, mode = 'v', desc = 'range format' },
-  -- {
-  --   key = '<Space>gm',
-  --   func = require('navigator.formatting').range_format,
-  --   mode = 'n',
-  --   desc = 'range format operator e.g gmip',
-  -- },
+  mouse_delay = 1000
+}
+vim.keymap.set("n", "csd", require("hover").hover, {desc = "hover.nvim"})
+vim.keymap.set("n", "<c-l>", vim.diagnostic.goto_next)
+vim.keymap.set("n", "<c-h>", vim.diagnostic.goto_prev)
+
+-- https://www.reddit.com/r/neovim/comments/nsfv7h/comment/h0nbh3a/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+local function dorename(win)
+  local new_name = vim.trim(vim.fn.getline('.'))
+  vim.api.nvim_win_close(win, true)
+  vim.lsp.buf.rename(new_name)
+end
+
+local function rename()
+  local opts = {
+    relative = 'cursor',
+    row = 0,
+    col = 0,
+    width = 30,
+    height = 1,
+    style = 'minimal',
+    border = 'single'
+  }
+  local cword = vim.fn.expand('<cword>')
+  local buf = vim.api.nvim_create_buf(false, true)
+  local win = vim.api.nvim_open_win(buf, true, opts)
+  local fmt =  '<cmd>lua Rename.dorename(%d)<CR>'
+
+  vim.api.nvim_buf_set_lines(buf, 0, -1, false, {cword})
+  vim.api.nvim_buf_set_keymap(buf, 'i', '<CR>', string.format(fmt, win), {silent=true})
+end
+
+_G.Rename = {
+   rename = rename,
+   dorename = dorename
 }
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
+vim.keymap.set('n', 'ccn', '<cmd>lua Rename.rename()<CR>, {silent = true}')
 
-require 'navigator'.setup({
-  default_mapping = false,
-  icons = {
-    icons = false,
-    code_action_icon = '',
+require("trouble").setup({
+  focus = true,
+  win = {
+    size = {
+      height = 25,
+    }
   },
-  mason = true,
-  keymaps = key_maps,
-  lsp = {
-    disable_lsp = "all",
-    code_action = {
-      virtual_text = false,
-      enable = false,
+  modes = {
+    split_diag = {
+      mode = "diagnostics",
+      preview = {
+        type = "split",
+        relative = "win",
+        position = "right",
+        size = 0.3,
+      },
     },
-    display_diagnostic_qf = false,
-    diagnostic_virtual_text = false,
-    diagnostic = {
-      float = {
-        focusable = true,
-      }
+    diagnostics = {
+      groups = {
+        { "filename", format = "{basename:Title} {count}" },
+      },
     },
-    cssmodules_ls = {
-      on_attach = function(client, bufnr)
-        print("Disabling document format")
-        client.resolved_capabilities.document_formatting = false
-      end,
-      capabilities = capabilities,
-    },
-    eslint = {
-      on_attach = function(client, bufnr)
-        print("Disabling document format")
-        client.resolved_capabilities.document_formatting = false
-      end,
-      capabilities = capabilities,
-    },
-    tsserver = {
-      on_attach = function(client, bufnr)
-        print("Disabling document format")
-        client.resolved_capabilities.document_formatting = false
-      end,
-      capabilities = capabilities,
-    },
-    cssls = {
-      on_attach = function(client, bufnr)
-        print("Disabling document format")
-        client.resolved_capabilities.document_formatting = false
-      end,
-      capabilities = capabilities,
-    },
-    kotlin_language_server = {
-      on_attach = function(client, bufnr)
-        print("Disabling document format")
-        client.resolved_capabilities.document_formatting = false
-      end,
-      capabilities = capabilities,
-    },
-    intelephense = {
-      on_attach = function(client, bufnr)
-        print("Disabling document format")
-        client.resolved_capabilities.document_formatting = false
-      end,
-    },
-    format_on_save = false,
   },
-})
-
-require('guihua.maps').setup({
-  maps = {
-    jump_to_preview = 'cj',
+  icons = {},
+  keys = {
+    ["<Leader>ss"] = "jump_split",
+    ["<Leader>vv"] = "jump_vsplit",
   }
 })
+
+vim.keymap.set('n', '<leader>id', '<cmd>Trouble split_diag toggle<CR>, {silent = true}')
+

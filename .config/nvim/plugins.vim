@@ -68,6 +68,11 @@ Plug 'j-hui/fidget.nvim', { 'tag': 'legacy' }
 Plug 'ray-x/guihua.lua', {'do': 'cd lua/fzy && make' }
 Plug 'ray-x/navigator.lua'
 
+Plug 'MunifTanjim/nui.nvim'
+Plug 'aznhe21/actions-preview.nvim'
+Plug 'lewis6991/hover.nvim'
+Plug 'folke/trouble.nvim'
+
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
@@ -77,9 +82,15 @@ Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-calc'
 Plug 'uga-rosa/cmp-dictionary'
-Plug 'hedyhli/outline.nvim'
-Plug 'mrcjkb/rustaceanvim'
+Plug 'kristijanhusak/vim-dadbod-completion'
+Plug 'gbprod/yanky.nvim'
+Plug 'chrisgrieser/cmp_yanky'
 " Plug 'kbwo/cmp-yank'
+
+Plug 'stevearc/aerial.nvim'
+
+Plug 'mrcjkb/rustaceanvim'
+Plug 'pmizio/typescript-tools.nvim'
 
 Plug 'EgZvor/vim-fluffy'
 

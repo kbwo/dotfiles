@@ -1,15 +1,9 @@
 local cmp = require("cmp")
+local compare = require("cmp.config.compare")
+
 cmp.setup({
-	preselect = "none",
-	completion = {
-		completeopt = "menu,menuone,noinsert,noselect",
-	},
+	preselect = cmp.PreselectMode.None,
 	-- Enable LSP snippets
-	snippet = {
-		expand = function(args)
-			vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-		end,
-	},
 	mapping = {
 		["<C-p>"] = cmp.mapping.select_prev_item(),
 		["<C-n>"] = cmp.mapping.select_next_item(),
@@ -36,10 +30,11 @@ cmp.setup({
 		{ name = "html-css" },
 		{ name = "crates", keyword_length = 2 },
 		{ name = "nvim_lua", keyword_length = 2 }, -- complete neovim's Lua runtime API such vim.lsp.*
-		{ name = "vsnip" }, -- from language server
 		{ name = "buffer" }, -- source current buffer
-		-- { name = 'dictionary' },
+		{ name = "dictionary", keyword_length = 2 },
 		{ name = "calc" }, -- source for math calculation
+		{ name = "vim-dadbod-completion" }, -- source for math calculation
+		{ name = "chrisgrieser/cmp_yanky" },
 	},
 	window = {
 		completion = cmp.config.window.bordered(),
@@ -50,7 +45,6 @@ cmp.setup({
 		format = function(entry, item)
 			local menu_icon = {
 				nvim_lsp = "λ",
-				-- vsnip = '⋗',
 				buffer = "Ω",
 				path = "🖫",
 			}
@@ -60,16 +54,7 @@ cmp.setup({
 	},
 })
 
-local dict = require("cmp_dictionary")
-
-dict.setup({
-	-- The following are default values.
+require("cmp_dictionary").setup({
+	paths = { "/usr/share/dict/words" },
 	exact_length = 2,
-	first_case_insensitive = false,
-	document = false,
-	document_command = "wn %s -over",
-	async = false,
-	sqlite = false,
-	max_number_items = -1,
-	debug = false,
 })

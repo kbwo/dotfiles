@@ -1,11 +1,9 @@
-let g:ddu_source_lsp_clientName = 'coc.nvim'
 call ddu#custom#patch_global(#{
       \  ui: 'ff',
       \  uiParams: #{
       \     ff: #{
-      \       startAutoAction: v:true,
       \       maxHighlightItems: 10000,
-	    \       previewHeight: 25,
+      \       previewSplit: "vertical",
       \     },
       \  },
       \  sources: [
@@ -160,6 +158,11 @@ nmap <silent><c-d> :call ddu#start(#{
       \ sources: [#{
       \   name: 'lsp_definition',
       \ }],
+      \  uiParams: #{
+      \     ff: #{
+      \       immediateAction: 'open',
+      \     },
+      \  },
       \})<CR>
 nmap <silent>gr :call ddu#start(#{
       \  ui: 'ff',
@@ -184,19 +187,4 @@ nmap <silent>csm :call ddu#start(#{
       \     volatile: v:true,
       \   },
       \ },
-      \})<CR>
-nmap <silent>csw :call ddu#start(#{
-      \  ui: 'ff',
-      \ sync: v:true,
-      \ sources: [#{
-      \   name: 'lsp_workspaceSymbol',
-      \ }],
-      \})<CR>
-nmap <silent><Leader>id :call ddu#start(#{
-      \ sources: [#{
-      \   name: 'lsp_diagnostic',
-      \   params: #{
-      \     buffer: 0,
-      \   }
-      \ }],
       \})<CR>
