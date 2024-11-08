@@ -55,6 +55,6 @@ cmp.setup({
 })
 
 require("cmp_dictionary").setup({
-	paths = { "/usr/share/dict/words" },
+	paths = { "~/.config/nvim/dict/american_english.txt" },
 	exact_length = 2,
 })
