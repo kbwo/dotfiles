@@ -102,7 +102,7 @@ endif
 
 call plug#end()
 
-function! s:load_configurations(directory) abort
+function! LoadConfigurations(directory) abort
   for path in glob(a:directory . '/*.vim', 1, 1, 1)
     execute printf('source %s', fnameescape(path))
   endfor
@@ -113,6 +113,5 @@ function! s:load_configurations(directory) abort
   end
 endfunction
 
-call s:load_configurations('~/dotfiles/.config/nvim/plugin.d')
-call s:load_configurations('~/dotfiles/.config/nvim/lsp.d')
+call LoadConfigurations('~/dotfiles/.config/nvim/plugin.d')
 
