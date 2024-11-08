@@ -36,10 +36,10 @@ Plug 'akinsho/toggleterm.nvim'
 Plug 'jedrzejboczar/possession.nvim'
 Plug 'chenasraf/text-transform.nvim'
 
-Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'npm ci'}
+" Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'npm ci'}
 
 " ddu
-Plug 'kbwo/ddu-source-coc'
+" Plug 'kbwo/ddu-source-coc'
 Plug 'Shougo/ddu.vim'
 Plug 'Shougo/ddu-ui-ff'
 Plug 'Shougo/ddu-source-file_rec'
@@ -62,7 +62,7 @@ Plug 'williamboman/mason.nvim'
 Plug 'williamboman/mason-lspconfig.nvim'
 Plug 'WhoIsSethDaniel/mason-tool-installer.nvim'
 Plug 'neovim/nvim-lspconfig'
-Plug 'simrat39/rust-tools.nvim'
+" Plug 'simrat39/rust-tools.nvim'
 Plug 'j-hui/fidget.nvim', { 'tag': 'legacy' }
 
 Plug 'ray-x/guihua.lua', {'do': 'cd lua/fzy && make' }
@@ -78,6 +78,7 @@ Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-calc'
 Plug 'uga-rosa/cmp-dictionary'
 Plug 'hedyhli/outline.nvim'
+Plug 'mrcjkb/rustaceanvim'
 " Plug 'kbwo/cmp-yank'
 
 Plug 'EgZvor/vim-fluffy'

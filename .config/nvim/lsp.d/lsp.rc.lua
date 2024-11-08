@@ -45,7 +45,6 @@ mason_lspconfig.setup({
     'jsonls',
     'prismals',
     'rust_analyzer',
-    'tsserver',
     'vimls',
     'zls'
   }
@@ -54,7 +53,7 @@ mason_lspconfig.setup({
 local on_attach = function(client, bufnr)
   require('navigator.lspclient.mapping').setup({ client = client, bufnr = bufnr }) -- setup navigator keymaps here,
   require("navigator.dochighlight").documentHighlight(bufnr)
-  require('navigator.codeAction').code_action_prompt(bufnr)
+  -- require('navigator.codeAction').code_action_prompt(bufnr)
 end
 
 local rt_opts = {
@@ -176,11 +175,10 @@ mason_lspconfig.setup_handlers({
 
     nvim_lsp[server_name].setup(opts)
   end,
-  ["rust_analyzer"] = function()
-    require("rust-tools").setup(rt_opts)
-  end,
+  ["rust_analyzer"] = function() end,
 })
 
+vim.g.rustaceanvim = rt_opts
 lspconfig.coffeesense.setup({
   on_attach = on_attach,
   capabilities = update_capabilities(vim.lsp.protocol.make_client_capabilities()),
