@@ -28,7 +28,7 @@
       .replace(/[\[\]]/g, "");
     const url = document.URL;
     if (e.ctrlKey && e.altKey && (e.key === "c" || e.code === "KeyC")) {
-      copy(`${title}\n${url}`);
+      copy(`[${title}](${url})`);
     }
     if (e.ctrlKey && e.altKey && (e.key === "s" || e.code === "KeyS")) {
       copy(`${title} ${url}`);
