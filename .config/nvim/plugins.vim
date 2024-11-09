@@ -64,16 +64,23 @@ Plug 'williamboman/mason.nvim'
 Plug 'williamboman/mason-lspconfig.nvim'
 Plug 'WhoIsSethDaniel/mason-tool-installer.nvim'
 Plug 'neovim/nvim-lspconfig'
-" Plug 'simrat39/rust-tools.nvim'
-Plug 'j-hui/fidget.nvim', { 'tag': 'legacy' }
+" language specific improvement
+Plug 'mrcjkb/rustaceanvim'
+Plug 'pmizio/typescript-tools.nvim'
 
+" neovim lsp ui
+" dependency
 Plug 'MunifTanjim/nui.nvim'
+" notification
+Plug 'j-hui/fidget.nvim', { 'tag': 'legacy' }
 " code action
 Plug 'aznhe21/actions-preview.nvim'
 " hover
 Plug 'lewis6991/hover.nvim'
 " diagnostics
 Plug 'folke/trouble.nvim'
+" outline
+Plug 'stevearc/aerial.nvim'
 
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-nvim-lsp'
@@ -87,13 +94,10 @@ Plug 'uga-rosa/cmp-dictionary'
 Plug 'kristijanhusak/vim-dadbod-completion'
 Plug 'gbprod/yanky.nvim'
 Plug 'chrisgrieser/cmp_yanky'
+Plug 'SergioRibera/cmp-dotenv'
+Plug 'ray-x/cmp-treesitter'
+Plug 'davidsierradz/cmp-conventionalcommits'
 " Plug 'kbwo/cmp-yank'
-
-Plug 'stevearc/aerial.nvim'
-
-" language specific improvement
-Plug 'mrcjkb/rustaceanvim'
-Plug 'pmizio/typescript-tools.nvim'
 
 Plug 'EgZvor/vim-fluffy'
 
