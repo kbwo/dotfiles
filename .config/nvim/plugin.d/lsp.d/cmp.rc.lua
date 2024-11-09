@@ -30,7 +30,6 @@ cmp.setup({
 		{ name = "html-css" },
 		{ name = "crates", keyword_length = 2 },
 		{ name = "nvim_lua", keyword_length = 2 }, -- complete neovim's Lua runtime API such vim.lsp.*
-		{ name = "conventionalcommits" }, -- source current buffer
 		{ name = "dotenv" }, -- source current buffer
 		{ name = "buffer" }, -- source current buffer
 		{ name = "chrisgrieser/cmp_yanky" },

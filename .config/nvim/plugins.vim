@@ -96,7 +96,6 @@ Plug 'gbprod/yanky.nvim'
 Plug 'chrisgrieser/cmp_yanky'
 Plug 'SergioRibera/cmp-dotenv'
 Plug 'ray-x/cmp-treesitter'
-Plug 'davidsierradz/cmp-conventionalcommits'
 " Plug 'kbwo/cmp-yank'
 
 Plug 'EgZvor/vim-fluffy'
