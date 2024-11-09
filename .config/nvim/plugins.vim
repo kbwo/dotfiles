@@ -52,11 +52,13 @@ Plug 'matsui54/ddu-source-file_external'
 Plug 'uga-rosa/ddu-source-lsp'
 Plug 'kamecha/ddu-source-window'
 
-Plug 'stevearc/conform.nvim'
 Plug 'mfussenegger/nvim-dap'
 Plug 'jake-stewart/multicursor.nvim'
 
-" neovim-lsp
+" formatter
+Plug 'stevearc/conform.nvim'
+
+" neovim lsp
 Plug 'neovim/nvim-lspconfig'
 Plug 'williamboman/mason.nvim'
 Plug 'williamboman/mason-lspconfig.nvim'
@@ -65,12 +67,12 @@ Plug 'neovim/nvim-lspconfig'
 " Plug 'simrat39/rust-tools.nvim'
 Plug 'j-hui/fidget.nvim', { 'tag': 'legacy' }
 
-Plug 'ray-x/guihua.lua', {'do': 'cd lua/fzy && make' }
-Plug 'ray-x/navigator.lua'
-
 Plug 'MunifTanjim/nui.nvim'
+" code action
 Plug 'aznhe21/actions-preview.nvim'
+" hover
 Plug 'lewis6991/hover.nvim'
+" diagnostics
 Plug 'folke/trouble.nvim'
 
 Plug 'hrsh7th/nvim-cmp'
@@ -89,6 +91,7 @@ Plug 'chrisgrieser/cmp_yanky'
 
 Plug 'stevearc/aerial.nvim'
 
+" language specific improvement
 Plug 'mrcjkb/rustaceanvim'
 Plug 'pmizio/typescript-tools.nvim'
 
