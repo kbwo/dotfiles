@@ -9,7 +9,8 @@ require 'nvim-treesitter.configs'.setup {
     "markdown",
     "markdown_inline",
     "rust",
-    "json"
+    "json",
+    "diff"
   },
   context_commentstring = {
     enable = true,
