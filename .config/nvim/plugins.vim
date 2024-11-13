@@ -24,7 +24,7 @@ Plug 'nvim-lua/plenary.nvim'
 " Plug 'zbirenbaum/copilot.lua'
 " Plug 'CopilotC-Nvim/CopilotChat.nvim', { 'branch': 'canary' }
 Plug 'Exafunction/codeium.vim', { 'branch': 'main' }
-Plug 'mhinz/vim-signify'
+Plug 'lewis6991/gitsigns.nvim'
 Plug 'NvChad/nvim-colorizer.lua'
 Plug 'rebelot/kanagawa.nvim'
 Plug 'phaazon/hop.nvim'
