@@ -54,6 +54,7 @@ export PATH=$PATH:$HOME/$ANDROID_HOME/emulator
 export PATH=$PATH:$HOME/$ANDROID_HOME/tools
 export PATH=$PATH:$HOME/$ANDROID_HOME/tools/bin
 export PATH=$PATH:$HOME/$ANDROID_HOME/platform-tools
+export PATH=$PATH:$HOME/Library/Android/sdk/platform-tools
 export PATH=$PATH:$JAVA_HOME/bin
 export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:$PYENV_ROOT/bin

@@ -158,11 +158,6 @@ nmap <silent><c-d> :call ddu#start(#{
       \ sources: [#{
       \   name: 'lsp_definition',
       \ }],
-      \  uiParams: #{
-      \     ff: #{
-      \       immediateAction: 'open',
-      \     },
-      \  },
       \})<CR>
 nmap <silent>gr :call ddu#start(#{
       \  ui: 'ff',
