@@ -2,8 +2,25 @@ vim.keymap.set("n", "<leader>is", "<cmd>AerialToggle<CR>", { desc = "Toggle Outl
 require("aerial").setup({
 	layout = {
 		min_width = 55,
+		placement = "edge",
+		default_direction = "right",
 	},
-	placement = "edge",
+	filter_kind = {
+		"Class",
+		"Constant",
+		"Constructor",
+		"Enum",
+		"EnumMember",
+		"Field",
+		"Function",
+		"Interface",
+		"Method",
+		"Module",
+		"Namespace",
+		"Package",
+		"Property",
+		"Struct",
+	},
 	backends = { "treesitter", "lsp", "markdown", "asciidoc", "man" },
 })
 
