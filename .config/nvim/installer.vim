@@ -3,12 +3,6 @@ if !executable("curl")
   execute "q!"
 endif
 
-if !executable("cargo")
-  echo "Installing rustup..."
-  echo ""
-  silent !\curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-endif
-
 " install vim-plug and plugins after install of necessary commands
 if !filereadable(expand('~/.vim/autoload/plug.vim'))
   echo "Installing Vim-Plug..."
