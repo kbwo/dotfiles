@@ -1,112 +1,111 @@
-" plugin
-call plug#begin(expand('~/.vim/plugged'))
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-lualine/lualine.nvim'
-Plug 'tpope/vim-surround'
-Plug 'mattn/emmet-vim'
-Plug 'JoosepAlviste/nvim-ts-context-commentstring'
-Plug 'numToStr/Comment.nvim'
-Plug 'Raimondi/delimitMate'
-Plug 'tpope/vim-dadbod'
-Plug 'kristijanhusak/vim-dadbod-ui'
-Plug 'glidenote/memolist.vim'
-Plug 'tyru/eskk.vim'
-Plug 'tyru/open-browser.vim'
-Plug 'simeji/winresizer'
-Plug 'windwp/nvim-ts-autotag'
-Plug 'vim-denops/denops.vim'
-Plug 'lambdalisue/gin.vim'
-Plug 'machakann/vim-sandwich'
-Plug 'kchmck/vim-coffee-script'
-Plug 'lambdalisue/fern.vim'
-Plug 'Bakudankun/BackAndForward.vim'
-Plug 'nvim-lua/plenary.nvim'
-" Plug 'zbirenbaum/copilot.lua'
-" Plug 'CopilotC-Nvim/CopilotChat.nvim', { 'branch': 'canary' }
-Plug 'Exafunction/codeium.vim', { 'branch': 'main' }
-Plug 'lewis6991/gitsigns.nvim'
-Plug 'NvChad/nvim-colorizer.lua'
-Plug 'rebelot/kanagawa.nvim'
-Plug 'phaazon/hop.nvim'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'lukas-reineke/indent-blankline.nvim'
-Plug 'andrewferrier/debugprint.nvim'
-Plug 'sindrets/diffview.nvim'
-Plug 'akinsho/toggleterm.nvim'
-Plug 'jedrzejboczar/possession.nvim'
-Plug 'chenasraf/text-transform.nvim'
+packadd vim-jetpack
 
-" Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'npm ci'}
+call jetpack#begin(expand('~/.vim/jetpack'))
+Jetpack 'tani/vim-jetpack', {'opt': 1} "bootstrap
+
+Jetpack 'nvim-lua/plenary.nvim'
+Jetpack 'nvim-lualine/lualine.nvim'
+Jetpack 'tpope/vim-surround'
+Jetpack 'mattn/emmet-vim'
+Jetpack 'JoosepAlviste/nvim-ts-context-commentstring'
+Jetpack 'numToStr/Comment.nvim'
+Jetpack 'Raimondi/delimitMate'
+Jetpack 'tpope/vim-dadbod'
+Jetpack 'kristijanhusak/vim-dadbod-ui'
+Jetpack 'glidenote/memolist.vim'
+Jetpack 'tyru/eskk.vim'
+Jetpack 'tyru/open-browser.vim'
+Jetpack 'simeji/winresizer'
+Jetpack 'windwp/nvim-ts-autotag'
+Jetpack 'vim-denops/denops.vim'
+Jetpack 'lambdalisue/gin.vim'
+Jetpack 'machakann/vim-sandwich'
+Jetpack 'kchmck/vim-coffee-script'
+Jetpack 'lambdalisue/fern.vim'
+Jetpack 'Bakudankun/BackAndForward.vim'
+Jetpack 'nvim-lua/plenary.nvim'
+" Jetpack 'zbirenbaum/copilot.lua'
+" Jetpack 'CopilotC-Nvim/CopilotChat.nvim', { 'branch': 'canary' }
+Jetpack 'Exafunction/codeium.vim', { 'branch': 'main' }
+Jetpack 'lewis6991/gitsigns.nvim'
+Jetpack 'NvChad/nvim-colorizer.lua'
+Jetpack 'rebelot/kanagawa.nvim'
+Jetpack 'phaazon/hop.nvim'
+Jetpack 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Jetpack 'lukas-reineke/indent-blankline.nvim'
+Jetpack 'andrewferrier/debugprint.nvim'
+Jetpack 'sindrets/diffview.nvim'
+Jetpack 'akinsho/toggleterm.nvim'
+Jetpack 'jedrzejboczar/possession.nvim'
+Jetpack 'chenasraf/text-transform.nvim'
+
+" Jetpack 'neoclide/coc.nvim', {'branch': 'master', 'do': 'npm ci'}
 
 " ddu
-" Plug 'kbwo/ddu-source-coc'
-Plug 'Shougo/ddu.vim'
-Plug 'Shougo/ddu-ui-ff'
-Plug 'Shougo/ddu-source-file_rec'
-Plug 'Shougo/ddu-filter-matcher_substring'
-Plug 'Shougo/ddu-kind-file'
-Plug 'shun/ddu-source-rg'
-Plug 'yuki-yano/ddu-filter-fzf'
-Plug 'shun/ddu-source-buffer'
-Plug 'matsui54/ddu-source-file_external'
-Plug 'uga-rosa/ddu-source-lsp'
-Plug 'kamecha/ddu-source-window'
+" Jetpack 'kbwo/ddu-source-coc'
+Jetpack 'Shougo/ddu.vim'
+Jetpack 'Shougo/ddu-ui-ff'
+Jetpack 'Shougo/ddu-source-file_rec'
+Jetpack 'Shougo/ddu-filter-matcher_substring'
+Jetpack 'Shougo/ddu-kind-file'
+Jetpack 'shun/ddu-source-rg'
+Jetpack 'yuki-yano/ddu-filter-fzf'
+Jetpack 'shun/ddu-source-buffer'
+Jetpack 'matsui54/ddu-source-file_external'
+Jetpack 'uga-rosa/ddu-source-lsp'
+Jetpack 'kamecha/ddu-source-window'
 
-Plug 'mfussenegger/nvim-dap'
-Plug 'jake-stewart/multicursor.nvim'
+Jetpack 'mfussenegger/nvim-dap'
+Jetpack 'jake-stewart/multicursor.nvim'
 
 " formatter
-Plug 'stevearc/conform.nvim'
+Jetpack 'stevearc/conform.nvim'
 
 " neovim lsp
-Plug 'neovim/nvim-lspconfig'
-Plug 'williamboman/mason.nvim'
-Plug 'williamboman/mason-lspconfig.nvim'
-Plug 'WhoIsSethDaniel/mason-tool-installer.nvim'
-Plug 'neovim/nvim-lspconfig'
+Jetpack 'neovim/nvim-lspconfig'
+Jetpack 'williamboman/mason.nvim'
+Jetpack 'williamboman/mason-lspconfig.nvim'
+Jetpack 'WhoIsSethDaniel/mason-tool-installer.nvim'
+Jetpack 'neovim/nvim-lspconfig'
 " language specific improvement
-Plug 'mrcjkb/rustaceanvim'
-Plug 'pmizio/typescript-tools.nvim'
+Jetpack 'mrcjkb/rustaceanvim'
+Jetpack 'pmizio/typescript-tools.nvim'
 
 " neovim lsp ui
 " dependency
-Plug 'MunifTanjim/nui.nvim'
+Jetpack 'MunifTanjim/nui.nvim'
 " notification
-Plug 'j-hui/fidget.nvim', { 'tag': 'legacy' }
+Jetpack 'j-hui/fidget.nvim', { 'tag': 'legacy' }
 " code action
-Plug 'aznhe21/actions-preview.nvim'
+Jetpack 'aznhe21/actions-preview.nvim'
 " hover
-Plug 'lewis6991/hover.nvim'
+Jetpack 'lewis6991/hover.nvim'
 " diagnostics
-Plug 'folke/trouble.nvim'
+Jetpack 'folke/trouble.nvim'
 " outline
-Plug 'stevearc/aerial.nvim'
+Jetpack 'stevearc/aerial.nvim'
 
-Plug 'hrsh7th/nvim-cmp'
-Plug 'hrsh7th/cmp-nvim-lsp'
-Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
-Plug 'hrsh7th/cmp-nvim-lsp-document-symbol'
-Plug 'hrsh7th/cmp-emoji'
-Plug 'hrsh7th/cmp-path'
-Plug 'hrsh7th/cmp-buffer'
-Plug 'hrsh7th/cmp-calc'
-Plug 'uga-rosa/cmp-dictionary'
-Plug 'kristijanhusak/vim-dadbod-completion'
-Plug 'gbprod/yanky.nvim'
-Plug 'chrisgrieser/cmp_yanky'
-Plug 'SergioRibera/cmp-dotenv'
-Plug 'ray-x/cmp-treesitter'
-" Plug 'kbwo/cmp-yank'
+Jetpack 'hrsh7th/nvim-cmp'
+Jetpack 'hrsh7th/cmp-nvim-lsp'
+Jetpack 'hrsh7th/cmp-nvim-lsp-signature-help'
+Jetpack 'hrsh7th/cmp-nvim-lsp-document-symbol'
+Jetpack 'hrsh7th/cmp-emoji'
+Jetpack 'hrsh7th/cmp-path'
+Jetpack 'hrsh7th/cmp-buffer'
+Jetpack 'hrsh7th/cmp-calc'
+Jetpack 'uga-rosa/cmp-dictionary'
+Jetpack 'kristijanhusak/vim-dadbod-completion'
+Jetpack 'gbprod/yanky.nvim'
+Jetpack 'chrisgrieser/cmp_yanky'
+Jetpack 'SergioRibera/cmp-dotenv'
+Jetpack 'ray-x/cmp-treesitter'
+" Jetpack 'kbwo/cmp-yank'
 
-Plug 'EgZvor/vim-fluffy'
+Jetpack 'EgZvor/vim-fluffy'
 
-if executable("yarn")
-  Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
-else
-  Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
-endif
+Jetpack 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 
-call plug#end()
+call jetpack#end()
 
 function! LoadConfigurations(directory) abort
   for path in glob(a:directory . '/*.vim', 1, 1, 1)
