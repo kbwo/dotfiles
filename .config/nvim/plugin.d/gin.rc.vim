@@ -16,12 +16,18 @@ nmap gnh :Gin checkout -b
 nmap gnps :Gin push
 nmap gnpl :Gin pull<CR>
 nmap gnam :Gin commit --amend<CR>
-nmap gnl<Space> :GinLog --oneline --graph -n 1000<CR>
+nmap gnl<Space> :GinLog --graph -n 1000<CR>
 nmap gnlp :GinLog -p -n 100<CR>
-nmap gnls :GinLog --oneline --graph -n 1000 ++opener=split<CR>
-nmap gnlv :GinLog --oneline --graph -n 1000 ++opener=vsplit<CR>
-nmap gnlt :GinLog --oneline --graph -n 1000 ++opener=tabedit<CR>
+nmap gnls :GinLog --graph -n 1000 ++opener=split<CR>
+nmap gnlv :GinLog --graph -n 1000 ++opener=vsplit<CR>
+nmap gnlt :GinLog --graph -n 1000 ++opener=tabedit<CR>
 nmap gnw :GinBrowse<CR>
+
+let g:gin_log_persistent_args = [
+      \ '++emojify',
+      \ '--pretty=%C(yellow)%h%C(reset)%C(auto)%d%C(reset) %s %C(cyan)@%an%C(reset) %C(magenta)[%ar]%C(reset)',
+      \]
+
 
 function! CurrentFileLog() abort
   execute 'GinLog --graph -p ++opener=vsplit -- ' . expand('%:p')
