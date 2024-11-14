@@ -48,7 +48,7 @@ cmp.setup({
 			local menu_icon = {
 				nvim_lsp = "λ",
 				buffer = "Ω",
-				path = "🖫",
+				path = "Π",
 			}
 			item.menu = menu_icon[entry.source.name]
 			return item
