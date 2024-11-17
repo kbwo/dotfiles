@@ -32,6 +32,20 @@ matches:
         type: date
         params:
           format: "%Y-%m-%d"
+  - trigger: ":w;"
+    replace: "{{week}}"
+    vars:
+      - name: week
+        type: date
+        params:
+          format: "%U"
+  - trigger: ":yw;"
+    replace: "{{yearweek}}"
+    vars:
+      - name: yearweek
+        type: date
+        params:
+          format: "%Y-W%U"
   # Emoji
   - trigger: ":ok;"
     replace: "👍"
