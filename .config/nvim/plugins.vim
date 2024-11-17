@@ -67,6 +67,7 @@ Jetpack 'williamboman/mason.nvim'
 Jetpack 'williamboman/mason-lspconfig.nvim'
 Jetpack 'WhoIsSethDaniel/mason-tool-installer.nvim'
 Jetpack 'neovim/nvim-lspconfig'
+Jetpack 'kyoh86/climbdir.nvim'
 " language specific improvement
 Jetpack 'mrcjkb/rustaceanvim'
 Jetpack 'pmizio/typescript-tools.nvim'

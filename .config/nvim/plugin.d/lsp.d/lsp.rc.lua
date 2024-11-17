@@ -79,7 +79,6 @@ mason_lspconfig.setup({
     'gopls',
     'graphql',
     'html',
-    'intelephense',
     'jsonls',
     'prismals',
     'ts_ls',
@@ -89,17 +88,20 @@ mason_lspconfig.setup({
   }
 })
 
+function IsNodeRepo()
+  local node_root_dir = nvim_lsp.util.root_pattern('package.json')
+  function HasPackageJson()
+    local current_directory = vim.fn.getcwd()
+    local package_json_path = current_directory .. '/package.json'
+    return vim.fn.filereadable(package_json_path) == 1
+  end
+
+  local is_node_repo = node_root_dir(vim.api.nvim_buf_get_name(0)) ~= nil or HasPackageJson()
+  return is_node_repo
+end
+
 mason_lspconfig.setup_handlers({
   function(server_name)
-    local node_root_dir = nvim_lsp.util.root_pattern('package.json')
-    function HasPackageJson()
-      local current_directory = vim.fn.getcwd()
-      local package_json_path = current_directory .. '/package.json'
-      return vim.fn.filereadable(package_json_path) == 1
-    end
-
-    local is_node_repo = node_root_dir(vim.api.nvim_buf_get_name(0)) ~= nil or HasPackageJson()
-
     local opts = {}
 
     opts.capabilities = update_capabilities(vim.lsp.protocol.make_client_capabilities())
@@ -124,7 +126,7 @@ mason_lspconfig.setup_handlers({
         }
       }
     elseif server_name == 'denols' then
-      if is_node_repo then
+      if IsNodeRepo() then
         return
       end
 
@@ -161,6 +163,9 @@ mason_lspconfig.setup_handlers({
   ["rust_analyzer"] = function()
   end,
   ["ts_ls"] = function()
+    if not IsNodeRepo() then
+      return
+    end
   end
 })
 
@@ -212,13 +217,13 @@ lspconfig.coffeesense.setup({
   capabilities = update_capabilities(vim.lsp.protocol.make_client_capabilities()),
 })
 
-vim.diagnostic.config({virtual_text = false})
+vim.diagnostic.config({ virtual_text = false })
 
 
-require("typescript-tools").setup ({})
+require("typescript-tools").setup({})
 
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = {"typescript", "typescriptreact", "javascript", "javascriptreact"},
+  pattern = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
   callback = function()
     vim.api.nvim_buf_set_keymap(0, "n", "cco", ":TSToolsAddMissingImports<CR>", { noremap = true, silent = true })
 
@@ -234,7 +239,7 @@ configs.testing_ls = {
   default_config = {
     cmd = { "testing-language-server" },
     filetypes = {},
-    root_dir = util.root_pattern(".testingls.toml", ".git" ),
+    root_dir = util.root_pattern(".testingls.toml", ".git"),
   },
   docs = {
     description = [[
@@ -245,4 +250,28 @@ configs.testing_ls = {
   },
 }
 
-lspconfig.testing_ls.setup{}
+lspconfig.testing_ls.setup {}
+
+-- A better way to separate lsp running between denols and tsserver. · Issue  https://github.com/pmizio/typescript-tools.nvim/issues/248
+require("typescript-tools").setup {
+  on_attach = function(client)
+    -- Disable document formatting capabilities
+    client.server_capabilities.documentFormattingProvider = false
+    client.server_capabilities.documentRangeFormattingProvider = false
+  end,
+  root_dir = function(path)
+    local marker = require("climbdir.marker")
+    -- Determine the root directory based on the presence of package.json or node_modules
+    return require("climbdir").climb(path,
+      marker.one_of(marker.has_readable_file("package.json"), marker.has_directory("node_modules")), {
+        -- Stop the plugin if any of the specified files/folders are found
+        halt = marker.one_of(
+          marker.has_readable_file("deno.json"),
+          marker.has_readable_file("deno.jsonc"),
+          marker.has_readable_file("import_map.json"),
+          marker.has_directory("denops")
+        ),
+      })
+  end,
+  single_file_support = false,
+}
