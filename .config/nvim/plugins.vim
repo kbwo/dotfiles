@@ -60,6 +60,7 @@ Jetpack 'jake-stewart/multicursor.nvim'
 
 " formatter
 Jetpack 'stevearc/conform.nvim'
+Jetpack 'Darazaki/indent-o-matic'
 
 " neovim lsp
 Jetpack 'neovim/nvim-lspconfig'
