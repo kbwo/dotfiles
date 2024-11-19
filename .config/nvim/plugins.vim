@@ -52,7 +52,7 @@ Jetpack 'shun/ddu-source-rg'
 Jetpack 'yuki-yano/ddu-filter-fzf'
 Jetpack 'shun/ddu-source-buffer'
 Jetpack 'matsui54/ddu-source-file_external'
-Jetpack 'uga-rosa/ddu-source-lsp'
+Jetpack 'kbwo/ddu-source-lsp', { 'branch': 'fix/method-support' }
 Jetpack 'kamecha/ddu-source-window'
 
 Jetpack 'mfussenegger/nvim-dap'
