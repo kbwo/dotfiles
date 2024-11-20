@@ -100,63 +100,63 @@ function IsNodeRepo()
 end
 
 mason_lspconfig.setup_handlers({
-	-- function(server_name)
-	-- 	local opts = {}
-	--
-	-- 	-- opts.capabilities = update_capabilities(vim.lsp.protocol.make_client_capabilities())
-	-- 	-- vim.api.nvim_echo({{'server_name'}, {server_name, 'warningmsg'}}, true, {})
-	--
-	-- 	if server_name == "vtsls" or server_name == "ts_ls" or server_name == "eslint" then
-	-- 		-- if not is_node_repo then
-	-- 		--   return
-	-- 		-- end
-	-- 		opts.settings = {
-	-- 			documentFormatting = false,
-	-- 			javascript = { suggest = { completeFunctionCalls = true } },
-	-- 			typescript = { suggest = { completeFunctionCalls = true } },
-	-- 		}
-	-- 	elseif server_name == "yamlls" then
-	-- 		opts.settings = {
-	-- 			yaml = {
-	-- 				schemas = {
-	-- 					["https://raw.githubusercontent.com/instrumenta/kubernetes-json-schema/master/v1.18.0-standalone-strict/all.json"] = "/*.k8s.yaml",
-	-- 				},
-	-- 			},
-	-- 		}
-	-- 	elseif server_name == "denols" then
-	-- 		if IsNodeRepo() then
-	-- 			return
-	-- 		end
-	--
-	-- 		opts.root_dir = nvim_lsp.util.root_pattern("deno.json", "deno.jsonc", "deps.ts", "import_map.json")
-	-- 		opts.init_options = {
-	-- 			lint = true,
-	-- 			unstable = true,
-	-- 			suggest = {
-	-- 				imports = {
-	-- 					hosts = {
-	-- 						["https://deno.land"] = true,
-	-- 						["https://cdn.nest.land"] = true,
-	-- 						["https://crux.land"] = true,
-	-- 					},
-	-- 				},
-	-- 			},
-	-- 		}
-	-- 	end
-	--
-	-- 	if server_name == "svelte" then
-	-- 		opts.on_attach = function(client, bufnr)
-	-- 			vim.api.nvim_create_autocmd("BufWritePost", {
-	-- 				pattern = { "*.js", "*.ts" },
-	-- 				callback = function(ctx)
-	-- 					client.notify("$/onDidChangeTsOrJsFile", { uri = ctx.match })
-	-- 				end,
-	-- 			})
-	-- 		end
-	-- 	end
-	--
-	-- 	nvim_lsp[server_name].setup(opts)
-	-- end,
+	function(server_name)
+		local opts = {}
+
+		-- opts.capabilities = update_capabilities(vim.lsp.protocol.make_client_capabilities())
+		-- vim.api.nvim_echo({{'server_name'}, {server_name, 'warningmsg'}}, true, {})
+
+		if server_name == "vtsls" or server_name == "ts_ls" or server_name == "eslint" then
+			-- if not is_node_repo then
+			--   return
+			-- end
+			opts.settings = {
+				documentFormatting = false,
+				javascript = { suggest = { completeFunctionCalls = true } },
+				typescript = { suggest = { completeFunctionCalls = true } },
+			}
+		elseif server_name == "yamlls" then
+			opts.settings = {
+				yaml = {
+					schemas = {
+						["https://raw.githubusercontent.com/instrumenta/kubernetes-json-schema/master/v1.18.0-standalone-strict/all.json"] = "/*.k8s.yaml",
+					},
+				},
+			}
+		elseif server_name == "denols" then
+			if IsNodeRepo() then
+				return
+			end
+
+			opts.root_dir = nvim_lsp.util.root_pattern("deno.json", "deno.jsonc", "deps.ts", "import_map.json")
+			opts.init_options = {
+				lint = true,
+				unstable = true,
+				suggest = {
+					imports = {
+						hosts = {
+							["https://deno.land"] = true,
+							["https://cdn.nest.land"] = true,
+							["https://crux.land"] = true,
+						},
+					},
+				},
+			}
+		end
+
+		if server_name == "svelte" then
+			opts.on_attach = function(client, bufnr)
+				vim.api.nvim_create_autocmd("BufWritePost", {
+					pattern = { "*.js", "*.ts" },
+					callback = function(ctx)
+						client.notify("$/onDidChangeTsOrJsFile", { uri = ctx.match })
+					end,
+				})
+			end
+		end
+
+		nvim_lsp[server_name].setup(opts)
+	end,
 	["rust_analyzer"] = function() end,
 	["ts_ls"] = function()
 		if not IsNodeRepo() then
@@ -245,6 +245,7 @@ configs.testing_ls = {
 }
 
 lspconfig.testing_ls.setup({})
+lspconfig.diagnosticls.setup({})
 
 -- A better way to separate lsp running between denols and tsserver. · Issue  https://github.com/pmizio/typescript-tools.nvim/issues/248
 require("typescript-tools").setup({
