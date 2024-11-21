@@ -6,7 +6,6 @@ endif
 
 filetype plugin indent on
 
-inoremap <c-u> <Nop>
 let mapleader="\<Space>"
 
 " Function to close all toggleterm buffers
@@ -45,6 +44,7 @@ function! QuitAll()
   call timer_start(100, { -> execute('confirm qa') })
 endfunction
 
+inoremap <c-u> <Nop>
 map K gt
 map J gT
 nmap j gj
@@ -168,6 +168,13 @@ function! s:GotoFirstFloat() abort
   endfor
 endfunction
 noremap <silent><c-w>w :<c-u>call <sid>GotoFirstFloat()<CR>
+
+function s:open_nofile()
+    tabnew
+    setlocal buftype=nofile bufhidden=wipe noswapfile nomodified
+endfunction
+
+command! NoFile call s:open_nofile()
 
 " https://www.rasukarusan.com/entry/2021/09/19/125635
 function! s:show_ex_result(cmd)
