@@ -77,7 +77,8 @@ Jetpack 'pmizio/typescript-tools.nvim'
 " dependency
 Jetpack 'MunifTanjim/nui.nvim'
 " notification
-Jetpack 'j-hui/fidget.nvim', { 'tag': 'legacy' }
+Jetpack 'rcarriga/nvim-notify'
+Jetpack 'mrded/nvim-lsp-notify'
 " code action
 Jetpack 'aznhe21/actions-preview.nvim'
 " hover

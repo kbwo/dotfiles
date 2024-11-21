@@ -89,3 +89,7 @@ require("trouble").setup({
 })
 
 vim.keymap.set("n", "<leader>id", "<cmd>Trouble split_diag toggle<CR>, {silent = true}")
+
+require("lsp-notify").setup({
+	notify = require("notify"),
+})
