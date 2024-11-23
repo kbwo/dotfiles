@@ -171,7 +171,7 @@ noremap <silent><c-w>w :<c-u>call <sid>GotoFirstFloat()<CR>
 
 function s:open_nofile()
     tabnew
-    setlocal buftype=nofile bufhidden=wipe noswapfile nomodified
+    setlocal buftype=nofile bufhidden=wipe noswapfile
 endfunction
 
 command! NoFile call s:open_nofile()
@@ -249,7 +249,7 @@ set tabline=%!FileWithParent()
 autocmd BufRead,BufNewFile *.mdx set filetype=markdown
 
 function! YankRelativePath()
-  let l:relpath = expand('%')
+  let l:relpath = fnamemodify(expand('%'), ':.')
   if empty(l:relpath)
     echo 'No file to yank'
   else
@@ -258,7 +258,59 @@ function! YankRelativePath()
   endif
 endfunction
 
-nnoremap <silent> <leader>yp :call YankRelativePath()<CR>
+function! YankGitHubURL(target_branch)
+  let l:relpath = fnamemodify(expand('%'), ':.')
+  if empty(l:relpath)
+    echo 'No file to yank'
+    return
+  endif
+  let l:git_origin = system('git config --get remote.origin.url')
+  if empty(l:git_origin)
+    echo 'Not in a git repository'
+    return
+  endif
+
+  let l:branch = ''
+  if a:target_branch == 'current'
+    let l:current_branch = system('git rev-parse --abbrev-ref HEAD')
+    let l:current_branch = substitute(l:current_branch, '\n', '', '')
+    let l:branch = l:current_branch
+  elseif a:target_branch == 'current_commit'
+    let l:current_branch_commit = system('git rev-parse HEAD')
+    let l:current_branch_commit = matchstr(l:current_branch_commit, '^\x\{40\}')
+    let l:branch = l:current_branch_commit
+  elseif a:target_branch == 'default_commit'
+    let l:default_branch = system('git symbolic-ref refs/remotes/origin/HEAD | sed "s@^refs/remotes/origin/@@g"')
+    let l:default_branch_commit = system('git rev-parse ' . l:default_branch)
+    let l:default_branch_commit = substitute(l:default_branch_commit, '\n', '', '')
+    let l:branch = l:default_branch_commit
+  else
+    let l:default_branch = system('git symbolic-ref refs/remotes/origin/HEAD | sed "s@^refs/remotes/origin/@@g"')
+    let l:default_branch = substitute(l:default_branch, '\n', '', '')
+    let l:branch = l:default_branch
+  endif
+  let l:http_url = l:git_origin
+  " if http url does not contain https
+  if l:http_url !~ 'https'
+    let l:http_url = substitute(l:http_url, 'git@', 'https://', '')
+    let l:http_url = substitute(l:http_url, '\.git', '', '')
+    let l:http_url = substitute(l:http_url, 'github.com:', 'github.com/', '')
+  endif
+  let l:http_url = substitute(l:http_url, '\n', '', '')
+  let l:relpath = substitute(l:relpath, '^./', '', '')
+  let l:line = line('.')
+  let l:github_url = l:http_url . '/blob/' . l:branch . '/' . l:relpath
+  let l:github_url = l:github_url . '#L' . l:line
+  let @+ = l:github_url
+  echo 'Copied GitHub URL'
+endfunction
+
+function! TargetBranchCompletion(A, L, P)
+  let l:candidates = ['default_commit', 'current_commit', 'default', 'current']
+  return filter(l:candidates, 'v:val =~ "^" . a:A')
+endfunction
+
+command! -nargs=1 -complete=customlist,TargetBranchCompletion YankGitHubURL call YankGitHubURL(<f-args>)
 
 nmap <Leader>w :noa w<CR>
 
