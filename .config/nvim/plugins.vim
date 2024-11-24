@@ -77,8 +77,7 @@ Jetpack 'pmizio/typescript-tools.nvim'
 " dependency
 Jetpack 'MunifTanjim/nui.nvim'
 " notification
-Jetpack 'rcarriga/nvim-notify'
-Jetpack 'mrded/nvim-lsp-notify'
+Jetpack 'j-hui/fidget.nvim'
 " code action
 Jetpack 'aznhe21/actions-preview.nvim'
 " hover
@@ -89,6 +88,9 @@ Jetpack 'folke/trouble.nvim'
 Jetpack 'stevearc/aerial.nvim'
 
 Jetpack 'hrsh7th/nvim-cmp'
+Jetpack 'hrsh7th/vim-vsnip'
+Jetpack 'hrsh7th/cmp-vsnip'
+Jetpack 'hrsh7th/vim-vsnip-integ'
 Jetpack 'hrsh7th/cmp-nvim-lsp'
 Jetpack 'hrsh7th/cmp-nvim-lsp-signature-help'
 Jetpack 'hrsh7th/cmp-nvim-lsp-document-symbol'

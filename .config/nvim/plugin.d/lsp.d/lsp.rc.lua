@@ -39,25 +39,8 @@ require("mason").setup({
 		},
 	},
 })
-local lspconfig = require("lspconfig")
-
 local mason_lspconfig = require("mason-lspconfig")
 local nvim_lsp = require("lspconfig")
-local update_capabilities = function(capabilities)
-	local completionItem = capabilities.textDocument.completion.completionItem
-
-	completionItem.snippetSupport = true
-	completionItem.preselectSupport = true
-	completionItem.insertReplaceSupport = true
-	completionItem.labelDetailsSupport = true
-	completionItem.deprecatedSupport = true
-	completionItem.commitCharactersSupport = true
-	completionItem.tagSupport = { valueSet = { 1 } }
-	completionItem.resolveSupport = { properties = { "documentation", "detail", "additionalTextEdits" } }
-
-	return capabilities
-end
-
 mason_lspconfig.setup({
 	automatic_installation = true,
 	ensure_installed = {
@@ -74,7 +57,6 @@ mason_lspconfig.setup({
 		"jsonls",
 		"prismals",
 		"ts_ls",
-		"rust_analyzer",
 		"vimls",
 		"zls",
 	},
@@ -96,7 +78,8 @@ mason_lspconfig.setup_handlers({
 	function(server_name)
 		local opts = {}
 
-		-- opts.capabilities = update_capabilities(vim.lsp.protocol.make_client_capabilities())
+		local capabilities = require('cmp_nvim_lsp').default_capabilities()
+		opts.capabilities = capabilities
 		-- vim.api.nvim_echo({{'server_name'}, {server_name, 'warningmsg'}}, true, {})
 
 		if server_name == "vtsls" or server_name == "ts_ls" or server_name == "eslint" then
@@ -112,7 +95,8 @@ mason_lspconfig.setup_handlers({
 			opts.settings = {
 				yaml = {
 					schemas = {
-						["https://raw.githubusercontent.com/instrumenta/kubernetes-json-schema/master/v1.18.0-standalone-strict/all.json"] = "/*.k8s.yaml",
+						["https://raw.githubusercontent.com/instrumenta/kubernetes-json-schema/master/v1.18.0-standalone-strict/all.json"] =
+						"/*.k8s.yaml",
 					},
 				},
 			}
@@ -175,6 +159,19 @@ vim.g.rustaceanvim = {
 	-- these override the defaults set by rust-tools.nvim
 	-- see https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#rust_analyzer
 	server = {
+		capabilities = require('cmp_nvim_lsp').default_capabilities(),
+		cmd = function()
+			local mason_registry = require('mason-registry')
+			if mason_registry.is_installed('rust-analyzer') then
+				-- This may need to be tweaked depending on the operating system.
+				local ra = mason_registry.get_package('rust-analyzer')
+				local ra_filename = ra:get_receipt():get().links.bin['rust-analyzer']
+				return { ('%s/%s'):format(ra:get_install_path(), ra_filename or 'rust-analyzer') }
+			else
+				-- global installation
+				return { 'rust-analyzer' }
+			end
+		end,
 		settings = {
 			-- to enable rust-analyzer settings visit:
 			-- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
@@ -202,10 +199,6 @@ vim.g.rustaceanvim = {
 		},
 	},
 }
-lspconfig.coffeesense.setup({
-	-- capabilities = update_capabilities(vim.lsp.protocol.make_client_capabilities()),
-})
-
 vim.diagnostic.config({ virtual_text = false })
 
 require("typescript-tools").setup({})
@@ -237,8 +230,8 @@ configs.testing_ls = {
 	},
 }
 
-lspconfig.testing_ls.setup({})
-lspconfig.diagnosticls.setup({})
+nvim_lsp.testing_ls.setup({})
+nvim_lsp.diagnosticls.setup({})
 
 -- A better way to separate lsp running between denols and tsserver. · Issue  https://github.com/pmizio/typescript-tools.nvim/issues/248
 require("typescript-tools").setup({
@@ -273,3 +266,15 @@ require("typescript-tools").setup({
 })
 
 vim.lsp.set_log_level("debug")
+
+-- rust-analyzer interupts neovim while typing · Issue  https://github.com/rust-lang/rust-analyzer/issues/18434
+-- LSP: rust_analyzer: -32802: server cancelled the request · Issue  https://github.com/neovim/neovim/issues/30985
+for _, method in ipairs({ 'textDocument/diagnostic', 'workspace/diagnostic' }) do
+	local default_diagnostic_handler = vim.lsp.handlers[method]
+	vim.lsp.handlers[method] = function(err, result, context, config)
+		if err ~= nil and err.code == -32802 then
+			return
+		end
+		return default_diagnostic_handler(err, result, context, config)
+	end
+end

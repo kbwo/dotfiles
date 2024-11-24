@@ -1,43 +1,49 @@
 local cmp = require("cmp")
-local compare = require("cmp.config.compare")
 
 cmp.setup({
+	performance = {
+		debounce = 30,
+		throttle = 0,
+	},
+	snippet = {
+		expand = function(args)
+			vim.fn["vsnip#anonymous"](args.body)
+		end,
+	},
 	preselect = cmp.PreselectMode.None,
 	-- Enable LSP snippets
-	mapping = {
-		["<C-p>"] = cmp.mapping.select_prev_item(),
-		["<C-n>"] = cmp.mapping.select_next_item(),
-		-- Add tab support
-		["<S-Tab>"] = cmp.mapping.select_prev_item(),
-		["<Tab>"] = cmp.mapping.select_next_item(),
-		["<C-S-f>"] = cmp.mapping.scroll_docs(-4),
+	mapping = cmp.mapping.preset.insert({
+		["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
+		["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+		["<Tab>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+		["<S-Tab>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
+		["<C-b>"] = cmp.mapping.scroll_docs(-4),
 		["<C-f>"] = cmp.mapping.scroll_docs(4),
-		["<C-Space>"] = cmp.mapping.complete(),
-		["<C-e>"] = cmp.mapping.close(),
 		["<C-y>"] = cmp.mapping.confirm({
-			behavior = cmp.ConfirmBehavior.Insert,
-			select = false,
+			select = true,
 		}),
-	},
+	}),
 	-- Installed sources:
-	sources = {
+	sources = cmp.config.sources({
+		{ name = 'nvim_lsp' },
+		{ name = 'vsnip' },
+	}, {
 		{ name = "yank" },
-		{ name = "path" }, -- file paths
-		{ name = "nvim_lsp" }, -- from language server
+		{ name = "path" },                   -- file paths
 		{ name = "nvim_lsp_signature_help" }, -- display function signatures with current parameter emphasized
 		{ name = "nvim_lsp_document_symbol" }, -- display function signatures with current parameter emphasized
-		{ name = "emoji" }, -- display function signatures with current parameter emphasized
+		{ name = "emoji" },                  -- display function signatures with current parameter emphasized
 		{ name = "html-css" },
-		{ name = "crates", keyword_length = 2 },
-		{ name = "nvim_lua", keyword_length = 2 }, -- complete neovim's Lua runtime API such vim.lsp.*
-		{ name = "dotenv" }, -- source current buffer
-		{ name = "buffer" }, -- source current buffer
+		{ name = "crates",                  keyword_length = 2 },
+		{ name = "nvim_lua",                keyword_length = 2 }, -- complete neovim's Lua runtime API such vim.lsp.*
+		{ name = "dotenv" },                                    -- source current buffer
+		{ name = "buffer" },                                    -- source current buffer
 		{ name = "chrisgrieser/cmp_yanky" },
-		{ name = "dictionary", keyword_length = 2 },
-		{ name = "calc" }, -- source for math calculation
+		{ name = "dictionary",              keyword_length = 2 },
+		{ name = "calc" },                -- source for math calculation
 		{ name = "vim-dadbod-completion" }, -- source for math calculation
-		{ name = "treesitter" }, -- source for math calculation
-	},
+		{ name = "treesitter" },          -- source for math calculation
+	}),
 	window = {
 		completion = cmp.config.window.bordered(),
 		documentation = cmp.config.window.bordered(),
