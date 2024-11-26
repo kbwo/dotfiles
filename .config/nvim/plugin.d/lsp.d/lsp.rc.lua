@@ -78,7 +78,7 @@ mason_lspconfig.setup_handlers({
 	function(server_name)
 		local opts = {}
 
-		local capabilities = require('cmp_nvim_lsp').default_capabilities()
+		local capabilities = require("cmp_nvim_lsp").default_capabilities()
 		opts.capabilities = capabilities
 		-- vim.api.nvim_echo({{'server_name'}, {server_name, 'warningmsg'}}, true, {})
 
@@ -95,8 +95,7 @@ mason_lspconfig.setup_handlers({
 			opts.settings = {
 				yaml = {
 					schemas = {
-						["https://raw.githubusercontent.com/instrumenta/kubernetes-json-schema/master/v1.18.0-standalone-strict/all.json"] =
-						"/*.k8s.yaml",
+						["https://raw.githubusercontent.com/instrumenta/kubernetes-json-schema/master/v1.18.0-standalone-strict/all.json"] = "/*.k8s.yaml",
 					},
 				},
 			}
@@ -159,17 +158,17 @@ vim.g.rustaceanvim = {
 	-- these override the defaults set by rust-tools.nvim
 	-- see https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#rust_analyzer
 	server = {
-		capabilities = require('cmp_nvim_lsp').default_capabilities(),
+		capabilities = require("cmp_nvim_lsp").default_capabilities(),
 		cmd = function()
-			local mason_registry = require('mason-registry')
-			if mason_registry.is_installed('rust-analyzer') then
+			local mason_registry = require("mason-registry")
+			if mason_registry.is_installed("rust-analyzer") then
 				-- This may need to be tweaked depending on the operating system.
-				local ra = mason_registry.get_package('rust-analyzer')
-				local ra_filename = ra:get_receipt():get().links.bin['rust-analyzer']
-				return { ('%s/%s'):format(ra:get_install_path(), ra_filename or 'rust-analyzer') }
+				local ra = mason_registry.get_package("rust-analyzer")
+				local ra_filename = ra:get_receipt():get().links.bin["rust-analyzer"]
+				return { ("%s/%s"):format(ra:get_install_path(), ra_filename or "rust-analyzer") }
 			else
 				-- global installation
-				return { 'rust-analyzer' }
+				return { "rust-analyzer" }
 			end
 		end,
 		settings = {
@@ -265,11 +264,11 @@ require("typescript-tools").setup({
 	single_file_support = false,
 })
 
-vim.lsp.set_log_level("debug")
+-- vim.lsp.set_log_level("debug")
 
 -- rust-analyzer interupts neovim while typing · Issue  https://github.com/rust-lang/rust-analyzer/issues/18434
 -- LSP: rust_analyzer: -32802: server cancelled the request · Issue  https://github.com/neovim/neovim/issues/30985
-for _, method in ipairs({ 'textDocument/diagnostic', 'workspace/diagnostic' }) do
+for _, method in ipairs({ "textDocument/diagnostic", "workspace/diagnostic" }) do
 	local default_diagnostic_handler = vim.lsp.handlers[method]
 	vim.lsp.handlers[method] = function(err, result, context, config)
 		if err ~= nil and err.code == -32802 then
