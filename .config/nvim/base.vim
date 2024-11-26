@@ -8,40 +8,22 @@ filetype plugin indent on
 
 let mapleader="\<Space>"
 
-" Function to close all toggleterm buffers
-function! QuitAll()
-  " Get a list of all buffers
-  let bufs = getbufinfo()
-  
-  " Iterate over each buffer
-  for buf in bufs
-    " Check if the buffer is loaded
-    if buf.loaded
-      " Retrieve the 'filetype' and 'buftype' options of the buffer
-      let ft = getbufvar(buf.bufnr, '&filetype')
-      let bt = getbufvar(buf.bufnr, '&buftype')
-      
-      " Check if the buffer is of type 'toggleterm' or has buftype 'terminal'
-      if ft ==# 'toggleterm' || bt ==# 'terminal'
-        " Get a list of window IDs displaying this buffer
-        let wins = buf.windows
-        
-        if !empty(wins)
-          " Iterate over each window displaying the buffer
-          for winid in wins
-            " Switch to the window
-            call win_gotoid(winid)
-            " Close the window without saving changes
-            execute 'quit!'
-          endfor
-        else
-          " If the buffer is not displayed in any window, delete it forcefully
-          execute 'bdelete! ' . buf.bufnr
+function! CloseAllTermBuffers()
+    for bufnr in range(1, bufnr('$'))
+        if bufexists(bufnr) && bufname(bufnr) =~ '^term://'
+            let wins = win_findbuf(bufnr)
+            execute 'bdelete!' bufnr
+            if !empty(wins)
+              let close_wins = wins[:]
+              for winid in close_wins
+                call win_gotoid(winid)
+                execute 'quit!'
+              endfor
+            else
+              execute 'bdelete! ' . bufnr
+            endif
         endif
-      endif
-    endif
-  endfor
-  call timer_start(100, { -> execute('confirm qa') })
+    endfor
 endfunction
 
 inoremap <c-u> <Nop>
@@ -49,7 +31,9 @@ map K gt
 map J gT
 nmap j gj
 nmap k gk
-nmap Q :call QuitAll()<CR>
+nnoremap <Leader>j :-tabmove<CR>
+nnoremap <Leader>k :+tabmove<CR>
+nmap Q :call CloseAllTermBuffers()<CR>:confirm qa<CR>
 nmap R :join<CR>
 nmap <Down> gj
 nmap <Up> gk
@@ -200,7 +184,8 @@ function! GetTabLabel(tabnr)
 
   " Default label if buffer doesn't exist
   if bufname ==# '' || buflisted(bufnr) == 0
-    return 'No Name'
+    let filetype = getbufvar(bufnr, '&filetype', '')
+    return filetype !=# '' ? filetype : 'No Name'
   endif
 
   " Get parent directory name and file name from full path
