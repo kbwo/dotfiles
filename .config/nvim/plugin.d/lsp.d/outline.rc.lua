@@ -2,8 +2,7 @@ vim.keymap.set("n", "<leader>is", "<cmd>AerialToggle<CR>", { desc = "Toggle Outl
 require("aerial").setup({
 	layout = {
 		min_width = 55,
-		placement = "edge",
-		default_direction = "right",
+		default_direction = "left",
 	},
 	filter_kind = {
 		"Class",
