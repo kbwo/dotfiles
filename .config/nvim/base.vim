@@ -10,17 +10,15 @@ let mapleader="\<Space>"
 
 function! CloseAllTermBuffers()
     for bufnr in range(1, bufnr('$'))
-        if bufexists(bufnr) && bufname(bufnr) =~ '^term://'
+        if (bufexists(bufnr) && (bufname(bufnr) =~ '^term://') || (getbufvar(bufnr, '&filetype') =~ '^\(dbui\)$'))
             let wins = win_findbuf(bufnr)
             execute 'bdelete!' bufnr
             if !empty(wins)
-              let close_wins = wins[:]
-              for winid in close_wins
-                call win_gotoid(winid)
-                execute 'quit!'
-              endfor
-            else
-              execute 'bdelete! ' . bufnr
+                let close_wins = wins[:]
+                for winid in close_wins
+                    call win_gotoid(winid)
+                    execute 'quit!'
+                endfor
             endif
         endif
     endfor
@@ -39,6 +37,8 @@ nmap <Down> gj
 nmap <Up> gk
 nmap + <C-a>
 nmap - <C-x>
+imap <S-Tab> <C-o><<
+
 " tabnew and preserve cursor position
 nmap <c-t> :tab split<CR>
 nmap <Leader>l :lcd %:h<CR>
@@ -295,6 +295,7 @@ function! TargetBranchCompletion(A, L, P)
   return filter(l:candidates, 'v:val =~ "^" . a:A')
 endfunction
 
+command! YankRelativePath call YankRelativePath()
 command! -nargs=1 -complete=customlist,TargetBranchCompletion YankGitHubURL call YankGitHubURL(<f-args>)
 
 nmap <Leader>w :noa w<CR>
