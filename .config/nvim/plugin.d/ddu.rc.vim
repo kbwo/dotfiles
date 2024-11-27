@@ -5,6 +5,10 @@ call ddu#custom#patch_global(#{
       \       maxHighlightItems: 10000,
       \       previewSplit: "vertical",
       \       winHeight: 45,
+      \       autoAction: #{
+      \         name: 'preview',
+      \       },
+      \       startAutoAction: v:true,
       \     },
       \  },
       \  sources: [
@@ -35,21 +39,6 @@ call ddu#custom#patch_global(#{
 
 autocmd FileType ddu-ff call s:ddu_my_settings()
 
-" autocmd sometimes disables syntax highlight
-" func AutoPreview()
-"   let current_mode = mode()
-"   let filetype = &filetype
-"   if current_mode == 'n'
-"     if filetype == 'ddu-ff'
-"       call ddu#ui#do_action('preview')
-"     endif
-"   endif
-" endfunc
-
-func StartHandler(timer)
-  call ddu#start({})
-endfunc
-
 function! s:ddu_my_settings() abort
   nnoremap <buffer><silent> <CR>
         \ <Cmd>call ddu#ui#do_action('itemAction')<CR>
@@ -70,35 +59,7 @@ function! s:ddu_my_settings() abort
   nnoremap <buffer><silent> x
         \ <Cmd>call ddu#ui#do_action('quit')<CR>
   nnoremap <buffer><silent> h
-        \ h<Cmd>call ddu#ui#do_action('preview')<CR>
-  nnoremap <buffer><silent> l
-        \ l<Cmd>call ddu#ui#do_action('preview')<CR>
-  nnoremap <buffer><silent> j
-        \ gj<Cmd>call ddu#ui#do_action('preview')<CR>
-  nnoremap <buffer><silent> k
-        \ gk<Cmd>call ddu#ui#do_action('preview')<CR>
-  nnoremap <buffer><silent> w
-        \ w<Cmd>call ddu#ui#do_action('preview')<CR>
-  nnoremap <buffer><silent> H
-        \ H<Cmd>call ddu#ui#do_action('preview')<CR>
-  nnoremap <buffer><silent> L
-        \ L<Cmd>call ddu#ui#do_action('preview')<CR>
-  nnoremap <buffer><silent> gg
-        \ gg<Cmd>call ddu#ui#do_action('preview')<CR>
-  nnoremap <buffer><silent> G
-        \ G<Cmd>call ddu#ui#do_action('preview')<CR>
-  nnoremap <buffer><silent> <C-f>
-        \ <C-f><Cmd>call ddu#ui#do_action('preview')<CR>
-  nnoremap <buffer><silent> <C-b>
-        \ <C-b><Cmd>call ddu#ui#do_action('preview')<CR>
-  xnoremap <buffer><silent> <ESC>
-        \ <ESC><Cmd>call ddu#ui#do_action('preview')<CR>
-
-  call timer_start(500, {t -> ddu#ui#do_action('preview') })
 endfunction
-
-autocmd BufEnter * if &filetype == 'ddu-ff' | call timer_start(500, {t -> ddu#ui#do_action('preview') }) | endif
-
 
 nmap <silent><c-p> :call StartDduNoIgnore()<CR>
 nmap <silent><Leader>pp :call StartDduIgnore()<CR>
@@ -108,10 +69,10 @@ nmap <Leader>rn :RgFind noignore
 
 function! StartDduNoIgnore() abort
   if &filetype == 'fern'
-    call timer_start(500, 'StartHandler')
+    call ddu#start({})
     return
   endif
-  call StartHandler(0)
+  call ddu#start({})
 endfunction
 
 function! StartDduIgnore() abort
