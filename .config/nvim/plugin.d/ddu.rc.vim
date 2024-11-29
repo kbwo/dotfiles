@@ -4,6 +4,7 @@ call ddu#custom#patch_global(#{
       \     ff: #{
       \       maxHighlightItems: 10000,
       \       previewSplit: "vertical",
+      \       previewWidth: 110,
       \       winHeight: 45,
       \       autoAction: #{
       \         name: 'preview',
