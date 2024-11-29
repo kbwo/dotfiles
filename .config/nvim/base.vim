@@ -105,6 +105,11 @@ set diffopt=iwhiteall
 set showtabline=2
 set previewheight=25
 set pumheight=30
+set matchpairs+=<:>
+set matchpairs+=（:）
+set matchpairs+=「:」
+set matchpairs+=【:】
+
 nnoremap gno o<Esc>
 nnoremap gnO O<Esc>
 if has('nvim')
