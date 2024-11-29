@@ -39,8 +39,14 @@ cmp.setup({
 		{ name = "nvim_lua",                keyword_length = 2 }, -- complete neovim's Lua runtime API such vim.lsp.*
 		{ name = "dotenv" },                                    -- source current buffer
 		{ name = "buffer" },                                    -- source current buffer
-		{ name = "chrisgrieser/cmp_yanky" },
-		{ name = "dictionary",              keyword_length = 2 },
+		{
+			name = "chrisgrieser/cmp_yanky",
+			option = {
+				onlyCurrentFileType = false,
+				minLength = 1
+			}
+		},
+		{ name = "dictionary",           keyword_length = 2 },
 		{ name = "calc" },                -- source for math calculation
 		{ name = "vim-dadbod-completion" }, -- source for math calculation
 		{ name = "treesitter" },          -- source for math calculation
