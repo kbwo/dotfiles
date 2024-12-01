@@ -1,9 +1,37 @@
 let g:fern#disable_default_mappings = 1
 let g:fern#default_hidden = 1
 
-nmap <silent> <c-n> :execute 'Fern' FindNearestGitRoot() '-reveal=% -stay'<CR>
+let g:previous_buffers = {}
 
-nmap <silent> <c-w>c :Fern %:h -reveal=% -stay<CR>
+function! SavePreviousBuffer()
+  let current_winnr = win_getid()
+  let current_file = expand('%:p')
+  let g:previous_buffers[current_winnr] = current_file
+endfunction
+
+function! ReturnToPreviousBuffer()
+  let current_winnr = win_getid()
+  if has_key(g:previous_buffers, current_winnr)
+    if g:previous_buffers[current_winnr] != ''
+      execute 'edit ' . g:previous_buffers[current_winnr]
+    else
+      enew
+      setlocal buftype=nofile
+      setlocal bufhidden=wipe
+      setlocal noswapfile
+      setlocal nobuflisted
+      setlocal nomodified
+    endif
+    call remove(g:previous_buffers, current_winnr)
+  else
+    execute 'Back'
+  endif
+endfunction
+
+nmap <silent> <c-n> :call SavePreviousBuffer()<CR>:execute 'Fern' FindNearestGitRoot() '-reveal=% -stay'<CR>
+nmap <silent> <c-w>c :call SavePreviousBuffer()<CR>:Fern %:h -reveal=% -stay<CR>
+
+
 function! FernInit() abort
   nmap <silent><buffer> <c-n> :Fern .<CR>
   nmap <silent><buffer> <Leader>ss <Plug>(fern-action-open:split)
@@ -25,25 +53,20 @@ function! FernInit() abort
 	      \   "<Plug>(fern-action-collapse)",
 	      \ )
   nmap <silent><buffer> o <Plug>(fern-my-open-or-expand-or-collapse)
-  " nmap <buffer> s <Plug>(fern-action-open:select)
   nmap <silent><buffer> <C-l> <Plug>(fern-action-reload)
   nmap <silent><buffer> rr <Plug>(fern-action-rename)
-  " nmap <buffer> i <Plug>(fern-action-reveal)
-  " nmap <buffer> dl <Plug>(fern-action-trash)
   nmap <silent><buffer> yy <Plug>(fern-action-yank)
-  " nmap <buffer> gr <Plug>(fern-action-grep)
   nmap <silent><buffer> dl <Plug>(fern-action-remove)
-  " nmap <buffer> B <Plug>(fern-action-save-as-bookmark)
   nmap <silent><buffer> cd <Plug>(fern-action-tcd)
   nmap <silent><buffer> < <Plug>(fern-action-leave)
   nmap <silent><buffer> > <Plug>(fern-action-open-or-enter)
-  nmap <silent><buffer> x :Back<CR>
+  nmap <silent><buffer> x :call ReturnToPreviousBuffer()<CR>
+  nmap <silent><buffer> B :Back<CR>
   nmap <silent><buffer> R <Plug>(fern-action-redraw)
   nmap <silent><buffer> g? <Plug>(fern-action-help)
 endfunction
+
 augroup FernEvents
   autocmd!
   autocmd FileType fern call FernInit()
 augroup END
-
-nmap <silent> rel :Fern ~/.http -reveal=% -stay<CR>

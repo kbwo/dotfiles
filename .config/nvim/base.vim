@@ -12,7 +12,7 @@ function! CloseAllTermBuffers()
     for bufnr in range(1, bufnr('$'))
         if (bufexists(bufnr) && (bufname(bufnr) =~ '^term://') || (getbufvar(bufnr, '&filetype') =~ '^\(dbui\)$'))
             let wins = win_findbuf(bufnr)
-            execute 'bdelete!' bufnr
+            silent! execute 'bdelete!' bufnr
             if !empty(wins)
                 let close_wins = wins[:]
                 for winid in close_wins
