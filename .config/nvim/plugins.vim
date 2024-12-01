@@ -78,6 +78,7 @@ Jetpack 'pmizio/typescript-tools.nvim'
 Jetpack 'MunifTanjim/nui.nvim'
 " notification
 Jetpack 'j-hui/fidget.nvim'
+Jetpack 'rcarriga/nvim-notify'
 " code action
 Jetpack 'aznhe21/actions-preview.nvim'
 " hover

@@ -95,7 +95,8 @@ mason_lspconfig.setup_handlers({
 			opts.settings = {
 				yaml = {
 					schemas = {
-						["https://raw.githubusercontent.com/instrumenta/kubernetes-json-schema/master/v1.18.0-standalone-strict/all.json"] = "/*.k8s.yaml",
+						["https://raw.githubusercontent.com/instrumenta/kubernetes-json-schema/master/v1.18.0-standalone-strict/all.json"] =
+						"/*.k8s.yaml",
 					},
 				},
 			}
@@ -263,6 +264,11 @@ require("typescript-tools").setup({
 	end,
 	single_file_support = false,
 })
+
+vim.lsp.handlers['window/showMessage'] = function(_, result, ctx)
+	local client = vim.lsp.get_client_by_id(ctx.client_id)
+	require("notify")('LSP (' .. client.name .. '): ' .. result.message)
+end
 
 -- vim.lsp.set_log_level("debug")
 
