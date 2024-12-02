@@ -10,7 +10,7 @@ let mapleader="\<Space>"
 
 function! CloseAllTermBuffers()
     for bufnr in range(1, bufnr('$'))
-        if (bufexists(bufnr) && (bufname(bufnr) =~ '^term://') || (getbufvar(bufnr, '&filetype') =~ '^\(dbui\)$'))
+        if (bufexists(bufnr) && (bufname(bufnr) =~ '^term://'))
             let wins = win_findbuf(bufnr)
             silent! execute 'bdelete!' bufnr
             if !empty(wins)
