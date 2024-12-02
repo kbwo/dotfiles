@@ -26,6 +26,7 @@ set termguicolors
 " hi DapUIWatchesEmpty guifg=#F7768E
 " hi FloatShadowThrough cterm=bold gui=bold guifg=#938aa9 guibg=#16161d
 " hi FloatShadow cterm=bold gui=bold guifg=#938aa9 guibg=#16161d
+" hi LspInlayHint guifg=#8f784a guibg=#3B4252
 
 " show highlight information under the cursor
 function! s:get_syn_id(transparent)
