@@ -38,6 +38,18 @@ call ddu#custom#patch_global(#{
       \   }
       \  })
 
+call ddu#custom#patch_local('lsp:diagnostic', #{
+    \   sources: [
+    \     #{ name: 'lsp_diagnostic' }
+    \   ],
+    \   sourceOptions: #{
+    \     lsp_diagnostic: #{
+    \       converters: ['converter_lsp_diagnostic'],
+    \     },
+    \   }
+    \ })
+
+
 autocmd FileType ddu-ff call s:ddu_my_settings()
 
 function! s:ddu_my_settings() abort
@@ -67,6 +79,8 @@ nmap <silent><Leader>pp :call StartDduIgnore()<CR>
 nmap <silent><Leader>pt :call TabFind()<CR>
 nmap <Leader>rr :RgFind ignore 
 nmap <Leader>rn :RgFind noignore 
+nmap <silent> <Leader>id <Cmd>call ddu#start(#{ name: 'lsp:diagnostic' })<CR>
+
 
 function! StartDduNoIgnore() abort
   if &filetype == 'fern'

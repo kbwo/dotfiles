@@ -95,8 +95,7 @@ mason_lspconfig.setup_handlers({
 			opts.settings = {
 				yaml = {
 					schemas = {
-						["https://raw.githubusercontent.com/instrumenta/kubernetes-json-schema/master/v1.18.0-standalone-strict/all.json"] =
-						"/*.k8s.yaml",
+						["https://raw.githubusercontent.com/instrumenta/kubernetes-json-schema/master/v1.18.0-standalone-strict/all.json"] = "/*.k8s.yaml",
 					},
 				},
 			}
@@ -146,12 +145,6 @@ vim.g.rustaceanvim = {
 	tools = {
 		runnables = {
 			use_telescope = true,
-		},
-		inlay_hints = {
-			auto = true,
-			show_parameter_hints = false,
-			parameter_hints_prefix = "",
-			other_hints_prefix = "",
 		},
 	},
 
@@ -265,9 +258,17 @@ require("typescript-tools").setup({
 	single_file_support = false,
 })
 
-vim.lsp.handlers['window/showMessage'] = function(_, result, ctx)
+vim.lsp.handlers["window/showMessage"] = function(_, result, ctx)
 	local client = vim.lsp.get_client_by_id(ctx.client_id)
-	require("notify")('LSP (' .. client.name .. '): ' .. result.message)
+	-- require("notify")("LSP (" .. client.name .. "): " .. result.message)
+	local logLeel = vim.log.levels.INFO
+	if result.type == vim.lsp.protocol.MessageType.Error then
+		logLeel = vim.log.levels.ERROR
+	end
+	if result.type == vim.lsp.protocol.MessageType.Warning then
+		logLeel = vim.log.levels.WARN
+	end
+	require("fidget").notify("LSP (" .. client.name .. "): " .. result.message, logLeel)
 end
 
 -- vim.lsp.set_log_level("debug")
@@ -283,3 +284,5 @@ for _, method in ipairs({ "textDocument/diagnostic", "workspace/diagnostic" }) d
 		return default_diagnostic_handler(err, result, context, config)
 	end
 end
+
+vim.lsp.inlay_hint.enable(true)

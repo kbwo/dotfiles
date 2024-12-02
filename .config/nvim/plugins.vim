@@ -78,13 +78,11 @@ Jetpack 'pmizio/typescript-tools.nvim'
 Jetpack 'MunifTanjim/nui.nvim'
 " notification
 Jetpack 'j-hui/fidget.nvim'
-Jetpack 'rcarriga/nvim-notify'
+" Jetpack 'rcarriga/nvim-notify'
 " code action
 Jetpack 'aznhe21/actions-preview.nvim'
 " hover
 Jetpack 'lewis6991/hover.nvim'
-" diagnostics
-Jetpack 'folke/trouble.nvim'
 " outline
 Jetpack 'stevearc/aerial.nvim'
 

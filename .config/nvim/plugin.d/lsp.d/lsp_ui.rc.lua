@@ -49,6 +49,8 @@ local function rename()
 
 	vim.api.nvim_buf_set_lines(buf, 0, -1, false, { cword })
 	vim.api.nvim_buf_set_keymap(buf, "i", "<CR>", string.format(fmt, win), { silent = true })
+	vim.api.nvim_buf_set_keymap(buf, "n", "<CR>", string.format(fmt, win), { silent = true })
+	vim.api.nvim_buf_set_keymap(buf, "n", "<ESC>", "<cmd>quit<CR>", { silent = true })
 end
 
 _G.Rename = {
@@ -58,42 +60,42 @@ _G.Rename = {
 
 vim.keymap.set("n", "ccn", "<cmd>lua Rename.rename()<CR>, {silent = true}")
 
-require("trouble").setup({
-	focus = true,
-	win = {
-		size = {
-			height = 25,
-		},
-	},
-	modes = {
-		split_diag = {
-			mode = "diagnostics",
-			preview = {
-				type = "split",
-				relative = "win",
-				position = "right",
-				size = 0.3,
-			},
-		},
-		diagnostics = {
-			groups = {
-				{ "filename", format = "{basename:Title} {count}" },
-			},
-		},
-	},
-	icons = {},
-	keys = {
-		["<Leader>ss"] = "jump_split",
-		["<Leader>vv"] = "jump_vsplit",
-	},
-})
-
-vim.keymap.set("n", "<leader>id", "<cmd>Trouble split_diag toggle<CR>, {silent = true}")
+-- require("trouble").setup({
+-- 	focus = true,
+-- 	win = {
+-- 		size = {
+-- 			height = 25,
+-- 		},
+-- 	},
+-- 	modes = {
+-- 		split_diag = {
+-- 			mode = "diagnostics",
+-- 			preview = {
+-- 				type = "split",
+-- 				relative = "win",
+-- 				position = "right",
+-- 				size = 0.3,
+-- 			},
+-- 		},
+-- 		diagnostics = {
+-- 			groups = {
+-- 				{ "filename", format = "{basename:Title} {count}" },
+-- 			},
+-- 		},
+-- 	},
+-- 	icons = {},
+-- 	keys = {
+-- 		["<Leader>ss"] = "jump_split",
+-- 		["<Leader>vv"] = "jump_vsplit",
+-- 	},
+-- })
+--
+-- vim.keymap.set("n", "<leader>id", "<cmd>Trouble split_diag toggle<CR>, {silent = true}")
 
 require("fidget").setup({
 	notification = {
 		window = {
 			winblend = 0,
 		},
-	}
+	},
 })
