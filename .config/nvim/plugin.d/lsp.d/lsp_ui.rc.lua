@@ -45,7 +45,7 @@ local function rename()
 	local cword = vim.fn.expand("<cword>")
 	local buf = vim.api.nvim_create_buf(false, true)
 	local win = vim.api.nvim_open_win(buf, true, opts)
-	local fmt = "<cmd>lua Rename.dorename(%d)<CR>"
+	local fmt = "<ESC><cmd>lua Rename.dorename(%d)<CR>"
 
 	vim.api.nvim_buf_set_lines(buf, 0, -1, false, { cword })
 	vim.api.nvim_buf_set_keymap(buf, "i", "<CR>", string.format(fmt, win), { silent = true })
