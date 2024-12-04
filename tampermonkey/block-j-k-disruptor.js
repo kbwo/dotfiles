@@ -1,10 +1,11 @@
 // ==UserScript==
-// @name         ChatGPT Remove All Key Event Listeners (Window & Document)
+// @name         Block J & K Disruptor
 // @namespace    http://tampermonkey.net/
 // @version      1.1
 // @description  Remove all keydown event listeners set by the website on both window and document objects
 // @author       kbwo
 // @match        https://chatgpt.com/*
+// @match        https://claude.ai/*
 // @grant        none
 // @run-at       document-start
 // ==/UserScript==
@@ -14,7 +15,7 @@
 
   function overrideEventTarget(target) {
     const originalAddEventListener = target.addEventListener;
-    target.addEventListener = function (type, listener, options) {
+    target.addEventListener = function (type, _listener, options) {
       if (
         [
           "keypress",
@@ -22,10 +23,18 @@
           "keyup",
         ].includes(type)
       ) {
-        return;
+        const listener = (event) => {
+          if (event.key === "J" || event.key === "K") {
+            return;
+          }
+
+          return _listener(event);
+        };
+        return originalAddEventListener.call(this, type, listener, options);
       }
 
-      return originalAddEventListener.call(this, type, listener, options);
+
+      return originalAddEventListener.call(this, type, _listener, options);
     };
   }
 

@@ -182,22 +182,23 @@ function! s:show_ex_result(cmd)
 endfunction
 command! -nargs=+ -complete=command ShowExResult call s:show_ex_result(<q-args>)
 
-" Function to get parent directory name/file name
 function! GetTabLabel(tabnr)
-  " Get the first buffer of the specified tab
-  let bufnr = tabpagebuflist(a:tabnr)[0]
+  " Get the last accessed window number in the specified tab
+  let winnr = tabpagewinnr(a:tabnr)
+  " Get buffer number of that window
+  let buflist = tabpagebuflist(a:tabnr)
+  let bufnr = buflist[winnr - 1]  " winnrは1-basedなので-1する
   let bufname = bufname(bufnr)
-
+  
   " Default label if buffer doesn't exist
   if bufname ==# '' || buflisted(bufnr) == 0
     let filetype = getbufvar(bufnr, '&filetype', '')
     return filetype !=# '' ? filetype : 'No Name'
   endif
-
+  
   " Get parent directory name and file name from full path
   let parent_dir = fnamemodify(bufname, ':p:h:t') " Parent directory name
   let file_name = fnamemodify(bufname, ':t')      " File name
-
   return parent_dir . '/' . file_name
 endfunction
 

@@ -24,7 +24,7 @@ require("conform").setup({
 		css = eslint_or_prettier_or_lsp,
 		html = eslint_or_prettier_or_lsp,
 		lua = { "stylua", "lsp" },
-		php = { "csharpier", "lsp" },
+		php = { "php_cs_fixer", "lsp" },
 		rust = { "rustfmt" },
 	},
 	default_format_opts = {
@@ -33,7 +33,7 @@ require("conform").setup({
 	format_on_save = {
 		-- Recommended options. See :help conform.format for details.
 		lsp_fallback = true,
-		timeout_ms = 500,
+		timeout_ms = 1000,
 	},
 })
 
