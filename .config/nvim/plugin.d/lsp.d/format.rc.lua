@@ -27,6 +27,9 @@ require("conform").setup({
 		php = { "csharpier", "lsp" },
 		rust = { "rustfmt" },
 	},
+	default_format_opts = {
+		lsp_format = "fallback",
+	},
 	format_on_save = {
 		-- Recommended options. See :help conform.format for details.
 		lsp_fallback = true,
