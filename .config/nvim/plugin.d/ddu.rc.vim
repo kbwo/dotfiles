@@ -24,6 +24,46 @@ call ddu#custom#patch_global(#{
       \     _: #{
       \       matchers: ['matcher_fzf'],
       \     },
+      \     lsp_documentSymbol: #{
+      \       converters: [
+      \           #{
+      \             name: 'converter_lsp_symbol',
+      \             params: #{
+      \               iconMap: #{
+      \                 File: " ",
+      \                 Module: " ",
+      \                 Namespace: " ",
+      \                 Package: " ",
+      \                 Class: " ",
+      \                 Method: " ",
+      \                 Property: " ",
+      \                 Field: " ",
+      \                 Constructor: " ",
+      \                 Enum: " ",
+      \                 Interface: " ",
+      \                 Function: " ",
+      \                 Variable: " ",
+      \                 Constant: " ",
+      \                 String: " ",
+      \                 Number: " ",
+      \                 Boolean: " ",
+      \                 Array: " ",
+      \                 Object: " ",
+      \                 Key: " ",
+      \                 Null: " ",
+      \                 EnumMember: " ",
+      \                 Struct: " ",
+      \                 Event: " ",
+      \                 Operator: " ",
+      \                 TypeParameter: " ",
+      \               },
+      \           },
+      \         }
+      \       ],
+      \     },
+      \     lsp_workspaceSymbol: #{
+      \       converters: [ 'converter_lsp_symbol' ],
+      \     },
       \   },
       \   kindOptions: #{
       \     file: #{
@@ -79,20 +119,20 @@ nmap <silent><Leader>pp :call StartDduIgnore()<CR>
 nmap <silent><Leader>pt :call TabFind()<CR>
 nmap <Leader>rr :RgFind ignore 
 nmap <Leader>rn :RgFind noignore 
-nmap <silent> <Leader>id <Cmd>call ddu#start(#{ name: 'lsp:diagnostic' })<CR>
+nmap <silent> <Leader>id <Cmd>silent call ddu#start(#{ name: 'lsp:diagnostic' })<CR>
 
 
 function! StartDduNoIgnore() abort
   if &filetype == 'fern'
-    call ddu#start({})
+    :silent call ddu#start({})
     return
   endif
-  call ddu#start({})
+  :silent call ddu#start({})
 endfunction
 
 function! StartDduIgnore() abort
   " :Copilot disable
-  call ddu#start(#{
+  :silent call ddu#start(#{
         \  ui: 'ff',
         \  sources: [
         \    #{
@@ -117,14 +157,14 @@ endfunction
 
 function! RgFindIgnore(text) abort
   echom a:text
-  call ddu#start({'sources': [{'name': 'rg', 'params': {'input': a:text, 'args': ['--smart-case', "--column", "--no-heading", '--hidden', '--glob', '!.git', '--color', 'never']}}]})
+  :silent call ddu#start({'sources': [{'name': 'rg', 'params': {'input': a:text, 'args': ['--smart-case', "--column", "--no-heading", '--hidden', '--glob', '!.git', '--color', 'never']}}]})
 endfunction
 
 function! RgFindNoIgnore(text) abort
-  call ddu#start({'sources': [{'name': 'rg', 'params': {'input': a:text, 'args': ['--smart-case', "--column", "--no-heading", '--hidden', '--glob', '!.git', '--color', 'never', "--no-ignore"]}}]})
+  :silent call ddu#start({'sources': [{'name': 'rg', 'params': {'input': a:text, 'args': ['--smart-case', "--column", "--no-heading", '--hidden', '--glob', '!.git', '--color', 'never', "--no-ignore"]}}]})
 endfunction
 
-command! DduBuffer call ddu#start(#{
+command! DduBuffer :silent call ddu#start(#{
       \   sources: [#{name: 'buffer'}],
       \   kindOptions: #{
       \     file: #{
@@ -153,7 +193,7 @@ endfunction
 command! -nargs=* RgFind call RgFind(<f-args>)
 
 function TabFind() abort
-  call ddu#start({
+  :silent call ddu#start({
 	   \ 'uiParams': {
 	   \     'ff': {
 	   \         'autoAction': { 
@@ -172,21 +212,21 @@ function TabFind() abort
 	   \ })
 endfunction
 
-nmap <silent><c-d> :call ddu#start(#{
+nmap <silent><c-d> :silent call ddu#start(#{
       \  ui: 'ff',
       \ sync: v:true,
       \ sources: [#{
       \   name: 'lsp_definition',
       \ }],
       \})<CR>
-nmap <silent>gr :call ddu#start(#{
+nmap <silent>gr :silent call ddu#start(#{
       \  ui: 'ff',
       \ sync: v:true,
       \ sources: [#{
       \   name: 'lsp_references',
       \ }],
       \})<CR>
-nmap <silent>csm :call ddu#start(#{
+nmap <silent>csm :silent call ddu#start(#{
       \  ui: 'ff',
       \ sync: v:true,
       \  uiParams: #{
