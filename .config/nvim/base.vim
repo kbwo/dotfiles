@@ -41,6 +41,7 @@ imap <S-Tab> <C-o><<
 
 " tabnew and preserve cursor position
 nmap <Leader>t<Space> :tab split<CR>
+nmap <Leader>tn :NoFile<CR>
 nmap <Leader>tc :tabc<CR>
 nmap <Leader>l :lcd %:h<CR>
 nmap <Leader>h :noh<CR>

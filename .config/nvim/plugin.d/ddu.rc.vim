@@ -243,3 +243,21 @@ nmap <silent>csm :silent call ddu#start(#{
       \   },
       \ },
       \})<CR>
+
+nmap <silent><Leader>im :silent call ddu#start(#{
+      \  ui: 'ff',
+      \ sync: v:true,
+      \  uiParams: #{
+      \     ff: #{
+      \       displayTree: v:true
+      \     },
+      \  },
+      \ sources: [#{
+      \   name: 'lsp_documentSymbol',
+      \ }],
+      \ sourceOptions: #{
+      \   lsp: #{
+      \     volatile: v:true,
+      \   },
+      \ },
+      \})<CR>
