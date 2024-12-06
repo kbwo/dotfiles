@@ -23,3 +23,10 @@ kb() {
    git init
 }
 
+rmkb() {
+    if [ -z "$1" ]; then
+        echo "Usage: rmkb <keyword>"
+        return 1
+    fi
+    find "$KBWO" -maxdepth 1 -type d -name "*$1*" -exec rm -rf {} +
+}
