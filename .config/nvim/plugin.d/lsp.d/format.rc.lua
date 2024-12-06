@@ -16,6 +16,11 @@ local eslint_or_prettier_or_lsp = { "eslint_d", "prettierd", "prettier", "lsp" }
 
 require("conform").setup({
 	log_level = vim.log.levels.DEBUG,
+	formatters = {
+		yamlfix = {
+			command = "sleek",
+		},
+	},
 	formatters_by_ft = {
 		javascript = eslint_or_prettier_or_lsp,
 		typescriptreact = eslint_or_prettier_or_lsp,
@@ -26,6 +31,8 @@ require("conform").setup({
 		lua = { "stylua", "lsp" },
 		php = { "php_cs_fixer", "lsp" },
 		rust = { "rustfmt" },
+		mysql = { "sleek" },
+		sql = { "sleek" },
 	},
 	default_format_opts = {
 		lsp_format = "fallback",
