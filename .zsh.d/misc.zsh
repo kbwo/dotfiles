@@ -5,7 +5,6 @@ mkfile() {
 kb() {
    timestamp=$(date +"%Y%m%d%H%M")
 
-   # $1があったら
    if [ -n "$1" ]; then
      prefix=$1
      new_dir="${KBWO}/${prefix}-${timestamp}"
