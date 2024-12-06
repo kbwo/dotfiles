@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Block J & K Disruptor
+// @name         Block Key Disruptor
 // @namespace    http://tampermonkey.net/
 // @version      1.1
 // @description  Remove all keydown event listeners set by the website on both window and document objects
@@ -24,7 +24,13 @@
         ].includes(type)
       ) {
         const listener = (event) => {
-          if (event.key === "J" || event.key === "K") {
+          if (
+            event.key === "J" ||
+            event.key === "K" ||
+            event.key === "g" ||
+            event.key === "G" ||
+            event.ctrlKey
+          ) {
             return;
           }
 
