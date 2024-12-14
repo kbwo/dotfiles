@@ -35,7 +35,7 @@ background = "0x2d4f67"
 foreground = "0xc8c093"
 
 [font]
-size = 8.5
+size = 9
 
 [font.bold]
 family = "Hack"
@@ -64,8 +64,10 @@ action = "None"
 key = "NumpadSubtract"
 mods = "Control"
 
-[shell]
+[terminal.shell]
 program = "/usr/bin/zsh"
 
 [env]
 TERM = "xterm-256color"
+
+[terminal]
