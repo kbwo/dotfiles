@@ -1,10 +1,6 @@
 local cmp = require("cmp")
 
 cmp.setup({
-	performance = {
-		debounce = 30,
-		throttle = 0,
-	},
 	snippet = {
 		expand = function(args)
 			vim.fn["vsnip#anonymous"](args.body)
@@ -20,35 +16,35 @@ cmp.setup({
 		["<C-b>"] = cmp.mapping.scroll_docs(-4),
 		["<C-f>"] = cmp.mapping.scroll_docs(4),
 		["<C-y>"] = cmp.mapping.confirm({
-			select = true
+			select = true,
 		}),
 	}),
 	-- Installed sources:
 	sources = cmp.config.sources({
-		{ name = 'nvim_lsp' },
-		{ name = 'vsnip' },
+		{ name = "nvim_lsp" },
+		{ name = "vsnip" },
 	}, {
 		{ name = "yank" },
-		{ name = "path" },                   -- file paths
+		{ name = "path" }, -- file paths
 		{ name = "nvim_lsp_signature_help" }, -- display function signatures with current parameter emphasized
 		{ name = "nvim_lsp_document_symbol" }, -- display function signatures with current parameter emphasized
-		{ name = "emoji" },                  -- display function signatures with current parameter emphasized
+		{ name = "emoji" }, -- display function signatures with current parameter emphasized
 		{ name = "html-css" },
-		{ name = "crates",                  keyword_length = 2 },
-		{ name = "nvim_lua",                keyword_length = 2 }, -- complete neovim's Lua runtime API such vim.lsp.*
-		{ name = "dotenv" },                                    -- source current buffer
-		{ name = "buffer" },                                    -- source current buffer
+		{ name = "crates", keyword_length = 2 },
+		{ name = "nvim_lua", keyword_length = 2 }, -- complete neovim's Lua runtime API such vim.lsp.*
+		{ name = "dotenv" }, -- source current buffer
+		{ name = "buffer" }, -- source current buffer
 		{
 			name = "chrisgrieser/cmp_yanky",
 			option = {
 				onlyCurrentFileType = false,
-				minLength = 1
-			}
+				minLength = 1,
+			},
 		},
-		{ name = "dictionary",           keyword_length = 2 },
-		{ name = "calc" },                -- source for math calculation
+		{ name = "dictionary", keyword_length = 2 },
+		{ name = "calc" }, -- source for math calculation
 		{ name = "vim-dadbod-completion" }, -- source for math calculation
-		{ name = "treesitter" },          -- source for math calculation
+		{ name = "treesitter" }, -- source for math calculation
 	}),
 	window = {
 		completion = cmp.config.window.bordered(),
