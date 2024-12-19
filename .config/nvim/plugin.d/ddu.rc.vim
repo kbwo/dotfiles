@@ -111,7 +111,6 @@ function! s:ddu_my_settings() abort
         \ <Cmd>call ddu#ui#do_action('openFilterWindow')<CR>
   nnoremap <buffer><silent> x
         \ <Cmd>call ddu#ui#do_action('quit')<CR>
-  nnoremap <buffer><silent> h
 endfunction
 
 nmap <silent><c-p> :call StartDduNoIgnore()<CR>
@@ -119,20 +118,20 @@ nmap <silent><Leader>pp :call StartDduIgnore()<CR>
 nmap <silent><Leader>pt :call TabFind()<CR>
 nmap <Leader>rr :RgFind ignore 
 nmap <Leader>rn :RgFind noignore 
-nmap <silent> <Leader>id <Cmd>silent call ddu#start(#{ name: 'lsp:diagnostic' })<CR>
+nmap <silent> <Leader>id <Cmd>call ddu#start(#{ name: 'lsp:diagnostic' })<CR>
 
 
 function! StartDduNoIgnore() abort
   if &filetype == 'fern'
-    :silent call ddu#start({})
+    :call ddu#start({})
     return
   endif
-  :silent call ddu#start({})
+  :call ddu#start({})
 endfunction
 
 function! StartDduIgnore() abort
   " :Copilot disable
-  :silent call ddu#start(#{
+  :call ddu#start(#{
         \  ui: 'ff',
         \  sources: [
         \    #{
@@ -157,14 +156,14 @@ endfunction
 
 function! RgFindIgnore(text) abort
   echom a:text
-  :silent call ddu#start({'sources': [{'name': 'rg', 'params': {'input': a:text, 'args': ['--smart-case', "--column", "--no-heading", '--hidden', '--glob', '!.git', '--color', 'never']}}]})
+  :call ddu#start({'sources': [{'name': 'rg', 'params': {'input': a:text, 'args': ['--smart-case', "--column", "--no-heading", '--hidden', '--glob', '!.git', '--color', 'never']}}]})
 endfunction
 
 function! RgFindNoIgnore(text) abort
-  :silent call ddu#start({'sources': [{'name': 'rg', 'params': {'input': a:text, 'args': ['--smart-case', "--column", "--no-heading", '--hidden', '--glob', '!.git', '--color', 'never', "--no-ignore"]}}]})
+  :call ddu#start({'sources': [{'name': 'rg', 'params': {'input': a:text, 'args': ['--smart-case', "--column", "--no-heading", '--hidden', '--glob', '!.git', '--color', 'never', "--no-ignore"]}}]})
 endfunction
 
-command! DduBuffer :silent call ddu#start(#{
+command! DduBuffer :call ddu#start(#{
       \   sources: [#{name: 'buffer'}],
       \   kindOptions: #{
       \     file: #{
@@ -193,7 +192,7 @@ endfunction
 command! -nargs=* RgFind call RgFind(<f-args>)
 
 function TabFind() abort
-  :silent call ddu#start({
+  :call ddu#start({
 	   \ 'uiParams': {
 	   \     'ff': {
 	   \         'autoAction': { 
@@ -212,21 +211,21 @@ function TabFind() abort
 	   \ })
 endfunction
 
-nmap <silent><c-d> :silent call ddu#start(#{
+nmap <silent><c-d> :call ddu#start(#{
       \  ui: 'ff',
       \ sync: v:true,
       \ sources: [#{
       \   name: 'lsp_definition',
       \ }],
       \})<CR>
-nmap <silent>gr :silent call ddu#start(#{
+nmap <silent>gr :call ddu#start(#{
       \  ui: 'ff',
       \ sync: v:true,
       \ sources: [#{
       \   name: 'lsp_references',
       \ }],
       \})<CR>
-nmap <silent>csm :silent call ddu#start(#{
+nmap <silent>csm :call ddu#start(#{
       \  ui: 'ff',
       \ sync: v:true,
       \  uiParams: #{
@@ -244,7 +243,7 @@ nmap <silent>csm :silent call ddu#start(#{
       \ },
       \})<CR>
 
-nmap <silent><Leader>im :silent call ddu#start(#{
+nmap <silent><Leader>im :call ddu#start(#{
       \  ui: 'ff',
       \ sync: v:true,
       \  uiParams: #{
