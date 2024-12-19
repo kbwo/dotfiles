@@ -29,8 +29,8 @@ map K gt
 map J gT
 nmap j gj
 nmap k gk
-nnoremap <Leader>j :-tabmove<CR>
-nnoremap <Leader>k :+tabmove<CR>
+nmap <Leader>j :-tabmove<CR>
+nmap <Leader>k :+tabmove<CR>
 nmap Q :call CloseAllTermBuffers()<CR>:confirm qa<CR>
 nmap R :join<CR>
 nmap <Down> gj
@@ -38,11 +38,12 @@ nmap <Up> gk
 nmap + <C-a>
 nmap - <C-x>
 imap <S-Tab> <C-o><<
+nmap <Leader>x :q<CR>
+nmap <Leader>zx :tabc<CR>
 
 " tabnew and preserve cursor position
 nmap <Leader>t<Space> :tab split<CR>
 nmap <Leader>tn :NoFile<CR>
-nmap <Leader>tc :tabc<CR>
 nmap <Leader>l :lcd %:h<CR>
 nmap <Leader>h :noh<CR>
 nmap <Leader>e<Space> :e!<CR>
