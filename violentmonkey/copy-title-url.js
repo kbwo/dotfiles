@@ -12,7 +12,7 @@
 
   const copy = async (text) => {
     try {
-      await GM.setClipboard(text, "text");
+      await GM_setClipboard(text, "text");
       alert("copied to clipboard");
     } catch (e) {
       console.error(e);
