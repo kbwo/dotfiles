@@ -38,14 +38,14 @@ matches:
       - name: week
         type: date
         params:
-          format: "%U"
+          format: "%V"
   - trigger: ":yw;"
     replace: "{{yearweek}}"
     vars:
       - name: yearweek
         type: date
         params:
-          format: "%Y-W%U"
+          format: "%Y-W%V"
   # Emoji
   - trigger: ":ok;"
     replace: "👍"
