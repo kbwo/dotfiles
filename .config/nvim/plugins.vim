@@ -72,6 +72,7 @@ Jetpack 'kyoh86/climbdir.nvim'
 " language specific improvement
 Jetpack 'mrcjkb/rustaceanvim'
 Jetpack 'pmizio/typescript-tools.nvim'
+Jetpack 'kbwo/testing-ls.nvim'
 
 " neovim lsp ui
 " dependency

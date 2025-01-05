@@ -40,7 +40,7 @@ require("mason").setup({
 	},
 })
 local mason_lspconfig = require("mason-lspconfig")
-local nvim_lsp = require("lspconfig")
+local lspconfig = require("lspconfig")
 mason_lspconfig.setup({
 	automatic_installation = true,
 	ensure_installed = {
@@ -63,7 +63,7 @@ mason_lspconfig.setup({
 })
 
 function IsNodeRepo()
-	local node_root_dir = nvim_lsp.util.root_pattern("package.json")
+	local node_root_dir = lspconfig.util.root_pattern("package.json")
 	function HasPackageJson()
 		local current_directory = vim.fn.getcwd()
 		local package_json_path = current_directory .. "/package.json"
@@ -95,7 +95,8 @@ mason_lspconfig.setup_handlers({
 			opts.settings = {
 				yaml = {
 					schemas = {
-						["https://raw.githubusercontent.com/instrumenta/kubernetes-json-schema/master/v1.18.0-standalone-strict/all.json"] = "/*.k8s.yaml",
+						["https://raw.githubusercontent.com/instrumenta/kubernetes-json-schema/master/v1.18.0-standalone-strict/all.json"] =
+						"/*.k8s.yaml",
 					},
 				},
 			}
@@ -104,7 +105,7 @@ mason_lspconfig.setup_handlers({
 				return
 			end
 
-			opts.root_dir = nvim_lsp.util.root_pattern("deno.json", "deno.jsonc", "deps.ts", "import_map.json")
+			opts.root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc", "deps.ts", "import_map.json")
 			opts.init_options = {
 				lint = true,
 				unstable = true,
@@ -131,13 +132,104 @@ mason_lspconfig.setup_handlers({
 			end
 		end
 
-		nvim_lsp[server_name].setup(opts)
+		lspconfig[server_name].setup(opts)
+	end,
+	["lua_ls"] = function()
+		lspconfig.lua_ls.setup({
+			settings = {
+				Lua = {
+					diagnostics = {
+						-- Recognize the `vim` global
+						globals = { "vim" },
+					},
+					workspace = {
+						-- Make language server aware of runtime files
+						library = {
+							[vim.fn.expand("$VIMRUNTIME/lua")] = true,
+							[vim.fn.stdpath("config") .. "/lua"] = true,
+						},
+					},
+				},
+			},
+		})
 	end,
 	["rust_analyzer"] = function() end,
 	["ts_ls"] = function()
 		if not IsNodeRepo() then
 			return
 		end
+	end,
+	["yamlls"] = function()
+		-- AWS CloudFormation
+		lspconfig.yamlls.setup({
+			settings = {
+				yaml = {
+					schemas = {
+						["https://cfn-schema.y13i.com/schema?region=eu-west-2&version=20.0.0"] = "cloudformation/*",
+						["http://json.schemastore.org/github-workflow"] = ".github/workflows/*",
+					},
+					format = { enable = false },
+					completion = true,
+					hover = true,
+					customTags = {
+						"!And scalar",
+						"!And mapping",
+						"!And sequence",
+						"!Condition scalar",
+						"!Condition mapping",
+						"!Condition sequence",
+						"!Base64 scalar",
+						"!Base64 mapping",
+						"!Base64 sequence",
+						"!If scalar",
+						"!If mapping",
+						"!If sequence",
+						"!Not scalar",
+						"!Not mapping",
+						"!Not sequence",
+						"!Equals scalar",
+						"!Equals mapping",
+						"!Equals sequence",
+						"!Or scalar",
+						"!Or mapping",
+						"!Or sequence",
+						"!FindInMap scalar",
+						"!FindInMap mappping",
+						"!FindInMap sequence",
+						"!Base64 scalar",
+						"!Base64 mapping",
+						"!Base64 sequence",
+						"!Cidr scalar",
+						"!Cidr mapping",
+						"!Cidr sequence",
+						"!Ref scalar",
+						"!Ref mapping",
+						"!Ref sequence",
+						"!Sub scalar",
+						"!Sub mapping",
+						"!Sub sequence",
+						"!GetAtt scalar",
+						"!GetAtt mapping",
+						"!GetAtt sequence",
+						"!GetAZs scalar",
+						"!GetAZs mapping",
+						"!GetAZs sequence",
+						"!ImportValue scalar",
+						"!ImportValue mapping",
+						"!ImportValue sequence",
+						"!Select scalar",
+						"!Select mapping",
+						"!Select sequence",
+						"!Split scalar",
+						"!Split mapping",
+						"!Split sequence",
+						"!Join scalar",
+						"!Join mapping",
+						"!Join sequence",
+					},
+				},
+			},
+		})
 	end,
 })
 
@@ -208,23 +300,31 @@ vim.api.nvim_create_autocmd("FileType", {
 local configs = require("lspconfig.configs")
 local util = require("lspconfig/util")
 
-configs.testing_ls = {
-	default_config = {
-		cmd = { "testing-language-server" },
-		filetypes = {},
-		root_dir = util.root_pattern(".testingls.toml", ".git"),
-	},
-	docs = {
-		description = [[
-      https://github.com/kbwo/testing-language-server
-
-      Language Server for real-time testing.
-    ]],
-	},
-}
-
-nvim_lsp.testing_ls.setup({})
-nvim_lsp.diagnosticls.setup({})
+-- configs.testing_ls = {
+-- 	default_config = {
+-- 		cmd = { "testing-language-server" },
+-- 		filetypes = {},
+-- 		root_dir = function(fname)
+-- 			return util.root_pattern('.testingls.toml', '.git')(fname)
+-- 		end,
+-- 		single_file_support = true,
+-- 	},
+-- 	docs = {
+-- 		description = [[
+--       https://github.com/kbwo/testing-language-server
+--
+--       Language Server for real-time testing.
+--     ]],
+-- 	},
+-- }
+--
+-- lspconfig.testing_ls.setup({
+-- 	on_attach = function(client, bufnr)
+-- 	end
+-- })
+require("testing-ls").setup({
+})
+lspconfig.diagnosticls.setup({})
 
 -- A better way to separate lsp running between denols and tsserver. · Issue  https://github.com/pmizio/typescript-tools.nvim/issues/248
 require("typescript-tools").setup({
