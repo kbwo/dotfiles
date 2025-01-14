@@ -102,7 +102,6 @@ Jetpack 'uga-rosa/cmp-dictionary'
 Jetpack 'kristijanhusak/vim-dadbod-completion'
 Jetpack 'gbprod/yanky.nvim'
 Jetpack 'chrisgrieser/cmp_yanky'
-Jetpack 'SergioRibera/cmp-dotenv'
 Jetpack 'ray-x/cmp-treesitter'
 " Jetpack 'kbwo/cmp-yank'
 
