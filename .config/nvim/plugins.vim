@@ -40,6 +40,8 @@ Jetpack 'jedrzejboczar/possession.nvim'
 Jetpack 'chenasraf/text-transform.nvim'
 
 " Jetpack 'neoclide/coc.nvim', {'branch': 'master', 'do': 'npm ci'}
+"
+Jetpack "kbwo/vim-shareedit"
 
 " ddu
 " Jetpack 'kbwo/ddu-source-coc'
