@@ -40,6 +40,7 @@ nmap - <C-x>
 imap <S-Tab> <C-o><<
 nmap <Leader>x :q<CR>
 nmap <Leader>zx :tabc<CR>
+nmap <C-w>to :tabonly<CR>
 
 " tabnew and preserve cursor position
 nmap <Leader>t<Space> :tab split<CR>
@@ -192,9 +193,13 @@ function! GetTabLabel(tabnr)
   let bufnr = buflist[winnr - 1]  " winnrは1-basedなので-1する
   let bufname = bufname(bufnr)
   
+  let filetype = getbufvar(bufnr, '&filetype', '')
+  if filetype =~# '^gin'
+    return filetype
+  endif
+
   " Default label if buffer doesn't exist
   if bufname ==# '' || buflisted(bufnr) == 0
-    let filetype = getbufvar(bufnr, '&filetype', '')
     return filetype !=# '' ? filetype : 'No Name'
   endif
   
