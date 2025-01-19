@@ -7,6 +7,10 @@ cmp.setup({
 		end,
 	},
 	preselect = cmp.PreselectMode.None,
+	performance = {
+		debounce = 30,
+		throttle = 0,
+	},
 	-- Enable LSP snippets
 	mapping = cmp.mapping.preset.insert({
 		["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
@@ -25,15 +29,15 @@ cmp.setup({
 		{ name = "vsnip" },
 	}, {
 		{ name = "yank" },
-		{ name = "path" }, -- file paths
+		{ name = "path" },                   -- file paths
 		{ name = "nvim_lsp_signature_help" }, -- display function signatures with current parameter emphasized
 		{ name = "nvim_lsp_document_symbol" }, -- display function signatures with current parameter emphasized
-		{ name = "emoji" }, -- display function signatures with current parameter emphasized
+		{ name = "emoji" },                  -- display function signatures with current parameter emphasized
 		{ name = "html-css" },
-		{ name = "crates", keyword_length = 2 },
-		{ name = "nvim_lua", keyword_length = 2 }, -- complete neovim's Lua runtime API such vim.lsp.*
-		{ name = "dotenv" }, -- source current buffer
-		{ name = "buffer" }, -- source current buffer
+		{ name = "crates",                  keyword_length = 2 },
+		{ name = "nvim_lua",                keyword_length = 2 }, -- complete neovim's Lua runtime API such vim.lsp.*
+		{ name = "dotenv" },                     -- source current buffer
+		{ name = "buffer" },                     -- source current buffer
 		{
 			name = "chrisgrieser/cmp_yanky",
 			option = {
@@ -41,10 +45,10 @@ cmp.setup({
 				minLength = 1,
 			},
 		},
-		{ name = "dictionary", keyword_length = 2 },
-		{ name = "calc" }, -- source for math calculation
+		{ name = "dictionary",           keyword_length = 2 },
+		{ name = "calc" },                -- source for math calculation
 		{ name = "vim-dadbod-completion" }, -- source for math calculation
-		{ name = "treesitter" }, -- source for math calculation
+		{ name = "treesitter" },          -- source for math calculation
 	}),
 	window = {
 		completion = cmp.config.window.bordered(),
