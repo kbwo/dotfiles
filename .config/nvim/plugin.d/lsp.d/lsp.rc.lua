@@ -1,3 +1,15 @@
+local mason_lspconfig = require("mason-lspconfig")
+local lspconfig = require("lspconfig")
+
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
+capabilities = vim.tbl_deep_extend("force", capabilities, {
+	workspace = {
+		didChangeWatchedFiles = {
+			dynamicRegistration = true,
+		},
+	},
+})
+
 -- About server: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 
 require("mason").setup({
@@ -39,8 +51,6 @@ require("mason").setup({
 		},
 	},
 })
-local mason_lspconfig = require("mason-lspconfig")
-local lspconfig = require("lspconfig")
 mason_lspconfig.setup({
 	automatic_installation = true,
 	ensure_installed = {
@@ -78,9 +88,7 @@ mason_lspconfig.setup_handlers({
 	function(server_name)
 		local opts = {}
 
-		local capabilities = require("cmp_nvim_lsp").default_capabilities()
 		opts.capabilities = capabilities
-		-- vim.api.nvim_echo({{'server_name'}, {server_name, 'warningmsg'}}, true, {})
 
 		if server_name == "vtsls" or server_name == "ts_ls" or server_name == "eslint" then
 			-- if not is_node_repo then
@@ -153,6 +161,18 @@ mason_lspconfig.setup_handlers({
 			},
 		})
 	end,
+	["basedpyright"] = function()
+		lspconfig.basedpyright.setup({
+			capabilities = capabilities,
+			settings = {
+				python = {
+					analysis = {
+						reportMissingTypeStubs = false,
+					},
+				},
+			},
+		})
+	end,
 	["rust_analyzer"] = function() end,
 	["ts_ls"] = function()
 		if not IsNodeRepo() then
@@ -162,6 +182,7 @@ mason_lspconfig.setup_handlers({
 	["yamlls"] = function()
 		-- AWS CloudFormation
 		lspconfig.yamlls.setup({
+			capabilities = capabilities,
 			settings = {
 				yaml = {
 					schemas = {
@@ -244,7 +265,6 @@ vim.g.rustaceanvim = {
 	-- these override the defaults set by rust-tools.nvim
 	-- see https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#rust_analyzer
 	server = {
-		capabilities = require("cmp_nvim_lsp").default_capabilities(),
 		cmd = function()
 			local mason_registry = require("mason-registry")
 			if mason_registry.is_installed("rust-analyzer") then
@@ -297,33 +317,7 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
-local configs = require("lspconfig.configs")
-local util = require("lspconfig/util")
-
--- configs.testing_ls = {
--- 	default_config = {
--- 		cmd = { "testing-language-server" },
--- 		filetypes = {},
--- 		root_dir = function(fname)
--- 			return util.root_pattern('.testingls.toml', '.git')(fname)
--- 		end,
--- 		single_file_support = true,
--- 	},
--- 	docs = {
--- 		description = [[
---       https://github.com/kbwo/testing-language-server
---
---       Language Server for real-time testing.
---     ]],
--- 	},
--- }
---
--- lspconfig.testing_ls.setup({
--- 	on_attach = function(client, bufnr)
--- 	end
--- })
-require("testing-ls").setup({
-})
+require("testing-ls").setup({})
 lspconfig.diagnosticls.setup({})
 
 -- A better way to separate lsp running between denols and tsserver. · Issue  https://github.com/pmizio/typescript-tools.nvim/issues/248
