@@ -16,3 +16,4 @@ export SDKMAN_DIR="$HOME/.sdkman"
 [ -s "/home/kbwo/.bun/_bun" ] && source "/home/kbwo/.bun/_bun"
 
 eval "$(~/.local/bin/mise activate zsh)"
+

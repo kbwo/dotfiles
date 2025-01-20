@@ -12,7 +12,7 @@ eslint_d.cwd = util.root_file({
 	"eslintrc.json",
 })
 
-local eslint_or_prettier_or_lsp = { "eslint_d", "prettierd", "prettier", "lsp" }
+local eslint_or_prettier_or_lsp = { "biome", "eslint_d", "prettierd", "prettier", "lsp" }
 
 require("conform").setup({
 	log_level = vim.log.levels.DEBUG,

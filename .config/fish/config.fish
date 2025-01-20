@@ -109,7 +109,6 @@ set -gx PATH /Library/Apple/usr/bin $PATH
 set -gx PATH node_modules/.bin $PATH
 set -gx PATH $HOME/.npm-global/bin $PATH
 set -gx PATH $HOME/.npm-global $PATH
-set -gx PATH $HOME/.pyenv/bin $PATH
 set -gx PATH $HOME/flutter/bin $PATH
 set -gx PATH $HOME/.cargo/bin $PATH
 set -gx PATH $HOME/development/flutter/bin $PATH
@@ -122,12 +121,10 @@ set -gx PATH $ANDROID_HOME/emulator $PATH
 set -gx PATH $JAVA_HOME/bin $PATH
 set -gx PATH /usr/local/opt/llvm/bin $PATH
 set -gx PATH $HOME/.rbenv/shims $PATH
-set -gx PATH $HOME/.pyenv/shims $PATH
 set -gx PATH $GOPATH/bin $PATH
 set -gx PATH /opt/homebrew/opt/llvm/bin $PATH
 set -gx PATH /opt/homebrew/opt/expat/bin $PATH
 
-set -g CLOUDSDK_PYTHON python2
 set -g FZF_DEFAULT_COMMAND 'rg --hidden --no-ignore --files'
 
 # for fastlane
@@ -145,5 +142,4 @@ set -g CPPFLAGS -I/usr/local/opt/llvm/include
 set -g XDG_CONFIG_HOME $HOME/.config
 set -g XDG_CACHE_HOME $HOME/.cache
 
-status --is-interactive; and . (pyenv init --no-rehash -|psub)
 status --is-interactive; and . (rbenv init --no-rehash -|psub)

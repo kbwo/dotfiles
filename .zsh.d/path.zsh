@@ -7,12 +7,10 @@ export GIT_EDITOR=nvim
 # export CPPFLAGS=-I/usr/local/opt/llvm/include
 export XDG_CONFIG_HOME=$HOME/.config
 export XDG_CACHE_HOME=$HOME/.cache
-export PYENV_ROOT=$HOME/.pyenv
 export FZF_DEFAULT_COMMAND='rg --hidden --no-ignore --files'
 export DENO_INSTALL=$HOME/.deno
 export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/path/to/parent/dir
 export PKG_CONFIG_PATH=/opt/homebrew/opt/expat/lib/pkgconfig
-export CLOUDSDK_PYTHON=~/.pyenv/shims/python
 export BUN_INSTALL="$HOME/.bun"
 
 # export CPPFLAGS=-I/usr/local/opt/llvm/include
@@ -57,13 +55,10 @@ export PATH=$PATH:$HOME/$ANDROID_HOME/platform-tools
 export PATH=$PATH:$HOME/Library/Android/sdk/platform-tools
 export PATH=$PATH:$JAVA_HOME/bin
 export PATH=$PATH:$GOPATH/bin
-export PATH=$PATH:$PYENV_ROOT/bin
 export PATH=$PATH:/opt/homebrew/opt/openssl@3/bin
 export VOLTA_HOME=$HOME/.volta
 export PATH=$PATH:/opt/homebrew/Cellar
 export PATH=$PATH:$VOLTA_HOME/bin
-export PATH=$PATH:$PYENV_ROOT/bin
-export PATH=$PATH:$PYENV_ROOT/shims
 export PATH=$PATH:$HOME/.rbenv/shims
 export PATH=$PATH:$HOME/.rye/shims
 export PATH=$PATH:$BUN_INSTALL/bin
@@ -71,11 +66,6 @@ export PATH=$PATH:$HOME/.night.zig/latest
 export PATH=$PATH:$HOME/.night.zig/nz
 unset _VOLTA_TOOL_RECURSION
 
-if [ -d "$HOME/google-cloud-sdk" ];then
-		source "$HOME/google-cloud-sdk/path.zsh.inc"
-		source "$HOME/google-cloud-sdk/completion.zsh.inc"
-fi
-#
 case "$(uname -s)" in
 
     Darwin)
