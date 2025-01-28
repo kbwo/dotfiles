@@ -1,7 +1,9 @@
 local mason_lspconfig = require("mason-lspconfig")
 local lspconfig = require("lspconfig")
 
-local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+-- local capabilities = require("cmp_nvim_lsp").default_capabilities()
+local capabilities = require("ddc_source_lsp").make_client_capabilities()
 capabilities = vim.tbl_deep_extend("force", capabilities, {
 	workspace = {
 		didChangeWatchedFiles = {
@@ -307,9 +309,34 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.api.nvim_buf_set_keymap(0, "n", "ccr", ":TSToolsRemoveUnusedImports<CR>", { noremap = true, silent = true })
 	end,
 })
+local configs = require("lspconfig.configs")
+local util = require("lspconfig/util")
 
 require("testing-ls").setup({})
 lspconfig.diagnosticls.setup({})
+
+local configs = require("lspconfig.configs")
+local util = require("lspconfig/util")
+
+configs.ainavi_ls = {
+	default_config = {
+		cmd = { "/home/kbwo/go/projects/github.com/kbwo/AINavigator-lsp/target/debug/ainavi-ls" },
+		filetypes = { "markdown", "md" },
+		root_dir = function(fname)
+			return util.root_pattern('.git')(fname)
+		end,
+		single_file_support = true,
+	},
+	docs = {
+		description = [[
+    ]],
+	},
+}
+
+lspconfig.ainavi_ls.setup({
+	on_attach = function(client, bufnr)
+	end
+})
 
 -- A better way to separate lsp running between denols and tsserver. · Issue  https://github.com/pmizio/typescript-tools.nvim/issues/248
 require("typescript-tools").setup({
