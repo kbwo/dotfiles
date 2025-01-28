@@ -1,7 +1,7 @@
 local mason_lspconfig = require("mason-lspconfig")
 local lspconfig = require("lspconfig")
 
-local capabilities = require("cmp_nvim_lsp").default_capabilities()
+local capabilities = require("ddc_source_lsp").make_client_capabilities()
 capabilities = vim.tbl_deep_extend("force", capabilities, {
 	workspace = {
 		didChangeWatchedFiles = {
@@ -103,8 +103,7 @@ mason_lspconfig.setup_handlers({
 			opts.settings = {
 				yaml = {
 					schemas = {
-						["https://raw.githubusercontent.com/instrumenta/kubernetes-json-schema/master/v1.18.0-standalone-strict/all.json"] =
-						"/*.k8s.yaml",
+						["https://raw.githubusercontent.com/instrumenta/kubernetes-json-schema/master/v1.18.0-standalone-strict/all.json"] = "/*.k8s.yaml",
 					},
 				},
 			}
@@ -167,7 +166,9 @@ mason_lspconfig.setup_handlers({
 			settings = {
 				python = {
 					analysis = {
-						reportMissingTypeStubs = false,
+						diagnosticSeverityOverrides = {
+							reportMissingTypeStubs = "none",
+						},
 					},
 				},
 			},
