@@ -47,15 +47,15 @@ augroup GinLogMappings
   autocmd!
   autocmd FileType gin-log map <buffer><nowait> a<Space> <Plug>(gin-action-choice)
   autocmd FileType gin-log map <buffer><nowait> . <Plug>(gin-action-repeat)
-  autocmd FileType gin-status map <buffer><nowait> g? <Plug>(gin-action-help:all)
+  autocmd FileType gin-log map <buffer><nowait> g? <Plug>(gin-action-help:all)
   autocmd FileType gin-log map <buffer><nowait>dd<Space> <Plug>(gin-action-show)zv
   autocmd FileType gin-log map <buffer><nowait>ddv <Plug>(gin-action-show:vsplit)
   autocmd FileType gin-log map <buffer><nowait>dds <Plug>(gin-action-show:split)
   autocmd FileType gin-log map <buffer><nowait>ddt <Plug>(gin-action-show:tabedit)
+  autocmd FileType gin-log map <buffer><nowait>yy <Plug>(gin-action-yank:commit)
 augroup END
 
 augroup GinStatusMappings
-  autocmd FileType gin-log map <buffer><nowait> a<Space> <Plug>(gin-action-choice)
   autocmd FileType gin-status map <buffer><nowait> . <Plug>(gin-action-repeat)
   autocmd FileType gin-status map <buffer><nowait> <Return> <Plug>(gin-action-edit)zv
   autocmd FileType gin-status map <buffer><nowait> dd<Space> <Plug>(gin-action-diff:smart)
@@ -71,6 +71,7 @@ augroup GinStatusMappings
   autocmd FileType gin-status map <buffer><nowait> <Leader>vv <Plug>(gin-action-edit:local:vsplit)
   autocmd FileType gin-status map <buffer><nowait> <Leader>ss <Plug>(gin-action-edit:local:split)
   autocmd FileType gin-status map <buffer><nowait> <Leader>tt <Plug>(gin-action-edit:local:tabedit)
+  autocmd FileType gin-status map <buffer><nowait>yy <Plug>(gin-action-yank:path)
 augroup END
 
 augroup GinBranchMappings
