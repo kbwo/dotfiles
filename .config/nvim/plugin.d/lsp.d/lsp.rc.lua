@@ -88,8 +88,6 @@ mason_lspconfig.setup_handlers({
 	function(server_name)
 		local opts = {}
 
-		opts.capabilities = capabilities
-
 		if server_name == "vtsls" or server_name == "ts_ls" or server_name == "eslint" then
 			-- if not is_node_repo then
 			--   return
@@ -164,7 +162,7 @@ mason_lspconfig.setup_handlers({
 		lspconfig.basedpyright.setup({
 			capabilities = capabilities,
 			settings = {
-				python = {
+				basedpyright = {
 					analysis = {
 						diagnosticSeverityOverrides = {
 							reportMissingTypeStubs = "none",
@@ -317,6 +315,8 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.api.nvim_buf_set_keymap(0, "n", "ccr", ":TSToolsRemoveUnusedImports<CR>", { noremap = true, silent = true })
 	end,
 })
+local configs = require("lspconfig.configs")
+local util = require("lspconfig/util")
 
 require("testing-ls").setup({})
 lspconfig.diagnosticls.setup({})

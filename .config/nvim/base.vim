@@ -314,3 +314,10 @@ command! -nargs=1 -complete=customlist,TargetBranchCompletion YankGitHubURL call
 
 nmap <Leader>w :noa w<CR>
 
+
+function! s:OpenByCursor()
+  let l:path = expand('%:p')
+  let l:line = line('.')
+  silent! exe '!cursor --g '.l:path.':'.l:line
+endfunction
+command! -range OpenByCursor call s:OpenByCursor()

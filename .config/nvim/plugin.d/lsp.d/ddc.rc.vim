@@ -1,7 +1,7 @@
 call ddc#custom#patch_global('ui', 'native')
 call ddc#custom#patch_global('backspaceCompletion', v:true)
 
-call ddc#custom#patch_global('sources', [ 'lsp', 'file', 'buffer', 'around'])
+call ddc#custom#patch_global('sources', [ 'lsp', 'buffer', 'file', 'dictionary', 'around'])
 
 call ddc#custom#patch_global('sourceOptions', {
     \   '_': {
@@ -33,6 +33,7 @@ call ddc#custom#patch_global('sourceOptions', {
     \     'mark': 'input',
     \     'isVolatile': v:true,
     \   },
+    \   'dictionary': {'mark': 'dict'},
     \})
 
 call ddc#custom#patch_filetype(
@@ -68,7 +69,6 @@ call ddc#custom#patch_global('sourceParams', {
     \   'forceCollect': v:true,
     \ },
     \ })
-
 
 call ddc#custom#patch_global('filterParams', {
     \   'matcher_fuzzy': {
