@@ -35,14 +35,6 @@ endfunction
 
 nmap gncl :call CurrentFileLog()<CR>
 
-" map <buffer><nowait> a <Plug>(gin-action-choice)
-" map <buffer><nowait> . <Plug>(gin-action-repeat)
-" nmap <buffer><nowait> ? <Plug>(gin-action-help)
-"
-" map <buffer><nowait> <Return> <Plug>(gin-action-show)zv
-"
-" nunmap <buffer><nowait> yy
-" vunmap <buffer><nowait> y
 augroup GinLogMappings
   autocmd!
   autocmd FileType gin-log map <buffer><nowait> a<Space> <Plug>(gin-action-choice)
@@ -52,7 +44,7 @@ augroup GinLogMappings
   autocmd FileType gin-log map <buffer><nowait>ddv <Plug>(gin-action-show:vsplit)
   autocmd FileType gin-log map <buffer><nowait>dds <Plug>(gin-action-show:split)
   autocmd FileType gin-log map <buffer><nowait>ddt <Plug>(gin-action-show:tabedit)
-  autocmd FileType gin-log map <buffer><nowait>yy <Plug>(gin-action-yank:commit)
+  autocmd FileType gin-log nmap <buffer><nowait>yc <Plug>(gin-action-yank:commit)
 augroup END
 
 augroup GinStatusMappings
@@ -71,16 +63,16 @@ augroup GinStatusMappings
   autocmd FileType gin-status map <buffer><nowait> <Leader>vv <Plug>(gin-action-edit:local:vsplit)
   autocmd FileType gin-status map <buffer><nowait> <Leader>ss <Plug>(gin-action-edit:local:split)
   autocmd FileType gin-status map <buffer><nowait> <Leader>tt <Plug>(gin-action-edit:local:tabedit)
-  autocmd FileType gin-status map <buffer><nowait>yy <Plug>(gin-action-yank:path)
+  autocmd FileType gin-status nmap <buffer><nowait>yy <Plug>(gin-action-yank:path)
 augroup END
 
 augroup GinBranchMappings
-  autocmd FileType gin-log map <buffer><nowait> a<Space> <Plug>(gin-action-choice)
-  autocmd FileType gin-status map <buffer><nowait> . <Plug>(gin-action-repeat)
-  autocmd FileType gin-branch nmap <buffer><nowait> <Return> <Plug>(gin-action-switch)
+  autocmd FileType gin-branch map <buffer><nowait> a<Space> <Plug>(gin-action-choice)
   autocmd FileType gin-branch map <buffer><nowait> . <Plug>(gin-action-repeat)
-  autocmd FileType gin-branch map <buffer><nowait> yy <Plug>(gin-action-yank:branch)
-  autocmd FileType gin-status map <buffer><nowait> g? <Plug>(gin-action-help:all)
+  autocmd FileType gin-branch nmap <buffer><nowait> <Return> <Plug>(gin-action-switch)
+  autocmd FileType gin-branch nmap <buffer><nowait> yy <Plug>(gin-action-yank:branch)
+  autocmd FileType gin-branch map <buffer><nowait> g? <Plug>(gin-action-help:all)
+  autocmd FileType gin-branch map <buffer><nowait> dl <Plug>(gin-action-delete:force)
 augroup END
 
 function! DiffBranchAll()
