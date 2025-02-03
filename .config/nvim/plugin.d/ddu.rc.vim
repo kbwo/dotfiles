@@ -163,6 +163,15 @@ function! RgFindNoIgnore(text) abort
   :call ddu#start({'sources': [{'name': 'rg', 'params': {'input': a:text, 'args': ['--smart-case', "--column", "--no-heading", '--hidden', '--glob', '!.git', '--color', 'never', "--no-ignore"]}}]})
 endfunction
 
+command! -range Ainavi :call ddu#start(#{
+      \   sources: [#{name: 'ainavi'}],
+      \   kindOptions: #{
+      \     file: #{
+      \       defaultAction: 'open',
+      \     },
+      \   }
+      \ })
+
 command! DduBuffer :call ddu#start(#{
       \   sources: [#{name: 'buffer'}],
       \   kindOptions: #{
@@ -260,3 +269,5 @@ nmap <silent><Leader>im :call ddu#start(#{
       \   },
       \ },
       \})<CR>
+
+

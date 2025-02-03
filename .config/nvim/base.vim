@@ -1,4 +1,5 @@
 set rtp +=~/.vim
+set rtp+=~/go/projects/github.com/kbwo/ddu-source-ainavi
 
 if has('vim_starting')
   set nocompatible
