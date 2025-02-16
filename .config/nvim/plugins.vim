@@ -30,7 +30,7 @@ Jetpack 'Exafunction/codeium.vim', { 'branch': 'main' }
 Jetpack 'lewis6991/gitsigns.nvim'
 Jetpack 'NvChad/nvim-colorizer.lua'
 Jetpack 'rebelot/kanagawa.nvim'
-Jetpack 'phaazon/hop.nvim'
+Jetpack 'smoka7/hop.nvim'
 Jetpack 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Jetpack 'lukas-reineke/indent-blankline.nvim'
 Jetpack 'andrewferrier/debugprint.nvim'
