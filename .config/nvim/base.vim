@@ -259,7 +259,10 @@ function! YankRelativePath()
 endfunction
 
 function! YankGitHubURL(target_branch)
-  let l:relpath = fnamemodify(expand('%'), ':.')
+  let l:git_root = system('git rev-parse --show-toplevel')
+  let l:git_root = substitute(l:git_root, '\n$', '', '')
+  let l:absolute_path = expand('%:p')
+  let l:relpath = substitute(l:absolute_path, l:git_root . '/', '', '')
   if empty(l:relpath)
     echo 'No file to yank'
     return

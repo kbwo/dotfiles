@@ -4,42 +4,42 @@ matches:
   # But matches can also be dynamic:
 
   # Print the current date
-  - trigger: ":now;"
+  - trigger: ";now;"
     replace: "{{mydate}}"
     vars:
       - name: mydate
         type: date
         params:
           format: "%Y-%m-%d %H:%M:%S"
-  - trigger: ":ts;"
+  - trigger: ";ts;"
     replace: "{{mydate}}"
     vars:
       - name: mydate
         type: date
         params:
           format: "%s"
-  - trigger: ":n;"
+  - trigger: ";n;"
     replace: "{{mydate}}"
     vars:
       - name: mydate
         type: date
         params:
           format: "%Y-%m-%d %H:%M:%S"
-  - trigger: ":d;"
+  - trigger: ";d;"
     replace: "{{mydate}}"
     vars:
       - name: mydate
         type: date
         params:
           format: "%Y-%m-%d"
-  - trigger: ":w;"
+  - trigger: ";w;"
     replace: "{{week}}"
     vars:
       - name: week
         type: date
         params:
           format: "%V"
-  - trigger: ":yw;"
+  - trigger: ";yw;"
     replace: "{{yearweek}}"
     vars:
       - name: yearweek
@@ -47,44 +47,53 @@ matches:
         params:
           format: "%Y-W%V"
   # Emoji
-  - trigger: ":ok;"
+  - trigger: ";ok;"
     replace: "👍"
-  - trigger: ":next;"
+  - trigger: ";next;"
     replace: "⏭️"
-  - trigger: ":nx;"
+  - trigger: ";nx;"
     replace: "⏭️"
-  - trigger: ":back;"
+  - trigger: ";back;"
     replace: "⏮️"
-  - trigger: ":check;"
+  - trigger: ";check;"
     replace: "✅"
-  - trigger: ":ck;"
+  - trigger: ";ck;"
     replace: "✅"
-  - trigger: ":question;"
+  - trigger: ";question;"
     replace: "❓"
-  - trigger: ":q;"
+  - trigger: ";q;"
     replace: "❓"
-  - trigger: ":exclamation;"
+  - trigger: ";exclamation;"
     replace: "❗"
-  - trigger: ":warning;"
+  - trigger: ";warning;"
     replace: "⚠️"
-  - trigger: ":info;"
+  - trigger: ";info;"
     replace: "ℹ️"
-  - trigger: ":stop;"
+  - trigger: ";stop;"
     replace: "🛑"
-  - trigger: ":cross;"
+  - trigger: ";cross;"
     replace: "❌"
-  - trigger: ":x;"
+  - trigger: ";x;"
     replace: "❌"
-  - trigger: ":speech;"
+  - trigger: ";speech;"
     replace: "💬"
-  - trigger: ":construction;"
+  - trigger: ";construction;"
     replace: "🚧"
-  - trigger: ":wip;"
+  - trigger: ";wip;"
     replace: "🚧"
-  - trigger: ":rocket;"
+  - trigger: ";rocket;"
     replace: "🚀"
-  - trigger: ":eyes;"
+  - trigger: ";eyes;"
     replace: "👀"
+  - trigger: ";/"
+    replace: "\\"
+  - trigger: ";r;"
+    replace: "{{output}}"
+    vars:
+      - name: output
+        type: shell
+        params:
+          cmd: "openssl rand -hex 8"
 
   # - trigger: ":shell"
   #   replace: "{{output}}"
