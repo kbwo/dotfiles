@@ -108,3 +108,20 @@ colortest() {
 }
 
 export COLORTERM=truecolor
+
+# コマンド実行前に実行されるフック
+preexec() {
+  # コマンドが実行された時刻を記録
+  LAST_CMD_TIME=$(date +"%Y-%m-%d %H:%M:%S")
+}
+
+# プロンプト表示前に実行されるフック
+precmd() {
+  # 直前にコマンドが実行されていれば日時を表示
+  if [[ -n "$LAST_CMD_TIME" ]]; then
+    # 薄い灰色 (カラーコード 90) で表示
+    echo -e "\033[90m[executed: ${LAST_CMD_TIME}]\033[0m"
+    # 表示したらリセット
+    unset LAST_CMD_TIME
+  fi
+}
