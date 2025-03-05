@@ -34,7 +34,6 @@ Jetpack 'smoka7/hop.nvim'
 Jetpack 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Jetpack 'lukas-reineke/indent-blankline.nvim'
 Jetpack 'andrewferrier/debugprint.nvim'
-Jetpack 'sindrets/diffview.nvim'
 Jetpack 'akinsho/toggleterm.nvim'
 Jetpack 'jedrzejboczar/possession.nvim'
 Jetpack 'chenasraf/text-transform.nvim'
@@ -57,7 +56,6 @@ Jetpack 'matsui54/ddu-source-file_external'
 Jetpack 'kbwo/ddu-source-lsp', { 'branch': 'fix/method-support' }
 Jetpack 'kamecha/ddu-source-window'
 
-Jetpack 'mfussenegger/nvim-dap'
 Jetpack 'jake-stewart/multicursor.nvim'
 
 " formatter
@@ -100,7 +98,8 @@ Jetpack 'hrsh7th/cmp-emoji'
 Jetpack 'hrsh7th/cmp-path'
 Jetpack 'hrsh7th/cmp-buffer'
 Jetpack 'hrsh7th/cmp-calc'
-Jetpack 'uga-rosa/cmp-dictionary'
+" dictionary 使っている状態でバッファが増えると何故かterminalがめちゃくちゃ重くなる
+" Jetpack 'uga-rosa/cmp-dictionary'
 Jetpack 'kristijanhusak/vim-dadbod-completion'
 Jetpack 'SergioRibera/cmp-dotenv'
 Jetpack 'ray-x/cmp-treesitter'
@@ -140,3 +139,5 @@ endfunction
 
 call LoadConfigurations('~/dotfiles/.config/nvim/plugin.d')
 
+
+autocmd BufEnter term:// startinsert

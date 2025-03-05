@@ -19,8 +19,6 @@ require("aerial").setup({
 		"Package",
 		"Property",
 		"Struct",
-		"TypeParameter",
-		"Variable",
 	},
 	backends = { "treesitter", "lsp", "markdown", "asciidoc", "man" },
 	keymaps = {
