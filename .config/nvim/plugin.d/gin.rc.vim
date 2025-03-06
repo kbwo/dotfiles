@@ -83,3 +83,22 @@ function! DiffBranchAll()
 endfunction
 
 nnoremap <leader>da :call DiffBranchAll()<CR>
+
+augroup GinBufferCleanup
+  autocmd!
+  " " 離れるバッファを記録
+  autocmd BufLeave * if index(['gin-log', 'gin-diff'], &filetype) >= 0 | let g:last_gin_buf = bufnr('%') | endif
+  " " 移動先がddu-ffでなければ削除
+  autocmd BufEnter * if exists('g:last_gin_buf') && &filetype !=# 'ddu-ff' | call s:delete_gin_buffer(g:last_gin_buf) | unlet g:last_gin_buf | endif
+augroup END
+function! s:delete_gin_buffer(bufnum) abort
+  " 対象のバッファのfiletypeを確認
+  if getbufvar(a:bufnum, '&filetype') !~# '^gin-\(log\|diff\|status\|branch\)$'
+    return
+  endif
+
+  " バッファが他のウィンドウに表示されていない場合にのみbdelete
+  if len(win_findbuf(a:bufnum)) == 0
+    silent! execute 'bdelete' a:bufnum
+  endif
+endfunction
