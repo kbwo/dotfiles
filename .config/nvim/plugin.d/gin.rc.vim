@@ -27,6 +27,13 @@ let g:gin_log_persistent_args = [
       \ '++emojify',
       \ '--pretty=%C(yellow)%h%C(reset)%C(auto)%d%C(reset) %s %C(cyan)@%an%C(reset) %C(magenta)[%ar]%C(reset)',
       \]
+let s:has_delta = executable("delta") == 1
+" disable delta as <CR> won't work
+let s:processor = v:null
+if s:has_delta
+  let s:processor = "delta --diff-highlight --no-gitconfig --color-only"
+  let g:gin_diff_persistent_args = ["++processor=" . s:processor]
+endif
 
 
 function! CurrentFileLog() abort
@@ -45,6 +52,9 @@ augroup GinLogMappings
   autocmd FileType gin-log map <buffer><nowait>dds <Plug>(gin-action-show:split)
   autocmd FileType gin-log map <buffer><nowait>ddt <Plug>(gin-action-show:tabedit)
   autocmd FileType gin-log nmap <buffer><nowait>yc <Plug>(gin-action-yank:commit)
+  autocmd FileType gin-log nmap <buffer><nowait>ir <Plug>(gin-action-fixup:instant-fixup)
+  autocmd FileType gin-log nmap <buffer><nowait>if <Plug>(gin-action-fixup:instant-reword)
+  autocmd FileType gin-log nmap <buffer><nowait>ia <Plug>(gin-action-fixup:instant-amend)
 augroup END
 
 augroup GinStatusMappings
