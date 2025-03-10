@@ -16,6 +16,7 @@ require("kanagawa").setup({
 		return {
 			Visual = { bg = "#5a6773" },
 			CursorLine = { bg = "#3E4452", bold = true },
+			AerialLine = { bg = "#333843" },
 			Search = { fg = "#FFFFFF", bg = "#b26e29", bold = true },
 			CurSearch = { fg = "#FFFFFF", bg = "#b26e29", bold = true },
 			NonText = { bg = "NONE" },

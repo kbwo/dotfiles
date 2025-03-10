@@ -27,7 +27,12 @@ cmp.setup({
   sources = cmp.config.sources({
     { name = "nvim_lsp" },
   }, {
-    { name = "path" },                     -- file paths
+    {
+      name = "path",
+      option = {
+        get_cwd = function() return vim.fn.getcwd() end
+      }
+    },
     { name = "nvim_lsp_signature_help" },  -- display function signatures with current parameter emphasized
     { name = "nvim_lsp_document_symbol" }, -- display function signatures with current parameter emphasized
     { name = "emoji" },                    -- display function signatures with current parameter emphasized

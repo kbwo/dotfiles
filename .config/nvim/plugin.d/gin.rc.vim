@@ -31,7 +31,7 @@ let s:has_delta = executable("delta") == 1
 " disable delta as <CR> won't work
 let s:processor = v:null
 if s:has_delta
-  let s:processor = "delta --diff-highlight --no-gitconfig --color-only"
+  let s:processor = "delta --no-gitconfig --color-only"
   let g:gin_diff_persistent_args = ["++processor=" . s:processor]
 endif
 
@@ -93,22 +93,21 @@ function! DiffBranchAll()
 endfunction
 
 nnoremap <leader>da :call DiffBranchAll()<CR>
-
-augroup GinBufferCleanup
-  autocmd!
-  " " 離れるバッファを記録
-  autocmd BufLeave * if index(['gin-log', 'gin-diff'], &filetype) >= 0 | let g:last_gin_buf = bufnr('%') | endif
-  " " 移動先がddu-ffでなければ削除
-  autocmd BufEnter * if exists('g:last_gin_buf') && &filetype !=# 'ddu-ff' | call s:delete_gin_buffer(g:last_gin_buf) | unlet g:last_gin_buf | endif
-augroup END
-function! s:delete_gin_buffer(bufnum) abort
-  " 対象のバッファのfiletypeを確認
-  if getbufvar(a:bufnum, '&filetype') !~# '^gin-\(log\|diff\|status\|branch\)$'
-    return
-  endif
-
-  " バッファが他のウィンドウに表示されていない場合にのみbdelete
-  if len(win_findbuf(a:bufnum)) == 0
-    silent! execute 'bdelete' a:bufnum
-  endif
+"
+" Function to delete gin-diff and gin-log buffers
+" Function to delete buffers with gin- prefixed filetypes
+function! DeleteGinBuffers()
+    let l:buffers = range(1, bufnr('$'))
+    for l:buf in l:buffers
+        if bufexists(l:buf) && buflisted(l:buf)
+            let l:ft = getbufvar(l:buf, '&filetype')
+            " Check if filetype starts with 'gin-'
+            if l:ft =~# '^gin-'
+                execute 'bdelete ' . l:buf
+            endif
+        endif
+    endfor
 endfunction
+
+" Command to call the function
+command! DeleteGinBuffers call DeleteGinBuffers()
