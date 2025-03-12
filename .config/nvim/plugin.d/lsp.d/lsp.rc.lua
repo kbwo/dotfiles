@@ -112,7 +112,7 @@ mason_lspconfig.setup_handlers({
 				return
 			end
 
-			opts.root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc", "deps.ts", "import_map.json")
+			opts.root_dir = lspconfig.util.root_pattern("deno.json", "deno.lock", "deno.jsonc", "deps.ts", "import_map.json")
 			opts.init_options = {
 				lint = true,
 				unstable = true,
@@ -335,6 +335,7 @@ require("typescript-tools").setup({
 				marker.all_of(marker.has_directory(".git"), function(path)
 					local result = marker.one_of(
 						marker.has_readable_file("deno.json"),
+						marker.has_readable_file("deno.lock"),
 						marker.has_readable_file("deno.jsonc"),
 						marker.has_readable_file("import_map.json"),
 						marker.has_directory("denops")
@@ -345,6 +346,7 @@ require("typescript-tools").setup({
 			{
 				halt = marker.one_of(
 					marker.has_readable_file("deno.json"),
+					marker.has_readable_file("deno.lock"),
 					marker.has_readable_file("deno.jsonc"),
 					marker.has_readable_file("import_map.json"),
 					marker.has_directory("denops")
