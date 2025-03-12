@@ -325,3 +325,5 @@ function! s:OpenByCursor()
   silent! exe '!cursor --g '.l:path.':'.l:line
 endfunction
 command! -range OpenByCursor call s:OpenByCursor()
+
+autocmd CursorMoved, CursorHold * checktime
