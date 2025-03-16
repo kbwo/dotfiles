@@ -64,6 +64,16 @@ action = "None"
 key = "NumpadSubtract"
 mods = "Control"
 
+[[keyboard.bindings]]
+key = "C"
+mods = "Super"
+action = "Copy"
+
+[[keyboard.bindings]]
+key = "V"
+mods = "Super"
+action = "Paste"
+
 [terminal.shell]
 program = "/usr/bin/zsh"
 
@@ -71,3 +81,4 @@ program = "/usr/bin/zsh"
 TERM = "xterm-256color"
 
 [terminal]
+
