@@ -327,3 +327,5 @@ endfunction
 command! -range OpenByCursor call s:OpenByCursor()
 
 autocmd CursorMoved, CursorHold * checktime
+
+autocmd BufNewFile,BufRead *.mdc set filetype=markdown
