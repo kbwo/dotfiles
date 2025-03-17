@@ -329,3 +329,67 @@ command! -range OpenByCursor call s:OpenByCursor()
 autocmd CursorMoved, CursorHold * checktime
 
 autocmd BufNewFile,BufRead *.mdc set filetype=markdown
+
+" 自動コミット・プッシュを行うディレクトリのリスト
+let g:auto_git_dirs = ['~/obs-kbwo']
+
+" 自動コミット・プッシュの間隔（ミリ秒）
+let g:auto_git_interval = 300000  " 5分
+
+" タイマーIDを保持するグローバル変数
+let g:auto_git_timer_id = -1
+
+function! s:AutoGitCommitPush()
+    " 設定されたディレクトリのいずれかにマッチするか確認
+    for dir in g:auto_git_dirs
+        let l:expanded_dir = expand(dir)
+        " ディレクトリが存在するか確認
+        if isdirectory(l:expanded_dir)
+            " 最初にpullを実行
+            call system('git -C ' . l:expanded_dir . ' pull')
+            
+            " ファイルが変更されているか確認
+            let l:git_status = system('git -C ' . l:expanded_dir . ' status --porcelain')
+            if !empty(l:git_status)
+                " 変更があれば、コミットとプッシュを実行
+                let l:timestamp = strftime('%Y-%m-%d %H:%M:%S')
+                call system('git -C ' . l:expanded_dir . ' add .')
+                call system('git -C ' . l:expanded_dir . ' commit -m "Auto commit: ' . l:timestamp . '"')
+                call system('git -C ' . l:expanded_dir . ' push')
+                echo "Auto pulled, committed and pushed changes in " . l:expanded_dir
+            else
+                echo "Pulled from " . l:expanded_dir . " (no local changes)"
+            endif
+        endif
+    endfor
+endfunction
+
+" タイマーの設定
+function! s:StartAutoGitTimer()
+    " カレントディレクトリを取得
+    let l:current_dir = getcwd()
+    
+    " 既存のタイマーがあれば停止
+    if g:auto_git_timer_id != -1
+        call timer_stop(g:auto_git_timer_id)
+        let g:auto_git_timer_id = -1
+    endif
+    
+    " 最初のcommit/pushを実行
+    call s:AutoGitCommitPush()
+    
+    for dir in g:auto_git_dirs
+        let l:expanded_dir = expand(dir)
+        if l:current_dir =~ '^' . l:expanded_dir
+            let g:auto_git_timer_id = timer_start(g:auto_git_interval, {-> execute('call s:AutoGitCommitPush()')}, {'repeat': -1})
+            echo "Started auto git timer for " . l:expanded_dir
+            break
+        endif
+    endfor
+endfunction
+
+" Vim起動時にタイマーを開始
+augroup AutoGitCommitPush
+    autocmd!
+    autocmd VimEnter * call s:StartAutoGitTimer()
+augroup END
