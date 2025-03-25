@@ -49,6 +49,7 @@ nmap <Leader>tn :NoFile<CR>
 nmap <Leader>l :lcd %:h<CR>
 nmap <Leader>h :noh<CR>
 nmap <Leader>e<Space> :e!<CR>
+nmap <Leader>ya :%y<CR>
 tnoremap <C-\> <C-\><C-n>
 command Sov so ~/.config/nvim/init.vim
 command Cdv vsp ~/dotfiles/.config/nvim/init.vim
@@ -114,6 +115,8 @@ set matchpairs+=<:>
 set matchpairs+=（:）
 set matchpairs+=「:」
 set matchpairs+=【:】
+set endofline
+set fixendofline
 
 nnoremap gno o<Esc>
 nnoremap gnO O<Esc>
