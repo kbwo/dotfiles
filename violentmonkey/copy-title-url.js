@@ -23,9 +23,10 @@
   document.addEventListener("keydown", (e) => {
     // delete `#xxx`, `[xxx]`
     const title = document.title
-      .replace(/^\(\d+\)\s/, "")
-      .replace(/#.+/g, "")
-      .replace(/[\[\]]/g, "");
+      .replace(/^\(\d+\)\s/, "")      // "(数字) "を削除
+      .replace(/#.+/g, "")            // "#以降"を削除
+      .replace(/[\[\]]/g, "")         // "[]"を削除
+      .replace(/\u200D/g, "");        // ZWJを削除
     const url = document.URL;
     if (e.ctrlKey && e.altKey && (e.key === "c" || e.code === "KeyC")) {
       copy(`[${title}](${url})`);
