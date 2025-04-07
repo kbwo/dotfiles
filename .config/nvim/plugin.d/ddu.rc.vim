@@ -196,7 +196,6 @@ function! RgFind(type, ...)
   else
     call RgFindNoIgnore(text)
   endif
-  call timer_start(500, {-> feedkeys('/' . text . "\<CR>", 'n')})
 endfunction
 
 command! -nargs=* RgFind call RgFind(<f-args>)

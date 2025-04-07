@@ -101,9 +101,7 @@ Jetpack 'hrsh7th/cmp-calc'
 " dictionary 使っている状態でバッファが増えると何故かterminalがめちゃくちゃ重くなる
 " Jetpack 'uga-rosa/cmp-dictionary'
 Jetpack 'kristijanhusak/vim-dadbod-completion'
-Jetpack 'SergioRibera/cmp-dotenv'
 Jetpack 'ray-x/cmp-treesitter'
-" Jetpack 'kbwo/cmp-yank'
 
 " Jetpack 'Shougo/ddc.vim'
 " Jetpack 'Shougo/ddc-ui-native'
@@ -120,7 +118,7 @@ Jetpack 'ray-x/cmp-treesitter'
 " Jetpack 'matsui54/ddc-source-dictionary'
 " Jetpack 'kristijanhusak/vim-dadbod-completion'
 
-Jetpack 'EgZvor/vim-fluffy'
+" Jetpack 'EgZvor/vim-fluffy'
 
 Jetpack 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 
