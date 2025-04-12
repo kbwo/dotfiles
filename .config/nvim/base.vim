@@ -340,6 +340,22 @@ let g:auto_git_dirs = ['~/obs-kbwo']
 " シェルスクリプトを起動する関数
 function! s:StartAutoGit() abort
     if !exists('g:auto_git_job')
+        " 現在のディレクトリが対象ディレクトリリストに含まれているか確認
+        let l:current_dir = expand('%:p:h')
+        let l:is_target_dir = 0
+        
+        for dir in g:auto_git_dirs
+            let l:expanded_dir = expand(dir)
+            if l:current_dir =~# '^' . l:expanded_dir
+                let l:is_target_dir = 1
+                break
+            endif
+        endfor
+        
+        if !l:is_target_dir
+            return
+        endif
+        
         " ディレクトリリストをスペース区切りで結合
         let l:dir_list = join(map(g:auto_git_dirs, 'expand(v:val)'), ' ')
         " 最初のディレクトリにauto_git.shがあると仮定
