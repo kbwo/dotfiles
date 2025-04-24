@@ -109,19 +109,58 @@ colortest() {
 
 export COLORTERM=truecolor
 
+# neovim-remoteとnotiに依存
+# 通知を行う関数
+_notify() {
+  local cmd="$1" exit_status="$?" elapsed="$3"
+
+  if command -v nvr >/dev/null 2>&1; then
+    # 現在フォーカスの当たっているターミナルのシェル PID を取得
+    local active_pid
+    active_pid=$(
+      nvr --remote-expr \
+        '&buftype == "terminal" ? jobpid(&channel) : 0'
+    )
+    # 自プロセス ( $$ ) と異なれば、背景実行中とみなし Neovim 内通知
+    if [[ $active_pid -ne $$ ]]; then
+        noti --message "$cmd completed in ${elapsed}s (code: $exit_status)"
+    fi
+  else
+    noti --message "$cmd completed in ${elapsed}s (code: $exit_status)"
+  fi
+}
+
 # コマンド実行前に実行されるフック
 preexec() {
+  LAST_CMD="$1"
+
+  LAST_CMD_TIMESTAMP=$(date +%s)
+
   # コマンドが実行された時刻を記録
-  LAST_CMD_TIME=$(date +"%Y-%m-%d %H:%M:%S")
+  LAST_CMD_DATETIME=$(date +"%Y-%m-%d %H:%M:%S")
 }
 
 # プロンプト表示前に実行されるフック
 precmd() {
   # 直前にコマンドが実行されていれば日時を表示
-  if [[ -n "$LAST_CMD_TIME" ]]; then
+  if [[ -n "$LAST_CMD_DATETIME" ]]; then
     # 薄い灰色 (カラーコード 90) で表示
-    echo -e "\033[90m[executed: ${LAST_CMD_TIME}]\033[0m"
+    echo -e "\033[90m[executed: ${LAST_CMD_DATETIME}]\033[0m"
     # 表示したらリセット
-    unset LAST_CMD_TIME
+    unset LAST_CMD_DATETIME
+  fi
+
+    # 直前に記録があれば実行
+  if [[ -n "$LAST_CMD" && -n "$LAST_CMD_TIMESTAMP" ]]; then
+    local exit_status=$?
+    local now=$(date +%s)
+    local elapsed=$(( now - LAST_CMD_TIMESTAMP ))
+
+    # 例: 1秒以上かかったものだけ通知
+    if (( elapsed > 1 )); then
+      _notify "$LAST_CMD" "$exit_status" "$elapsed"
+    fi
+
+    unset LAST_CMD LAST_CMD_TIMESTAMP
   fi
 }
