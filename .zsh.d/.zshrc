@@ -19,3 +19,6 @@ eval "$(~/.local/bin/mise activate zsh)"
 
 # https://github.com/cline/cline/wiki/Troubleshooting-%E2%80%90-Shell-Integration-Unavailable
 [[ "$TERM_PROGRAM" == "vscode" ]] && . "$(code --locate-shell-integration-path zsh)"
+
+# Added by Windsurf
+export PATH="/Users/kbwo/.codeium/windsurf/bin:$PATH"
