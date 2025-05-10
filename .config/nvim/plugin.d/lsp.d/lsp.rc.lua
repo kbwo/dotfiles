@@ -67,7 +67,6 @@ mason_lspconfig.setup({
 		"html",
 		"jsonls",
 		"prismals",
-		"ts_ls",
 		"vimls",
 		"zls",
 	},
@@ -85,173 +84,154 @@ function IsNodeRepo()
 	return is_node_repo
 end
 
-mason_lspconfig.setup_handlers({
-	function(server_name)
-		local opts = {}
-
-		if server_name == "vtsls" or server_name == "ts_ls" or server_name == "eslint" then
-			-- if not is_node_repo then
-			--   return
-			-- end
-			opts.settings = {
-				documentFormatting = false,
-				javascript = { suggest = { completeFunctionCalls = true } },
-				typescript = { suggest = { completeFunctionCalls = true } },
-			}
-		elseif server_name == "yamlls" then
-			opts.settings = {
-				yaml = {
-					schemas = {
-						["https://raw.githubusercontent.com/instrumenta/kubernetes-json-schema/master/v1.18.0-standalone-strict/all.json"] =
-						"/*.k8s.yaml",
-					},
-				},
-			}
-		elseif server_name == "denols" then
-			if IsNodeRepo() then
-				return
-			end
-
-			opts.root_dir = lspconfig.util.root_pattern("deno.json", "deno.lock", "deno.jsonc", "deps.ts", "import_map.json")
-			opts.init_options = {
-				lint = true,
-				unstable = true,
-				suggest = {
-					imports = {
-						hosts = {
-							["https://deno.land"] = true,
-							["https://cdn.nest.land"] = true,
-							["https://crux.land"] = true,
-						},
-					},
-				},
-			}
-		end
-
-		if server_name == "svelte" then
-			opts.on_attach = function(client, bufnr)
-				vim.api.nvim_create_autocmd("BufWritePost", {
-					pattern = { "*.js", "*.ts" },
-					callback = function(ctx)
-						client.notify("$/onDidChangeTsOrJsFile", { uri = ctx.match })
-					end,
-				})
-			end
-		end
-
-		lspconfig[server_name].setup(opts)
-	end,
-	["lua_ls"] = function()
-		lspconfig.lua_ls.setup({
-			settings = {
-				Lua = {
-					diagnostics = {
-						-- Recognize the `vim` global
-						globals = { "vim" },
-					},
-					workspace = {
-						-- Make language server aware of runtime files
-						library = {
-							[vim.fn.expand("$VIMRUNTIME/lua")] = true,
-							[vim.fn.stdpath("config") .. "/lua"] = true,
-						},
-					},
+lspconfig.basedpyright.setup({
+	capabilities = capabilities,
+	settings = {
+		basedpyright = {
+			analysis = {
+				diagnosticSeverityOverrides = {
+					reportMissingTypeStubs = "none",
 				},
 			},
-		})
-	end,
-	["basedpyright"] = function()
-		lspconfig.basedpyright.setup({
-			capabilities = capabilities,
-			settings = {
-				basedpyright = {
-					analysis = {
-						diagnosticSeverityOverrides = {
-							reportMissingTypeStubs = "none",
-						},
-					},
+		},
+	},
+})
+
+lspconfig.lua_ls.setup({
+	settings = {
+		Lua = {
+			diagnostics = {
+				-- Recognize the `vim` global
+				globals = { "vim" },
+			},
+			workspace = {
+				-- Make language server aware of runtime files
+				library = {
+					[vim.fn.expand("$VIMRUNTIME/lua")] = true,
+					[vim.fn.stdpath("config") .. "/lua"] = true,
 				},
 			},
-		})
-	end,
-	["rust_analyzer"] = function() end,
-	["ts_ls"] = function()
-		if not IsNodeRepo() then
-			return
+		},
+	},
+})
+lspconfig.yamlls.setup({
+	capabilities = capabilities,
+	settings = {
+		yaml = {
+			schemas = {
+				["https://cfn-schema.y13i.com/schema?region=eu-west-2&version=20.0.0"] = "cloudformation/*",
+				["http://json.schemastore.org/github-workflow"] = ".github/workflows/*",
+			},
+			format = { enable = false },
+			completion = true,
+			hover = true,
+			customTags = {
+				"!And scalar",
+				"!And mapping",
+				"!And sequence",
+				"!Condition scalar",
+				"!Condition mapping",
+				"!Condition sequence",
+				"!Base64 scalar",
+				"!Base64 mapping",
+				"!Base64 sequence",
+				"!If scalar",
+				"!If mapping",
+				"!If sequence",
+				"!Not scalar",
+				"!Not mapping",
+				"!Not sequence",
+				"!Equals scalar",
+				"!Equals mapping",
+				"!Equals sequence",
+				"!Or scalar",
+				"!Or mapping",
+				"!Or sequence",
+				"!FindInMap scalar",
+				"!FindInMap mappping",
+				"!FindInMap sequence",
+				"!Base64 scalar",
+				"!Base64 mapping",
+				"!Base64 sequence",
+				"!Cidr scalar",
+				"!Cidr mapping",
+				"!Cidr sequence",
+				"!Ref scalar",
+				"!Ref mapping",
+				"!Ref sequence",
+				"!Sub scalar",
+				"!Sub mapping",
+				"!Sub sequence",
+				"!GetAtt scalar",
+				"!GetAtt mapping",
+				"!GetAtt sequence",
+				"!GetAZs scalar",
+				"!GetAZs mapping",
+				"!GetAZs sequence",
+				"!ImportValue scalar",
+				"!ImportValue mapping",
+				"!ImportValue sequence",
+				"!Select scalar",
+				"!Select mapping",
+				"!Select sequence",
+				"!Split scalar",
+				"!Split mapping",
+				"!Split sequence",
+				"!Join scalar",
+				"!Join mapping",
+				"!Join sequence",
+			},
+		},
+	},
+})
+-- lspconfig.svelte.setup({
+-- 	on_attach = function(client, bufnr)
+-- 		vim.api.nvim_create_autocmd("BufWritePost", {
+-- 			pattern = { "*.js", "*.ts" },
+-- 			callback = function(ctx)
+-- 				client.notify("$/onDidChangeTsOrJsFile", { uri = ctx.match })
+-- 			end,
+-- 		})
+-- 	end,
+-- })
+
+-- Setup TypeScript-related servers only for Node.js projects
+local ts_opts = {
+	settings = {
+		documentFormatting = false,
+		javascript = { suggest = { completeFunctionCalls = true } },
+		typescript = { suggest = { completeFunctionCalls = true } },
+	},
+	-- on_attach = function(client, bufnr)
+	-- 	client.stop()
+	-- end,
+}
+
+lspconfig.eslint.setup(ts_opts)
+lspconfig.denols.setup({
+	root_dir = lspconfig.util.root_pattern("deno.json", "deno.lock", "deno.jsonc", "deps.ts", "import_map.json"),
+	single_file_support = false,
+	init_options = {
+		lint = true,
+		unstable = true,
+		suggest = {
+			imports = {
+				hosts = {
+					["https://deno.land"] = true,
+					["https://cdn.nest.land"] = true,
+					["https://crux.land"] = true,
+				},
+			},
+		},
+	},
+})
+vim.api.nvim_create_autocmd("LspAttach", {
+	callback = function(args)
+		local client = vim.lsp.get_client_by_id(args.data.client_id)
+		-- Disable Denols in Node.js projects
+		if client.name == "denols" and IsNodeRepo() then
+			client.stop()
 		end
-	end,
-	["yamlls"] = function()
-		-- AWS CloudFormation
-		lspconfig.yamlls.setup({
-			capabilities = capabilities,
-			settings = {
-				yaml = {
-					schemas = {
-						["https://cfn-schema.y13i.com/schema?region=eu-west-2&version=20.0.0"] = "cloudformation/*",
-						["http://json.schemastore.org/github-workflow"] = ".github/workflows/*",
-					},
-					format = { enable = false },
-					completion = true,
-					hover = true,
-					customTags = {
-						"!And scalar",
-						"!And mapping",
-						"!And sequence",
-						"!Condition scalar",
-						"!Condition mapping",
-						"!Condition sequence",
-						"!Base64 scalar",
-						"!Base64 mapping",
-						"!Base64 sequence",
-						"!If scalar",
-						"!If mapping",
-						"!If sequence",
-						"!Not scalar",
-						"!Not mapping",
-						"!Not sequence",
-						"!Equals scalar",
-						"!Equals mapping",
-						"!Equals sequence",
-						"!Or scalar",
-						"!Or mapping",
-						"!Or sequence",
-						"!FindInMap scalar",
-						"!FindInMap mappping",
-						"!FindInMap sequence",
-						"!Base64 scalar",
-						"!Base64 mapping",
-						"!Base64 sequence",
-						"!Cidr scalar",
-						"!Cidr mapping",
-						"!Cidr sequence",
-						"!Ref scalar",
-						"!Ref mapping",
-						"!Ref sequence",
-						"!Sub scalar",
-						"!Sub mapping",
-						"!Sub sequence",
-						"!GetAtt scalar",
-						"!GetAtt mapping",
-						"!GetAtt sequence",
-						"!GetAZs scalar",
-						"!GetAZs mapping",
-						"!GetAZs sequence",
-						"!ImportValue scalar",
-						"!ImportValue mapping",
-						"!ImportValue sequence",
-						"!Select scalar",
-						"!Select mapping",
-						"!Select sequence",
-						"!Split scalar",
-						"!Split mapping",
-						"!Split sequence",
-						"!Join scalar",
-						"!Join mapping",
-						"!Join sequence",
-					},
-				},
-			},
-		})
 	end,
 })
 
@@ -305,7 +285,6 @@ vim.g.rustaceanvim = {
 		},
 	},
 }
-vim.diagnostic.config({ virtual_text = false })
 
 require("typescript-tools").setup({})
 
@@ -321,7 +300,6 @@ local configs = require("lspconfig.configs")
 local util = require("lspconfig/util")
 
 require("testing-ls").setup({})
-lspconfig.diagnosticls.setup({})
 
 -- A better way to separate lsp running between denols and tsserver. · Issue  https://github.com/pmizio/typescript-tools.nvim/issues/248
 require("typescript-tools").setup({
