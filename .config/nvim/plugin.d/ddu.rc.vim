@@ -127,7 +127,7 @@ endfunc
 
 function! StartDduNoIgnore() abort
   if &filetype == 'fern'
-    call timer_start(500, 'StartHandler')
+    call timer_start(200, 'StartHandler')
     return
   endif
   call StartHandler(0)
