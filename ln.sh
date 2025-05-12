@@ -3,6 +3,7 @@ mkdir -p ~/.config/nvim
 # ln -s ~/dotfiles/.config/nvim/init.vim ~/.vimrc
 ln -sf ~/dotfiles/.config/nvim/init.vim ~/.config/nvim/init.vim
 ln -sf ~/dotfiles/.config/nvim/ftplugin ~/.config/nvim/ftplugin
+ln -sf ~/dotfiles/.config/nvim/after ~/.config/nvim/after
 ln -sf ~/dotfiles/.zsh.d/.zshrc ~/.zshrc
 ln -sf ~/dotfiles/.tmux.conf ~/.tmux.conf
 # ln -sf ~/dotfiles/.alacritty.sway.toml ~/.alacritty.toml
