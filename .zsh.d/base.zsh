@@ -114,7 +114,7 @@ export COLORTERM=truecolor
 _notify() {
   local cmd="$1" exit_status="$?" elapsed="$3"
 
-  if command -v nvr >/dev/null 2>&1; then
+  if command -v nvr >/dev/null 2>&1 && [[ -n "$NVIM" ]]; then
     # 現在フォーカスの当たっているターミナルのシェル PID を取得
     local active_pid
     active_pid=$(
@@ -125,7 +125,7 @@ _notify() {
     if [[ $active_pid -ne $$ ]]; then
         noti --message "$cmd completed in ${elapsed}s (code: $exit_status)"
     fi
-  else
+  elif [[ -n "$NVIM" ]]; then
     noti --message "$cmd completed in ${elapsed}s (code: $exit_status)"
   fi
 }
