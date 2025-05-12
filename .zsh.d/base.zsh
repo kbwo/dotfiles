@@ -139,6 +139,8 @@ _notify() {
         noti --title $dirname --message "$cmd completed in ${elapsed}s (code: $exit_status)"
       fi
     fi
+  elif [[ -n "$NVIM" ]]; then
+    noti --message "$cmd completed in ${elapsed}s (code: $exit_status)"
   fi
 }
 
