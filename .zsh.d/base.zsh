@@ -112,9 +112,10 @@ export COLORTERM=truecolor
 # neovim-remoteとnotiに依存
 # 通知を行う関数
 _notify() {
-  local cmd="$1" exit_status="$?" elapsed="$3"
+  local cmd="$1" exit_status="$2" elapsed="$3"
+  local dirname="${PWD##*/}"
 
-  if command -v nvr >/dev/null 2>&1; then
+  if command -v nvr >/dev/null 2>&1 && [[ -n "${NVIM:-}" ]]; then
     # 現在フォーカスの当たっているターミナルのシェル PID を取得
     local active_pid
     active_pid=$(
@@ -123,10 +124,21 @@ _notify() {
     )
     # 自プロセス ( $$ ) と異なれば、背景実行中とみなし Neovim 内通知
     if [[ $active_pid -ne $$ ]]; then
-        noti --message "$cmd completed in ${elapsed}s (code: $exit_status)"
+      noti --title $dirname --message "$cmd completed in ${elapsed}s (code: $exit_status)"
+    elif [[ -n "$TMUX" ]]; then
+      # 現在の tmux ペインがアクティブか調べる (0: 非アクティブ, 1: アクティブ)
+      local pane_active
+      pane_active=$(tmux display-message -p "#{pane_active}" 2>/dev/null || echo 1)
+      window_active=$(tmux display-message -p '#{window_active}')
+      session_attached=$(tmux display-message -p '#{session_attached}')
+
+      if [[
+        $session_attached -eq 0 || \
+        $window_active   -eq 0 || \
+        $pane_active     -eq 0 ]]; then
+        noti --title $dirname --message "$cmd completed in ${elapsed}s (code: $exit_status)"
+      fi
     fi
-  else
-    noti --message "$cmd completed in ${elapsed}s (code: $exit_status)"
   fi
 }
 
