@@ -17,12 +17,4 @@ require("debugprint").setup({
 			variable_above = "gF",
 		},
 	},
-	filetypes = {
-		["php"] = {
-			left = 'print_r("',
-			right = '");',
-			mid_var = '" . var_export($',
-			right_var = '), true);',
-		},
-	},
 })
