@@ -1,16 +1,18 @@
 return {
 	settings = {
 		Lua = {
-			diagnostics = {
-				-- Recognize the `vim` global
-				globals = { "vim" },
+			runtime = {
+				version = "LuaJIT",
+				pathStrict = true,
+				path = { "?.lua", "?/init.lua" },
 			},
 			workspace = {
-				-- Make language server aware of runtime files
-				library = {
-					[vim.fn.expand("$VIMRUNTIME/lua")] = true,
-					[vim.fn.stdpath("config") .. "/lua"] = true,
-				},
+				library = vim.list_extend(vim.api.nvim_get_runtime_file("lua", true), {
+					"${3rd}/luv/library",
+					"${3rd}/busted/library",
+					"${3rd}/luassert/library",
+				}),
+				checkThirdParty = "Disable",
 			},
 		},
 	},

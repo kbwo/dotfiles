@@ -1,7 +1,4 @@
 local mason_lspconfig = require("mason-lspconfig")
-local lspconfig = require("lspconfig")
-local configs = require("lspconfig.configs")
-local util = require("lspconfig/util")
 
 local capabilities = vim.tbl_deep_extend("force", require("cmp_nvim_lsp").default_capabilities(), {
 	workspace = {
@@ -10,37 +7,9 @@ local capabilities = vim.tbl_deep_extend("force", require("cmp_nvim_lsp").defaul
 		},
 	},
 })
-require("typescript-tools").setup({
+
+vim.lsp.config('*', {
 	capabilities = capabilities,
-	root_dir = function(path)
-		local marker = require("climbdir.marker")
-		return require("climbdir").climb(
-			path,
-			marker.one_of(
-				marker.has_readable_file("package.json"),
-				marker.has_directory("node_modules"),
-				marker.all_of(marker.has_directory(".git"), function(path)
-					local result = marker.one_of(
-						marker.has_readable_file("deno.json"),
-						marker.has_readable_file("deno.lock"),
-						marker.has_readable_file("deno.jsonc"),
-						marker.has_readable_file("import_map.json"),
-						marker.has_directory("denops")
-					)(path)
-					return not result
-				end)
-			),
-			{
-				halt = marker.one_of(
-					marker.has_readable_file("deno.json"),
-					marker.has_readable_file("deno.lock"),
-					marker.has_readable_file("deno.jsonc"),
-					marker.has_readable_file("import_map.json"),
-					marker.has_directory("denops")
-				),
-			}
-		)
-	end,
 	settings = {
 		documentFormatting = false,
 		javascript = { suggest = { completeFunctionCalls = true } },
@@ -88,6 +57,7 @@ require("mason").setup({
 	},
 })
 mason_lspconfig.setup({
+	automatic_enable = true,
 	automatic_installation = true,
 	ensure_installed = {
 		"clangd",
