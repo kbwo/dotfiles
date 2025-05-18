@@ -11,8 +11,9 @@
     "use strict";
 
     GM_addStyle(`
-    .relative.flex.h-full.max-w-full.flex-1.flex-col.overflow-hidden {
-        min-width: 100%;
+    .flex.h-full.flex-col.overflow-y-auto {
+        position: relative;
+        bottom: 25px;
     }
     `);
 })();
