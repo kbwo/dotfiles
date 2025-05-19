@@ -100,6 +100,8 @@ Jetpack 'hrsh7th/cmp-calc'
 Jetpack 'kristijanhusak/vim-dadbod-completion'
 Jetpack 'ray-x/cmp-treesitter'
 
+Jetpack 'copilotlsp-nvim/copilot-lsp'
+
 " Jetpack 'Shougo/ddc.vim'
 " Jetpack 'Shougo/ddc-ui-native'
 " Jetpack 'Shougo/ddc-source-around'
