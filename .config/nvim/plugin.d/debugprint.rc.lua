@@ -18,3 +18,5 @@ require("debugprint").setup({
 		},
 	},
 })
+
+vim.api.nvim_set_keymap("n", "<leader>gd", ":DeleteDebugPrints<CR>", { noremap = true, silent = true })
