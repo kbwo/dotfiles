@@ -120,17 +120,13 @@ nmap <Leader>rr :RgFind ignore
 nmap <Leader>rn :RgFind noignore 
 nmap <silent> <Leader>id <Cmd>call ddu#start(#{ name: 'lsp:diagnostic' })<CR>
 
-func StartHandler(timer)
-  call ddu#start({})
-endfunc
-
-
 function! StartDduNoIgnore() abort
   if &filetype == 'fern'
-    call timer_start(200, 'StartHandler')
+      call ReturnToPreviousBuffer()
+      call ddu#start({})
     return
   endif
-  call StartHandler(0)
+  call ddu#start({})
 endfunction
 
 function! StartDduIgnore() abort
