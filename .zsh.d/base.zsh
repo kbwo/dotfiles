@@ -114,33 +114,41 @@ export COLORTERM=truecolor
 _notify() {
   local cmd="$1" exit_status="$2" elapsed="$3"
   local dirname="${PWD##*/}"
+  local message="$cmd completed in ${elapsed}s (code: $exit_status)"
 
-  if command -v nvr >/dev/null 2>&1 && [[ -n "${NVIM:-}" ]]; then
-    # 現在フォーカスの当たっているターミナルのシェル PID を取得
-    local active_pid
-    active_pid=$(
-      nvr --remote-expr \
-        '&buftype == "terminal" ? jobpid(&channel) : 0'
-    )
-    # 自プロセス ( $$ ) と異なれば、背景実行中とみなし Neovim 内通知
-    if [[ $active_pid -ne $$ ]]; then
-      noti --title $dirname --message "$cmd completed in ${elapsed}s (code: $exit_status)"
-    elif [[ -n "$TMUX" ]]; then
-      # 現在の tmux ペインがアクティブか調べる (0: 非アクティブ, 1: アクティブ)
-      local pane_active
-      pane_active=$(tmux display-message -p "#{pane_active}" 2>/dev/null || echo 1)
-      window_active=$(tmux display-message -p '#{window_active}')
-      session_attached=$(tmux display-message -p '#{session_attached}')
-
-      if [[
-        $session_attached -eq 0 || \
-        $window_active   -eq 0 || \
-        $pane_active     -eq 0 ]]; then
-        noti --title $dirname --message "$cmd completed in ${elapsed}s (code: $exit_status)"
-      fi
+  _is_nvim_background() {
+    if ! command -v nvr >/dev/null 2>&1 && [[ -z "${NVIM:-}" ]]; then
+      return 1
     fi
+
+    if [[ -z "$NVIM" || "$TERM_PROGRAM" != "tmux" ]]; then
+      return 1
+    fi
+
+    local active_pid
+    active_pid=$(nvr --remote-expr '&buftype == "terminal" ? jobpid(&channel) : 0')
+    [[ $active_pid -ne $$ ]]
+  }
+
+  _is_tmux_inactive() {
+    [[ -z "$TMUX" ]] && return 1
+
+    local pane_active window_active session_attached
+    pane_active=$(tmux display-message -p "#{pane_active}" 2>/dev/null || echo 1)
+    window_active=$(tmux display-message -p '#{window_active}')
+    session_attached=$(tmux display-message -p '#{session_attached}')
+
+    [[ $session_attached -eq 0 || $window_active -eq 0 || $pane_active -eq 0 ]]
+  }
+
+  if _is_nvim_background; then
+    noti --title "$dirname" --message "$message"
+  elif _is_tmux_inactive; then
+    noti --title "$dirname" --message "$message"
   elif [[ -n "$NVIM" ]]; then
-    noti --message "$cmd completed in ${elapsed}s (code: $exit_status)"
+    noti --message "$message"
+  elif (( elapsed > 3 )); then
+    noti --message "$message"
   fi
 }
 
