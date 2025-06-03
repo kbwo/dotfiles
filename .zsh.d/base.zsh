@@ -152,6 +152,25 @@ _notify() {
   fi
 }
 
+notify_done() {
+  local message
+  local cwd=$(pwd)
+
+  if [[ -n "$TMUX" && -n "$NVIM" && "$TERM_PROGRAM" == "tmux" ]]; then
+    # In tmux and neovim
+    message="Neovim: $cwd"
+  elif [[ -n "$TERM_PROGRAM" ]]; then
+    # Has TERM_PROGRAM
+    message="$TERM_PROGRAM: $cwd"
+  else
+    # Unknown terminal
+    message="Unknown: $cwd"
+  fi
+
+  noti --title "Done" --message "$message"
+}
+
+
 # コマンド実行前に実行されるフック
 preexec() {
   LAST_CMD="$1"
