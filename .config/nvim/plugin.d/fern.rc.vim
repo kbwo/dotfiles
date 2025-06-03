@@ -28,7 +28,15 @@ function! ReturnToPreviousBuffer()
   endif
 endfunction
 
-nmap <silent> <c-n> :call SavePreviousBuffer()<CR>:execute 'Fern' FindNearestGitRoot() '-reveal=% -stay'<CR>
+" ~/.vim/fern-toggle.vim
+function! s:git_fern() abort
+  call SavePreviousBuffer()
+  let git_root = FindNearestGitRoot()
+  execute 'Fern ' . git_root . ' -reveal=% -stay'
+endfunction
+
+
+nnoremap <silent> <C-n> :call <SID>git_fern()<CR>
 nmap <silent> <c-w>c :call SavePreviousBuffer()<CR>:Fern %:h -reveal=% -stay<CR>
 
 

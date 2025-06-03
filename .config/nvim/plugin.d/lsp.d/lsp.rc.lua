@@ -8,14 +8,14 @@ local capabilities = vim.tbl_deep_extend("force", require("cmp_nvim_lsp").defaul
 	},
 })
 
-vim.lsp.config('*', {
-	capabilities = capabilities,
-	settings = {
-		documentFormatting = false,
-		javascript = { suggest = { completeFunctionCalls = true } },
-		typescript = { suggest = { completeFunctionCalls = true } },
-	},
-})
+-- vim.lsp.config("*", {
+-- 	capabilities = capabilities,
+-- 	settings = {
+-- 		documentFormatting = false,
+-- 		javascript = { suggest = { completeFunctionCalls = true } },
+-- 		typescript = { suggest = { completeFunctionCalls = true } },
+-- 	},
+-- })
 
 require("mason").setup({
 	ui = {
@@ -79,6 +79,8 @@ mason_lspconfig.setup({
 })
 
 vim.lsp.enable(mason_lspconfig.get_installed_servers())
+vim.lsp.enable("jsonls")
+vim.lsp.enable("jsonlint")
 
 require("testing-ls").setup({})
 

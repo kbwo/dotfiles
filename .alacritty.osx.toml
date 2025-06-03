@@ -58,4 +58,7 @@ dynamic_padding = true
 x = 4
 y = 4
 
-[keyboard]
+[[keyboard.bindings]]
+key = "Enter"
+mods = "SHIFT"
+chars = "\n"
