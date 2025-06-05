@@ -16,6 +16,7 @@ nmap gnh :Gin checkout -b
 nmap gnps :Gin push
 nmap gnpl :Gin pull<CR>
 nmap gnam :Gin commit --amend<CR>
+
 nmap gnl<Space> :GinLog --graph -n 1000<CR>
 nmap gnlp :GinLog -p -n 100<CR>
 nmap gnls :GinLog --graph -n 1000 ++opener=split<CR>
@@ -25,7 +26,7 @@ nmap gnw :GinBrowse<CR>
 
 let g:gin_log_persistent_args = [
       \ '++emojify',
-      \ '--pretty=%C(yellow)%h%C(reset)%C(auto)%d%C(reset) %s %C(cyan)@%an%C(reset) %C(magenta)[%ar]%C(reset)',
+      \  '--pretty=%C(yellow)%h%C(reset)%C(auto)%d%C(reset) %s %b %C(cyan)@%an%C(reset) %C(magenta)[%ar]%C(reset)'
       \]
 let s:has_delta = executable("delta") == 1
 " disable delta as <CR> won't work
@@ -84,30 +85,3 @@ augroup GinBranchMappings
   autocmd FileType gin-branch map <buffer><nowait> g? <Plug>(gin-action-help:all)
   autocmd FileType gin-branch map <buffer><nowait> dl <Plug>(gin-action-delete:force)
 augroup END
-
-function! DiffBranchAll()
-  let l:branch = input("Enter branch: ")
-  if !empty(l:branch)
-    execute 'GinDiff ' . l:branch
-  endif
-endfunction
-
-nnoremap <leader>da :call DiffBranchAll()<CR>
-"
-" Function to delete gin-diff and gin-log buffers
-" Function to delete buffers with gin- prefixed filetypes
-function! DeleteGinBuffers()
-    let l:buffers = range(1, bufnr('$'))
-    for l:buf in l:buffers
-        if bufexists(l:buf) && buflisted(l:buf)
-            let l:ft = getbufvar(l:buf, '&filetype')
-            " Check if filetype starts with 'gin-'
-            if l:ft =~# '^gin-'
-                execute 'bdelete ' . l:buf
-            endif
-        endif
-    endfor
-endfunction
-
-" Command to call the function
-command! DeleteGinBuffers call DeleteGinBuffers()
