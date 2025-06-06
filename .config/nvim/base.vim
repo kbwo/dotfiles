@@ -102,6 +102,7 @@ set title
 set titleold="Terminal"
 set titlestring=%F
 set autoread
+set updatetime=100
 set noerrorbells visualbell t_vb=
 set mouse=a
 set whichwrap=b,s,h,l,<,>,[,]
@@ -330,7 +331,13 @@ function! s:OpenByCursor()
 endfunction
 command! -range OpenByCursor call s:OpenByCursor()
 
-autocmd CursorMoved, CursorHold * checktime
+" 各種イベントでファイルの変更をチェック
+autocmd FocusGained,BufEnter,CursorHold,CursorHoldI *
+  \ if mode() !~ '\v(c|r.?|!|t)' && getcmdwintype() == '' | checktime | endif
+
+" ファイル変更時の通知
+autocmd FileChangedShellPost *
+  \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
 
 autocmd BufNewFile,BufRead *.mdc set filetype=markdown
 
