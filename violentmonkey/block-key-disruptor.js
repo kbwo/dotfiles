@@ -6,6 +6,7 @@
 // @author       kbwo
 // @match        https://chatgpt.com/*
 // @match        https://claude.ai/*
+// @match        https://app.devin.ai/*
 // @grant        none
 // @run-at       document-start
 // ==/UserScript==
