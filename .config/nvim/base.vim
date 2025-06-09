@@ -119,6 +119,35 @@ set matchpairs+=【:】
 set endofline
 set fixendofline
 
+" Yank relative path with line number
+function! YankRelativePathWithLine()
+  let l:relpath = fnamemodify(expand('%'), ':.')
+  if empty(l:relpath)
+    echo 'No file to yank'
+  else
+    let l:line = line('.')
+    let l:text = l:relpath . '#L' . l:line
+    let @+ = l:text
+    echo 'Copied: ' . l:text
+  endif
+endfunction
+nmap <Leader>yl :call YankRelativePathWithLine()<CR>
+
+" Visual mode version - yank relative path with line range
+function! YankRelativePathWithLineRange() range
+  let l:relpath = fnamemodify(expand('%'), ':.')
+  if empty(l:relpath)
+    echo 'No file to yank'
+  else
+    let l:from_line = a:firstline
+    let l:to_line = a:lastline
+    let l:text = l:relpath . '#L' . l:from_line . '-' . l:to_line
+    let @+ = l:text
+    echo 'Copied: ' . l:text
+  endif
+endfunction
+vmap <Leader>yl :call YankRelativePathWithLineRange()<CR>
+
 nnoremap gno o<Esc>
 nnoremap gnO O<Esc>
 if has('nvim')
@@ -330,14 +359,6 @@ function! s:OpenByCursor()
   silent! exe '!cursor --g '.l:path.':'.l:line
 endfunction
 command! -range OpenByCursor call s:OpenByCursor()
-
-" 各種イベントでファイルの変更をチェック
-autocmd FocusGained,BufEnter,CursorHold,CursorHoldI *
-  \ if mode() !~ '\v(c|r.?|!|t)' && getcmdwintype() == '' | checktime | endif
-
-" ファイル変更時の通知
-autocmd FileChangedShellPost *
-  \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
 
 autocmd BufNewFile,BufRead *.mdc set filetype=markdown
 
