@@ -441,3 +441,14 @@ nnoremap <silent><leader>md<Space> :execute 'edit ~/memo/' . strftime('%Y-%m-%d'
 nnoremap <silent><leader>mds :execute 'split ~/memo/' . strftime('%Y-%m-%d') . '.md'<CR>
 nnoremap <silent><leader>mdv :execute 'vsplit ~/memo/' . strftime('%Y-%m-%d') . '.md'<CR>
 nnoremap <silent><leader>mdt :execute 'tabnew ~/memo/' . strftime('%Y-%m-%d') . '.md'<CR>
+
+" 各種イベントでファイルの変更をチェック
+autocmd FocusGained,BufEnter,CursorHold,CursorHoldI *
+  \ if mode() !~ '\v(c|r.?|!|t)' && getcmdwintype() == '' && expand('%:e') !~# '\v^(log|txt)$' | checktime | endif
+
+" ファイル変更時の通知
+autocmd FileChangedShellPost *
+  \ if expand('%:e') !~# '\v^(log|txt)$' |
+  \   echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None |
+  \ endif
+
