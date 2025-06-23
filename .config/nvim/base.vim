@@ -14,18 +14,12 @@ function! CloseAllTermBuffers()
         if (bufexists(bufnr) && (bufname(bufnr) =~ '^term://'))
             let wins = win_findbuf(bufnr)
             silent! execute 'bdelete!' bufnr
-            if !empty(wins)
-                let close_wins = wins[:]
-                for winid in close_wins
-                    call win_gotoid(winid)
-                    execute 'quit!'
-                endfor
-            endif
         endif
     endfor
 endfunction
 
 inoremap <c-u> <Nop>
+inoremap <c-w> <Esc>:w<CR>
 map K gt
 map J gT
 nmap j gj
@@ -46,7 +40,7 @@ nnoremap <silent><c-w>t :let b = bufnr('%')<CR>:close<CR>:tabnew<CR>:execute 'bu
 " tabnew and preserve cursor position
 nmap <Leader>t<Space> :tab split<CR>
 nmap <Leader>tn :NoFile<CR>
-nmap <Leader>l :lcd %:h<CR>
+nmap <Leader>l :cd %:h<CR>
 nmap <Leader>h :noh<CR>
 nmap <Leader>e<Space> :e!<CR>
 nmap <Leader>ya :%y<CR>
