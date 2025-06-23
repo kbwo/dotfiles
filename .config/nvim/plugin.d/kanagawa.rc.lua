@@ -40,7 +40,7 @@ require("kanagawa").setup({
 			FloatShadowThrough = { bold = true, fg = "#938aa9", bg = "#16161d" },
 			FloatShadow = { bold = true, fg = "#938aa9", bg = "#16161d" },
 			TabLine = { bg = "#1E1E2E", fg = "#7F848E", sp = "#3E4451" },
-			TabLineSel = { bg = "#F7768E", fg = "#3E4452", sp = "#F7768E" },
+			TabLineSel = { bg = "#E6C384", fg = "#3E4452", sp = "#E6C384" },
 			TabLineFill = { bg = "#21252B", fg = "#7F848E", sp = "#21252B" },
 			LspInlayHint = { fg = "#8f784a" },
 		}
