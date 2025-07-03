@@ -22,6 +22,7 @@ inoremap <c-u> <Nop>
 inoremap <c-w> <Esc>:w<CR>
 map K gt
 map J gT
+nmap <Leader>0 :tabfirst<CR>
 nmap j gj
 nmap k gk
 nmap <Leader>j :-tabmove<CR>
