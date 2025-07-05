@@ -87,3 +87,6 @@ TERM = "xterm-256color"
 key = "Enter"
 mods = "SHIFT"
 chars = "\n"
+
+[window]
+option_as_alt = "Both"

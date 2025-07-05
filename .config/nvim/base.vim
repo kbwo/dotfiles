@@ -24,7 +24,11 @@ map K gt
 map J gT
 nmap <Leader>0 :tabfirst<CR>
 nmap j gj
+vmap j gj
 nmap k gk
+vmap k gk
+nmap R :join<CR>
+nmap <M-r> :join!<CR>
 nmap <Leader>j :-tabmove<CR>
 nmap <Leader>k :+tabmove<CR>
 nmap Q :call CloseAllTermBuffers()<CR>:confirm qa<CR>
