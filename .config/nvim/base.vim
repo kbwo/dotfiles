@@ -444,10 +444,3 @@ nnoremap <silent><leader>mdt :execute 'tabnew ~/memo/' . strftime('%Y-%m-%d') . 
 " 各種イベントでファイルの変更をチェック
 autocmd FocusGained,BufEnter,CursorHold,CursorHoldI *
   \ if mode() !~ '\v(c|r.?|!|t)' && getcmdwintype() == '' && expand('%:e') !~# '\v^(log|txt)$' | checktime | endif
-
-" ファイル変更時の通知
-autocmd FileChangedShellPost *
-  \ if expand('%:e') !~# '\v^(log|txt)$' |
-  \   echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None |
-  \ endif
-
