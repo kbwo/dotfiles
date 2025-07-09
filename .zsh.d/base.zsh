@@ -205,3 +205,6 @@ precmd() {
     unset LAST_CMD LAST_CMD_TIMESTAMP
   fi
 }
+
+# Ctrl-\ to Ctrl-^
+stty quit '^^'
