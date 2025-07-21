@@ -75,6 +75,9 @@ call ddu#custom#patch_global(#{
       \    lsp_codeAction: #{
       \       defaultAction: 'apply',
       \    },
+      \    gitWorktree: #{
+      \       defaultAction: 'open',
+      \    },
       \   }
       \  })
 
@@ -87,6 +90,11 @@ call ddu#custom#patch_local('lsp:diagnostic', #{
     \       converters: ['converter_lsp_diagnostic'],
     \     },
     \   }
+    \ })
+call ddu#custom#patch_local('git:worktree', #{
+    \   sources: [
+    \     #{ name: 'gitWorktree' }
+    \   ],
     \ })
 
 
@@ -119,6 +127,7 @@ nmap <silent><Leader>pt :call TabFind()<CR>
 nmap <Leader>rr :RgFind ignore 
 nmap <Leader>rn :RgFind noignore 
 nmap <silent> <Leader>id <Cmd>call ddu#start(#{ name: 'lsp:diagnostic' })<CR>
+nmap <silent> <Leader>gw <Cmd>call ddu#start(#{ name: 'git:worktree' })<CR>
 
 function! StartDduNoIgnore() abort
   if &filetype == 'fern'

@@ -59,6 +59,7 @@ augroup GinLogMappings
 augroup END
 
 augroup GinStatusMappings
+  autocmd!
   autocmd FileType gin-status map <buffer><nowait> . <Plug>(gin-action-repeat)
   autocmd FileType gin-status map <buffer><nowait> <Return> <Plug>(gin-action-edit)zv
   autocmd FileType gin-status map <buffer><nowait> dd<Space> <Plug>(gin-action-diff:smart)
@@ -78,6 +79,7 @@ augroup GinStatusMappings
 augroup END
 
 augroup GinBranchMappings
+  autocmd!
   autocmd FileType gin-branch map <buffer><nowait> a<Space> <Plug>(gin-action-choice)
   autocmd FileType gin-branch map <buffer><nowait> . <Plug>(gin-action-repeat)
   autocmd FileType gin-branch nmap <buffer><nowait> <Return> <Plug>(gin-action-switch)
@@ -85,3 +87,4 @@ augroup GinBranchMappings
   autocmd FileType gin-branch map <buffer><nowait> g? <Plug>(gin-action-help:all)
   autocmd FileType gin-branch map <buffer><nowait> dl <Plug>(gin-action-delete:force)
 augroup END
+

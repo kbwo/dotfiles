@@ -31,7 +31,7 @@ nmap R :join<CR>
 nmap <M-r> :join!<CR>
 nmap <Leader>j :-tabmove<CR>
 nmap <Leader>k :+tabmove<CR>
-nmap Q :call CloseAllTermBuffers()<CR>:confirm qa<CR>
+nmap Q :call CloseAllTermBuffers()<CR>:execute 'cd' getenv("PWD")<CR>:confirm qa<CR>
 nmap R :join<CR>
 nmap <Down> gj
 nmap <Up> gk
