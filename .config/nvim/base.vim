@@ -23,6 +23,7 @@ inoremap <c-w> <Esc>:w<CR>
 map K gt
 map J gT
 nmap <Leader>0 :tabfirst<CR>
+nmap <Leader>9 :tablast<CR>
 nmap j gj
 vmap j gj
 nmap k gk
