@@ -53,6 +53,7 @@ Jetpack 'shun/ddu-source-buffer'
 Jetpack 'matsui54/ddu-source-file_external'
 Jetpack 'kbwo/ddu-source-lsp', { 'branch': 'fix/method-support' }
 Jetpack 'kamecha/ddu-source-window'
+Jetpack 'nekowasabi/ddu-source-git-worktree'
 
 Jetpack 'jake-stewart/multicursor.nvim'
 
