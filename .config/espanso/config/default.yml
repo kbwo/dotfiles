@@ -42,3 +42,4 @@
 # For a list of all the available options, visit the official docs at: https://espanso.org/docs/
 
 search_shortcut: off
+undo_backspace: false

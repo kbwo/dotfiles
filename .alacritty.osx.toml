@@ -44,11 +44,10 @@ foreground = "0xc8c093"
 TERM = "xterm-256color"
 
 [font]
-size = 8
+size = 8.5
 
 [font.normal]
-family = "Hack"
-style = "Bold"
+family = "Intel One Mono"
 
 [window]
 decorations = "Buttonless"

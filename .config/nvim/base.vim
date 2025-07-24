@@ -18,12 +18,24 @@ function! CloseAllTermBuffers()
     endfor
 endfunction
 
+function! CloseTabsAfterCurrent()
+    let current_tab = tabpagenr()
+    let last_tab = tabpagenr('$')
+    for i in range(last_tab, current_tab + 1, -1)
+        execute 'tabnext ' . i
+        quit
+    endfor
+    execute 'tabnext ' . current_tab
+endfunction
+
 inoremap <c-u> <Nop>
 inoremap <c-w> <Esc>:w<CR>
 map K gt
 map J gT
-nmap <Leader>0 :tabfirst<CR>
+nmap <Leader>1 :tabfirst<CR>
+nmap <Leader>2 :tabnext 2<CR>
 nmap <Leader>9 :tablast<CR>
+nmap <Leader>te :call CloseTabsAfterCurrent()<CR>
 nmap j gj
 vmap j gj
 nmap k gk

@@ -22,7 +22,7 @@ nmap gnlp :GinLog -p -n 100<CR>
 nmap gnls :GinLog --graph -n 1000 ++opener=split<CR>
 nmap gnlv :GinLog --graph -n 1000 ++opener=vsplit<CR>
 nmap gnlt :GinLog --graph -n 1000 ++opener=tabedit<CR>
-nmap gnw :GinBrowse<CR>
+nmap gnw :GinBrowse --permalink<CR>
 
 let g:gin_log_persistent_args = [
       \ '++emojify',
