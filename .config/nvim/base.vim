@@ -34,8 +34,15 @@ map K gt
 map J gT
 nmap <Leader>1 :tabfirst<CR>
 nmap <Leader>2 :tabnext 2<CR>
+nmap <Leader>3 :tabnext 3<CR>
+nmap <Leader>4 :tabnext 4<CR>
+nmap <Leader>5 :tabnext 5<CR>
+nmap <Leader>6 :tabnext 6<CR>
+nmap <Leader>7 :tabnext 7<CR>
+nmap <Leader>8 :tabnext 8<CR>
 nmap <Leader>9 :tablast<CR>
 nmap <Leader>te :call CloseTabsAfterCurrent()<CR>
+nmap <Leader>tq :call CloseTabsAfterCurrent()<CR>
 nmap j gj
 vmap j gj
 nmap k gk
