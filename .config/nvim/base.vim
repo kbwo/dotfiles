@@ -20,12 +20,11 @@ endfunction
 
 function! CloseTabsAfterCurrent()
     let current_tab = tabpagenr()
-    let last_tab = tabpagenr('$')
-    for i in range(last_tab, current_tab + 1, -1)
-        execute 'tabnext ' . i
-        quit
+    let total_tabs = tabpagenr('$')
+    
+    for i in range(current_tab + 1, total_tabs)
+        execute 'tabclose ' . (current_tab + 1)
     endfor
-    execute 'tabnext ' . current_tab
 endfunction
 
 inoremap <c-u> <Nop>

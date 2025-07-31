@@ -164,12 +164,13 @@ function! StartDduIgnore() abort
 endfunction
 
 function! RgFindIgnore(text) abort
-  echom a:text
-  :call ddu#start({'sources': [{'name': 'rg', 'params': {'input': a:text, 'args': ['--smart-case', "--column", "--no-heading", '--hidden', '--glob', '!.git', '--color', 'never']}}]})
+  let escaped_text = escape(a:text, '()[]{}.*+?^$|\')
+    :call ddu#start({'sources': [{'name': 'rg', 'params': {'input': escaped_text, 'args': ['--smart-case', "--column", "--no-heading", '--hidden', '--max-columns', '500']}}]})
 endfunction
 
 function! RgFindNoIgnore(text) abort
-  :call ddu#start({'sources': [{'name': 'rg', 'params': {'input': a:text, 'args': ['--smart-case', "--column", "--no-heading", '--hidden', '--glob', '!.git', '--color', 'never', "--no-ignore"]}}]})
+  let escaped_text = escape(a:text, '()[]{}.*+?^$|\')
+  :call ddu#start({'sources': [{'name': 'rg', 'params': {'input': escaped_text, 'args': ['--smart-case', "--column", "--no-heading", '--hidden', '--glob', '!.git', '--color', 'never', "--no-ignore"]}}]})
 endfunction
 
 command! -range Ainavi :call ddu#start(#{

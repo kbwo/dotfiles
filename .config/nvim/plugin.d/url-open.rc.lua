@@ -11,7 +11,7 @@ require("url-open").setup({
 	highlight_url = {
 		all_urls = {
 			enabled = true,
-			fg = "#21d5ff", -- "text" or "#rrggbb"
+			fg = "text", -- "text" or "#rrggbb"
 			-- fg = "text", -- text will set underline same color with text
 			bg = nil, -- nil or "#rrggbb"
 			underline = true,
