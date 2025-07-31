@@ -48,6 +48,7 @@ size = 8
 
 [font.normal]
 family = "Intel One Mono"
+style = "Bold"
 
 [window]
 decorations = "Buttonless"
