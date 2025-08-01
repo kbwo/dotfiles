@@ -112,6 +112,7 @@ let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 set ruler
 set number
+autocmd TermOpen * setlocal number
 set scrolloff=3
 set laststatus=2
 set modeline
@@ -247,18 +248,18 @@ function! GetTabLabel(tabnr)
   
   let filetype = getbufvar(bufnr, '&filetype', '')
   if filetype =~# '^gin'
-    return filetype
+    return a:tabnr . ':' . filetype
   endif
 
   " Default label if buffer doesn't exist
   if bufname ==# '' || buflisted(bufnr) == 0
-    return filetype !=# '' ? filetype : 'No Name'
+    return a:tabnr . ':' . (filetype !=# '' ? filetype : 'No Name')
   endif
   
   " Get parent directory name and file name from full path
   let parent_dir = fnamemodify(bufname, ':p:h:t') " Parent directory name
   let file_name = fnamemodify(bufname, ':t')      " File name
-  return parent_dir . '/' . file_name
+  return a:tabnr . ':' . parent_dir . '/' . file_name
 endfunction
 
 " Function to build custom tabline
