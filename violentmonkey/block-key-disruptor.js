@@ -7,6 +7,7 @@
 // @match        https://chatgpt.com/*
 // @match        https://claude.ai/*
 // @match        https://app.devin.ai/*
+// @match        https://*.slack.com/*
 // @grant        none
 // @run-at       document-start
 // ==/UserScript==
