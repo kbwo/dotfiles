@@ -11,7 +11,7 @@ let mapleader="\<Space>"
 
 function! CloseAllTermBuffers()
     for bufnr in range(1, bufnr('$'))
-        if (bufexists(bufnr) && (bufname(bufnr) =~ '^term://'))
+        if (bufexists(bufnr) && (getbufvar(bufnr, '&filetype') == 'terminal'))
             let wins = win_findbuf(bufnr)
             silent! execute 'bdelete!' bufnr
         endif
