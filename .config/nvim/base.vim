@@ -60,6 +60,7 @@ imap <S-Tab> <C-o><<
 nmap <Leader>x :q<CR>
 nmap <Leader>zx :tabc<CR>
 nnoremap <silent><c-w>t :let b = bufnr('%')<CR>:close<CR>:tabnew<CR>:execute 'buffer' b<CR>
+imap <C-\> <Esc>
 
 " tabnew and preserve cursor position
 nmap <Leader>t<Space> :tab split<CR>
