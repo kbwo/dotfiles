@@ -151,7 +151,40 @@ function! YankRelativePathWithLine()
     echo 'Copied: ' . l:text
   endif
 endfunction
+nmap <Leader>yr :YankRelativePath<CR>
 nmap <Leader>yl :call YankRelativePathWithLine()<CR>
+
+" Append yanked text to clipboard with whitespace
+function! GetExistingClipboard()
+  return getreg('+')
+endfunction
+
+function! AppendYankRelativePath()
+  let l:relpath = fnamemodify(expand('%'), ':.')
+  if empty(l:relpath)
+    echo 'No file to yank'
+  else
+    let l:existing = GetExistingClipboard()
+    let @+ = l:existing . "\n" . l:relpath
+    echo 'Appended: ' . l:relpath
+  endif
+endfunction
+
+function! AppendYankRelativePathWithLine()
+  let l:relpath = fnamemodify(expand('%'), ':.')
+  if empty(l:relpath)
+    echo 'No file to yank'
+  else
+    let l:line = line('.')
+    let l:text = l:relpath . '#L' . l:line
+    let l:existing = GetExistingClipboard()
+    let @+ = l:existing . "\n" . l:text
+    echo 'Appended: ' . l:text
+  endif
+endfunction
+
+nmap <Leader>yyr :call AppendYankRelativePath()<CR>
+nmap <Leader>yyl :call AppendYankRelativePathWithLine()<CR>
 
 " Visual mode version - yank relative path with line range
 function! YankRelativePathWithLineRange() range
@@ -367,7 +400,6 @@ function! TargetBranchCompletion(A, L, P)
 endfunction
 
 command! YankRelativePath call YankRelativePath()
-nmap <Leader>yr :YankRelativePath<CR>
 command! -nargs=1 -complete=customlist,TargetBranchCompletion YankGitHubURL call YankGitHubURL(<f-args>)
 
 nmap <Leader>w :noa w<CR>
