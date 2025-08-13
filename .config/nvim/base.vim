@@ -11,7 +11,7 @@ let mapleader="\<Space>"
 
 function! CloseAllTermBuffers()
     for bufnr in range(1, bufnr('$'))
-        if (bufexists(bufnr) && (getbufvar(bufnr, '&filetype') == 'terminal'))
+        if (bufexists(bufnr) && (bufname(bufnr) =~ '^term://'))
             let wins = win_findbuf(bufnr)
             silent! execute 'bdelete!' bufnr
         endif
@@ -493,6 +493,63 @@ nnoremap <silent><leader>md<Space> :execute 'edit ~/memo/' . strftime('%Y-%m-%d'
 nnoremap <silent><leader>mds :execute 'split ~/memo/' . strftime('%Y-%m-%d') . '.md'<CR>
 nnoremap <silent><leader>mdv :execute 'vsplit ~/memo/' . strftime('%Y-%m-%d') . '.md'<CR>
 nnoremap <silent><leader>mdt :execute 'tabnew ~/memo/' . strftime('%Y-%m-%d') . '.md'<CR>
+function! ToggleMemoFloat()
+  lua << EOF
+    local win_config = vim.api.nvim_win_get_config(0)
+    if win_config.relative ~= "" then
+      vim.api.nvim_win_close(0, false)
+    else
+      local memo_path = vim.fn.expand("~/memo/" .. os.date("%Y-%m-%d") .. ".md")
+      
+      -- Check if a floating window with this file already exists
+      local existing_win = nil
+      for _, win in ipairs(vim.api.nvim_list_wins()) do
+        local cfg = vim.api.nvim_win_get_config(win)
+        if cfg.relative ~= "" then
+          local buf = vim.api.nvim_win_get_buf(win)
+          local buf_name = vim.api.nvim_buf_get_name(buf)
+          if buf_name == memo_path then
+            existing_win = win
+            break
+          end
+        end
+      end
+      
+      if existing_win then
+        -- Focus the existing floating window
+        vim.api.nvim_set_current_win(existing_win)
+      else
+        -- Check if buffer already exists
+        local buf = vim.fn.bufnr(memo_path)
+        if buf == -1 then
+          buf = vim.api.nvim_create_buf(false, true)
+        end
+        
+        local h = math.floor(vim.o.lines * 0.8)
+        local w = 150
+        vim.api.nvim_open_win(
+          buf,
+          true,
+          {
+            relative = 'editor',
+            width = w,
+            height = h,
+            col = math.floor((vim.o.columns - w) / 2),
+            row = math.floor((vim.o.lines - h) / 2),
+            style = 'minimal',
+            border = 'rounded'
+          }
+        )
+        -- Force edit without saving changes, ignore errors
+        vim.cmd("silent! edit " .. memo_path)
+        vim.wo.number = true
+        vim.cmd("normal! G")
+      end
+    end
+EOF
+endfunction
+
+nnoremap <silent><leader>mdf :call ToggleMemoFloat()<CR>
 
 " 各種イベントでファイルの変更をチェック
 autocmd FocusGained,BufEnter,CursorHold,CursorHoldI *
