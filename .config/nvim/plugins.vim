@@ -119,7 +119,7 @@ Jetpack 'ray-x/cmp-treesitter'
 " Jetpack 'matsui54/ddc-source-dictionary'
 " Jetpack 'kristijanhusak/vim-dadbod-completion'
 
-" Jetpack 'EgZvor/vim-fluffy'
+Jetpack 'EgZvor/vim-fluffy'
 
 Jetpack 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 

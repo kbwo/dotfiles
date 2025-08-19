@@ -1,7 +1,7 @@
 vim.keymap.set("n", "<leader>is", "<cmd>AerialToggle<CR>", { desc = "Toggle Outline" })
 require("aerial").setup({
 	layout = {
-		min_width = 55,
+		min_width = 80,
 		default_direction = "left",
 	},
 	filter_kind = {

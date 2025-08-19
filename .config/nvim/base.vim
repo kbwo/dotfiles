@@ -496,11 +496,21 @@ nnoremap <silent><leader>mdt :execute 'tabnew ~/memo/' . strftime('%Y-%m-%d') . 
 function! ToggleMemoFloat()
   lua << EOF
     local win_config = vim.api.nvim_win_get_config(0)
+    local memo_path = vim.fn.expand("~/memo/" .. os.date("%Y-%m-%d") .. ".md")
+    
     if win_config.relative ~= "" then
-      vim.api.nvim_win_close(0, false)
-    else
-      local memo_path = vim.fn.expand("~/memo/" .. os.date("%Y-%m-%d") .. ".md")
+      -- Current window is a floating window
+      local current_buf = vim.api.nvim_win_get_buf(0)
+      local current_buf_name = vim.api.nvim_buf_get_name(current_buf)
       
+      if current_buf_name == memo_path then
+        -- Same as memo_path, close the floating window
+        vim.api.nvim_win_close(0, false)
+      else
+        -- Different from memo_path, just edit memo_path
+        vim.cmd("edit " .. memo_path)
+      end
+    else
       -- Check if a floating window with this file already exists
       local existing_win = nil
       for _, win in ipairs(vim.api.nvim_list_wins()) do
@@ -521,8 +531,10 @@ function! ToggleMemoFloat()
       else
         -- Check if buffer already exists
         local buf = vim.fn.bufnr(memo_path)
+        local is_new_buffer = false
         if buf == -1 then
           buf = vim.api.nvim_create_buf(false, true)
+          is_new_buffer = true
         end
         
         local h = math.floor(vim.o.lines * 0.8)
@@ -543,13 +555,16 @@ function! ToggleMemoFloat()
         -- Force edit without saving changes, ignore errors
         vim.cmd("silent! edit " .. memo_path)
         vim.wo.number = true
-        vim.cmd("normal! G")
+        if is_new_buffer then
+          vim.cmd("normal! G")
+        end
       end
     end
 EOF
 endfunction
 
 nnoremap <silent><leader>mdf :call ToggleMemoFloat()<CR>
+nnoremap <silent><leader>mf :call ToggleMemoFloat()<CR>
 
 " 各種イベントでファイルの変更をチェック
 autocmd FocusGained,BufEnter,CursorHold,CursorHoldI *
