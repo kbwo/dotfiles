@@ -489,14 +489,28 @@ nnoremap <silent><Leader>ml<Space> :Fern ~/memo -reveal=~/memo/private<CR>
 nnoremap <silent><Leader>mls :Fern ~/memo -reveal=~/memo/private -opener=split<CR>
 nnoremap <silent><Leader>mlv :Fern ~/memo -reveal=~/memo/private -opener=vsplit<CR>
 nnoremap <silent><Leader>mlt :Fern ~/memo -reveal=~/memo/private -opener=tabedit<CR>
-nnoremap <silent><leader>md<Space> :execute 'edit ~/memo/' . strftime('%Y-%m-%d') . '.md'<CR>
-nnoremap <silent><leader>mds :execute 'split ~/memo/' . strftime('%Y-%m-%d') . '.md'<CR>
-nnoremap <silent><leader>mdv :execute 'vsplit ~/memo/' . strftime('%Y-%m-%d') . '.md'<CR>
-nnoremap <silent><leader>mdt :execute 'tabnew ~/memo/' . strftime('%Y-%m-%d') . '.md'<CR>
+function! GetWeeklyMemoPath()
+  let today = localtime()
+  let day_of_week = strftime('%w', today)
+  " Convert Sunday (0) to 7 for easier calculation
+  let day_of_week = day_of_week == 0 ? 7 : day_of_week
+  " Calculate days to Monday (1) and Sunday (7)
+  let days_to_monday = 1 - day_of_week
+  let days_to_sunday = 7 - day_of_week
+  let monday = today + (days_to_monday * 86400)
+  let sunday = today + (days_to_sunday * 86400)
+  return '~/memo/' . strftime('%Y-%m-%d', monday) . '--' . strftime('%Y-%m-%d', sunday) . '.md'
+endfunction
+
+nnoremap <silent><leader>md<Space> :execute 'edit ' . GetWeeklyMemoPath()<CR>
+nnoremap <silent><leader>mds :execute 'split ' . GetWeeklyMemoPath()<CR>
+nnoremap <silent><leader>mdv :execute 'vsplit ' . GetWeeklyMemoPath()<CR>
+nnoremap <silent><leader>mdt :execute 'tabnew ' . GetWeeklyMemoPath()<CR>
 function! ToggleMemoFloat()
   lua << EOF
     local win_config = vim.api.nvim_win_get_config(0)
-    local memo_path = vim.fn.expand("~/memo/" .. os.date("%Y-%m-%d") .. ".md")
+    -- Get weekly memo path using the Vim function
+    local memo_path = vim.fn.expand(vim.fn.GetWeeklyMemoPath())
     
     if win_config.relative ~= "" then
       -- Current window is a floating window
