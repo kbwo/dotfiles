@@ -37,16 +37,8 @@ foreground = "0xc8c093"
 [font]
 size = 9
 
-[font.bold]
-family = "Hack"
-style = "Bold"
-
-[font.italic]
-family = "Hack"
-style = "Italic"
-
 [font.normal]
-family = "Hack"
+family = "Intel One Mono"
 style = "Bold"
 
 [[keyboard.bindings]]
