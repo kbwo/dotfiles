@@ -27,49 +27,49 @@ function! CloseTabsAfterCurrent()
     endfor
 endfunction
 
-inoremap <c-u> <Nop>
-inoremap <c-w> <Esc>:w<CR>
-map K gt
-map J gT
-nmap <Leader>1 :tabfirst<CR>
-nmap <Leader>2 :tabnext 2<CR>
-nmap <Leader>3 :tabnext 3<CR>
-nmap <Leader>4 :tabnext 4<CR>
-nmap <Leader>5 :tabnext 5<CR>
-nmap <Leader>6 :tabnext 6<CR>
-nmap <Leader>7 :tabnext 7<CR>
-nmap <Leader>8 :tabnext 8<CR>
-nmap <Leader>9 :tablast<CR>
-nmap <Leader>te :call CloseTabsAfterCurrent()<CR>
-nmap <Leader>tq :call CloseTabsAfterCurrent()<CR>
-nmap j gj
-vmap j gj
-nmap k gk
-vmap k gk
-nmap R :join<CR>
-nmap <M-r> :join!<CR>
-nmap <Leader>j :-tabmove<CR>
-nmap <Leader>k :+tabmove<CR>
-nmap Q :call CloseAllTermBuffers()<CR>:execute 'cd' getenv("PWD")<CR>:confirm qa<CR>
-nmap R :join<CR>
-nmap <Down> gj
-nmap <Up> gk
-nmap + <C-a>
-nmap - <C-x>
-imap <S-Tab> <C-o><<
-nmap <Leader>x :q<CR>
-nmap <Leader>zx :tabc<CR>
-nnoremap <silent><c-w>t :let b = bufnr('%')<CR>:close<CR>:tabnew<CR>:execute 'buffer' b<CR>
-imap <C-\> <Esc>
+inoremap <silent> <c-u> <Nop>
+inoremap <silent> <c-w> <Esc>:w<CR>
+map <silent> K gt
+map <silent> J gT
+nmap <silent> <Leader>1 :tabfirst<CR>
+nmap <silent> <Leader>2 :tabnext 2<CR>
+nmap <silent> <Leader>3 :tabnext 3<CR>
+nmap <silent> <Leader>4 :tabnext 4<CR>
+nmap <silent> <Leader>5 :tabnext 5<CR>
+nmap <silent> <Leader>6 :tabnext 6<CR>
+nmap <silent> <Leader>7 :tabnext 7<CR>
+nmap <silent> <Leader>8 :tabnext 8<CR>
+nmap <silent> <Leader>9 :tablast<CR>
+nmap <silent> <Leader>te :call CloseTabsAfterCurrent()<CR>
+nmap <silent> <Leader>tq :call CloseTabsAfterCurrent()<CR>
+nmap <silent> j gj
+vmap <silent> j gj
+nmap <silent> k gk
+vmap <silent> k gk
+nmap <silent> R :join<CR>
+nmap <silent> <M-r> :join!<CR>
+nmap <silent> <Leader>j :-tabmove<CR>
+nmap <silent> <Leader>k :+tabmove<CR>
+nmap <silent> Q :call CloseAllTermBuffers()<CR>:execute 'cd' getenv("PWD")<CR>:confirm qa<CR>
+nmap <silent> R :join<CR>
+nmap <silent> <Down> gj
+nmap <silent> <Up> gk
+nmap <silent> + <C-a>
+nmap <silent> - <C-x>
+imap <silent> <S-Tab> <C-o><<
+nmap <silent> <Leader>x :q<CR>
+nmap <silent> <Leader>zx :tabc<CR>
+nmap <silent><c-w>t :let b = bufnr('%')<CR>:close<CR>:tabnew<CR>:execute 'buffer' b<CR>
+imap <silent> <C-\> <Esc>
 
 " tabnew and preserve cursor position
-nmap <Leader>t<Space> :tab split<CR>
-nmap <Leader>tn :NoFile<CR>
-nmap <Leader>l :cd %:h<CR>
-nmap <Leader>h :noh<CR>
-nmap <Leader>e<Space> :e!<CR>
-nmap <Leader>ya :%y<CR>
-tnoremap <C-\> <C-\><C-n>
+nmap <silent> <Leader>t<Space> :tab split<CR>
+nmap <silent> <Leader>tn :NoFile<CR>
+nmap <silent> <Leader>l :cd %:h<CR>
+nmap <silent> <Leader>h :noh<CR>
+nmap <silent> <Leader>e<Space> :e!<CR>
+nmap <silent> <Leader>ya :%y<CR>
+tnoremap <silent> <C-\> <C-\><C-n>
 command Sov so ~/.config/nvim/init.vim
 command Cdv vsp ~/dotfiles/.config/nvim/init.vim
 
@@ -201,8 +201,8 @@ function! YankRelativePathWithLineRange() range
 endfunction
 vmap <Leader>yl :call YankRelativePathWithLineRange()<CR>
 
-nnoremap gno o<Esc>
-nnoremap gnO O<Esc>
+nmap gno o<Esc>
+nmap gnO O<Esc>
 if has('nvim')
   set guicursor=a:blinkon0
 else
@@ -485,10 +485,10 @@ augroup AutoGitCommitPush
     autocmd VimEnter * call s:StartAutoGit()
 augroup END
 
-nnoremap <silent><Leader>ml<Space> :Fern ~/memo -reveal=~/memo/private<CR>
-nnoremap <silent><Leader>mls :Fern ~/memo -reveal=~/memo/private -opener=split<CR>
-nnoremap <silent><Leader>mlv :Fern ~/memo -reveal=~/memo/private -opener=vsplit<CR>
-nnoremap <silent><Leader>mlt :Fern ~/memo -reveal=~/memo/private -opener=tabedit<CR>
+nmap <silent><Leader>ml<Space> :Fern ~/memo -reveal=~/memo/private<CR>
+nmap <silent><Leader>mls :Fern ~/memo -reveal=~/memo/private -opener=split<CR>
+nmap <silent><Leader>mlv :Fern ~/memo -reveal=~/memo/private -opener=vsplit<CR>
+nmap <silent><Leader>mlt :Fern ~/memo -reveal=~/memo/private -opener=tabedit<CR>
 function! GetWeeklyMemoPath()
   let today = localtime()
   let day_of_week = strftime('%w', today)
@@ -502,10 +502,10 @@ function! GetWeeklyMemoPath()
   return '~/memo/' . strftime('%Y-%m-%d', monday) . '--' . strftime('%Y-%m-%d', sunday) . '.md'
 endfunction
 
-nnoremap <silent><leader>md<Space> :execute 'edit ' . GetWeeklyMemoPath()<CR>
-nnoremap <silent><leader>mds :execute 'split ' . GetWeeklyMemoPath()<CR>
-nnoremap <silent><leader>mdv :execute 'vsplit ' . GetWeeklyMemoPath()<CR>
-nnoremap <silent><leader>mdt :execute 'tabnew ' . GetWeeklyMemoPath()<CR>
+nmap <silent><leader>md<Space> :execute 'edit ' . GetWeeklyMemoPath()<CR>
+nmap <silent><leader>mds :execute 'split ' . GetWeeklyMemoPath()<CR>
+nmap <silent><leader>mdv :execute 'vsplit ' . GetWeeklyMemoPath()<CR>
+nmap <silent><leader>mdt :execute 'tabnew ' . GetWeeklyMemoPath()<CR>
 function! ToggleMemoFloat()
   lua << EOF
     local win_config = vim.api.nvim_win_get_config(0)
@@ -577,8 +577,8 @@ function! ToggleMemoFloat()
 EOF
 endfunction
 
-nnoremap <silent><leader>mdf :call ToggleMemoFloat()<CR>
-nnoremap <silent><leader>mf :call ToggleMemoFloat()<CR>
+nmap <silent><leader>mdf :call ToggleMemoFloat()<CR>
+nmap <silent><leader>mf :call ToggleMemoFloat()<CR>
 
 " 各種イベントでファイルの変更をチェック
 autocmd FocusGained,BufEnter,CursorHold,CursorHoldI *
