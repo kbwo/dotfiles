@@ -88,3 +88,21 @@ augroup GinBranchMappings
   autocmd FileType gin-branch map <buffer><nowait> dl <Plug>(gin-action-delete:force)
 augroup END
 
+function! DeleteAllGinBuffers() abort
+  let l:buffers_to_delete = []
+  for bufnr in range(1, bufnr('$'))
+    if bufexists(bufnr)
+      let filetype = getbufvar(bufnr, '&filetype')
+      if filetype == 'gin-log' || filetype == 'gin-diff' || filetype == 'gin'
+        call add(l:buffers_to_delete, bufnr)
+      endif
+    endif
+  endfor
+  
+  for bufnr in l:buffers_to_delete
+    execute 'silent! bdelete! ' . bufnr
+  endfor
+endfunction
+
+nmap gndd :silent call DeleteAllGinBuffers()<CR>
+
