@@ -137,15 +137,37 @@ function! OpenDeltaFloatingWindow(cmd) abort
   call termopen(a:cmd)
 endfunction
 
-function! ShowDeltaDiffFloat() abort
-  " Get the current line and extract the file path
-  let line = getline('.')
-  " Extract from the 4th character to the end and trim whitespace
-  let filepath = trim(line[3:])
-  
-  " Run git diff with delta in the terminal
-  let cmd = 'git add -N '. shellescape(filepath) . ' && git diff ' . shellescape(filepath) . ' | delta --side-by-side --paging=never'
-  call OpenDeltaFloatingWindow(cmd)
+function! ShowDeltaDiffFloat() range abort
+  " Check if in visual mode
+  if a:firstline != a:lastline
+    " Visual line mode - get all selected lines
+    let filepaths = []
+    for lnum in range(a:firstline, a:lastline)
+      let line = getline(lnum)
+      " Extract from the 4th character to the end and trim whitespace
+      let filepath = trim(line[3:])
+      if !empty(filepath)
+        call add(filepaths, filepath)
+      endif
+    endfor
+    
+    " Build command with all file paths
+    if len(filepaths) > 0
+      let add_cmd = 'git add -N ' . join(map(copy(filepaths), 'shellescape(v:val)'), ' ')
+      let diff_cmd = 'git diff HEAD ' . join(map(copy(filepaths), 'shellescape(v:val)'), ' ')
+      let cmd = add_cmd . ' && ' . diff_cmd . ' | delta --side-by-side --paging=never'
+      call OpenDeltaFloatingWindow(cmd)
+    endif
+  else
+    " Single line mode - original behavior
+    let line = getline('.')
+    " Extract from the 4th character to the end and trim whitespace
+    let filepath = trim(line[3:])
+    
+    " Run git diff with delta in the terminal
+    let cmd = 'git add -N '. shellescape(filepath) . ' && git diff HEAD ' . shellescape(filepath) . ' | delta --side-by-side --paging=never'
+    call OpenDeltaFloatingWindow(cmd)
+  endif
 endfunction
 
 function! ShowDeltaDiffCommitFloat() abort

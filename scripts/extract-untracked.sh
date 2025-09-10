@@ -85,6 +85,26 @@ echo "Done! Untracked files and directories have been copied to '$DEST_DIR'"
 
 echo "Enabling serena MCP..."
 
+cd "$DEST_DIR"
+
+# Check if package.json exists and install dependencies based on lock file
+if [ -f "package.json" ]; then
+    echo "Found package.json, installing dependencies..."
+    if [ -f "yarn.lock" ]; then
+        echo "  Using yarn..."
+        rm -rf node_modules && yarn install
+    elif [ -f "pnpm-lock.yaml" ]; then
+        echo "  Using pnpm..."
+        rm -rf node_modules && pnpm install
+    elif [ -f "bun.lockb" ]; then
+        echo "  Using bun..."
+        rm -rf node_modules && bun install
+    else
+        echo "  Using npm (default)..."
+        rm -rf node_modules && npm install
+    fi
+fi
+
 claude mcp add serena -- uvx --from git+https://github.com/oraios/serena serena start-mcp-server --context ide-assistant --project $(pwd)
 
 echo "Serena MCP added"
