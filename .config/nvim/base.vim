@@ -40,6 +40,15 @@ nmap <silent> <Leader>6 :tabnext 6<CR>
 nmap <silent> <Leader>7 :tabnext 7<CR>
 nmap <silent> <Leader>8 :tabnext 8<CR>
 nmap <silent> <Leader>9 :tablast<CR>
+nmap <silent> <Leader>tm1 :tabmove 0<CR>
+nmap <silent> <Leader>tm2 :tabmove 1<CR>
+nmap <silent> <Leader>tm3 :tabmove 2<CR>
+nmap <silent> <Leader>tm4 :tabmove 3<CR>
+nmap <silent> <Leader>tm5 :tabmove 4<CR>
+nmap <silent> <Leader>tm6 :tabmove 5<CR>
+nmap <silent> <Leader>tm7 :tabmove 6<CR>
+nmap <silent> <Leader>tm8 :tabmove 7<CR>
+nmap <silent> <Leader>tm9 :tabmove $<CR>
 nmap <silent> <Leader>te :call CloseTabsAfterCurrent()<CR>
 nmap <silent> <Leader>tq :call CloseTabsAfterCurrent()<CR>
 nmap <silent> j gj
@@ -48,8 +57,8 @@ nmap <silent> k gk
 vmap <silent> k gk
 nmap <silent> R :join<CR>
 nmap <silent> <M-r> :join!<CR>
-nmap <silent> <Leader>j :-tabmove<CR>
-nmap <silent> <Leader>k :+tabmove<CR>
+" nmap <silent> <Leader>j :-tabmove<CR>
+" nmap <silent> <Leader>k :+tabmove<CR>
 nmap <silent> Q :call CloseAllTermBuffers()<CR>:execute 'cd' getenv("PWD")<CR>:confirm qa<CR>
 nmap <silent> R :join<CR>
 nmap <silent> <Down> gj
