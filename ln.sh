@@ -26,3 +26,10 @@ mkdir -p ~/.config/kitty
 ln -sf ~/dotfiles/.config/kitty/kitty.gnome.conf ~/.config/kitty/kitty.conf
 
 ln -sf ~/dotfiles/.tridactylrc ~/.tridactylrc
+
+# Setup .gitconfig
+if [ ! -f ~/.gitconfig ]; then
+    touch ~/.gitconfig
+fi
+
+echo -e "[include]\n    path = ~/dotfiles/.gitconfig\n$(cat ~/.gitconfig)" > ~/.gitconfig

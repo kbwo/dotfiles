@@ -1,0 +1,16 @@
+[init]
+	defaultBranch = main
+[core]
+	excludesfile = ~/.gitignore
+	whitespace = -trailing-space
+	quotepath = false
+[pull]
+	rebase = false
+[push]
+	autoSetupRemote = true
+[advice]
+	addIgnoredFile = false
+[include]
+    path = ~/dotfiles/delta/themes.gitconfig
+[delta]
+    features = colibri
