@@ -138,6 +138,9 @@ function! OpenDeltaFloatingWindow(cmd) abort
 endfunction
 
 function! ShowDeltaDiffFloat() range abort
+  " Get git repository root
+  let git_root = trim(system('git rev-parse --show-toplevel'))
+  
   " Check if in visual mode
   if a:firstline != a:lastline
     " Visual line mode - get all selected lines
@@ -147,7 +150,9 @@ function! ShowDeltaDiffFloat() range abort
       " Extract from the 4th character to the end and trim whitespace
       let filepath = trim(line[3:])
       if !empty(filepath)
-        call add(filepaths, filepath)
+        " Prepend git root to the filepath
+        let full_filepath = git_root . '/' . filepath
+        call add(filepaths, full_filepath)
       endif
     endfor
     
@@ -164,8 +169,11 @@ function! ShowDeltaDiffFloat() range abort
     " Extract from the 4th character to the end and trim whitespace
     let filepath = trim(line[3:])
     
+    " Prepend git root to the filepath
+    let full_filepath = git_root . '/' . filepath
+    
     " Run git diff with delta in the terminal
-    let cmd = 'git add -N '. shellescape(filepath) . ' && git diff HEAD ' . shellescape(filepath) . ' | delta --side-by-side --paging=never'
+    let cmd = 'git add -N '. shellescape(full_filepath) . ' && git diff HEAD ' . shellescape(full_filepath) . ' | delta --side-by-side --paging=never'
     call OpenDeltaFloatingWindow(cmd)
   endif
 endfunction

@@ -21,6 +21,7 @@ Jetpack 'kbwo/vim-gin', { 'branch': 'fix/wworktree'}
 " Jetpack 'lambdalisue/gin.vim'
 Jetpack 'machakann/vim-sandwich'
 Jetpack 'lambdalisue/fern.vim'
+Jetpack 'lambdalisue/vim-fern-hijack'
 Jetpack 'Bakudankun/BackAndForward.vim'
 Jetpack 'nvim-lua/plenary.nvim'
 Jetpack 'Exafunction/codeium.vim', { 'branch': 'main' }
