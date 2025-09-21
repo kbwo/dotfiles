@@ -14,3 +14,13 @@
     path = ~/dotfiles/delta/themes.gitconfig
 [delta]
     features = colibri
+[delta "syntax"]
+	theme = Kanagawa
+[extensions]
+	worktreeConfig = true
+[credential "https://github.com"]
+	helper =
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper =
+	helper = !/usr/bin/gh auth git-credential

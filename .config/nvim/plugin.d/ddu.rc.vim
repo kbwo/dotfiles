@@ -165,7 +165,7 @@ endfunction
 
 function! RgFindIgnore(text) abort
   let escaped_text = escape(a:text, '()[]{}.*+?^$|\')
-    :call ddu#start({'sources': [{'name': 'rg', 'params': {'input': escaped_text, 'args': ['--smart-case', "--column", "--no-heading", '--hidden', '--max-columns', '500']}}]})
+    :call ddu#start({'sources': [{'name': 'rg', 'params': {'input': escaped_text, 'args': ['--smart-case', "--column", "--no-heading", '--hidden', '--glob', '!.git', '--max-columns', '500']}}]})
 endfunction
 
 function! RgFindNoIgnore(text) abort
