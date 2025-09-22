@@ -150,7 +150,15 @@ set fixendofline
 
 " Yank relative path with line number
 function! YankRelativePathWithLine()
-  let l:relpath = fnamemodify(expand('%'), ':.')
+  let l:git_root = trim(system('git rev-parse --show-toplevel'))
+  if v:shell_error
+    " Not in a git repository, fall back to current directory relative path
+    let l:relpath = fnamemodify(expand('%'), ':.')
+  else
+    " Get path relative to git root
+    let l:fullpath = expand('%:p')
+    let l:relpath = substitute(l:fullpath, '^' . escape(l:git_root . '/', '/.'), '', '')
+  endif
   if empty(l:relpath)
     echo 'No file to yank'
   else
@@ -169,7 +177,15 @@ function! GetExistingClipboard()
 endfunction
 
 function! AppendYankRelativePath()
-  let l:relpath = fnamemodify(expand('%'), ':.')
+  let l:git_root = trim(system('git rev-parse --show-toplevel'))
+  if v:shell_error
+    " Not in a git repository, fall back to current directory relative path
+    let l:relpath = fnamemodify(expand('%'), ':.')
+  else
+    " Get path relative to git root
+    let l:fullpath = expand('%:p')
+    let l:relpath = substitute(l:fullpath, '^' . escape(l:git_root . '/', '/.'), '', '')
+  endif
   if empty(l:relpath)
     echo 'No file to yank'
   else
@@ -180,7 +196,15 @@ function! AppendYankRelativePath()
 endfunction
 
 function! AppendYankRelativePathWithLine()
-  let l:relpath = fnamemodify(expand('%'), ':.')
+  let l:git_root = trim(system('git rev-parse --show-toplevel'))
+  if v:shell_error
+    " Not in a git repository, fall back to current directory relative path
+    let l:relpath = fnamemodify(expand('%'), ':.')
+  else
+    " Get path relative to git root
+    let l:fullpath = expand('%:p')
+    let l:relpath = substitute(l:fullpath, '^' . escape(l:git_root . '/', '/.'), '', '')
+  endif
   if empty(l:relpath)
     echo 'No file to yank'
   else
@@ -197,7 +221,15 @@ nmap <Leader>yyl :call AppendYankRelativePathWithLine()<CR>
 
 " Visual mode version - yank relative path with line range
 function! YankRelativePathWithLineRange() range
-  let l:relpath = fnamemodify(expand('%'), ':.')
+  let l:git_root = trim(system('git rev-parse --show-toplevel'))
+  if v:shell_error
+    " Not in a git repository, fall back to current directory relative path
+    let l:relpath = fnamemodify(expand('%'), ':.')
+  else
+    " Get path relative to git root
+    let l:fullpath = expand('%:p')
+    let l:relpath = substitute(l:fullpath, '^' . escape(l:git_root . '/', '/.'), '', '')
+  endif
   if empty(l:relpath)
     echo 'No file to yank'
   else
@@ -344,7 +376,15 @@ set tabline=%!FileWithParent()
 autocmd BufRead,BufNewFile *.mdx set filetype=markdown
 
 function! YankRelativePath()
-  let l:relpath = fnamemodify(expand('%'), ':.')
+  let l:git_root = trim(system('git rev-parse --show-toplevel'))
+  if v:shell_error
+    " Not in a git repository, fall back to current directory relative path
+    let l:relpath = fnamemodify(expand('%'), ':.')
+  else
+    " Get path relative to git root
+    let l:fullpath = expand('%:p')
+    let l:relpath = substitute(l:fullpath, '^' . escape(l:git_root . '/', '/.'), '', '')
+  endif
   if empty(l:relpath)
     echo 'No file to yank'
   else
