@@ -82,8 +82,7 @@ Jetpack 'j-hui/fidget.nvim'
 " Jetpack 'rcarriga/nvim-notify'
 " code action
 Jetpack 'aznhe21/actions-preview.nvim'
-" hover
-Jetpack 'lewis6991/hover.nvim'
+Jetpack 'Sebastian-Nielsen/better-type-hover'
 " outline
 Jetpack 'stevearc/aerial.nvim'
 

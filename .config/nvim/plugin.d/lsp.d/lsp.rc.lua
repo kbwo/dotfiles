@@ -112,3 +112,42 @@ for _, method in ipairs({ "textDocument/diagnostic", "workspace/diagnostic" }) d
 end
 
 vim.lsp.inlay_hint.enable(true)
+
+vim.g.rustaceanvim = {
+	-- Plugin configuration
+	tools = {
+	},
+	-- LSP configuration
+	server = {
+		on_attach = function(client, bufnr)
+			-- you can also put keymaps in here
+		end,
+		default_settings = {
+			-- rust-analyzer language server configuration
+			["rust-analyzer"] = {
+				cargo = {
+					features = "all",
+					buildScripts = {
+						enable = true,
+					},
+				},
+				-- enable clippy on save
+				checkOnSave = {
+					command = "clippy",
+				},
+				check = {
+					command = "clippy",
+				},
+				diagnostics = {
+					disabled = {
+						"unresolved-proc-macro",
+						"inactive-code",
+					},
+				},
+			},
+		},
+	},
+	-- DAP configuration
+	dap = {
+	},
+}

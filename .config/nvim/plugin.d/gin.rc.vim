@@ -69,6 +69,7 @@ augroup GinStatusMappings
   autocmd FileType gin-status map <buffer><nowait> ddt <Plug>(gin-action-diff:smart:tabedit)
   autocmd FileType gin-status map <buffer><nowait> ddf :call ShowDeltaDiffFloat()<CR>
   autocmd FileType gin-status map <buffer><nowait> pp <Plug>(gin-action-patch)
+  autocmd FileType gin-status map <buffer><nowait> rr :!git reset<CR>
   autocmd FileType gin-status map <buffer><nowait> !! <Plug>(gin-action-chaperon)
   autocmd FileType gin-status map <buffer><nowait> < <Plug>(gin-action-stage)
   autocmd FileType gin-status map <buffer><nowait> > <Plug>(gin-action-unstage)
