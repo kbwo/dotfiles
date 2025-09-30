@@ -31,7 +31,7 @@ matches:
       - name: mydate
         type: date
         params:
-          format: "%Y-%m-%d"
+          format: "%Y.%m.%d"
   - trigger: ";w;"
     replace: "{{week}}"
     vars:
