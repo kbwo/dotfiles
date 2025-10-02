@@ -20,7 +20,7 @@
     }
   };
 
-  document.addEventListener("keydown", (e) => {
+  document.addEventListener("keydown", async (e) => {
     // delete `#xxx`, `[xxx]`
     const title = document.title
       .replace(/^\(\d+\)\s/, "")      // "(数字) "を削除
@@ -41,6 +41,18 @@
     }
     if (e.ctrlKey && e.altKey && (e.key === "s" || e.code === "KeyS")) {
       copy(`${title} ${url}`);
+    }
+    // Ctrl+Alt+D: append to existing clipboard
+    if (e.ctrlKey && e.altKey && (e.key === "d" || e.code === "KeyD")) {
+      try {
+        // Use navigator.clipboard API to read existing content
+        const existing = await navigator.clipboard.readText();
+        const newContent = existing ? `${existing}\n${title} ${url}` : `${title} ${url}`;
+        copy(newContent);
+      } catch (err) {
+        // If reading clipboard fails (e.g., permission denied), just copy the new content
+        alert('Failed to read clipboard:', err);
+      }
     }
   });
 })();

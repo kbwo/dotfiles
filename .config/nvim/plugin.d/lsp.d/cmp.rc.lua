@@ -30,10 +30,20 @@ cmp.setup({
 		{ name = "path" },
 		{ name = "nvim_lsp_signature_help" }, -- display function signatures with current parameter emphasized
 		{ name = "nvim_lsp_document_symbol" }, -- display function signatures with current parameter emphasized
-		{ name = "emoji" }, -- display function signatures with current parameter emphasized
-		{ name = "buffer" }, -- source current buffer
+		{ name = "emoji" },                  -- display function signatures with current parameter emphasized
+		{ name = "buffer" },                 -- source current buffer
 		-- { name = "dictionary",              keyword_length = 2 },
-		{ name = "vim-dadbod-completion" }, -- source for math calculation
+		{ name = "vim-dadbod-completion" },  -- source for math calculation
+		{
+			name = "spell",
+			option = {
+				keep_all_entries = false,
+				enable_in_context = function()
+					return true
+				end,
+				preselect_correct_word = true,
+			},
+		},
 	}),
 	window = {
 		completion = cmp.config.window.bordered(),
@@ -53,7 +63,5 @@ cmp.setup({
 	},
 })
 
--- require("cmp_dictionary").setup({
---   paths = { "~/.config/nvim/dict/american_english.txt" },
---   exact_length = 2,
--- })
+vim.opt.spell = true
+vim.opt.spelllang = { "en_us" }

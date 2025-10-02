@@ -31,7 +31,7 @@ Jetpack 'rebelot/kanagawa.nvim'
 Jetpack 'smoka7/hop.nvim'
 Jetpack 'yorickpeterse/nvim-window'
 Jetpack 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Jetpack 'lukas-reineke/indent-blankline.nvim'
+Jetpack 'shellRaining/hlchunk.nvim'
 Jetpack 'andrewferrier/debugprint.nvim'
 Jetpack 'akinsho/toggleterm.nvim'
 Jetpack 'jedrzejboczar/possession.nvim'
@@ -97,6 +97,7 @@ Jetpack 'hrsh7th/cmp-emoji'
 Jetpack 'hrsh7th/cmp-path'
 Jetpack 'hrsh7th/cmp-buffer'
 Jetpack 'hrsh7th/cmp-calc'
+Jetpack 'hrsh7th/cmp-spell'
 " dictionary 使っている状態でバッファが増えると何故かterminalがめちゃくちゃ重くなる
 " Jetpack 'uga-rosa/cmp-dictionary'
 Jetpack 'kristijanhusak/vim-dadbod-completion'
@@ -122,6 +123,10 @@ Jetpack 'ray-x/cmp-treesitter'
 Jetpack 'EgZvor/vim-fluffy'
 
 Jetpack 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+
+Jetpack 'monaqa/dial.nvim'
+Jetpack 'petertriho/nvim-scrollbar'
+Jetpack 'gaoDean/autolist.nvim'
 
 call jetpack#end()
 
