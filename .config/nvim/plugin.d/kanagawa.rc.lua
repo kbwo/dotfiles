@@ -43,6 +43,10 @@ require("kanagawa").setup({
 			TabLineSel = { bg = "#E6C384", fg = "#3E4452", sp = "#E6C384" },
 			TabLineFill = { bg = "#21252B", fg = "#7F848E", sp = "#21252B" },
 			LspInlayHint = { fg = "#8f784a" },
+			SpellBad = { sp = "NONE", undercurl = false },
+			SpellCap = { sp = "NONE", undercurl = false },
+			SpellRare = { sp = "NONE", undercurl = false },
+			SpellLocal = { sp = "NONE", undercurl = false },
 		}
 	end,
 })

@@ -97,7 +97,7 @@ Jetpack 'hrsh7th/cmp-emoji'
 Jetpack 'hrsh7th/cmp-path'
 Jetpack 'hrsh7th/cmp-buffer'
 Jetpack 'hrsh7th/cmp-calc'
-Jetpack 'hrsh7th/cmp-spell'
+Jetpack 'f3fora/cmp-spell'
 " dictionary 使っている状態でバッファが増えると何故かterminalがめちゃくちゃ重くなる
 " Jetpack 'uga-rosa/cmp-dictionary'
 Jetpack 'kristijanhusak/vim-dadbod-completion'

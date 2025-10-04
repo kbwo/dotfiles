@@ -1,1 +1,5 @@
-require("scrollbar").setup({})
+require("scrollbar").setup({
+	handle = {
+		color = nil,
+	},
+})

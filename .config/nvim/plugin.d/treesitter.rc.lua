@@ -12,6 +12,9 @@ require 'nvim-treesitter.configs'.setup {
     "json",
     "diff"
   },
+  indent = {
+    enable = false
+  }
 }
 require('ts_context_commentstring').setup {
   enable = true,
