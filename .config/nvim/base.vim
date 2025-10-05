@@ -70,6 +70,8 @@ nmap <silent> <Leader>x :q<CR>
 nmap <silent> <Leader>zx :tabc<CR>
 nmap <silent><c-w>t :let b = bufnr('%')<CR>:close<CR>:tabnew<CR>:execute 'buffer' b<CR>
 imap <silent> <C-\> <Esc>
+nmap <silent> <A-h> o<C-o>o---------------------------------------------------------<Esc>o<Esc>o
+imap <silent> <A-h> <C-o>o---------------------------------------------------------<Esc>o<Esc>o
 
 " tabnew and preserve cursor position
 nmap <silent> <Leader>t<Space> :tab split<CR>
@@ -78,6 +80,7 @@ nmap <silent> <A-t> :terminal<CR>
 nmap <silent> <Leader>h :noh<CR>
 nmap <silent> <Leader>e<Space> :e!<CR>
 nmap <silent> <Leader>ya :%y<CR>
+nmap gok O<Esc>j
 tnoremap <silent> <C-\> <C-\><C-n>
 command Sov so ~/.config/nvim/init.vim
 command Cdv vsp ~/dotfiles/.config/nvim/init.vim
@@ -168,8 +171,8 @@ function! YankRelativePathWithLine()
     echo 'Copied: ' . l:text
   endif
 endfunction
-nmap <Leader>yr :YankRelativePath<CR>
-nmap <Leader>yl :call YankRelativePathWithLine()<CR>
+nmap <Leader>yr :YankRelativePath<CR><Leader>mdfGo<ESC>p
+nmap <Leader>yl :call YankRelativePathWithLine()<CR><Leader>mdfGo<ESC>p
 
 " Append yanked text to clipboard with whitespace
 function! GetExistingClipboard()
