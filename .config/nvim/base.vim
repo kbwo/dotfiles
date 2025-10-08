@@ -51,6 +51,7 @@ nmap <silent> <Leader>tm8 :tabmove 7<CR>
 nmap <silent> <Leader>tm9 :tabmove $<CR>
 nmap <silent> <Leader>te :call CloseTabsAfterCurrent()<CR>
 nmap <silent> <Leader>tq :call CloseTabsAfterCurrent()<CR>
+nmap ~~ :Fern ~<CR>
 nmap <silent> j gj
 vmap <silent> j gj
 nmap <silent> k gk
@@ -70,7 +71,7 @@ nmap <silent> <Leader>x :q<CR>
 nmap <silent> <Leader>zx :tabc<CR>
 nmap <silent><c-w>t :let b = bufnr('%')<CR>:close<CR>:tabnew<CR>:execute 'buffer' b<CR>
 imap <silent> <C-\> <Esc>
-nmap <silent> <A-h> o<C-o>o---------------------------------------------------------<Esc>o<Esc>o
+nmap <silent> <A-h> o<C-o>o---------------------------------------------------------<Esc>o<Esc>o<Esc>
 imap <silent> <A-h> <C-o>o---------------------------------------------------------<Esc>o<Esc>o
 
 " tabnew and preserve cursor position
@@ -167,8 +168,8 @@ function! YankRelativePathWithLine()
   else
     let l:line = line('.')
     let l:text = l:relpath . '#L' . l:line
-    let @+ = l:text
-    echo 'Copied: ' . l:text
+    let @+ = '@' . l:text
+    echo 'Copied: ' . '@' . l:text
   endif
 endfunction
 nmap <Leader>yr :YankRelativePath<CR><Leader>mdfGo<ESC>p
@@ -193,7 +194,7 @@ function! AppendYankRelativePath()
     echo 'No file to yank'
   else
     let l:existing = GetExistingClipboard()
-    let @+ = l:existing . "\n" . l:relpath
+    let @+ = l:existing . "\n" . '@' . l:relpath
     echo 'Appended: ' . l:relpath
   endif
 endfunction
@@ -214,7 +215,7 @@ function! AppendYankRelativePathWithLine()
     let l:line = line('.')
     let l:text = l:relpath . '#L' . l:line
     let l:existing = GetExistingClipboard()
-    let @+ = l:existing . "\n" . l:text
+    let @+ = l:existing . "\n" . '@' . l:text
     echo 'Appended: ' . l:text
   endif
 endfunction
@@ -239,11 +240,11 @@ function! YankRelativePathWithLineRange() range
     let l:from_line = a:firstline
     let l:to_line = a:lastline
     let l:text = l:relpath . '#L' . l:from_line . '-' . l:to_line
-    let @+ = l:text
+    let @+ = '@' . l:text
     echo 'Copied: ' . l:text
   endif
 endfunction
-vmap <Leader>yl :call YankRelativePathWithLineRange()<CR>
+vmap <Leader>yl :call YankRelativePathWithLineRange()<CR><Leader>mdfGo<ESC>p
 
 nmap gno o<Esc>
 nmap gnO O<Esc>
@@ -391,7 +392,7 @@ function! YankRelativePath()
   if empty(l:relpath)
     echo 'No file to yank'
   else
-    let @+ = l:relpath
+    let @+ = '@' . l:relpath
     echo 'Copied relative path'
   endif
 endfunction
