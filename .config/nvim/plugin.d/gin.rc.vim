@@ -159,9 +159,8 @@ function! ShowDeltaDiffFloat() range abort
     
     " Build command with all file paths
     if len(filepaths) > 0
-      let add_cmd = 'git add -N ' . join(map(copy(filepaths), 'shellescape(v:val)'), ' ')
       let diff_cmd = 'git diff HEAD ' . join(map(copy(filepaths), 'shellescape(v:val)'), ' ')
-      let cmd = add_cmd . ' && ' . diff_cmd . ' | delta --side-by-side --paging=never'
+      let cmd = diff_cmd . ' | delta --side-by-side --paging=never'
       call OpenDeltaFloatingWindow(cmd)
     endif
   else
