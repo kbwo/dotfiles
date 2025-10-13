@@ -1,1 +1,1 @@
-let g:winresizer_start_key = '<C-a>'
+let g:winresizer_start_key = '<A-a>'
