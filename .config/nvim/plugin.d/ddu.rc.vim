@@ -119,6 +119,8 @@ function! s:ddu_my_settings() abort
         \ <Cmd>call ddu#ui#do_action('openFilterWindow')<CR>
   nnoremap <buffer><silent> x
         \ <Cmd>call ddu#ui#do_action('quit')<CR>
+  nnoremap <buffer><silent> <Leader>x
+        \ <Cmd>call ddu#ui#do_action('quit')<CR>
 endfunction
 
 nmap <silent><c-p> :call StartDduNoIgnore()<CR>

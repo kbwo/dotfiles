@@ -173,7 +173,7 @@ function! ShowDeltaDiffFloat() range abort
     let full_filepath = git_root . '/' . filepath
     
     " Run git diff with delta in the terminal
-    let cmd = 'git add -N '. shellescape(full_filepath) . ' && git diff HEAD ' . shellescape(full_filepath) . ' | delta --side-by-side --paging=never'
+    let cmd = 'git diff HEAD ' . shellescape(full_filepath) . ' | delta --side-by-side --paging=never'
     call OpenDeltaFloatingWindow(cmd)
   endif
 endfunction
