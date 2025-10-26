@@ -8,6 +8,7 @@
 // @match        https://claude.ai/*
 // @match        https://app.devin.ai/*
 // @match        https://*.slack.com/*
+// @match        https://www.youtube.com/*
 // @grant        none
 // @run-at       document-start
 // ==/UserScript==
@@ -23,7 +24,7 @@
           "keypress",
           "keydown",
           "keyup",
-        ].includes(type)
+        ].includes(type) && _listener
       ) {
         const listener = (event) => {
           if (
@@ -36,7 +37,12 @@
             return;
           }
 
-          return _listener(event);
+          // Handle both function and object with handleEvent
+          if (typeof _listener === 'function') {
+            return _listener(event);
+          } else if (_listener && typeof _listener.handleEvent === 'function') {
+            return _listener.handleEvent(event);
+          }
         };
         return originalAddEventListener.call(this, type, listener, options);
       }
