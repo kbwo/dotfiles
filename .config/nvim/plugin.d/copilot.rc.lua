@@ -5,6 +5,12 @@ require('copilot-lsp').setup({
 })
 vim.g.copilot_nes_debounce = 10
 vim.lsp.enable("copilot_ls")
+vim.lsp.config("copilot_ls", {
+  cmd = {
+    'mise', 'exec', 'node@22', '--', 'copilot-language-server', '--stdio'
+  }
+})
+
 local copilot_ls_disabled_filetypes = {
   markdown = true,
   text = true,
@@ -52,7 +58,5 @@ vim.keymap.set("n", "<tab>", function()
 end, { desc = "Accept Copilot NES suggestion", expr = true })
 -- Clear copilot suggestion with Esc if visible, otherwise preserve default Esc behavior
 vim.keymap.set("n", "<esc>", function()
-  if not require('copilot-lsp.nes').clear() then
-    -- fallback to other functionality
-  end
+  require('copilot-lsp.nes').clear()
 end, { desc = "Clear Copilot suggestion or fallback" })

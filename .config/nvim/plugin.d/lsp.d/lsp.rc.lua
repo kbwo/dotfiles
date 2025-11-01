@@ -17,6 +17,13 @@ local capabilities = vim.tbl_deep_extend("force", require("cmp_nvim_lsp").defaul
 -- 	},
 -- })
 
+-- copilot-language-server
+vim.lsp.config("copilot_ls", {
+	cmd = {
+		'mise', 'exec', 'node@22', '--', 'copilot-language-server', '--stdio'
+	}
+})
+
 require("mason").setup({
 	ui = {
 		keymaps = {
