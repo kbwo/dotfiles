@@ -39,7 +39,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end
   end,
 })
-vim.keymap.set("n", "<tab>", function()
+local function handle_copilot_nes()
   local bufnr = vim.api.nvim_get_current_buf()
   local state = vim.b[bufnr].nes_state
   if state then
@@ -55,8 +55,10 @@ vim.keymap.set("n", "<tab>", function()
     -- Resolving the terminal's inability to distinguish between `TAB` and `<C-i>` in normal mode
     return "<C-i>"
   end
-end, { desc = "Accept Copilot NES suggestion", expr = true })
--- Clear copilot suggestion with Esc if visible, otherwise preserve default Esc behavior
-vim.keymap.set("n", "<esc>", function()
+end
+
+vim.keymap.set("n", "<A-y>", handle_copilot_nes, { desc = "Accept Copilot NES suggestion", expr = true })
+vim.keymap.set("i", "<A-y>", handle_copilot_nes, { desc = "Accept Copilot NES suggestion", expr = true })
+vim.keymap.set("n", "<A-;>", function()
   require('copilot-lsp.nes').clear()
 end, { desc = "Clear Copilot suggestion or fallback" })
