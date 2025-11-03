@@ -1,14 +1,19 @@
-require("org-list").setup({
-  mapping = {
-    key = "<A-l>",  -- nvim-orgmode users: you might want to change this to <leader>olt
-    desc = "Toggle: Cycle through list types"
-  },
-  checkbox_toggle = {
-    enabled = true,
-    -- NOTE: for nvim-orgmode users, you should change the following mapping OR change the one from orgmode.
-    -- If both mapping stay the same, the one from nvim-orgmode will "win"
-    key = "<cr>",
-    desc = "Toggle checkbox state",
-    filetypes = { "org", "markdown" }     -- Add more filetypes as needed
-  }
+require("list").setup()
+
+-- Set up keymaps for markdown/text files
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = { "markdown", "text" },
+	callback = function()
+		local list = require("list")
+		-- Toggle checkbox with Enter in normal mode
+		vim.keymap.set("n", "<cr>", list.toggle_checkbox, { buffer = true })
+		vim.keymap.set('n', '<A-l>', function()
+			list.cycle_sibling_list_format()
+		end, { buffer = true })
+		vim.keymap.set('n', '<A-L>', function()
+			list.cycle_all_list_format()
+		end, { buffer = true })
+	end,
 })
+
+

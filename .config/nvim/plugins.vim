@@ -128,8 +128,7 @@ Jetpack 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for
 
 Jetpack 'monaqa/dial.nvim'
 Jetpack 'petertriho/nvim-scrollbar'
-Jetpack 'gaoDean/autolist.nvim'
-Jetpack 'kbwo/org-list.nvim'
+Jetpack 'kbwo/list.nvim'
 
 call jetpack#end()
 
