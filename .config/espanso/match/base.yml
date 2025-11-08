@@ -4,13 +4,6 @@ matches:
   # But matches can also be dynamic:
 
   # Print the current date
-  - trigger: ";now;"
-    replace: "{{mydate}}"
-    vars:
-      - name: mydate
-        type: date
-        params:
-          format: "%Y-%m-%d %H:%M:%S"
   - trigger: ";ts;"
     replace: "{{mydate}}"
     vars:
@@ -25,6 +18,13 @@ matches:
         type: date
         params:
           format: "%Y-%m-%d %H:%M:%S"
+  - trigger: ";ima"
+    replace: "{{mydate}}"
+    vars:
+      - name: mydate
+        type: date
+        params:
+          format: "%H:%M"
   - trigger: ";d;"
     replace: "{{mydate}}"
     vars:
