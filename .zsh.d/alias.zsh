@@ -17,3 +17,4 @@ alias wayal="WINIT_UNIX_BACKEND=x11 alacritty"
 alias vev=". .venv/bin/activate"
 alias tmux='cd ~ && tmux'
 alias gtbdm='git fetch --prune && git branch --merged | egrep -v "\*|develop|master|main"|xargs git branch -d'
+alias gtr='git reset --hard'

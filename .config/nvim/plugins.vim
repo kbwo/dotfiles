@@ -74,7 +74,8 @@ Jetpack 'kyoh86/climbdir.nvim'
 Jetpack 'mrcjkb/rustaceanvim'
 Jetpack 'pmizio/typescript-tools.nvim'
 Jetpack 'kbwo/testing-ls.nvim'
-Jetpack 'copilotlsp-nvim/copilot-lsp'
+" Jetpack 'copilotlsp-nvim/copilot-lsp'
+Jetpack 'folke/sidekick.nvim'
 
 " neovim lsp ui
 " dependency

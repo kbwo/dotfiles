@@ -1,3 +1,4 @@
 .zcompdump*
 .config/nvim/plugin.d/env.vim
 .config/espanso/match/packages
+.aider*

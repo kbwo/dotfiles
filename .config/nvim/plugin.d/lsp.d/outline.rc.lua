@@ -10,15 +10,15 @@ require("aerial").setup({
 		"Constructor",
 		"Enum",
 		"EnumMember",
-		"Field",
 		"Function",
+		"Field",
 		"Interface",
 		"Method",
 		"Module",
 		"Namespace",
 		"Package",
-		"Property",
 		"Struct",
+		"Variable"
 	},
 	backends = { "treesitter", "lsp", "markdown", "asciidoc", "man" },
 	keymaps = {
