@@ -31,7 +31,7 @@ Jetpack 'rebelot/kanagawa.nvim'
 Jetpack 'smoka7/hop.nvim'
 Jetpack 'yorickpeterse/nvim-window'
 Jetpack 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Jetpack 'shellRaining/hlchunk.nvim'
+" Jetpack 'shellRaining/hlchunk.nvim'
 Jetpack 'lukas-reineke/indent-blankline.nvim'
 Jetpack 'andrewferrier/debugprint.nvim'
 Jetpack 'akinsho/toggleterm.nvim'
