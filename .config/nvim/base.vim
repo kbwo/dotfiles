@@ -71,8 +71,8 @@ nmap <silent> <Leader>x :q<CR>
 nmap <silent> <Leader>zx :tabc<CR>
 nmap <silent><c-w>t :let b = bufnr('%')<CR>:close<CR>:tabnew<CR>:execute 'buffer' b<CR>
 imap <silent> <C-\> <Esc>
-nmap <silent> <A-h> o<C-o>o---------------------------------------------------------<Esc>o<Esc>o<Esc>
-imap <silent> <A-h> <C-o>o---------------------------------------------------------<Esc>o<Esc>o
+nmap <silent> <A-h> o<C-o>o***<Esc>o<Esc>o<Esc>
+imap <silent> <A-h> <C-o>o***<Esc>o<Esc>o
 
 " tabnew and preserve cursor position
 nmap <silent> <Leader>t<Space> :tab split<CR>

@@ -1,17 +1,23 @@
 let g:gin_branch_disable_default_mappings = 1
 let g:gin_status_disable_default_mappings = 1
 let g:gin_log_disable_default_mappings = 1
+let g:gin_proxy_editor_opener = "vsplit"
 
 nmap gns<Space> :GinStatus<CR>
 nmap gnss :GinStatus ++opener=split<CR>
 nmap gnsv :GinStatus ++opener=vsplit<CR>
 nmap gnst :GinStatus ++opener=tabedit<CR>
-nmap gnc :Gin commit<CR>
-let g:gin_proxy_editor_opener = "vsplit"
 nmap gnb<Space> :GinBranch<CR>
 nmap gnbs :GinBranch ++opener=split<CR>
 nmap gnbv :GinBranch ++opener=vsplit<CR>
 nmap gnbt :GinBranch ++opener=tabedit<CR>
+
+nmap gnd<Space> :GinDiff<CR>
+nmap gnds :GinDiff ++opener=split<CR>
+nmap gndv :GinDiff ++opener=vsplit<CR>
+nmap gndt :GinDiff ++opener=tabedit<CR>
+
+nmap gnc :Gin commit<CR>
 nmap gnh :Gin checkout -b
 nmap gnps :Gin push
 nmap gnpl :Gin pull<CR>
@@ -22,20 +28,13 @@ nmap gnlp :GinLog -p -n 100<CR>
 nmap gnls :GinLog --graph -n 1000 ++opener=split<CR>
 nmap gnlv :GinLog --graph -n 1000 ++opener=vsplit<CR>
 nmap gnlt :GinLog --graph -n 1000 ++opener=tabedit<CR>
+
 nmap gnw :GinBrowse --permalink<CR>
 
 let g:gin_log_persistent_args = [
       \ '++emojify',
       \  '--pretty=%C(yellow)%h%C(reset)%C(auto)%d%C(reset) %s %b %C(cyan)@%an%C(reset) %C(magenta)[%ar]%C(reset)'
       \]
-let s:has_delta = executable("delta") == 1
-" disable delta as <CR> won't work
-let s:processor = v:null
-if s:has_delta
-  let s:processor = "delta --no-gitconfig --color-only"
-  let g:gin_diff_persistent_args = ["++processor=" . s:processor]
-endif
-
 
 function! CurrentFileLog() abort
   execute 'GinLog --graph -p ++opener=vsplit -- ' . expand('%:p')

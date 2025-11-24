@@ -47,7 +47,7 @@ matches:
         params:
           format: "%Y-W%V"
   - trigger: ";h;"
-    replace: "\n---------------------------------------------------------\n"
+    replace: "\n***\n"
   - trigger: ";r;"
     replace: "{{output}}"
     vars:
