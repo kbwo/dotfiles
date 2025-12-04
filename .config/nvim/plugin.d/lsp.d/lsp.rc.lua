@@ -139,9 +139,7 @@ vim.g.rustaceanvim = {
 					},
 				},
 				-- enable clippy on save
-				checkOnSave = {
-					command = "clippy",
-				},
+				checkOnSave = true,
 				check = {
 					command = "clippy",
 				},

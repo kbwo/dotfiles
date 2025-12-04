@@ -56,6 +56,7 @@ augroup GinLogMappings
   autocmd FileType gin-log nmap <buffer><nowait>ir <Plug>(gin-action-fixup:instant-fixup)
   autocmd FileType gin-log nmap <buffer><nowait>if <Plug>(gin-action-fixup:instant-reword)
   autocmd FileType gin-log nmap <buffer><nowait>ia <Plug>(gin-action-fixup:instant-amend)
+  autocmd FileType gin-log nmap <buffer><nowait>cb :GinLog --first-parent<CR>
 augroup END
 
 augroup GinStatusMappings

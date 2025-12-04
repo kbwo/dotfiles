@@ -122,6 +122,10 @@ Jetpack 'ray-x/cmp-treesitter'
 " Jetpack 'Shougo/ddc-source-input'
 " Jetpack 'matsui54/ddc-source-dictionary'
 " Jetpack 'kristijanhusak/vim-dadbod-completion'
+"
+
+Jetpack 'anuvyklack/middleclass'
+Jetpack 'anuvyklack/windows.nvim'
 
 Jetpack 'EgZvor/vim-fluffy'
 
