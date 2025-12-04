@@ -135,6 +135,13 @@ Jetpack 'monaqa/dial.nvim'
 Jetpack 'petertriho/nvim-scrollbar'
 Jetpack 'kbwo/list.nvim'
 
+Jetpack 'terryma/vim-expand-region'
+Jetpack 'kana/vim-textobj-user'
+Jetpack 'kana/vim-textobj-line'
+Jetpack 'kana/vim-textobj-entire'
+Jetpack 'wellle/targets.vim'
+Jetpack 'nvim-treesitter/nvim-treesitter-textobjects'
+
 call jetpack#end()
 
 function! LoadConfigurations(directory) abort
