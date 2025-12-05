@@ -141,6 +141,7 @@ Jetpack 'kana/vim-textobj-line'
 Jetpack 'kana/vim-textobj-entire'
 Jetpack 'wellle/targets.vim'
 Jetpack 'nvim-treesitter/nvim-treesitter-textobjects'
+Jetpack 'coachshea/vim-textobj-markdown'
 
 call jetpack#end()
 

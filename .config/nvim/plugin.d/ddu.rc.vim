@@ -129,7 +129,7 @@ nmap <silent><Leader>pt :call TabFind()<CR>
 nmap <Leader>rr :RgFind ignore 
 nmap <Leader>rn :RgFind noignore 
 nmap <silent><Leader>rw :call RgFindIgnore(expand('<cword>'))<CR>
-vnoremap <silent><Leader>rr :<C-u>call RgFindIgnore(GetVisualSelection())<CR>
+vnoremap <Leader>rr :<C-u>call RgFindIgnore(GetVisualSelection())<CR>
 nmap <silent> <Leader>id <Cmd>call ddu#start(#{ name: 'lsp:diagnostic' })<CR>
 nmap <silent> <Leader>gw <Cmd>call ddu#start(#{ name: 'git:worktree' })<CR>
 

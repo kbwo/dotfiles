@@ -171,8 +171,8 @@ function! YankRelativePathWithLine()
     echo 'Copied: ' . '@' . l:text
   endif
 endfunction
-nmap <Leader>yr :YankRelativePath<CR><Leader>mdfGo<ESC>p
-nmap <Leader>yl :call YankRelativePathWithLine()<CR><Leader>mdfGo<ESC>p
+nmap <Leader>yr :YankRelativePath<CR><Leader>mdfo<ESC>p
+nmap <Leader>yl :call YankRelativePathWithLine()<CR><Leader>mdfo<ESC>p
 
 " Append yanked text to clipboard with whitespace
 function! GetExistingClipboard()
@@ -637,3 +637,8 @@ tmap <A-m> <C-\>:call ToggleMemoFloat()<CR>
 " 各種イベントでファイルの変更をチェック
 autocmd FocusGained,BufEnter,CursorHold,CursorHoldI *
   \ if mode() !~ '\v(c|r.?|!|t)' && getcmdwintype() == '' && expand('%:e') !~# '\v^(log|txt)$' | checktime | endif
+
+" Sort selected lines alphabetically
+command! -range LineUtilSort <line1>,<line2>sort
+" Remove duplicate lines from selection
+command! -range LineUtilUniq <line1>,<line2>sort u
