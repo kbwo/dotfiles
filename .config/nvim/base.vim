@@ -21,9 +21,22 @@ endfunction
 function! CloseTabsAfterCurrent()
     let current_tab = tabpagenr()
     let total_tabs = tabpagenr('$')
-    
+    let tabs_closed = 0
+
     for i in range(current_tab + 1, total_tabs)
-        execute 'tabclose ' . (current_tab + 1)
+        let tab_to_check = current_tab + 1 + (i - current_tab - 1) - tabs_closed
+        let buflist = tabpagebuflist(tab_to_check)
+        let has_terminal = 0
+        for bufnr in buflist
+            if getbufvar(bufnr, '&buftype') ==# 'terminal'
+                let has_terminal = 1
+                break
+            endif
+        endfor
+        if !has_terminal
+            execute 'tabclose ' . tab_to_check
+            let tabs_closed += 1
+        endif
     endfor
 endfunction
 
@@ -71,8 +84,10 @@ nmap <silent> <Leader>x :q<CR>
 nmap <silent> <Leader>zx :tabc<CR>
 nmap <silent><c-w>t :let b = bufnr('%')<CR>:close<CR>:tabnew<CR>:execute 'buffer' b<CR>
 imap <silent> <C-\> <Esc>
-nmap <silent> <A-h> o<C-o>o***<Esc>o<Esc>o<Esc>
-imap <silent> <A-h> <C-o>o***<Esc>o<Esc>o
+nmap <silent> <A-h> <C-w>h
+nmap <silent> <A-l> <C-w>l
+nmap <silent> <A-n> o<C-o>o***<Esc>o<Esc>o<Esc>
+imap <silent> <A-n> <C-o>o***<Esc>o<Esc>o
 
 " tabnew and preserve cursor position
 nmap <silent> <Leader>t<Space> :tab split<CR>
@@ -171,8 +186,8 @@ function! YankRelativePathWithLine()
     echo 'Copied: ' . '@' . l:text
   endif
 endfunction
-nmap <Leader>yr :YankRelativePath<CR><Leader>mdfo<ESC>p
-nmap <Leader>yl :call YankRelativePathWithLine()<CR><Leader>mdfo<ESC>p
+nmap <Leader>yr :YankRelativePath<CR><Leader>mdfGo<ESC>p
+nmap <Leader>yl :call YankRelativePathWithLine()<CR><Leader>mdfGo<ESC>p
 
 " Append yanked text to clipboard with whitespace
 function! GetExistingClipboard()

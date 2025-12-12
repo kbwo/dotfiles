@@ -1,5 +1,5 @@
 vmap v <Plug>(expand_region_expand)
-vmap V <Plug>(expand_region_shrink)
+vmap <A-v> <Plug>(expand_region_shrink)
 
 " md-textobj.vim - Custom text object for markdown sections between separators
 " Requires: vim-textobj-user
