@@ -88,6 +88,15 @@ nmap <silent> <A-h> <C-w>h
 nmap <silent> <A-l> <C-w>l
 nmap <silent> <A-n> o<C-o>o***<Esc>o<Esc>o<Esc>
 imap <silent> <A-n> <C-o>o***<Esc>o<Esc>o
+nmap <silent> <A-2> I@<Esc>
+imap <silent> <A-2> <C-o>I@
+cnoremap <expr> <C-l> getcmdtype() =~ '[/?]' ? '.\{-}' : '<C-l>'
+nmap <silent> <A-Up> :m .-2<CR>==
+nmap <silent> <A-Down> :m .+1<CR>==
+imap <silent> <A-Up> <Esc>:m .-2<CR>==gi
+imap <silent> <A-Down> <Esc>:m .+1<CR>==gi
+vmap <silent> <A-Up> :m '<-2<CR>gv=gv
+vmap <silent> <A-Down> :m '>+1<CR>gv=gv
 
 " tabnew and preserve cursor position
 nmap <silent> <Leader>t<Space> :tab split<CR>
@@ -182,8 +191,8 @@ function! YankRelativePathWithLine()
   else
     let l:line = line('.')
     let l:text = l:relpath . '#L' . l:line
-    let @+ = '@' . l:text
-    echo 'Copied: ' . '@' . l:text
+    let @+ = l:text
+    echo 'Copied: ' . l:text
   endif
 endfunction
 nmap <Leader>yr :YankRelativePath<CR><Leader>mdfGo<ESC>p
@@ -208,7 +217,7 @@ function! AppendYankRelativePath()
     echo 'No file to yank'
   else
     let l:existing = GetExistingClipboard()
-    let @+ = l:existing . "\n" . '@' . l:relpath
+    let @+ = l:existing . "\n" . l:relpath
     echo 'Appended: ' . l:relpath
   endif
 endfunction
@@ -229,7 +238,7 @@ function! AppendYankRelativePathWithLine()
     let l:line = line('.')
     let l:text = l:relpath . '#L' . l:line
     let l:existing = GetExistingClipboard()
-    let @+ = l:existing . "\n" . '@' . l:text
+    let @+ = l:existing . "\n" . l:text
     echo 'Appended: ' . l:text
   endif
 endfunction
@@ -254,7 +263,7 @@ function! YankRelativePathWithLineRange() range
     let l:from_line = a:firstline
     let l:to_line = a:lastline
     let l:text = l:relpath . '#L' . l:from_line . '-' . l:to_line
-    let @+ = '@' . l:text
+    let @+ = l:text
     echo 'Copied: ' . l:text
   endif
 endfunction
@@ -406,7 +415,7 @@ function! YankRelativePath()
   if empty(l:relpath)
     echo 'No file to yank'
   else
-    let @+ = '@' . l:relpath
+    let @+ = l:relpath
     echo 'Copied relative path'
   endif
 endfunction

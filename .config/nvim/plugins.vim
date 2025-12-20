@@ -127,8 +127,6 @@ Jetpack 'ray-x/cmp-treesitter'
 Jetpack 'anuvyklack/middleclass'
 Jetpack 'anuvyklack/windows.nvim'
 
-Jetpack 'EgZvor/vim-fluffy'
-
 Jetpack 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 
 Jetpack 'monaqa/dial.nvim'
@@ -139,6 +137,7 @@ Jetpack 'terryma/vim-expand-region'
 Jetpack 'kana/vim-textobj-user'
 Jetpack 'kana/vim-textobj-line'
 Jetpack 'kana/vim-textobj-entire'
+Jetpack 'kana/vim-textobj-indent'
 Jetpack 'wellle/targets.vim'
 Jetpack 'nvim-treesitter/nvim-treesitter-textobjects'
 Jetpack 'coachshea/vim-textobj-markdown'

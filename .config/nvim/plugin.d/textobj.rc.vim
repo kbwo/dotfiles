@@ -226,4 +226,6 @@ let g:expand_region_text_objects = {
 \ 'ak'  :0,
 \ 'ii' :0,
 \ 'ai' :0,
+\ 'iI' :0,
+\ 'aI' :0,
 \ }
