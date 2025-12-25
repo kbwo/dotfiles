@@ -18,8 +18,5 @@ export SDKMAN_DIR="$HOME/.sdkman"
 # https://github.com/cline/cline/wiki/Troubleshooting-%E2%80%90-Shell-Integration-Unavailable
 [[ "$TERM_PROGRAM" == "vscode" ]] && . "$(code --locate-shell-integration-path zsh)"
 
-# Added by Windsurf
-export PATH="/Users/kbwo/.codeium/windsurf/bin:$PATH"
-
-# eval "$(~/.local/bin/mise activate zsh)"
-eval "$(~/.local/bin/mise activate zsh)" 2>/dev/null
+command -v direnv &>/dev/null && eval "$(direnv hook zsh)"
+eval "$(~/.local/bin/mise activate zsh --shims)" 2>/dev/null

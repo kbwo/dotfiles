@@ -49,7 +49,7 @@ Jetpack 'Shougo/ddu-ui-ff'
 Jetpack 'Shougo/ddu-source-file_rec'
 Jetpack 'Shougo/ddu-filter-matcher_substring'
 Jetpack 'Shougo/ddu-kind-file'
-Jetpack 'shun/ddu-source-rg'
+Jetpack 'kbwo/ddu-source-rg', { 'branch': 'no-hl' }
 Jetpack 'yuki-yano/ddu-filter-fzf'
 Jetpack 'shun/ddu-source-buffer'
 Jetpack 'matsui54/ddu-source-file_external'
