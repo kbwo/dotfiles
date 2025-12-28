@@ -19,4 +19,4 @@ export SDKMAN_DIR="$HOME/.sdkman"
 [[ "$TERM_PROGRAM" == "vscode" ]] && . "$(code --locate-shell-integration-path zsh)"
 
 command -v direnv &>/dev/null && eval "$(direnv hook zsh)"
-eval "$(~/.local/bin/mise activate zsh --shims)" 2>/dev/null
+eval "$(~/.local/bin/mise activate zsh)" 2>/dev/null

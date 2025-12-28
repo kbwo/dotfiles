@@ -30,7 +30,7 @@ Jetpack 'NvChad/nvim-colorizer.lua'
 Jetpack 'rebelot/kanagawa.nvim'
 Jetpack 'smoka7/hop.nvim'
 Jetpack 'yorickpeterse/nvim-window'
-Jetpack 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Jetpack 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate', 'branch': 'master'}
 " Jetpack 'shellRaining/hlchunk.nvim'
 Jetpack 'lukas-reineke/indent-blankline.nvim'
 Jetpack 'andrewferrier/debugprint.nvim'
@@ -73,7 +73,7 @@ Jetpack 'kyoh86/climbdir.nvim'
 " language specific improvement
 Jetpack 'mrcjkb/rustaceanvim'
 Jetpack 'pmizio/typescript-tools.nvim'
-Jetpack 'kbwo/testing-ls.nvim'
+" Jetpack 'kbwo/testing-ls.nvim'
 " Jetpack 'copilotlsp-nvim/copilot-lsp'
 Jetpack 'folke/sidekick.nvim'
 
@@ -133,13 +133,7 @@ Jetpack 'monaqa/dial.nvim'
 Jetpack 'petertriho/nvim-scrollbar'
 Jetpack 'kbwo/list.nvim'
 
-Jetpack 'terryma/vim-expand-region'
 Jetpack 'kana/vim-textobj-user'
-Jetpack 'kana/vim-textobj-line'
-Jetpack 'kana/vim-textobj-entire'
-Jetpack 'kana/vim-textobj-indent'
-Jetpack 'wellle/targets.vim'
-Jetpack 'nvim-treesitter/nvim-treesitter-textobjects'
 Jetpack 'coachshea/vim-textobj-markdown'
 
 call jetpack#end()

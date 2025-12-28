@@ -32,4 +32,4 @@ if [ ! -f ~/.gitconfig ]; then
     touch ~/.gitconfig
 fi
 
-echo -e "[include]\n    path = ~/dotfiles/.gitconfig\n$(cat ~/.gitconfig)" > ~/.gitconfig
+echo "[include]\n    path = ~/dotfiles/.gitconfig\n$(cat ~/.gitconfig)" > ~/.gitconfig

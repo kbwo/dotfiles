@@ -70,7 +70,6 @@ case "$(uname -s)" in
 
     Darwin)
         export ANDROID_HOME=$HOME/Library/Android/sdk
-        export JAVA_HOME=$(/usr/libexec/java_home -v 11)
         ;;
 
     Linux)

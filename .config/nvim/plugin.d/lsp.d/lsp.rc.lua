@@ -81,6 +81,7 @@ mason_lspconfig.setup({
 		"prismals",
 		-- "ts_ls",
 		"vimls",
+		"vtsls",
 		"zls",
 	},
 })
@@ -88,8 +89,6 @@ mason_lspconfig.setup({
 vim.lsp.enable(mason_lspconfig.get_installed_servers())
 vim.lsp.enable("jsonls")
 vim.lsp.enable("jsonlint")
-
-require("testing-ls").setup({})
 
 vim.lsp.handlers["window/showMessage"] = function(_, result, ctx)
 	local client = vim.lsp.get_client_by_id(ctx.client_id)
