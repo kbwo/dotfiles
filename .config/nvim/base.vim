@@ -82,6 +82,7 @@ nmap <silent> - <C-x>
 imap <silent> <S-Tab> <C-o><<
 nmap <silent> <Leader>x :q<CR>
 nmap <silent> <Leader>zx :tabc<CR>
+nmap <silent> <Leader><Space>x :bd!<CR>
 nmap <silent><c-w>t :let b = bufnr('%')<CR>:close<CR>:tabnew<CR>:execute 'buffer' b<CR>
 imap <silent> <C-\> <Esc>
 nmap <silent> <A-h> <C-w>h
