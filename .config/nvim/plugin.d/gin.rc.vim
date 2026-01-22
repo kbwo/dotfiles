@@ -33,7 +33,8 @@ nmap gnw :GinBrowse --permalink<CR>
 
 let g:gin_log_persistent_args = [
       \ '++emojify',
-      \  '--pretty=%C(yellow)%h%C(reset)%C(auto)%d%C(reset) %s %b %C(cyan)@%an%C(reset) %C(magenta)[%ar]%C(reset)'
+      \  '--pretty=%C(yellow)%h%C(reset)%C(auto)%d%C(reset) %s %b %C(cyan)@%cd%C(reset) %C(magenta)[%ar]%C(reset)',
+      \  '--date=iso-local'
       \]
 
 function! CurrentFileLog() abort
