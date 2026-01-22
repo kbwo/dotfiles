@@ -177,43 +177,75 @@ set matchpairs+=【:】
 set endofline
 set fixendofline
 
-" Yank relative path with line number
-function! YankRelativePathWithLine()
-  let l:git_root = trim(system('git rev-parse --show-toplevel'))
-  if v:shell_error
-    " Not in a git repository, fall back to current directory relative path
-    let l:relpath = fnamemodify(expand('%'), ':.')
-  else
-    " Get path relative to git root
-    let l:fullpath = expand('%:p')
-    let l:relpath = substitute(l:fullpath, '^' . escape(l:git_root . '/', '/.'), '', '')
+" Common helper: Get relative path for a buffer (git root relative or cwd relative)
+let s:git_root_cache = ''
+let s:git_root_cwd = ''
+
+function! s:GetGitRoot()
+  let l:cwd = getcwd()
+  if s:git_root_cwd !=# l:cwd
+    let s:git_root_cache = trim(system('git rev-parse --show-toplevel'))
+    let s:git_root_cwd = l:cwd
   endif
+  return v:shell_error ? '' : s:git_root_cache
+endfunction
+
+function! GetGitRelativePath(bufname)
+  let l:bufname = empty(a:bufname) ? expand('%') : a:bufname
+  if empty(l:bufname)
+    return ''
+  endif
+  let l:git_root = s:GetGitRoot()
+  if empty(l:git_root)
+    return fnamemodify(l:bufname, ':.')
+  endif
+  let l:fullpath = fnamemodify(l:bufname, ':p')
+  return substitute(l:fullpath, '^' . escape(l:git_root . '/', '/.'), '', '')
+endfunction
+
+" Yank relative path
+function! YankRelativePath()
+  let l:relpath = GetGitRelativePath('')
   if empty(l:relpath)
     echo 'No file to yank'
   else
-    let l:line = line('.')
-    let l:text = l:relpath . '#L' . l:line
+    let @+ = l:relpath
+    echo 'Copied relative path'
+  endif
+endfunction
+
+" Yank relative path with line number
+function! YankRelativePathWithLine()
+  let l:relpath = GetGitRelativePath('')
+  if empty(l:relpath)
+    echo 'No file to yank'
+  else
+    let l:text = l:relpath . '#L' . line('.')
     let @+ = l:text
     echo 'Copied: ' . l:text
   endif
 endfunction
-nmap <Leader>yr :YankRelativePath<CR><Leader>mdfGo<ESC>p
-nmap <Leader>yl :call YankRelativePathWithLine()<CR><Leader>mdfGo<ESC>p
+
+" Visual mode version - yank relative path with line range
+function! YankRelativePathWithLineRange() range
+  let l:relpath = GetGitRelativePath('')
+  if empty(l:relpath)
+    echo 'No file to yank'
+  else
+    let l:text = l:relpath . '#L' . a:firstline . '-' . a:lastline
+    let @+ = l:text
+    echo 'Copied: ' . l:text
+  endif
+endfunction
 
 " Yank all window buffer paths in current tab (left to right)
 function! YankAllWindowPaths()
-  let l:git_root = trim(system('git rev-parse --show-toplevel'))
   let l:paths = []
   for winnr in range(1, winnr('$'))
     let bufnr = winbufnr(winnr)
     let bufname = bufname(bufnr)
     if bufname !=# '' && buflisted(bufnr)
-      if v:shell_error
-        let l:relpath = fnamemodify(bufname, ':.')
-      else
-        let l:fullpath = fnamemodify(bufname, ':p')
-        let l:relpath = substitute(l:fullpath, '^' . escape(l:git_root . '/', '/.'), '', '')
-      endif
+      let l:relpath = GetGitRelativePath(bufname)
       if !empty(l:relpath)
         call add(l:paths, l:relpath)
       endif
@@ -226,78 +258,38 @@ function! YankAllWindowPaths()
     echo 'Copied ' . len(l:paths) . ' paths'
   endif
 endfunction
-nmap <Leader>yt :call YankAllWindowPaths()<CR><Leader>mdfGo<ESC>p
 
-" Append yanked text to clipboard with whitespace
-function! GetExistingClipboard()
-  return getreg('+')
-endfunction
-
+" Append relative path to clipboard
 function! AppendYankRelativePath()
-  let l:git_root = trim(system('git rev-parse --show-toplevel'))
-  if v:shell_error
-    " Not in a git repository, fall back to current directory relative path
-    let l:relpath = fnamemodify(expand('%'), ':.')
-  else
-    " Get path relative to git root
-    let l:fullpath = expand('%:p')
-    let l:relpath = substitute(l:fullpath, '^' . escape(l:git_root . '/', '/.'), '', '')
-  endif
+  let l:relpath = GetGitRelativePath('')
   if empty(l:relpath)
     echo 'No file to yank'
   else
-    let l:existing = GetExistingClipboard()
-    let @+ = l:existing . "\n" . l:relpath
+    let @+ = getreg('+') . "\n" . l:relpath
     echo 'Appended: ' . l:relpath
   endif
 endfunction
 
+" Append relative path with line to clipboard
 function! AppendYankRelativePathWithLine()
-  let l:git_root = trim(system('git rev-parse --show-toplevel'))
-  if v:shell_error
-    " Not in a git repository, fall back to current directory relative path
-    let l:relpath = fnamemodify(expand('%'), ':.')
-  else
-    " Get path relative to git root
-    let l:fullpath = expand('%:p')
-    let l:relpath = substitute(l:fullpath, '^' . escape(l:git_root . '/', '/.'), '', '')
-  endif
+  let l:relpath = GetGitRelativePath('')
   if empty(l:relpath)
     echo 'No file to yank'
   else
-    let l:line = line('.')
-    let l:text = l:relpath . '#L' . l:line
-    let l:existing = GetExistingClipboard()
-    let @+ = l:existing . "\n" . l:text
+    let l:text = l:relpath . '#L' . line('.')
+    let @+ = getreg('+') . "\n" . l:text
     echo 'Appended: ' . l:text
   endif
 endfunction
 
+command! YankRelativePath call YankRelativePath()
+
+nmap <Leader>yr :YankRelativePath<CR><Leader>mdfGo<ESC>p
+nmap <Leader>yl :call YankRelativePathWithLine()<CR><Leader>mdfGo<ESC>p
+vmap <Leader>yl :call YankRelativePathWithLineRange()<CR><Leader>mdfGo<ESC>p
+nmap <Leader>yt :call YankAllWindowPaths()<CR><Leader>mdfGo<ESC>p
 nmap <Leader>yyr :call AppendYankRelativePath()<CR>
 nmap <Leader>yyl :call AppendYankRelativePathWithLine()<CR>
-
-" Visual mode version - yank relative path with line range
-function! YankRelativePathWithLineRange() range
-  let l:git_root = trim(system('git rev-parse --show-toplevel'))
-  if v:shell_error
-    " Not in a git repository, fall back to current directory relative path
-    let l:relpath = fnamemodify(expand('%'), ':.')
-  else
-    " Get path relative to git root
-    let l:fullpath = expand('%:p')
-    let l:relpath = substitute(l:fullpath, '^' . escape(l:git_root . '/', '/.'), '', '')
-  endif
-  if empty(l:relpath)
-    echo 'No file to yank'
-  else
-    let l:from_line = a:firstline
-    let l:to_line = a:lastline
-    let l:text = l:relpath . '#L' . l:from_line . '-' . l:to_line
-    let @+ = l:text
-    echo 'Copied: ' . l:text
-  endif
-endfunction
-vmap <Leader>yl :call YankRelativePathWithLineRange()<CR><Leader>mdfGo<ESC>p
 
 nmap gno o<Esc>
 nmap gnO O<Esc>
@@ -432,24 +424,6 @@ set tabline=%!FileWithParent()
 
 autocmd BufRead,BufNewFile *.mdx set filetype=markdown
 
-function! YankRelativePath()
-  let l:git_root = trim(system('git rev-parse --show-toplevel'))
-  if v:shell_error
-    " Not in a git repository, fall back to current directory relative path
-    let l:relpath = fnamemodify(expand('%'), ':.')
-  else
-    " Get path relative to git root
-    let l:fullpath = expand('%:p')
-    let l:relpath = substitute(l:fullpath, '^' . escape(l:git_root . '/', '/.'), '', '')
-  endif
-  if empty(l:relpath)
-    echo 'No file to yank'
-  else
-    let @+ = l:relpath
-    echo 'Copied relative path'
-  endif
-endfunction
-
 function! YankGitHubURL(target_branch)
   let l:git_root = system('git rev-parse --show-toplevel')
   let l:git_root = substitute(l:git_root, '\n$', '', '')
@@ -505,7 +479,6 @@ function! TargetBranchCompletion(A, L, P)
   return filter(l:candidates, 'v:val =~ "^" . a:A')
 endfunction
 
-command! YankRelativePath call YankRelativePath()
 command! -nargs=1 -complete=customlist,TargetBranchCompletion YankGitHubURL call YankGitHubURL(<f-args>)
 
 nmap <Leader>w :noa w<CR>
