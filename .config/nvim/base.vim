@@ -91,6 +91,7 @@ nmap <silent> <A-n> o<C-o>o***<Esc>o<Esc>o<Esc>
 imap <silent> <A-n> <C-o>o***<Esc>o<Esc>o
 nmap <silent> <A-2> I@<Esc>
 imap <silent> <A-2> <C-o>I@
+vmap <silent> <A-2> :normal I@<CR>
 cnoremap <expr> <C-l> getcmdtype() =~ '[/?]' ? '.\{-}' : '<C-l>'
 nmap <silent> <A-Up> :m .-2<CR>==
 nmap <silent> <A-Down> :m .+1<CR>==
@@ -198,6 +199,34 @@ function! YankRelativePathWithLine()
 endfunction
 nmap <Leader>yr :YankRelativePath<CR><Leader>mdfGo<ESC>p
 nmap <Leader>yl :call YankRelativePathWithLine()<CR><Leader>mdfGo<ESC>p
+
+" Yank all window buffer paths in current tab (left to right)
+function! YankAllWindowPaths()
+  let l:git_root = trim(system('git rev-parse --show-toplevel'))
+  let l:paths = []
+  for winnr in range(1, winnr('$'))
+    let bufnr = winbufnr(winnr)
+    let bufname = bufname(bufnr)
+    if bufname !=# '' && buflisted(bufnr)
+      if v:shell_error
+        let l:relpath = fnamemodify(bufname, ':.')
+      else
+        let l:fullpath = fnamemodify(bufname, ':p')
+        let l:relpath = substitute(l:fullpath, '^' . escape(l:git_root . '/', '/.'), '', '')
+      endif
+      if !empty(l:relpath)
+        call add(l:paths, l:relpath)
+      endif
+    endif
+  endfor
+  if empty(l:paths)
+    echo 'No files to yank'
+  else
+    let @+ = join(l:paths, "\n")
+    echo 'Copied ' . len(l:paths) . ' paths'
+  endif
+endfunction
+nmap <Leader>yt :call YankAllWindowPaths()<CR><Leader>mdfGo<ESC>p
 
 " Append yanked text to clipboard with whitespace
 function! GetExistingClipboard()
