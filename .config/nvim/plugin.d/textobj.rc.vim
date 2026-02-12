@@ -198,6 +198,155 @@ call textobj#user#plugin('kebab', {
 \   }
 \ })
 
+" codeblock-textobj.vim - Custom text object for backtick code blocks
+" Requires: vim-textobj-user
+
+" Check if a line is a code block fence (``` with optional language)
+function! s:is_codeblock_fence(line) abort
+  return a:line =~# '^\s*```'
+endfunction
+
+" Find the range of code block around cursor
+" Returns [open_fence_line, close_fence_line] or [0, 0] if not found
+function! s:find_codeblock_range() abort
+  let l:current_line = line('.')
+  let l:last_line = line('$')
+
+  " Check if cursor is on a fence line itself
+  let l:on_fence = s:is_codeblock_fence(getline(l:current_line))
+
+  " Search upward for opening fence
+  let l:upper_fence = 0
+  if l:on_fence
+    " If on a fence, we need to determine if it's opening or closing
+    " Count fences above to determine parity
+    let l:fence_count = 0
+    let l:lnum = 1
+    while l:lnum < l:current_line
+      if s:is_codeblock_fence(getline(l:lnum))
+        let l:fence_count += 1
+      endif
+      let l:lnum += 1
+    endwhile
+    if l:fence_count % 2 == 0
+      " Even count above means current line is an opening fence
+      let l:upper_fence = l:current_line
+    else
+      " Odd count above means current line is a closing fence
+      " Search upward for the matching opening fence
+      let l:lnum = l:current_line - 1
+      while l:lnum >= 1
+        if s:is_codeblock_fence(getline(l:lnum))
+          let l:upper_fence = l:lnum
+          break
+        endif
+        let l:lnum -= 1
+      endwhile
+    endif
+  else
+    " Not on a fence, search upward
+    let l:lnum = l:current_line - 1
+    while l:lnum >= 1
+      if s:is_codeblock_fence(getline(l:lnum))
+        let l:upper_fence = l:lnum
+        break
+      endif
+      let l:lnum -= 1
+    endwhile
+  endif
+
+  if l:upper_fence == 0
+    return [0, 0]
+  endif
+
+  " Verify the upper fence is an opening fence (even number of fences before it)
+  let l:fence_count = 0
+  let l:lnum = 1
+  while l:lnum < l:upper_fence
+    if s:is_codeblock_fence(getline(l:lnum))
+      let l:fence_count += 1
+    endif
+    let l:lnum += 1
+  endwhile
+  if l:fence_count % 2 != 0
+    return [0, 0]
+  endif
+
+  " Search downward for closing fence
+  let l:lower_fence = 0
+  let l:lnum = l:upper_fence + 1
+  while l:lnum <= l:last_line
+    if s:is_codeblock_fence(getline(l:lnum))
+      let l:lower_fence = l:lnum
+      break
+    endif
+    let l:lnum += 1
+  endwhile
+
+  if l:lower_fence == 0
+    return [0, 0]
+  endif
+
+  return [l:upper_fence, l:lower_fence]
+endfunction
+
+" Select inner code block (content between fences, excluding blank lines at edges)
+function! Textobj_codeblock_select_i() abort
+  let l:result = s:find_codeblock_range()
+  if l:result[0] == 0
+    return 0
+  endif
+
+  let l:start_line = l:result[0] + 1
+  let l:end_line = l:result[1] - 1
+
+  if l:start_line > l:end_line
+    return 0
+  endif
+
+  " Skip leading blank lines
+  while l:start_line <= l:end_line && getline(l:start_line) =~# '^\s*$'
+    let l:start_line += 1
+  endwhile
+
+  " Skip trailing blank lines
+  while l:end_line >= l:start_line && getline(l:end_line) =~# '^\s*$'
+    let l:end_line -= 1
+  endwhile
+
+  if l:start_line > l:end_line
+    return 0
+  endif
+
+  let l:start_pos = [0, l:start_line, 1, 0]
+  let l:end_pos = [0, l:end_line, col([l:end_line, '$']), 0]
+
+  return ['V', l:start_pos, l:end_pos]
+endfunction
+
+" Select a code block (content between fences, including fences)
+function! Textobj_codeblock_select_a() abort
+  let l:result = s:find_codeblock_range()
+  if l:result[0] == 0
+    return 0
+  endif
+
+  let l:start_pos = [0, l:result[0], 1, 0]
+  let l:end_pos = [0, l:result[1], col([l:result[1], '$']), 0]
+
+  return ['V', l:start_pos, l:end_pos]
+endfunction
+
+" Register the codeblock text object
+call textobj#user#plugin('codeblock', {
+\   '`': {
+\     'select-a': 'a`',
+\     'select-a-function': 'Textobj_codeblock_select_a',
+\     'select-i': 'i`',
+\     'select-i-function': 'Textobj_codeblock_select_i',
+\   }
+\ })
+
 " Integrate with vim-expand-region for markdown files
 " call expand_region#custom_text_objects('markdown', {
 " \   'i-': 0,
@@ -228,4 +377,6 @@ let g:expand_region_text_objects = {
 \ 'ai' :0,
 \ 'iI' :0,
 \ 'aI' :0,
+\ 'i`' :0,
+\ 'a`' :0,
 \ }
