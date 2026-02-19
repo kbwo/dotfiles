@@ -58,14 +58,14 @@ function! s:find_section_range() abort
     let l:lnum += 1
   endwhile
 
-  " Both separators must exist
-  if l:upper_sep == 0 || l:lower_sep == 0
+  " At least one separator must exist
+  if l:upper_sep == 0 && l:lower_sep == 0
     return [0, 0]
   endif
 
-  " Range is between separators (exclusive)
-  let l:start_line = l:upper_sep + 1
-  let l:end_line = l:lower_sep - 1
+  " Range: use file boundary if one separator is missing
+  let l:start_line = l:upper_sep == 0 ? 1 : l:upper_sep + 1
+  let l:end_line = l:lower_sep == 0 ? l:last_line : l:lower_sep - 1
 
   " Check if there's actual content
   if l:start_line > l:end_line
