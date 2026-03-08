@@ -185,8 +185,9 @@ preexec() {
 precmd() {
   # 直前にコマンドが実行されていれば日時を表示
   if [[ -n "$LAST_CMD_DATETIME" ]]; then
+    local end_datetime=$(date +"%Y-%m-%d %H:%M:%S")
     # 薄い灰色 (カラーコード 90) で表示
-    echo -e "\033[90m[executed: ${LAST_CMD_DATETIME}]\033[0m"
+    echo -e "\033[90m[start: ${LAST_CMD_DATETIME} | end: ${end_datetime}]\033[0m"
     # 表示したらリセット
     unset LAST_CMD_DATETIME
   fi

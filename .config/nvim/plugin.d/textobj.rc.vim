@@ -339,10 +339,10 @@ endfunction
 
 " Register the codeblock text object
 call textobj#user#plugin('codeblock', {
-\   '`': {
-\     'select-a': 'a`',
+\   'c': {
+\     'select-a': 'ac',
 \     'select-a-function': 'Textobj_codeblock_select_a',
-\     'select-i': 'i`',
+\     'select-i': 'ic',
 \     'select-i-function': 'Textobj_codeblock_select_i',
 \   }
 \ })
@@ -377,6 +377,6 @@ let g:expand_region_text_objects = {
 \ 'ai' :0,
 \ 'iI' :0,
 \ 'aI' :0,
-\ 'i`' :0,
-\ 'a`' :0,
+\ 'ic' :0,
+\ 'ac' :0,
 \ }
