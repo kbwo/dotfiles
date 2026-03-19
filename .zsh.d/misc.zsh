@@ -40,7 +40,7 @@ gwd() {
     fi
 
     local branch
-    branch="$(git branch -a --format='%(refname:short)' | fzf --prompt='branch> ')"
+    branch="$(git branch -a --sort=-committerdate --format='%(refname:short)' | fzf --prompt='branch> ')"
 
     if [ -z "$branch" ]; then
         return 0
