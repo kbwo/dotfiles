@@ -16,5 +16,3 @@
     features = colibri
 [delta "syntax"]
 	theme = Kanagawa
-[extensions]
-	worktreeConfig = true

@@ -41,6 +41,7 @@ function! CloseTabsAfterCurrent()
 endfunction
 
 inoremap <silent> <c-u> <Nop>
+inoremap <silent> <c-Space> <Nop>
 inoremap <silent> <c-w> <Esc>:w<CR>
 map <silent> K gt
 map <silent> J gT

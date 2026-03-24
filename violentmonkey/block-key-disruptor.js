@@ -9,6 +9,7 @@
 // @match        https://app.devin.ai/*
 // @match        https://*.slack.com/*
 // @match        https://www.youtube.com/*
+// @match        https://feedly.com/*
 // @grant        none
 // @run-at       document-start
 // ==/UserScript==
