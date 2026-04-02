@@ -13,9 +13,11 @@
 
   document.addEventListener("paste", (e) => {
     const text = e.clipboardData.getData("text/plain");
-    if (!text || !text.endsWith("\n")) return;
+    const trimmed = text
+      .replace(/^[\r\n]+|[\r\n]+$/g, "")
+      .replace(/(\r?\n){2,}/g, "\n\n");
 
-    const trimmed = text.replace(/[\r\n]+$/, "");
+    if (trimmed === text) return;
 
     e.preventDefault();
 
