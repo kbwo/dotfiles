@@ -123,7 +123,7 @@ function! s:ddu_my_settings() abort
         \ <Cmd>call ddu#ui#do_action('quit')<CR>
 endfunction
 
-nmap <silent><c-p> :call StartDduNoIgnore()<CR>
+nmap <silent><A-p> :call StartDduNoIgnore()<CR>
 nmap <silent><Leader>pp :call StartDduIgnore()<CR>
 nmap <silent><Leader>pt :call TabFind()<CR>
 nmap <Leader>rr :RgFind ignore 

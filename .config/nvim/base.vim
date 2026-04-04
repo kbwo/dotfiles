@@ -40,6 +40,7 @@ function! CloseTabsAfterCurrent()
     endfor
 endfunction
 
+map <c-p> <Esc>
 inoremap <silent> <c-u> <Nop>
 inoremap <silent> <c-Space> <Nop>
 inoremap <silent> <c-w> <Esc>:w<CR>

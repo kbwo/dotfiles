@@ -40,17 +40,36 @@ gwd() {
     fi
 
     local branch
-    branch="$(git branch -a --sort=-committerdate --format='%(refname:short)' | fzf --prompt='branch> ')"
+    branch="${1:-$(git branch -a --sort=-committerdate --format='%(refname:short)' | fzf --prompt='branch> ')}"
 
     if [ -z "$branch" ]; then
         return 0
     fi
 
-    local commit
-    commit="$(git rev-parse "$branch")"
+    git -C "$main_wt" config worktree.deployed-branch "$branch"
 
-    git -C "$main_wt" checkout --detach "$commit" && \
-        git -C "$main_wt" config worktree.deployed-branch "$branch"
+    local current_commit=""
+    local new_commit
+    local watching=true
+
+    trap 'watching=false' INT
+
+    while $watching; do
+        new_commit="$(git rev-parse "$branch" 2>/dev/null)"
+        if [ -z "$new_commit" ]; then
+            echo "Failed to resolve branch: $branch"
+            break
+        fi
+        if [ "$new_commit" != "$current_commit" ]; then
+            echo "Deploying: $branch ($new_commit)"
+            git -C "$main_wt" checkout --detach "$new_commit" 2>/dev/null
+            current_commit="$new_commit"
+        fi
+        sleep 1
+    done
+
+    trap - INT
+    echo "Stopped watching: $branch"
 }
 
 gwr() {
@@ -75,6 +94,8 @@ gwr() {
 
     echo "Refreshing: $branch ($commit)"
     git -C "$main_wt" checkout --detach "$commit"
+
+    gwd "$branch"
 }
 
 gwb() {
