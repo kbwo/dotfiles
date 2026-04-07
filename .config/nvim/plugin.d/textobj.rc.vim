@@ -58,9 +58,9 @@ function! s:find_section_range() abort
     let l:lnum += 1
   endwhile
 
-  " At least one separator must exist
+  " If no separators exist, select entire file
   if l:upper_sep == 0 && l:lower_sep == 0
-    return [0, 0]
+    return [1, l:last_line]
   endif
 
   " Range: use file boundary if one separator is missing

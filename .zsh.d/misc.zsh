@@ -62,7 +62,10 @@ gwd() {
         fi
         if [ "$new_commit" != "$current_commit" ]; then
             echo "Deploying: $branch ($new_commit)"
-            git -C "$main_wt" checkout --detach "$new_commit" 2>/dev/null
+            if ! git -C "$main_wt" checkout --detach "$new_commit"; then
+                echo "Failed to detach at commit: $new_commit"
+                return 0
+            fi
             current_commit="$new_commit"
         fi
         sleep 1

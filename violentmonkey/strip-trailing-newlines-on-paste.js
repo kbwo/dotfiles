@@ -2,6 +2,7 @@
 // @name         strip-trailing-newlines-on-paste
 // @namespace    http://tampermonkey.net
 // @match        *://*/*
+// @exclude      *://github.com/*
 // @run-at       document-start
 // @description  Remove trailing newlines from pasted text
 // @version      0.0.1
