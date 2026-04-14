@@ -40,13 +40,25 @@ gwd() {
     fi
 
     local branch
-    branch="${1:-$(git branch -a --sort=-committerdate --format='%(refname:short)' | fzf --prompt='branch> ')}"
+    if [ -n "$1" ] && git remote | grep -qx "$1"; then
+        git fetch "$1"
+        branch="$(git branch -r --sort=-committerdate --format='%(refname:short)' | grep "^$1/" | fzf --prompt="$1 branch> ")"
+    else
+        git fetch --all --quiet
+        branch="${1:-$(git branch -a --sort=-committerdate --format='%(refname:short)' | fzf --prompt='branch> ')}"
+    fi
 
     if [ -z "$branch" ]; then
         return 0
     fi
 
     git -C "$main_wt" config worktree.deployed-branch "$branch"
+
+    local remote_name=""
+    remote_name="$(echo "$branch" | cut -d'/' -f1)"
+    if ! git remote | grep -qx "$remote_name"; then
+        remote_name=""
+    fi
 
     local current_commit=""
     local new_commit
@@ -55,6 +67,9 @@ gwd() {
     trap 'watching=false' INT
 
     while $watching; do
+        if [ -n "$remote_name" ]; then
+            git fetch "$remote_name" --quiet 2>/dev/null
+        fi
         new_commit="$(git rev-parse "$branch" 2>/dev/null)"
         if [ -z "$new_commit" ]; then
             echo "Failed to resolve branch: $branch"
@@ -73,6 +88,17 @@ gwd() {
 
     trap - INT
     echo "Stopped watching: $branch"
+
+    local main_branch
+    main_branch="$(git -C "$main_wt" symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's|refs/remotes/origin/||')"
+
+    if [ -z "$main_branch" ]; then
+        main_branch="main"
+    fi
+
+    echo "Returning to: $main_branch"
+    git -C "$main_wt" checkout "$main_branch"
+    git -C "$main_wt" pull
 }
 
 gwr() {
