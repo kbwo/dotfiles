@@ -127,6 +127,24 @@ gwr() {
     gwd "$branch"
 }
 
+gwcd() {
+    local wt
+    wt="$(git worktree list --porcelain \
+        | awk '/^worktree /{print $2}' \
+        | while read -r path; do
+            printf '%s\t%s\n' "$(stat -f %B "$path" 2>/dev/null)" "$path"
+          done \
+        | sort -n \
+        | cut -f2- \
+        | fzf --prompt='worktree> ')"
+
+    if [ -z "$wt" ]; then
+        return 0
+    fi
+
+    cd "$wt"
+}
+
 gwb() {
     local main_wt
     main_wt="$(git worktree list --porcelain | head -n 1 | sed 's/^worktree //')"
