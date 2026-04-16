@@ -209,3 +209,33 @@ precmd() {
 
 # Ctrl-\ to Ctrl-^
 stty quit '^^'
+# カーソル形状・色を切り替える関数
+function zle-keymap-select {
+  case $KEYMAP in
+    vicmd)
+      # ノーマルモード: ブロック型 + 赤
+      echo -ne '\e[1 q'
+      echo -ne "\e]12;#ff5555\a"
+      ;;
+    main|viins)
+      # インサートモード: バー型 + 白(デフォルト)
+      echo -ne '\e[5 q'
+      echo -ne "\e]12;#ffffff\a"
+      ;;
+  esac
+}
+zle -N zle-keymap-select
+
+# 新しいプロンプト開始時はインサートモードから始まるのでリセット
+function zle-line-init {
+  echo -ne '\e[5 q'
+  echo -ne "\e]12;#ffffff\a"
+}
+zle -N zle-line-init
+
+# コマンド実行後もバーに戻す
+function zle-line-finish {
+  echo -ne '\e[5 q'
+}
+zle -N zle-line-finish
+export KEYTIMEOUT=1
