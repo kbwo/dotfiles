@@ -42,10 +42,10 @@ gwd() {
     local branch
     if [ -n "$1" ] && git remote | grep -qx "$1"; then
         git fetch "$1"
-        branch="$(git branch -r --sort=-committerdate --format='%(refname:short)' | grep "^$1/" | fzf --prompt="$1 branch> ")"
+        branch="$(git branch -r --sort=-committerdate --format='%(refname:short)' | grep "^$1/" | fzf --no-sort --prompt="$1 branch> ")"
     else
         git fetch --all --quiet
-        branch="${1:-$(git branch -a --sort=-committerdate --format='%(refname:short)' | fzf --prompt='branch> ')}"
+        branch="${1:-$(git branch -a --sort=-committerdate --format='%(refname:short)' | fzf --no-sort --prompt='branch> ')}"
     fi
 
     if [ -z "$branch" ]; then
@@ -136,7 +136,7 @@ gwcd() {
           done \
         | sort -n \
         | cut -f2- \
-        | fzf --prompt='worktree> ')"
+        | fzf --no-sort --prompt='worktree> ')"
 
     if [ -z "$wt" ]; then
         return 0
