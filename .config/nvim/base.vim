@@ -364,6 +364,23 @@ function! s:show_ex_result(cmd)
 endfunction
 command! -nargs=+ -complete=command ShowExResult call s:show_ex_result(<q-args>)
 
+function! s:GetFileBranch(bufname)
+  if a:bufname ==# ''
+    return ''
+  endif
+  let fullpath = fnamemodify(a:bufname, ':p')
+  let dir = fnamemodify(fullpath, ':h')
+  if !isdirectory(dir)
+    return ''
+  endif
+  let cmd = 'git -C ' . shellescape(dir) . ' rev-parse --abbrev-ref HEAD 2>/dev/null'
+  let branch = trim(system(cmd))
+  if v:shell_error != 0 || branch ==# ''
+    return ''
+  endif
+  return branch
+endfunction
+
 function! GetTabLabel(tabnr)
   " Get the last accessed window number in the specified tab
   let winnr = tabpagewinnr(a:tabnr)
@@ -371,21 +388,24 @@ function! GetTabLabel(tabnr)
   let buflist = tabpagebuflist(a:tabnr)
   let bufnr = buflist[winnr - 1]  " winnrは1-basedなので-1する
   let bufname = bufname(bufnr)
-  
+
   let filetype = getbufvar(bufnr, '&filetype', '')
+  let branch = s:GetFileBranch(bufname)
+  let prefix = branch !=# '' ? branch . ':' : ''
+
   if filetype =~# '^gin'
-    return a:tabnr . ':' . filetype
+    return prefix . filetype
   endif
 
   " Default label if buffer doesn't exist
   if bufname ==# '' || buflisted(bufnr) == 0
-    return a:tabnr . ':' . (filetype !=# '' ? filetype : 'No Name')
+    return prefix . (filetype !=# '' ? filetype : 'No Name')
   endif
-  
+
   " Get parent directory name and file name from full path
   let parent_dir = fnamemodify(bufname, ':p:h:t') " Parent directory name
   let file_name = fnamemodify(bufname, ':t')      " File name
-  return a:tabnr . ':' . parent_dir . '/' . file_name
+  return prefix . parent_dir . '/' . file_name
 endfunction
 
 " Function to build custom tabline
