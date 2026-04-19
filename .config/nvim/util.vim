@@ -4,7 +4,7 @@ function! StartsWith(string, prefix)
 endfunction
 
 function! FindNearestGitRoot()
-  let s:gin_filetypes = ['', 'gin', 'gin-status', 'gin-branch', 'gin-log', 'gin-diff']
+  let s:gin_filetypes = ['gin', 'gin-status', 'gin-branch', 'gin-log', 'gin-diff']
   let l:result = ''
 
   if index(s:gin_filetypes, &filetype) != -1
@@ -23,7 +23,7 @@ function! FindNearestGitRoot()
     if l:result ==# ''
       while l:current_directory !=# '/'
           let l:git_path = l:current_directory . '/.git'
-          if isdirectory(l:git_path)
+          if isdirectory(l:git_path) || filereadable(l:git_path)
               let l:git_root = l:current_directory
               break
           endif
@@ -32,9 +32,7 @@ function! FindNearestGitRoot()
 
       let l:cwd = getcwd()
 
-      if l:git_root ==# '' && StartsWith(l:current_file, l:cwd)
-        let l:result = l:cwd
-      elseif l:git_root ==# ''
+      if l:git_root ==# ''
         let l:result = expand('%:p:h')
       elseif StartsWith(l:current_directory, l:git_root) && !StartsWith(l:current_file, l:cwd)
         let l:result = l:git_root
