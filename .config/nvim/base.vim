@@ -154,6 +154,7 @@ let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 set ruler
 set number
 autocmd TermOpen * setlocal number
+autocmd TermOpen * nnoremap <buffer><silent> <CR> i<CR><C-\><C-n>G
 set scrolloff=3
 set laststatus=2
 set modeline
@@ -590,6 +591,27 @@ nmap <silent><Leader>ml<Space> :Fern ~/memo -reveal=~/memo/private<CR>
 nmap <silent><Leader>mls :Fern ~/memo -reveal=~/memo/private -opener=split<CR>
 nmap <silent><Leader>mlv :Fern ~/memo -reveal=~/memo/private -opener=vsplit<CR>
 nmap <silent><Leader>mlt :Fern ~/memo -reveal=~/memo/private -opener=tabedit<CR>
+let s:memo_dirname_cache = {}
+function! s:GetMemoDirName()
+  let l:cwd = getcwd()
+  if has_key(s:memo_dirname_cache, l:cwd)
+    return s:memo_dirname_cache[l:cwd]
+  endif
+  let l:common_dir = trim(system('git rev-parse --git-common-dir 2>/dev/null'))
+  let l:name = ''
+  if v:shell_error == 0 && !empty(l:common_dir)
+    let l:abs = fnamemodify(l:common_dir, ':p')
+    let l:abs = substitute(l:abs, '/$', '', '')
+    let l:abs = substitute(l:abs, '/\.git$', '', '')
+    let l:name = fnamemodify(l:abs, ':t')
+  endif
+  if empty(l:name)
+    let l:name = fnamemodify(l:cwd, ':t')
+  endif
+  let s:memo_dirname_cache[l:cwd] = l:name
+  return l:name
+endfunction
+
 function! GetWeeklyMemoPath()
   let today = localtime()
   let day_of_week = strftime('%w', today)
@@ -600,7 +622,8 @@ function! GetWeeklyMemoPath()
   let days_to_sunday = 7 - day_of_week
   let monday = today + (days_to_monday * 86400)
   let sunday = today + (days_to_sunday * 86400)
-  return '~/memo/' . strftime('%Y-%m-%d', monday) . '--' . strftime('%Y-%m-%d', sunday) . '.md'
+  let dirname = s:GetMemoDirName()
+  return '~/memo/' . strftime('%Y-%m-%d', monday) . '--' . strftime('%Y-%m-%d', sunday) . '--' . dirname . '.md'
 endfunction
 
 nmap <silent><leader>md<Space> :execute 'edit ' . GetWeeklyMemoPath()<CR>
