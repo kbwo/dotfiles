@@ -110,6 +110,11 @@ nmap <silent> <Leader>e<Space> :e!<CR>
 nmap <silent> <Leader>ya :%y<CR>
 nmap gok O<Esc>j
 tnoremap <silent> <C-\> <C-\><C-n>
+augroup TerminalCtrlC
+  autocmd!
+  autocmd TermOpen * nnoremap <buffer> <silent> <C-c> i<C-c><C-\><C-n>G
+  autocmd TermOpen * tnoremap <buffer> <silent> <C-c> <C-c><C-\><C-n>G
+augroup END
 command Sov so ~/.config/nvim/init.vim
 command Cdv vsp ~/dotfiles/.config/nvim/init.vim
 
