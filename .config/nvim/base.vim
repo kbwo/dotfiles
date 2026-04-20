@@ -365,22 +365,30 @@ function! s:show_ex_result(cmd)
 endfunction
 command! -nargs=+ -complete=command ShowExResult call s:show_ex_result(<q-args>)
 
-function! s:GetFileBranch(bufname)
-  if a:bufname ==# ''
-    return ''
+function! s:UpdateBufBranch(bufnr)
+  let bufname = bufname(a:bufnr)
+  let buftype = getbufvar(a:bufnr, '&buftype', '')
+  if bufname ==# '' || buftype !=# ''
+    call setbufvar(a:bufnr, 'git_branch', '')
+    return
   endif
-  let fullpath = fnamemodify(a:bufname, ':p')
-  let dir = fnamemodify(fullpath, ':h')
+  let dir = fnamemodify(fnamemodify(bufname, ':p'), ':h')
   if !isdirectory(dir)
-    return ''
+    call setbufvar(a:bufnr, 'git_branch', '')
+    return
   endif
   let cmd = 'git -C ' . shellescape(dir) . ' rev-parse --abbrev-ref HEAD 2>/dev/null'
   let branch = trim(system(cmd))
-  if v:shell_error != 0 || branch ==# ''
-    return ''
+  if v:shell_error != 0
+    let branch = ''
   endif
-  return branch
+  call setbufvar(a:bufnr, 'git_branch', branch)
 endfunction
+
+augroup GitBranchCache
+  autocmd!
+  autocmd BufReadPost,BufNewFile,BufFilePost,BufWritePost * call s:UpdateBufBranch(bufnr('%'))
+augroup END
 
 function! GetTabLabel(tabnr)
   " Get the last accessed window number in the specified tab
@@ -391,7 +399,7 @@ function! GetTabLabel(tabnr)
   let bufname = bufname(bufnr)
 
   let filetype = getbufvar(bufnr, '&filetype', '')
-  let branch = s:GetFileBranch(bufname)
+  let branch = getbufvar(bufnr, 'git_branch', '')
   let prefix = branch !=# '' ? branch . ':' : ''
 
   if filetype =~# '^gin'
