@@ -112,8 +112,7 @@ nmap gok O<Esc>j
 tnoremap <silent> <C-\> <C-\><C-n>
 augroup TerminalCtrlC
   autocmd!
-  autocmd TermOpen * nnoremap <buffer> <silent> <C-c> i<C-c><C-\><C-n>G
-  autocmd TermOpen * tnoremap <buffer> <silent> <C-c> <C-c><C-\><C-n>G
+  autocmd TermOpen * nmap <buffer> <silent> <C-c> i<C-c><C-\>G
 augroup END
 command Sov so ~/.config/nvim/init.vim
 command Cdv vsp ~/dotfiles/.config/nvim/init.vim
@@ -610,14 +609,17 @@ function! s:GetMemoDirName()
   if has_key(s:memo_dirname_cache, l:cwd)
     return s:memo_dirname_cache[l:cwd]
   endif
-  let l:common_dir = trim(system('git rev-parse --git-common-dir 2>/dev/null'))
   let l:name = ''
-  if v:shell_error == 0 && !empty(l:common_dir)
-    let l:abs = fnamemodify(l:common_dir, ':p')
-    let l:abs = substitute(l:abs, '/$', '', '')
-    let l:abs = substitute(l:abs, '/\.git$', '', '')
-    let l:name = fnamemodify(l:abs, ':t')
-  endif
+  for l:remote in ['upstream', 'origin']
+    let l:url = trim(system('git config --get remote.' . l:remote . '.url 2>/dev/null'))
+    if v:shell_error == 0 && !empty(l:url)
+      let l:stripped = substitute(l:url, '\.git$', '', '')
+      let l:name = fnamemodify(l:stripped, ':t')
+      if !empty(l:name)
+        break
+      endif
+    endif
+  endfor
   if empty(l:name)
     let l:name = fnamemodify(l:cwd, ':t')
   endif
