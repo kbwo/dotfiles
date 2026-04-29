@@ -54,6 +54,9 @@ gwd() {
 
     git -C "$main_wt" config worktree.deployed-branch "$branch"
 
+    local lockfile="$main_wt/.git/gwd.lock"
+    printf '%s\n' "$$:$branch" > "$lockfile"
+
     local remote_name=""
     remote_name="$(echo "$branch" | cut -d'/' -f1)"
     if ! git remote | grep -qx "$remote_name"; then
@@ -79,6 +82,8 @@ gwd() {
             echo "Deploying: $branch ($new_commit)"
             if ! git -C "$main_wt" checkout --detach "$new_commit"; then
                 echo "Failed to detach at commit: $new_commit"
+                rm -f "$lockfile"
+                trap - INT
                 return 0
             fi
             current_commit="$new_commit"
@@ -86,6 +91,7 @@ gwd() {
         sleep 1
     done
 
+    rm -f "$lockfile"
     trap - INT
     echo "Stopped watching: $branch"
 
