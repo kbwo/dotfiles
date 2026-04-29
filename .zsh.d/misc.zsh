@@ -132,9 +132,10 @@ gwcd() {
     wt="$(git worktree list --porcelain \
         | awk '/^worktree /{print $2}' \
         | while read -r path; do
-            printf '%s\t%s\n' "$(stat -f %B "$path" 2>/dev/null)" "$path"
+            ct=$(cd "$path" && git log -1 --format=%ct 2>/dev/null)
+            printf '%s\t%s\n' "${ct:-0}" "$path"
           done \
-        | sort -n \
+        | sort -rn \
         | cut -f2- \
         | fzf --no-sort --prompt='worktree> ')"
 
