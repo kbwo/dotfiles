@@ -144,12 +144,14 @@ gwcd() {
 
     local selected
     selected="$(echo "$wt_data" | awk '
-        /^worktree / { path = substr($0, 10) }
+        /^worktree / { path = substr($0, 10); branch = "" }
         /^HEAD /     { head = substr($0, 6) }
-        /^$/ && path != "" { print head "\t" path; path = ""; head = "" }
-        END { if (path != "") print head "\t" path }
-    ' | while IFS=$'\t' read -r head path; do
-        ts=$(git log -1 --format='%ct' "$head" 2>/dev/null)
+        /^branch /   { branch = substr($0, 8) }
+        /^$/ && path != "" { print head "\t" branch "\t" path; path = ""; head = "" }
+        END { if (path != "") print head "\t" branch "\t" path }
+    ' | while IFS=$'\t' read -r head branch path; do
+        ref="${branch:-$head}"
+        ts=$(git log -1 --format='%ct' "$ref" 2>/dev/null)
         printf '%s\t%s\n' "${ts:-0}" "$path"
     done | sort -t$'\t' -k1 -rn | cut -f2- | fzf --prompt='worktree> ')"
 
