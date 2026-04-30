@@ -135,30 +135,23 @@ gwr() {
 
 gwcd() {
     local wt_data
-    wt_data="$(git worktree list --porcelain)"
+    wt_data="$(git worktree list --porcelain 2>/dev/null)"
 
     if [ -z "$wt_data" ]; then
         echo "No git worktrees found."
         return 1
     fi
 
-    local sorted_worktrees
-    sorted_worktrees="$(echo "$wt_data" | awk '
+    local selected
+    selected="$(echo "$wt_data" | awk '
         /^worktree / { path = substr($0, 10) }
         /^HEAD /     { head = substr($0, 6) }
-        /^$/ && path != "" { print head " " path; path = ""; head = "" }
-        END { if (path != "") print head " " path }
-    ' | while IFS=' ' read -r head path; do
-        local ts
-        ts="$(git log -1 --format='%ct' "$head" 2>/dev/null)"
-        if [ -z "$ts" ]; then
-            ts=0
-        fi
-        echo "$ts $path"
-    done | sort -rn | sed 's/^[0-9]* //')"
-
-    local selected
-    selected="$(echo "$sorted_worktrees" | fzf --prompt='worktree> ')"
+        /^$/ && path != "" { print head "\t" path; path = ""; head = "" }
+        END { if (path != "") print head "\t" path }
+    ' | while IFS=$'\t' read -r head path; do
+        ts=$(git log -1 --format='%ct' "$head" 2>/dev/null)
+        printf '%s\t%s\n' "${ts:-0}" "$path"
+    done | sort -t$'\t' -k1 -rn | cut -f2- | fzf --prompt='worktree> ')"
 
     if [ -z "$selected" ]; then
         return 0
