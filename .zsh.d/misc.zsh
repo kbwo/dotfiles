@@ -144,16 +144,23 @@ gwcd() {
 
     local selected
     selected="$(echo "$wt_data" | awk '
-        /^worktree / { path = substr($0, 10); branch = "" }
+        /^worktree / { path = substr($0, 10); branch = ""; head = "" }
         /^HEAD /     { head = substr($0, 6) }
-        /^branch /   { branch = substr($0, 8) }
-        /^$/ && path != "" { print head "\t" branch "\t" path; path = ""; head = "" }
-        END { if (path != "") print head "\t" branch "\t" path }
-    ' | while IFS=$'\t' read -r head branch path; do
-        ref="${branch:-$head}"
-        ts=$(git log -1 --format='%ct' "$ref" 2>/dev/null)
+        /^branch /   { branch = substr($0, 8); sub(/^refs\/heads\//, "", branch) }
+        /^$/ && path != "" {
+            print branch "\t" head "\t" path
+            path = ""
+        }
+        END { if (path != "") print branch "\t" head "\t" path }
+    ' | while IFS=$'\t' read -r branch head path; do
+        if [ -n "$branch" ]; then
+            ts=$(git for-each-ref --sort=-committerdate --format='%(committerdate:unix)' \
+                "refs/heads/$branch" "refs/remotes/*/$branch" 2>/dev/null | head -1)
+        else
+            ts=$(git log -1 --format='%ct' "$head" 2>/dev/null)
+        fi
         printf '%s\t%s\n' "${ts:-0}" "$path"
-    done | sort -t$'\t' -k1 -rn | cut -f2- | fzf --prompt='worktree> ')"
+    done | sort -rn | cut -f2- | fzf --prompt='worktree> ')"
 
     if [ -z "$selected" ]; then
         return 0
