@@ -142,7 +142,7 @@ gwcd() {
         return 1
     fi
 
-    # branch shortname -> worktree path
+    # branch shortname -> worktree path (branched worktrees)
     local mapping
     mapping="$(echo "$wt_data" | awk '
         /^worktree / { path = substr($0, 10); branch = "" }
@@ -151,19 +151,31 @@ gwcd() {
         END          { if (path != "" && branch != "") print branch "\t" path }
     ')"
 
+    # detached HEAD worktrees (e.g. main worktree managed by gwd)
+    local detached
+    detached="$(echo "$wt_data" | awk '
+        /^worktree / { path = substr($0, 10); has_branch = 0 }
+        /^branch /   { has_branch = 1 }
+        /^$/ && path != "" { if (!has_branch) print path; path = "" }
+        END          { if (path != "" && !has_branch) print path }
+    ')"
+
     local selected
     selected="$(
-        { printf '%s\n' "$mapping"; printf -- '---\n'; git branch -a --sort=-committerdate --format='%(refname:short)'; } | \
-        awk -F'\t' '
-            /^---$/  { state = 1; next }
-            !state   { if ($1 != "") m[$1] = $2; next }
-            {
-                b = $1
-                if (b in m && !seen[m[b]]++) { print m[b]; next }
-                sub(/^[^\/]+\//, "", b)
-                if (b in m && !seen[m[b]]++) print m[b]
-            }
-        ' | fzf --prompt='worktree> '
+        {
+            { printf '%s\n' "$mapping"; printf -- '---\n'; git branch -a --sort=-committerdate --format='%(refname:short)'; } | \
+            awk -F'\t' '
+                /^---$/  { state = 1; next }
+                !state   { if ($1 != "") m[$1] = $2; next }
+                {
+                    b = $1
+                    if (b in m && !seen[m[b]]++) { print m[b]; next }
+                    sub(/^[^\/]+\//, "", b)
+                    if (b in m && !seen[m[b]]++) print m[b]
+                }
+            '
+            printf '%s\n' "$detached"
+        } | grep -v '^$' | fzf --prompt='worktree> '
     )"
 
     if [ -z "$selected" ]; then
