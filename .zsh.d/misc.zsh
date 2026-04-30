@@ -142,25 +142,29 @@ gwcd() {
         return 1
     fi
 
-    local selected
-    selected="$(echo "$wt_data" | awk '
-        /^worktree / { path = substr($0, 10); branch = ""; head = "" }
-        /^HEAD /     { head = substr($0, 6) }
+    # branch shortname -> worktree path
+    local mapping
+    mapping="$(echo "$wt_data" | awk '
+        /^worktree / { path = substr($0, 10); branch = "" }
         /^branch /   { branch = substr($0, 8); sub(/^refs\/heads\//, "", branch) }
-        /^$/ && path != "" {
-            print branch "\t" head "\t" path
-            path = ""
-        }
-        END { if (path != "") print branch "\t" head "\t" path }
-    ' | while IFS=$'\t' read -r branch head path; do
-        if [ -n "$branch" ]; then
-            ts=$(git for-each-ref --sort=-committerdate --format='%(committerdate:unix)' \
-                "refs/heads/$branch" "refs/remotes/*/$branch" 2>/dev/null | head -1)
-        else
-            ts=$(git log -1 --format='%ct' "$head" 2>/dev/null)
-        fi
-        printf '%s\t%s\n' "${ts:-0}" "$path"
-    done | sort -rn | cut -f2- | fzf --prompt='worktree> ')"
+        /^$/ && path != "" { if (branch != "") print branch "\t" path; path = "" }
+        END          { if (path != "" && branch != "") print branch "\t" path }
+    ')"
+
+    local selected
+    selected="$(
+        { printf '%s\n' "$mapping"; printf -- '---\n'; git branch -a --sort=-committerdate --format='%(refname:short)'; } | \
+        awk -F'\t' '
+            /^---$/  { state = 1; next }
+            !state   { if ($1 != "") m[$1] = $2; next }
+            {
+                b = $1
+                if (b in m && !seen[m[b]]++) { print m[b]; next }
+                sub(/^[^\/]+\//, "", b)
+                if (b in m && !seen[m[b]]++) print m[b]
+            }
+        ' | fzf --prompt='worktree> '
+    )"
 
     if [ -z "$selected" ]; then
         return 0
