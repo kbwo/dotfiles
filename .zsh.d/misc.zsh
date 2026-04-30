@@ -134,22 +134,32 @@ gwr() {
 }
 
 gwcd() {
-    local wt
-    wt="$(git worktree list --porcelain \
-        | awk '/^worktree /{print $2}' \
-        | while read -r path; do
-            ct=$(cd "$path" && git log -1 --format=%ct 2>/dev/null)
-            printf '%s\t%s\n' "${ct:-0}" "$path"
-          done \
-        | sort -rn \
-        | cut -f2- \
-        | fzf --no-sort --prompt='worktree> ')"
+    local worktrees
+    worktrees="$(git worktree list --porcelain | grep '^worktree ' | sed 's/^worktree //')"
 
-    if [ -z "$wt" ]; then
+    if [ -z "$worktrees" ]; then
+        echo "No git worktrees found."
+        return 1
+    fi
+
+    local sorted_worktrees
+    sorted_worktrees="$(echo "$worktrees" | while IFS= read -r wt; do
+        local ts
+        ts="$(cd "$wt" && git log -1 --format='%ct' 2>/dev/null)"
+        if [ -z "$ts" ]; then
+            ts=0
+        fi
+        echo "$ts $wt"
+    done | sort -rn | sed 's/^[0-9]* //')"
+
+    local selected
+    selected="$(echo "$sorted_worktrees" | fzf --prompt='worktree> ')"
+
+    if [ -z "$selected" ]; then
         return 0
     fi
 
-    cd "$wt"
+    cd "$selected"
 }
 
 gwb() {
