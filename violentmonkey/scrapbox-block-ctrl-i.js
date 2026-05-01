@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         Scrapbox: block Ctrl+I and Ctrl+T
+// @name         Scrapbox: block Ctrl+I, Ctrl+T, and Cmd+F
 // @namespace    http://tampermonkey.net/
-// @version      1.1
-// @description  Scrapbox で Ctrl+I / Ctrl+T の keydown イベント伝播を握りつぶす
+// @version      1.2
+// @description  Scrapbox で Ctrl+I / Ctrl+T / Cmd+F の keydown イベント伝播を握りつぶす
 // @author       kbwo
 // @match        https://scrapbox.io/*
 // @grant        none
@@ -13,11 +13,13 @@
   "use strict";
 
   function handler(event) {
-    if (!event.ctrlKey) {
-      return;
-    }
     const key = event.key.toLowerCase();
-    if (key === "i" || key === "t") {
+    if (event.ctrlKey && (key === "i" || key === "t")) {
+      event.stopImmediatePropagation();
+      event.stopPropagation();
+      event.preventDefault();
+    }
+    if (event.metaKey && key === "f") {
       event.stopImmediatePropagation();
       event.stopPropagation();
       event.preventDefault();
