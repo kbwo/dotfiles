@@ -22,7 +22,6 @@
     if (event.metaKey && key === "f") {
       event.stopImmediatePropagation();
       event.stopPropagation();
-      event.preventDefault();
     }
   }
 
