@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Scrapbox: Alt+Enter to jump to page link
 // @namespace    http://tampermonkey.net/
-// @version      0.0.4
-// @description  Scrapbox で Alt+Enter を押すと、cursor 行のリンクに遷移する。cursor 行は edit モードで <a> が消えるため、生テキストをパースして URL を解決する。
+// @version      0.0.5
+// @description  Scrapbox で Alt+Enter を押すと、cursor 行のリンクに遷移する。cursor 行は edit モードで <a> が消えるため、生テキストをパースして URL を解決する。bracket / 裸 URL / hashtag に対応。
 // @author       kbwo
 // @match        https://scrapbox.io/*
 // @match        https://*.scrapbox.io/*
@@ -74,42 +74,90 @@
     return out;
   }
 
-  // text 中の bracket ([...]) のうち、char index が範囲内に含まれるもの、
-  // なければ index 以降で最初に現れるものを返す。
-  // ネストした [[...]] や行頭の `[` は無視 — Scrapbox の bracket syntax を簡易にカバー。
-  function findBracketNear(text, idx) {
-    const re = /\[([^\[\]\n]+)\]/g;
+  // 行内のリンク候補を全部集める。
+  // Scrapbox は以下を自動リンク化する:
+  //   - [...] bracket (内部ページ / 外部 URL いずれも)
+  //   - 裸の https?:// URL
+  //   - #hashtag (内部ページ)
+  function collectLinks(text) {
+    const out = [];
+
+    const bracketRe = /\[([^\[\]\n]+)\]/g;
     let m;
-    let after = null;
-    while ((m = re.exec(text)) !== null) {
+    while ((m = bracketRe.exec(text)) !== null) {
+      out.push({
+        type: "bracket",
+        content: m[1],
+        start: m.index,
+        end: m.index + m[0].length,
+      });
+    }
+
+    // 裸 URL。bracket 内の URL とも match するが、bracket 候補が同じ位置にあるので
+    // 後段で先に bracket を選べばよい。ただ重複は避けたいので bracket 範囲内なら除外。
+    const urlRe = /https?:\/\/[^\s\[\]<>]+/g;
+    while ((m = urlRe.exec(text)) !== null) {
       const start = m.index;
       const end = start + m[0].length;
-      if (idx >= start && idx <= end) {
-        return { content: m[1], start, end, hit: "inside" };
-      }
-      if (idx < start && !after) after = { content: m[1], start, end, hit: "after" };
+      const insideBracket = out.some(
+        (b) => b.type === "bracket" && start >= b.start && end <= b.end,
+      );
+      if (insideBracket) continue;
+      out.push({ type: "url", content: m[0], start, end });
     }
-    return after;
+
+    // #hashtag (行頭または whitespace の直後)
+    const hashRe = /(^|\s)#(\S+)/g;
+    while ((m = hashRe.exec(text)) !== null) {
+      const tagStart = m.index + m[1].length; // # の位置
+      const tagEnd = tagStart + 1 + m[2].length;
+      out.push({ type: "hashtag", content: m[2], start: tagStart, end: tagEnd });
+    }
+
+    return out.sort((a, b) => a.start - b.start);
   }
 
-  // bracket の中身から URL を解決する。
-  // 形式:
-  //   [https://...]                → 外部 URL
-  //   [name https://...]           → 外部 URL (name は無視)
-  //   [https://... name]           → 外部 URL
-  //   [Page Title]                 → 同じ project の内部ページ
-  function resolveUrl(content) {
-    const trimmed = content.trim();
-    const urlMatch = trimmed.match(/(https?:\/\/\S+)/);
-    if (urlMatch) return urlMatch[1];
+  // cursor 位置 idx に最も近いリンクを選ぶ。
+  // 1. idx が範囲内にあるもの
+  // 2. idx 以降で最初に現れるもの
+  // 3. 行内の先頭リンク
+  function pickLinkNear(links, idx) {
+    if (links.length === 0) return null;
+    for (const l of links) {
+      if (idx >= l.start && idx <= l.end) return { ...l, hit: "inside" };
+    }
+    for (const l of links) {
+      if (l.start >= idx) return { ...l, hit: "after" };
+    }
+    return { ...links[0], hit: "first" };
+  }
 
-    // 内部ページリンク。/{project}/{title}
+  // リンク候補から実際の URL を解決する。
+  function resolveUrl(item) {
+    if (item.type === "url") return item.content;
+
+    if (item.type === "bracket") {
+      const trimmed = item.content.trim();
+      const urlMatch = trimmed.match(/(https?:\/\/\S+)/);
+      if (urlMatch) return urlMatch[1];
+      return resolveInternal(trimmed);
+    }
+
+    if (item.type === "hashtag") {
+      return resolveInternal(item.content);
+    }
+
+    return null;
+  }
+
+  // 同じ project 内のページ URL を組み立てる。
+  // Scrapbox のページ URL は空白を _ に変換し encodeURI する。
+  function resolveInternal(title) {
     const parts = location.pathname.split("/").filter(Boolean);
     const project = parts[0];
     if (!project) return null;
-    // Scrapbox のページ URL は空白を _ に変換、それ以外は encodeURIComponent。
-    const title = trimmed.replace(/ /g, "_");
-    return `/${project}/${encodeURI(title)}`;
+    const slug = title.replace(/ /g, "_");
+    return `/${project}/${encodeURI(slug)}`;
   }
 
   function handler(e) {
@@ -139,16 +187,19 @@
     const cursorIdx = getCursorCharIndex();
     log("handler: parsed line", { text, cursorIdx });
 
-    const bracket = findBracketNear(text, cursorIdx);
-    log("handler: bracket result", bracket);
+    const links = collectLinks(text);
+    log("handler: collected links", links);
 
-    if (!bracket) {
-      log("handler: no bracket link in line, aborting");
+    const picked = pickLinkNear(links, cursorIdx);
+    log("handler: picked link", picked);
+
+    if (!picked) {
+      log("handler: no link in line, aborting");
       return;
     }
 
-    const url = resolveUrl(bracket.content);
-    log("handler: resolved url", { content: bracket.content, url });
+    const url = resolveUrl(picked);
+    log("handler: resolved url", { picked, url });
 
     if (!url) {
       log("handler: could not resolve url, aborting");
