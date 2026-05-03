@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Scrapbox: Alt+Enter to jump to page link
 // @namespace    http://tampermonkey.net/
-// @version      0.0.2
-// @description  Scrapbox で Alt+Enter を押すと、cursor 位置の page link に遷移する。なければ cursor 行の先頭リンクを踏む。
+// @version      0.0.3
+// @description  Scrapbox で Alt+Enter を押すと、cursor 位置の link に遷移する。なければ cursor 行の先頭リンクを踏む。
 // @author       kbwo
 // @match        https://scrapbox.io/*
 // @match        https://*.scrapbox.io/*
@@ -18,8 +18,14 @@
 
   log("userscript loaded", { url: location.href, readyState: document.readyState });
 
-  // cursor 位置にある a.page-link を返す。
-  // .cursor 要素の表示位置を起点に elementFromPoint でヒットテストする。
+  // 内部ページリンク (a.page-link) と外部 URL リンク (a.link) の両方を対象にする。
+  const LINK_SELECTOR = "a.page-link, a.link";
+
+  // cursor 位置にある link を返す。
+  // .cursor 要素の表示位置を起点に elementsFromPoint でヒットテストする。
+  // Scrapbox は cursor 位置検出用の .char-index span を実テキストの上に
+  // overlay しているため、elementFromPoint (単数) では下の <a> に届かない。
+  // elementsFromPoint で重なっている要素を全部見て探す。
   function findLinkAtCursor() {
     const cursor = document.querySelector(".cursor");
     log("findLinkAtCursor: .cursor =", cursor);
@@ -35,20 +41,26 @@
     // 左右両側を少しずつずらして link を探す。
     for (const dx of [3, -3, 1, -1, 6, -6]) {
       const x = rect.left + dx;
-      const el = document.elementFromPoint(x, y);
-      const link = el && el.closest && el.closest("a.page-link");
-      log("findLinkAtCursor: probe", { dx, x, y, el, link });
+      const els = document.elementsFromPoint(x, y);
+      let link = null;
+      for (const el of els) {
+        if (el && el.closest) {
+          const found = el.closest(LINK_SELECTOR);
+          if (found) { link = found; break; }
+        }
+      }
+      log("findLinkAtCursor: probe", { dx, x, y, els, link });
       if (link) return link;
     }
     return null;
   }
 
-  // cursor 行の先頭にある a.page-link
+  // cursor 行の先頭にある link
   function findFirstLinkInCursorLine() {
     const line = document.querySelector(".cursor-line");
     log("findFirstLinkInCursorLine: .cursor-line =", line);
     if (!line) return null;
-    const link = line.querySelector("a.page-link");
+    const link = line.querySelector(LINK_SELECTOR);
     log("findFirstLinkInCursorLine: link =", link);
     return link;
   }
