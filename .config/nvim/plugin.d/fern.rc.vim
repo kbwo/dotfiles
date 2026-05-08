@@ -37,16 +37,24 @@ call extend(g:fern#comparators, {
       \ 'modified-desc': funcref('s:fern_modified_desc_comparator_new'),
       \})
 
-function! s:fern_sort_modified_desc(helper) abort
-  let g:fern#comparator = 'modified-desc'
-  let a:helper.fern.comparator = s:fern_modified_desc_comparator_new()
+function! s:fern_toggle_modified_desc_sort(helper) abort
+  let l:enabled = getbufvar(a:helper.bufnr, 'fern_modified_desc_sort', 0)
+  if l:enabled
+    let g:fern#comparator = 'default'
+    let a:helper.fern.comparator = fern#comparator#default#new()
+    call setbufvar(a:helper.bufnr, 'fern_modified_desc_sort', 0)
+  else
+    let g:fern#comparator = 'modified-desc'
+    let a:helper.fern.comparator = s:fern_modified_desc_comparator_new()
+    call setbufvar(a:helper.bufnr, 'fern_modified_desc_sort', 1)
+  endif
   let l:root = a:helper.sync.get_root_node()
   return a:helper.async.reload_node(l:root.__key)
         \.then({ -> a:helper.async.redraw() })
 endfunction
 
-function! s:fern_sort_modified_desc_mapping() abort
-  return fern#helper#call(funcref('s:fern_sort_modified_desc'))
+function! s:fern_toggle_modified_desc_sort_mapping() abort
+  return fern#helper#call(funcref('s:fern_toggle_modified_desc_sort'))
 endfunction
 
 function! SavePreviousBuffer()
@@ -109,7 +117,7 @@ function! FernInit() abort
   nmap <silent><buffer> o <Plug>(fern-my-open-or-expand-or-collapse)
   nmap <silent><buffer> <C-l> <Plug>(fern-action-reload)
   nmap <silent><buffer> rr <Plug>(fern-action-rename)
-  nmap <silent><buffer> sm :<C-u>call <SID>fern_sort_modified_desc_mapping()<CR>
+  nmap <silent><buffer> sm :<C-u>call <SID>fern_toggle_modified_desc_sort_mapping()<CR>
   nmap <silent><buffer> yy <Plug>(fern-action-yank)
   nmap <silent><buffer> dl <Plug>(fern-action-remove)
   nmap <silent><buffer> cd <Plug>(fern-action-tcd)
