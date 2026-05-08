@@ -1,7 +1,53 @@
 let g:fern#disable_default_mappings = 1
 let g:fern#default_hidden = 1
+let g:fern#comparators = get(g:, 'fern#comparators', {})
 
 let g:previous_buffers = {}
+
+function! s:fern_compare_path_mtime_desc(n1, n2) abort
+  let l:time1 = has_key(a:n1, '_path') ? getftime(a:n1._path) : -1
+  let l:time2 = has_key(a:n2, '_path') ? getftime(a:n2._path) : -1
+  if l:time1 != l:time2
+    return l:time1 > l:time2 ? -1 : 1
+  endif
+  return a:n1.label ==# a:n2.label ? 0 : a:n1.label ># a:n2.label ? 1 : -1
+endfunction
+
+function! s:fern_compare_modified_desc(n1, n2) abort
+  let l:key1 = a:n1.__key
+  let l:key2 = a:n2.__key
+  let l:len1 = len(l:key1)
+  let l:len2 = len(l:key2)
+
+  if l:len1 ==# l:len2 && l:key1[:-2] ==# l:key2[:-2]
+    return s:fern_compare_path_mtime_desc(a:n1, a:n2)
+  endif
+
+  let l:default_comparator = fern#comparator#default#new()
+  return l:default_comparator.compare(a:n1, a:n2)
+endfunction
+
+function! s:fern_modified_desc_comparator_new() abort
+  return {
+        \ 'compare': funcref('s:fern_compare_modified_desc'),
+        \}
+endfunction
+
+call extend(g:fern#comparators, {
+      \ 'modified-desc': funcref('s:fern_modified_desc_comparator_new'),
+      \})
+
+function! s:fern_sort_modified_desc(helper) abort
+  let g:fern#comparator = 'modified-desc'
+  let a:helper.fern.comparator = s:fern_modified_desc_comparator_new()
+  let l:root = a:helper.sync.get_root_node()
+  return a:helper.async.reload_node(l:root.__key)
+        \.then({ -> a:helper.async.redraw() })
+endfunction
+
+function! s:fern_sort_modified_desc_mapping() abort
+  return fern#helper#call(funcref('s:fern_sort_modified_desc'))
+endfunction
 
 function! SavePreviousBuffer()
   let current_winnr = win_getid()
@@ -63,6 +109,7 @@ function! FernInit() abort
   nmap <silent><buffer> o <Plug>(fern-my-open-or-expand-or-collapse)
   nmap <silent><buffer> <C-l> <Plug>(fern-action-reload)
   nmap <silent><buffer> rr <Plug>(fern-action-rename)
+  nmap <silent><buffer> sm :<C-u>call <SID>fern_sort_modified_desc_mapping()<CR>
   nmap <silent><buffer> yy <Plug>(fern-action-yank)
   nmap <silent><buffer> dl <Plug>(fern-action-remove)
   nmap <silent><buffer> cd <Plug>(fern-action-tcd)
