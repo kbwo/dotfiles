@@ -73,8 +73,7 @@ gwd() {
         if [ -n "$remote_name" ]; then
             git fetch "$remote_name" --quiet 2>/dev/null
         fi
-        new_commit="$(git rev-parse "$branch" 2>/dev/null)"
-        if [ -z "$new_commit" ]; then
+        if ! new_commit="$(git rev-parse --verify --quiet "${branch}^{commit}")"; then
             echo "Failed to resolve branch: $branch"
             break
         fi
