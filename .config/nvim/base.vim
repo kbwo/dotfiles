@@ -627,29 +627,23 @@ function! s:GetMemoDirName()
   return l:name
 endfunction
 
-function! GetWeeklyMemoPath()
-  let today = localtime()
-  let day_of_week = strftime('%w', today)
-  " Convert Sunday (0) to 7 for easier calculation
-  let day_of_week = day_of_week == 0 ? 7 : day_of_week
-  " Calculate days to Monday (1) and Sunday (7)
-  let days_to_monday = 1 - day_of_week
-  let days_to_sunday = 7 - day_of_week
-  let monday = today + (days_to_monday * 86400)
-  let sunday = today + (days_to_sunday * 86400)
+function! GetMonthlyMemoPath()
   let dirname = s:GetMemoDirName()
-  return '~/memo/' . strftime('%Y-%m-%d', monday) . '--' . strftime('%Y-%m-%d', sunday) . '--' . dirname . '.md'
+  return '~/memo/' . strftime('%Y-%m') . '--' . dirname . '.md'
 endfunction
 
-nmap <silent><leader>md<Space> :execute 'edit ' . GetWeeklyMemoPath()<CR>
-nmap <silent><leader>mds :execute 'split ' . GetWeeklyMemoPath()<CR>
-nmap <silent><leader>mdv :execute 'vsplit ' . GetWeeklyMemoPath()<CR>
-nmap <silent><leader>mdt :execute 'tabnew ' . GetWeeklyMemoPath()<CR>
+function! GetWeeklyMemoPath()
+  return GetMonthlyMemoPath()
+endfunction
+
+nmap <silent><leader>md<Space> :execute 'edit ' . GetMonthlyMemoPath()<CR>
+nmap <silent><leader>mds :execute 'split ' . GetMonthlyMemoPath()<CR>
+nmap <silent><leader>mdv :execute 'vsplit ' . GetMonthlyMemoPath()<CR>
+nmap <silent><leader>mdt :execute 'tabnew ' . GetMonthlyMemoPath()<CR>
 function! ToggleMemoFloat()
   lua << EOF
     local win_config = vim.api.nvim_win_get_config(0)
-    -- Get weekly memo path using the Vim function
-    local memo_path = vim.fn.expand(vim.fn.GetWeeklyMemoPath())
+    local memo_path = vim.fn.expand(vim.fn.GetMonthlyMemoPath())
     
     if win_config.relative ~= "" then
       -- Current window is a floating window
