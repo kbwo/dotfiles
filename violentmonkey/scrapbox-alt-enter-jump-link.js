@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Scrapbox: Alt+Enter to jump to page link
 // @namespace    http://tampermonkey.net/
-// @version      0.0.5
+// @version      0.0.6
 // @description  Scrapbox で Alt+Enter を押すと、cursor 行のリンクに遷移する。cursor 行は edit モードで <a> が消えるため、生テキストをパースして URL を解決する。bracket / 裸 URL / hashtag に対応。
 // @author       kbwo
 // @match        https://scrapbox.io/*
@@ -151,13 +151,13 @@
   }
 
   // 同じ project 内のページ URL を組み立てる。
-  // Scrapbox のページ URL は空白を _ に変換し encodeURI する。
+  // Scrapbox のページ URL は空白を _ に変換し、ページタイトル全体を path segment として escape する。
   function resolveInternal(title) {
     const parts = location.pathname.split("/").filter(Boolean);
     const project = parts[0];
     if (!project) return null;
     const slug = title.replace(/ /g, "_");
-    return `/${project}/${encodeURI(slug)}`;
+    return `/${project}/${encodeURIComponent(slug)}`;
   }
 
   function handler(e) {
