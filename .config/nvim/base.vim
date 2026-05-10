@@ -643,7 +643,37 @@ nmap <silent><leader>mdt :execute 'tabnew ' . GetMonthlyMemoPath()<CR>
 function! ToggleMemoFloat()
   lua << EOF
     local win_config = vim.api.nvim_win_get_config(0)
-    local memo_path = vim.fn.expand(vim.fn.GetMonthlyMemoPath())
+    local memo_path = vim.fn.fnamemodify(vim.fn.GetMonthlyMemoPath(), ":p")
+
+    local function ensure_today_section(buf)
+      buf = buf or vim.api.nvim_get_current_buf()
+      local marker = "## " .. vim.fn.strftime("%Y-%m-%d")
+      local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
+
+      for _, line in ipairs(lines) do
+        if line:find(marker, 1, true) then
+          return
+        end
+      end
+
+      local line_count = vim.api.nvim_buf_line_count(buf)
+      local start_line = line_count
+      local end_line = line_count
+      if line_count == 1 and lines[1] == "" then
+        start_line = 0
+        end_line = 1
+      end
+      vim.api.nvim_buf_set_lines(buf, start_line, end_line, false, {
+        "***",
+        "",
+        marker,
+        "",
+        "***",
+      })
+      vim.api.nvim_buf_call(buf, function()
+        vim.cmd("silent! write")
+      end)
+    end
     
     if win_config.relative ~= "" then
       -- Current window is a floating window
@@ -655,7 +685,8 @@ function! ToggleMemoFloat()
         vim.api.nvim_win_close(0, false)
       else
         -- Different from memo_path, just edit memo_path
-        vim.cmd("edit " .. memo_path)
+        vim.cmd("edit " .. vim.fn.fnameescape(memo_path))
+        ensure_today_section(vim.api.nvim_get_current_buf())
       end
     else
       -- Check if a floating window with this file already exists
@@ -675,14 +706,16 @@ function! ToggleMemoFloat()
       if existing_win then
         -- Focus the existing floating window
         vim.api.nvim_set_current_win(existing_win)
+        ensure_today_section(vim.api.nvim_win_get_buf(existing_win))
       else
         -- Check if buffer already exists
         local buf = vim.fn.bufnr(memo_path)
         local is_new_buffer = false
         if buf == -1 then
-          buf = vim.api.nvim_create_buf(false, true)
+          buf = vim.fn.bufadd(memo_path)
           is_new_buffer = true
         end
+        vim.fn.bufload(buf)
         
         local h = math.floor(vim.o.lines * 0.8)
         local w = 150
@@ -699,8 +732,7 @@ function! ToggleMemoFloat()
             border = 'rounded'
           }
         )
-        -- Force edit without saving changes, ignore errors
-        vim.cmd("silent! edit " .. memo_path)
+        ensure_today_section(buf)
         vim.wo.number = true
         if is_new_buffer then
           vim.cmd("normal! G")
