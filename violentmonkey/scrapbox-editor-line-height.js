@@ -11,5 +11,5 @@
 (function () {
     'use strict';
 
-    GM_addStyle('#editor .code-body span { line-height: 1.2em; }');
+    GM_addStyle('#editor .code-block span { line-height: 1.2em; }');
 })();
