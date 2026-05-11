@@ -58,6 +58,7 @@
           .replace(/^\(\d+\)\s/, "") // "(数字) "を削除
           .replace(/#\S+/g, "") // "#以降"を削除
           .replace(/[\[\]]/g, "") // "[]"を削除
+          .replace(/["'`]/g, "") // quotesを削除
           .replace(/\u200D/g, ""); // ZWJを削除
         const urlObj = new URL(document.URL);
         urlObj.hash = ""; // Remove hash fragment
