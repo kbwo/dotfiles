@@ -1,4 +1,5 @@
 -- https://github.com/nvim-treesitter/nvim-treesitter
+require("pkl-neovim").init()
 require("nvim-treesitter.configs").setup({
 	highlight = {
 		enable = true,
