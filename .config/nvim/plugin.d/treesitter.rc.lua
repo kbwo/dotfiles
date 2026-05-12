@@ -11,7 +11,6 @@ require("nvim-treesitter.configs").setup({
 		"rust",
 		"json",
 		"diff",
-		"pkl",
 	},
 	indent = {
 		enable = false,
