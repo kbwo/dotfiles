@@ -1,5 +1,10 @@
 -- https://github.com/nvim-treesitter/nvim-treesitter
 require("pkl-neovim").init()
+local ts_parsers = require("nvim-treesitter.parsers")
+local ts_install = require("nvim-treesitter.install")
+if not ts_parsers.has_parser("pkl") then
+	ts_install.ensure_installed_sync { "pkl" }
+end
 require("nvim-treesitter.configs").setup({
 	highlight = {
 		enable = true,
