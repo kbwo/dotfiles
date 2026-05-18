@@ -636,14 +636,19 @@ function! GetWeeklyMemoPath()
   return GetMonthlyMemoPath()
 endfunction
 
+function! GetSimpleMemoPath()
+  return '~/memo/' . strftime('%Y-%m') . '.md'
+endfunction
+
 nmap <silent><leader>md<Space> :execute 'edit ' . GetMonthlyMemoPath()<CR>
 nmap <silent><leader>mds :execute 'split ' . GetMonthlyMemoPath()<CR>
 nmap <silent><leader>mdv :execute 'vsplit ' . GetMonthlyMemoPath()<CR>
 nmap <silent><leader>mdt :execute 'tabnew ' . GetMonthlyMemoPath()<CR>
-function! ToggleMemoFloat()
+function! s:ToggleMemoFloatImpl(path)
+  let g:_memo_float_path = a:path
   lua << EOF
     local win_config = vim.api.nvim_win_get_config(0)
-    local memo_path = vim.fn.fnamemodify(vim.fn.GetMonthlyMemoPath(), ":p")
+    local memo_path = vim.fn.fnamemodify(vim.g._memo_float_path, ":p")
 
     local function ensure_today_section(buf)
       buf = buf or vim.api.nvim_get_current_buf()
@@ -742,10 +747,21 @@ function! ToggleMemoFloat()
 EOF
 endfunction
 
+function! ToggleMemoFloat()
+  call s:ToggleMemoFloatImpl(GetMonthlyMemoPath())
+endfunction
+
+function! ToggleMemoFloatSimple()
+  call s:ToggleMemoFloatImpl(GetSimpleMemoPath())
+endfunction
+
 nmap <silent><leader>mdf :call ToggleMemoFloat()<CR>
 nmap <A-m> :call ToggleMemoFloat()<CR>
 imap <A-m> <ESC>:call ToggleMemoFloat()<CR>
 tmap <A-m> <C-\>:call ToggleMemoFloat()<CR>
+nmap <A-M> :call ToggleMemoFloatSimple()<CR>
+imap <A-M> <ESC>:call ToggleMemoFloatSimple()<CR>
+tmap <A-M> <C-\>:call ToggleMemoFloatSimple()<CR>
 
 " 各種イベントでファイルの変更をチェック
 autocmd FocusGained,BufEnter,CursorHold,CursorHoldI *

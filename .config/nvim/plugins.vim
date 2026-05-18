@@ -31,6 +31,7 @@ Jetpack 'rebelot/kanagawa.nvim'
 Jetpack 'smoka7/hop.nvim'
 Jetpack 'yorickpeterse/nvim-window'
 Jetpack 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate', 'branch': 'master'}
+Jetpack 'apple/pkl-neovim'
 " Jetpack 'shellRaining/hlchunk.nvim'
 Jetpack 'lukas-reineke/indent-blankline.nvim'
 Jetpack 'andrewferrier/debugprint.nvim'
