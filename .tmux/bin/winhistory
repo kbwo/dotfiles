@@ -39,7 +39,7 @@ case "$SUBCMD" in
 
   next)
     PTR=$(get_ptr)
-    [ "$PTR" -le 0 ] && exit 0
+[ "$PTR" -le 0 ] && exit 0
     NEW_PTR=$((PTR - 1))
     TARGET=$(get_hist | sed -n "$((NEW_PTR + 1))p")
     [ -z "$TARGET" ] && exit 0
