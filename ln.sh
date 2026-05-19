@@ -6,6 +6,8 @@ ln -sf ~/dotfiles/.config/nvim/ftplugin ~/.config/nvim/ftplugin
 ln -sf ~/dotfiles/.config/nvim/after ~/.config/nvim/after
 ln -sf ~/dotfiles/.zsh.d/.zshrc ~/.zshrc
 ln -sf ~/dotfiles/.tmux.conf ~/.tmux.conf
+mkdir -p ~/.tmux/bin
+ln -sf ~/dotfiles/.tmux/bin/winhistory ~/.tmux/bin/winhistory
 # ln -sf ~/dotfiles/.alacritty.sway.toml ~/.alacritty.toml
 ln -sf ~/dotfiles/.alacritty.gnome.toml ~/.alacritty.toml
 ln -sf ~/dotfiles/.skhdrc ~/.skhdrc

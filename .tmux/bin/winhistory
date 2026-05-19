@@ -1,0 +1,50 @@
+#!/bin/bash
+# Window visit history for C-o/C-i navigation (like vim jumplist)
+# Usage: winhistory <track|prev|next> <session_name> [window_index]
+
+SUBCMD="$1"
+SESSION="$2"
+SAFE_SESSION=$(echo "$SESSION" | tr -cd 'a-zA-Z0-9_-')
+HIST_FILE="/tmp/tmux-wh-${SAFE_SESSION}"
+PTR_FILE="${HIST_FILE}.ptr"
+
+get_ptr()  { cat "$PTR_FILE"  2>/dev/null || echo 0; }
+get_hist() { cat "$HIST_FILE" 2>/dev/null; }
+
+case "$SUBCMD" in
+  track)
+    WIN="$3"
+    JUMPING=$(tmux show-option -t "$SESSION" -v @wh_jumping 2>/dev/null)
+    if [ "$JUMPING" = "1" ]; then
+      tmux set-option -t "$SESSION" -u @wh_jumping
+      exit 0
+    fi
+
+    echo 0 > "$PTR_FILE"
+    { echo "$WIN"; get_hist | grep -v "^${WIN}$"; } | head -50 > "${HIST_FILE}.tmp"
+    mv "${HIST_FILE}.tmp" "$HIST_FILE"
+    ;;
+
+  prev)
+    PTR=$(get_ptr)
+    COUNT=$(get_hist | grep -c '' 2>/dev/null || echo 0)
+    NEW_PTR=$((PTR + 1))
+    [ "$NEW_PTR" -ge "$COUNT" ] && exit 0
+    TARGET=$(get_hist | sed -n "$((NEW_PTR + 1))p")
+    [ -z "$TARGET" ] && exit 0
+    echo "$NEW_PTR" > "$PTR_FILE"
+    tmux set-option -t "$SESSION" @wh_jumping 1
+    tmux select-window -t "${SESSION}:${TARGET}"
+    ;;
+
+  next)
+    PTR=$(get_ptr)
+    [ "$PTR" -le 0 ] && exit 0
+    NEW_PTR=$((PTR - 1))
+    TARGET=$(get_hist | sed -n "$((NEW_PTR + 1))p")
+    [ -z "$TARGET" ] && exit 0
+    echo "$NEW_PTR" > "$PTR_FILE"
+    tmux set-option -t "$SESSION" @wh_jumping 1
+    tmux select-window -t "${SESSION}:${TARGET}"
+    ;;
+esac
