@@ -7,6 +7,7 @@ SESSION="$2"
 SAFE_SESSION=$(echo "$SESSION" | tr -cd 'a-zA-Z0-9_-')
 HIST_FILE="/tmp/tmux-wh-${SAFE_SESSION}"
 PTR_FILE="${HIST_FILE}.ptr"
+JUMP_FILE="${HIST_FILE}.jumping"
 
 get_ptr()  { cat "$PTR_FILE"  2>/dev/null || echo 0; }
 get_hist() { cat "$HIST_FILE" 2>/dev/null; }
@@ -14,9 +15,8 @@ get_hist() { cat "$HIST_FILE" 2>/dev/null; }
 case "$SUBCMD" in
   track)
     WIN="$3"
-    JUMPING=$(tmux show-option -t "$SESSION" -v @wh_jumping 2>/dev/null)
-    if [ "$JUMPING" = "1" ]; then
-      tmux set-option -t "$SESSION" -u @wh_jumping
+    if [ -f "$JUMP_FILE" ]; then
+      rm -f "$JUMP_FILE"
       exit 0
     fi
 
@@ -33,7 +33,7 @@ case "$SUBCMD" in
     TARGET=$(get_hist | sed -n "$((NEW_PTR + 1))p")
     [ -z "$TARGET" ] && exit 0
     echo "$NEW_PTR" > "$PTR_FILE"
-    tmux set-option -t "$SESSION" @wh_jumping 1
+    touch "$JUMP_FILE"
     tmux select-window -t "${SESSION}:${TARGET}"
     ;;
 
@@ -44,7 +44,7 @@ case "$SUBCMD" in
     TARGET=$(get_hist | sed -n "$((NEW_PTR + 1))p")
     [ -z "$TARGET" ] && exit 0
     echo "$NEW_PTR" > "$PTR_FILE"
-    tmux set-option -t "$SESSION" @wh_jumping 1
+    touch "$JUMP_FILE"
     tmux select-window -t "${SESSION}:${TARGET}"
     ;;
 esac
