@@ -82,10 +82,65 @@ function! ReturnToPreviousBuffer()
   endif
 endfunction
 
+" Like FindNearestGitRoot but walks past submodule .git files to reach the
+" root repository (.git directory).
+function! s:fern_find_git_root() abort
+  let l:gin_filetypes = ['gin', 'gin-status', 'gin-branch', 'gin-log', 'gin-diff']
+  let l:result = ''
+
+  if index(l:gin_filetypes, &filetype) != -1
+    let l:result = '.'
+  else
+    let l:current_directory = expand('%:p:h')
+    let l:current_file = expand('%:p')
+    let l:git_root = ''
+
+    if l:current_file =~ '\v^\w+://'
+      if l:current_file !~ '\v^file://'
+        let l:result = '.'
+      endif
+    endif
+
+    if l:result ==# ''
+      let l:dir = l:current_directory
+      while l:dir !=# '/'
+        let l:git_path = l:dir . '/.git'
+        if isdirectory(l:git_path)
+          " Real git root found (not a submodule)
+          let l:git_root = l:dir
+          break
+        elseif filereadable(l:git_path) && l:git_root ==# ''
+          " .git is a file → inside a submodule; save as fallback and keep walking
+          let l:git_root = l:dir
+        endif
+        let l:dir = fnamemodify(l:dir, ':h')
+      endwhile
+
+      let l:cwd = getcwd()
+
+      if l:git_root ==# ''
+        let l:result = expand('%:p:h')
+      elseif StartsWith(l:current_directory, l:git_root) && !StartsWith(l:current_file, l:cwd)
+        let l:result = l:git_root
+      elseif StartsWith(l:cwd, l:git_root)
+        let l:result = l:cwd
+      else
+        let l:result = l:git_root
+      endif
+    endif
+  endif
+
+  if has('mac') || has('macunix')
+    let l:result = substitute(l:result, ' ', '\\ ', 'g')
+  endif
+
+  return l:result
+endfunction
+
 " ~/.vim/fern-toggle.vim
 function! s:git_fern() abort
   call SavePreviousBuffer()
-  let git_root = FindNearestGitRoot()
+  let git_root = s:fern_find_git_root()
   execute 'Fern ' . git_root . ' -reveal=% -stay'
 endfunction
 
