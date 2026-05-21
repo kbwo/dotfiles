@@ -113,7 +113,6 @@ gwd() {
 
     echo "Returning to: $main_branch"
     git -C "$main_wt" checkout "$main_branch"
-    git -C "$main_wt" pull
 }
 
 gwr() {
