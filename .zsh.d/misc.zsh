@@ -31,6 +31,12 @@ rmkb() {
 }
 
 gwd() {
+    local fetch_first=false
+    if [ "$1" = "-f" ]; then
+        fetch_first=true
+        shift
+    fi
+
     local main_wt
     main_wt="$(git worktree list --porcelain | head -n 1 | sed 's/^worktree //')"
 
@@ -41,10 +47,14 @@ gwd() {
 
     local branch
     if [ -n "$1" ] && git remote | grep -qx "$1"; then
-        git fetch "$1"
+        if $fetch_first; then
+            git fetch "$1"
+        fi
         branch="$(git branch -r --sort=-committerdate --format='%(refname:short)' | grep "^$1/" | fzf --no-sort --prompt="$1 branch> ")"
     else
-        git fetch --all --quiet
+        if $fetch_first; then
+            git fetch --all --quiet
+        fi
         branch="${1:-$(git branch -a --sort=-committerdate --format='%(refname:short)' | fzf --no-sort --prompt='branch> ')}"
     fi
 
