@@ -527,6 +527,7 @@ endfunction
 command! -range OpenByCursor call s:OpenByCursor()
 
 autocmd BufNewFile,BufRead *.mdc set filetype=markdown
+autocmd BufNewFile,BufRead *.scrapbox set filetype=scrapbox
 
 " 自動コミット・プッシュを行うディレクトリのリスト
 let g:auto_git_dirs = ['~/obs-kbwo']
