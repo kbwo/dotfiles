@@ -637,7 +637,7 @@ function! GetWeeklyMemoPath()
   let l:wday = str2nr(strftime('%u', l:now))
   let l:monday = l:now - (l:wday - 1) * 86400
   let l:sunday = l:monday + 6 * 86400
-  return '~/memo/' . strftime('%Y-%m-%d', l:monday) . '--' . strftime('%Y-%m-%d', l:sunday) . '.md'
+  return '~/memo/' . strftime('%Y-%m-%d', l:monday) . '--' . strftime('%Y-%m-%d', l:sunday) . '.scrapbox'
 endfunction
 
 nmap <silent><leader>md<Space> :execute 'edit ' . GetMonthlyMemoPath()<CR>
