@@ -633,24 +633,29 @@ function! GetMonthlyMemoPath()
 endfunction
 
 function! GetWeeklyMemoPath()
-  return GetMonthlyMemoPath()
-endfunction
-
-function! GetSimpleMemoPath()
-  return '~/memo/' . strftime('%Y-%m') . '.md'
+  let l:now = localtime()
+  let l:wday = str2nr(strftime('%u', l:now))
+  let l:monday = l:now - (l:wday - 1) * 86400
+  let l:sunday = l:monday + 6 * 86400
+  return '~/memo/' . strftime('%Y-%m-%d', l:monday) . '--' . strftime('%Y-%m-%d', l:sunday) . '.md'
 endfunction
 
 nmap <silent><leader>md<Space> :execute 'edit ' . GetMonthlyMemoPath()<CR>
 nmap <silent><leader>mds :execute 'split ' . GetMonthlyMemoPath()<CR>
 nmap <silent><leader>mdv :execute 'vsplit ' . GetMonthlyMemoPath()<CR>
 nmap <silent><leader>mdt :execute 'tabnew ' . GetMonthlyMemoPath()<CR>
-function! s:ToggleMemoFloatImpl(path)
+function! s:ToggleMemoFloatImpl(path, add_today_section)
   let g:_memo_float_path = a:path
+  let g:_memo_float_add_today = a:add_today_section
   lua << EOF
     local win_config = vim.api.nvim_win_get_config(0)
     local memo_path = vim.fn.fnamemodify(vim.g._memo_float_path, ":p")
+    local add_today = vim.g._memo_float_add_today == 1
 
     local function ensure_today_section(buf)
+      if not add_today then
+        return
+      end
       buf = buf or vim.api.nvim_get_current_buf()
       local marker = "## " .. vim.fn.strftime("%Y-%m-%d")
       local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
@@ -748,11 +753,11 @@ EOF
 endfunction
 
 function! ToggleMemoFloat()
-  call s:ToggleMemoFloatImpl(GetMonthlyMemoPath())
+  call s:ToggleMemoFloatImpl(GetMonthlyMemoPath(), 1)
 endfunction
 
 function! ToggleMemoFloatSimple()
-  call s:ToggleMemoFloatImpl(GetSimpleMemoPath())
+  call s:ToggleMemoFloatImpl(GetWeeklyMemoPath(), 0)
 endfunction
 
 nmap <silent><leader>mdf :call ToggleMemoFloat()<CR>
