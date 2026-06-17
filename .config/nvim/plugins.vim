@@ -12,7 +12,7 @@ Jetpack 'numToStr/Comment.nvim', {'commit': 'e30b7f2008e52442154b66f7c519bfd2f1e
 Jetpack 'Raimondi/delimitMate', {'commit': 'becbd2d353a2366171852387288ebb4b33a02487'}
 Jetpack 'tpope/vim-dadbod', {'commit': '6d1d41da4873a445c5605f2005ad2c68c99d8770'}
 Jetpack 'kristijanhusak/vim-dadbod-ui', {'commit': '07e92e22114cc5b1ba4938d99897d85b58e20475'}
-" Jetpack 'tyru/eskk.vim'
+Jetpack 'vim-skk/skkeleton'
 Jetpack 'sontungexpt/url-open', {'commit': 'dce2a9bc51e4885ea80ca03da5b4d0f719aaf820'}
 Jetpack 'simeji/winresizer', {'commit': '299076f7f79e2e2f7706b2dfacbb3c074ce53257'}
 Jetpack 'windwp/nvim-ts-autotag', {'commit': '88c1453db4ba7dd24131086fe51fdf74e587d275'}
