@@ -1,6 +1,9 @@
 local cmp = require("cmp")
 
 cmp.setup({
+	enabled = function()
+		return not vim.g.skkeleton_enabled
+	end,
 	snippet = {
 		expand = function(args)
 			vim.fn["vsnip#anonymous"](args.body)

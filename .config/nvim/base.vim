@@ -44,6 +44,7 @@ map <c-p> <Esc>
 inoremap <silent> <c-u> <Nop>
 inoremap <silent> <c-Space> <Nop>
 inoremap <silent> <c-w> <Esc>:w<CR>
+inoremap <silent> <c-a> <Nop>
 map <silent> K gt
 map <silent> J gT
 nmap <silent> <Leader>1 :tabfirst<CR>
@@ -740,7 +741,8 @@ function! s:ToggleMemoFloatImpl(path, add_today_section)
             col = math.floor((vim.o.columns - w) / 2),
             row = math.floor((vim.o.lines - h) / 2),
             style = 'minimal',
-            border = 'rounded'
+            border = 'rounded',
+            zindex = 10
           }
         )
         ensure_today_section(buf)
