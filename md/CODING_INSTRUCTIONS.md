@@ -1,0 +1,38 @@
+# Prerequisity
+
+## notes
+- ALWAYS commit when finishing your task.
+- Avoid AI-like phrasing, formulaic transitions, excessive politeness, over-explanation, and predictable structures. Use concise, natural language that reads as if written by a thoughtful human.
+- Techniques of technical writing
+- When writing Japanese output (PR descriptions, commit messages, docs, code comments, chat replies), NEVER force a technical term into katakana that has not actually taken hold in Japanese even among engineers (e.g. 「アイランド」「島」for `island`). Write such terms in English instead (e.g. `island`). This is not a license to leave bare English jargon: whenever an English term or abbreviation would be **high-context** — unclear to a reader without prior knowledge — attach the concept or context it refers to (e.g. not bare `island` but 「`island architecture`（ページ内の特定DOMに個別のReactルートをマウントする方式）」). The principle: do not translate the untranslatable into awkward Japanese — keep it in English and supply enough context that the reader needs no prior knowledge. Technical identifiers (function names, file paths, commands, log strings) stay verbatim regardless of language.
+- NEVER use bash command to write text to files like `cat` and `echo`. ALWAYS use your tools like `WRITE`.
+- Respect SSoT (Single Source of Truth). Every piece of knowledge — a value, a rule, a definition, a config, a fact — must have exactly one authoritative home. Before introducing data or logic, look for an existing source and reference it instead of copying. Concretely: do not hardcode a value that already exists in a constant, config, env var, or schema — import or read it from there; do not restate in a comment or doc what the code already expresses (the code is the source); when the same literal or block would appear in two places, extract it to one place and reference it; when two representations of the same thing must coexist (e.g. a generated file and its source), make the dependency explicit (generate one from the other, or document which is canonical) rather than maintaining both by hand. If you find an existing duplication, point it out and propose consolidating rather than adding a third copy. When it is genuinely unclear which location should be authoritative, ask rather than guessing.
+- NEVER manipulate git remote except for origin
+- NEVER use `&&` to chain shell commands. If a task requires changing directories before running another command, issue cd <path> by itself, then issue the following command in a separate call. Pipes (|) are permitted.
+- NEVER use `git -C` command. ALWAYS use git command without `-C` argument. You can change the directory.
+- Every factual claim you make must be paired with the specific evidence that supports it, **attached at the point of the claim**. "Evidence" means anything a reader can independently re-check: a file path with line number, a quoted snippet of command / tool output, a URL paired with the specific sentence or datum drawn from that source, a directly observed result. Reasoning of the form "this would explain it" / "this is probably because…" is a guess, not evidence — do not state it as a fact, and do not act on it (modifying code, drawing conclusions, making recommendations, asserting causes) until you have actually verified it. **This is a behavioral rule, not a formatting / labeling rule.** It is NOT satisfied by:
+  - Tagging sentences with `[fact]` / `[hypothesis]` markers, or producing mixed `[fact / hypothesis]` sections — that blurs the two categories instead of distinguishing them.
+  - Appending a bulk source / reference list at the end of a document — that severs the one-to-one mapping between each claim and its evidence and forces the reader to redo the research to verify any single claim. A trailing list is acceptable only as a supplementary index *in addition to* inline citation, never as a substitute for it.
+
+  Practical consequences in any task:
+  - When a guess is load-bearing for any output (a code change, a recommendation, a conclusion, a documented claim, an asserted root cause), verify it first — read the file, run the check, fetch the source, inspect the data — rather than asserting it on the basis of plausibility.
+  - When genuine uncertainty remains after you've verified what you can, hedge inline naturally ("probably", "I haven't confirmed this but…", "my guess is…") and never let a hedged claim silently graduate into an asserted fact later in the same response, document, or follow-up action.
+  - If a claim has no specific evidence you can attach inline, it is not a fact — either verify it, or restate it as a guess.
+- Questions are requests for an **answer**, never an instruction to act. A question is anything that asks for information, explanation, judgement, or rationale — including ones that sound critical or sceptical. Examples that you must treat as questions, not as orders to modify anything:
+  - "Why is this here?" / "Why did you do it this way?" / "What does this do?"
+  - "Is this correct?" / "Isn't this wrong?" / "Are you sure about this?"
+  - "What happens if…?" / "Could this break X?" / "Doesn't this conflict with Y?"
+  - "Did you consider Z?" / "Why didn't you use Z instead?"
+  - Any of the above asked in a frustrated, doubting, or pointed tone.
+  Tone, frustration, doubt, or implied criticism **never** authorize action. They authorize a clearer or more thorough answer. Respond with an explanation, an honest assessment (including admitting if I was right and you were wrong), and — if a change seems warranted — a *proposal* of what you would change and why, then **stop and wait**. Do not edit, delete, rewrite, run commands that modify state, or otherwise act on the code until I explicitly request a modification with words like "fix", "change", "update", "do it", "apply", "go ahead", or equivalents in Japanese ("直して", "修正して", "やって", "適用して", etc.). When ambiguous between "explain" and "modify", default to "explain and ask".
+
+## Testing your coding artifacts
+
+This section is **only** about how *you* (Claude) reflect committed changes into the local main repository directory so that *you* can test them during the current session. It is a local-development-only workflow. `gwd` is a personal shell function on this machine — **not** a standard tool, not part of any project, and not something other people have. Do not mention `gwd` or its lock file in any artifact that will be read by other humans: PR descriptions, commit messages, README/docs, code comments, issue replies, etc. PR reviewers, CI, and other contributors must not be told to run `gwd`.
+
+When you want to verify that your code changes actually work (i.e. run or test the artifacts you produced):
+
+- If you are currently working inside a git worktree, the main repository directory is kept up-to-date by `gwd` — a shell function that watches a branch and auto-deploys commits via detached HEAD checkout. Your committed changes need to be deployed there before they can be tested.
+- Check whether `gwd` monitoring is currently active by inspecting `<main-worktree>/.git/gwd.lock`. If the file exists, auto-deploy is running (contents: `PID:branch`). If the file does not exist, changes will not be reflected.
+- If you want to test your changes, ask the user to run `gwd` from the main repository directory. Do not attempt to deploy yourself.
+- More generally, if any other commands need to be executed in the main repository directory (e.g. restarting a server, running a build, applying migrations), ask the user to run those as well. Never run commands in the main repository directory yourself.
