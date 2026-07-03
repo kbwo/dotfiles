@@ -48,13 +48,92 @@ matches:
           format: "%Y-W%V"
   - trigger: ";h;"
     replace: "\n***\n"
+  # Random 16-char alphanumeric string: concatenates 4 chunks picked by the
+  # native "random" extension (no shell spawn, so it expands instantly).
+  # 64 choices x 4 slots = ~16.7M combinations. Not for secrets/passwords.
   - trigger: ";r;"
-    replace: "{{random_string}}"
+    replace: "{{r1}}{{r2}}{{r3}}{{r4}}"
     vars:
-      - name: random_string
-        type: shell
+      - name: r1
+        type: random
         params:
-          cmd: "LC_ALL=C tr -dc 'a-zA-Z0-9' < /dev/urandom | head -c 16"
+          choices: &random_chunks
+            - "h7pa"
+            - "ImxK"
+            - "5mrw"
+            - "mbYM"
+            - "6k3q"
+            - "4g7Y"
+            - "RYX5"
+            - "gQbm"
+            - "xEdt"
+            - "VM0N"
+            - "61ZO"
+            - "84js"
+            - "d6iU"
+            - "MfkH"
+            - "wk7X"
+            - "xpkm"
+            - "zZl9"
+            - "pNRJ"
+            - "KOmZ"
+            - "G9Ad"
+            - "Vd8p"
+            - "DAzg"
+            - "SkHH"
+            - "NdZk"
+            - "C3Pz"
+            - "gxAJ"
+            - "HxGJ"
+            - "IRwZ"
+            - "8OVX"
+            - "AOWo"
+            - "zRc7"
+            - "vZto"
+            - "Aj6G"
+            - "uDKQ"
+            - "c78n"
+            - "Ttf9"
+            - "J4bg"
+            - "eujg"
+            - "CJG5"
+            - "2oKv"
+            - "JCDd"
+            - "WUOm"
+            - "aWpD"
+            - "iTHv"
+            - "bW5b"
+            - "7ZBy"
+            - "omOU"
+            - "OFEb"
+            - "cDns"
+            - "5Dnp"
+            - "Xovn"
+            - "pDT8"
+            - "zFng"
+            - "mNsm"
+            - "Mvll"
+            - "EyRj"
+            - "yQSq"
+            - "bFgm"
+            - "9yKm"
+            - "k9mh"
+            - "Hxm7"
+            - "SHSs"
+            - "SQNB"
+            - "YWqq"
+      - name: r2
+        type: random
+        params:
+          choices: *random_chunks
+      - name: r3
+        type: random
+        params:
+          choices: *random_chunks
+      - name: r4
+        type: random
+        params:
+          choices: *random_chunks
 
   # - trigger: ":shell"
   #   replace: "{{output}}"
