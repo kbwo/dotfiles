@@ -49,12 +49,12 @@ matches:
   - trigger: ";h;"
     replace: "\n***\n"
   - trigger: ";r;"
-    replace: "{{output}}"
+    replace: "{{random_string}}"
     vars:
-      - name: output
+      - name: random_string
         type: shell
         params:
-          cmd: "openssl rand -hex 8"
+          cmd: "LC_ALL=C tr -dc 'a-zA-Z0-9' < /dev/urandom | head -c 16"
 
   # - trigger: ":shell"
   #   replace: "{{output}}"
