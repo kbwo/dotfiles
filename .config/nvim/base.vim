@@ -634,12 +634,20 @@ function! GetMonthlyMemoPath()
   return '~/memo/' . strftime('%Y-%m') . '--' . dirname . '.md'
 endfunction
 
-function! GetWeeklyMemoPath()
+function! s:GetWeekRange()
   let l:now = localtime()
   let l:wday = str2nr(strftime('%u', l:now))
   let l:monday = l:now - (l:wday - 1) * 86400
   let l:sunday = l:monday + 6 * 86400
-  return '~/memo/' . strftime('%Y-%m-%d', l:monday) . '--' . strftime('%Y-%m-%d', l:sunday) . '.scrapbox'
+  return strftime('%Y-%m-%d', l:monday) . '--' . strftime('%Y-%m-%d', l:sunday)
+endfunction
+
+function! GetWeeklyMemoPath()
+  return '~/memo/' . s:GetWeekRange() . '.md'
+endfunction
+
+function! GetDoingWeeklyMemoPath()
+  return '~/memo/doing/' . s:GetWeekRange() . '.md'
 endfunction
 
 nmap <silent><leader>md<Space> :execute 'edit ' . GetMonthlyMemoPath()<CR>
@@ -770,6 +778,9 @@ tmap <A-m> <C-\>:call ToggleMemoFloat()<CR>
 nmap <A-M> :call ToggleMemoFloatSimple()<CR>
 imap <A-M> <ESC>:call ToggleMemoFloatSimple()<CR>
 tmap <A-M> <C-\>:call ToggleMemoFloatSimple()<CR>
+nmap <silent><A-L> :execute 'edit ' . GetDoingWeeklyMemoPath()<CR>
+imap <silent><A-L> <ESC>:execute 'edit ' . GetDoingWeeklyMemoPath()<CR>
+tmap <silent><A-L> <C-\>:execute 'edit ' . GetDoingWeeklyMemoPath()<CR>
 
 " 各種イベントでファイルの変更をチェック
 autocmd FocusGained,BufEnter,CursorHold,CursorHoldI *
