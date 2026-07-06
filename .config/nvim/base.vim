@@ -771,6 +771,10 @@ function! ToggleMemoFloatSimple()
   call s:ToggleMemoFloatImpl(GetWeeklyMemoPath(), 0)
 endfunction
 
+function! ToggleDoingMemoFloat()
+  call s:ToggleMemoFloatImpl(GetDoingWeeklyMemoPath(), 0)
+endfunction
+
 nmap <silent><leader>mdf :call ToggleMemoFloat()<CR>
 nmap <A-m> :call ToggleMemoFloat()<CR>
 imap <A-m> <ESC>:call ToggleMemoFloat()<CR>
@@ -778,9 +782,9 @@ tmap <A-m> <C-\>:call ToggleMemoFloat()<CR>
 nmap <A-M> :call ToggleMemoFloatSimple()<CR>
 imap <A-M> <ESC>:call ToggleMemoFloatSimple()<CR>
 tmap <A-M> <C-\>:call ToggleMemoFloatSimple()<CR>
-nmap <silent><A-L> :execute 'edit ' . GetDoingWeeklyMemoPath()<CR>
-imap <silent><A-L> <ESC>:execute 'edit ' . GetDoingWeeklyMemoPath()<CR>
-tmap <silent><A-L> <C-\>:execute 'edit ' . GetDoingWeeklyMemoPath()<CR>
+nmap <A-H> :call ToggleDoingMemoFloat()<CR>
+imap <A-H> <ESC>:call ToggleDoingMemoFloat()<CR>
+tmap <A-H> <C-\>:call ToggleDoingMemoFloat()<CR>
 
 " 各種イベントでファイルの変更をチェック
 autocmd FocusGained,BufEnter,CursorHold,CursorHoldI *
