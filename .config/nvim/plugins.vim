@@ -132,7 +132,7 @@ Jetpack 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for
 
 Jetpack 'monaqa/dial.nvim', {'commit': 'f2634758455cfa52a8acea6f142dcd6271a1bf57'}
 Jetpack 'petertriho/nvim-scrollbar', {'commit': 'f8e87b96cd6362ef8579be456afee3b38fd7e2a8'}
-Jetpack 'kbwo/list.nvim', {'commit': '0e9a261e6fc64e753c2e41c3b905dabe8079a22a'}
+Jetpack 'kbwo/autolist.nvim'
 
 Jetpack 'kana/vim-textobj-user', {'commit': '41a675ddbeefd6a93664a4dc52f302fe3086a933'}
 Jetpack 'coachshea/vim-textobj-markdown', {'commit': '9cba182b2c30afc982ace0deb1200cc394799799'}
