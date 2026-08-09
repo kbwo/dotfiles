@@ -15,10 +15,14 @@
   document.addEventListener("keydown", (e) => {
     if (e.altKey && e.code === "KeyQ") {
       e.preventDefault();
-      const url = location.href.replace(/\/+$/, "");
-      if (!url.endsWith("/quotes")) {
-        location.href = url + "/quotes";
+      const url = new URL(location.href);
+      const segments = url.pathname.split("/").filter(Boolean);
+      if (segments[segments.length - 1] === "quotes") {
+        return;
       }
+      segments.push("quotes");
+      url.pathname = "/" + segments.join("/");
+      location.href = url.toString();
     }
   });
 })();
