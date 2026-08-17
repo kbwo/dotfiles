@@ -1,19 +1,50 @@
-require("list").setup()
+-- autolist: markdown のリストの体裁（マーカー・連番・インデント・
+-- チェックボックス）を保つ。runtimepath は plugins.vim で追加している。
+--
+-- このプラグインはキーマップを一切定義しないので、割り当てはここで行う。
+-- 各機能は「自分が処理したか」を返すので、処理しなかったときの動作は
+-- 呼び出し側が決められる。
+--
+-- <Tab> / <S-Tab> はここには書かない。nvim-cmp が自分のマッピング表で
+-- 握っており、ここでバッファローカルに張ると markdown で cmp の候補選択が
+-- 効かなくなるため。cmp 側（lsp.d/cmp.rc.lua）から autolist を呼んでいる。
 
--- Set up keymaps for markdown/text files
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "markdown", "text" },
-	callback = function()
-		local list = require("list")
-		-- Toggle checkbox with Enter in normal mode
-		vim.keymap.set("n", "<cr>", list.toggle_checkbox, { buffer = true })
-		vim.keymap.set('n', '<A-l>', function()
-			list.cycle_sibling_list_format()
-		end, { buffer = true })
-		vim.keymap.set('n', '<A-L>', function()
-			list.cycle_all_list_format()
-		end, { buffer = true })
-	end,
+require('autolist').setup()
+
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'markdown',
+  group = vim.api.nvim_create_augroup('autolist_rc', { clear = true }),
+  callback = function(event)
+    local function map(mode, lhs, rhs, desc)
+      vim.keymap.set(mode, lhs, rhs, { buffer = event.buf, desc = 'autolist: ' .. desc })
+    end
+
+    -- <CR> は delimitMate が <Plug>delimitMateCR を張っている。autolist が
+    -- 扱わない行（リスト以外、継続行、コードブロック内）では delimitMate に
+    -- そのまま渡す。expr マッピングは既定で戻り値を再マップしないので、
+    -- <Plug> を展開させるために remap = true が要る。
+    vim.keymap.set('i', '<CR>', function()
+      return require('autolist').cr() or '<Plug>delimitMateCR'
+    end, { buffer = event.buf, expr = true, remap = true, desc = 'autolist: 改行' })
+
+    -- normal モードの <CR> でチェックボックスを切り替える。チェックボックスを
+    -- 持たない行では toggle_checkbox() が偽を返すので、そのときは <CR> 本来の
+    -- 動作（次の行の先頭へ）を流す。'n' フラグは再マップしない指定で、これが
+    -- ないとこのマッピング自身に戻って無限に回る。
+    vim.keymap.set('n', '<CR>', function()
+      if not require('autolist').toggle_checkbox() then
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<CR>', true, false, true), 'n', false)
+      end
+    end, { buffer = event.buf, desc = 'autolist: チェックボックス切り替え' })
+
+    -- 連番の振り直しは明示操作のときだけ走る（自動整形はしない）。
+    map('n', '<leader>lr', '<Cmd>AutolistRenumber<CR>', '連番を振り直す')
+    map('n', '<leader>lc', '<Cmd>AutolistToggleCheckbox<CR>', 'チェックボックス切り替え')
+    map('x', '<leader>lc', ':AutolistToggleCheckbox<CR>', 'チェックボックス切り替え（範囲）')
+    map('n', '<leader>lm', '<Cmd>AutolistCycleMarkers<CR>', 'マーカーの種類を変換')
+
+    -- normal モードからのインデント操作。insert 側は cmp 経由の <Tab>。
+    map('n', '<leader>l.', '<Cmd>AutolistIndent<CR>', '1 段下げる')
+    map('n', '<leader>l,', '<Cmd>AutolistDedent<CR>', '1 段上げる')
+  end,
 })
-
-

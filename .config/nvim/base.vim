@@ -82,7 +82,11 @@ nmap <silent> <Down> gj
 nmap <silent> <Up> gk
 nmap <silent> + <C-a>
 nmap <silent> - <C-x>
-imap <silent> <S-Tab> <C-o><<
+" <C-o> は normal へ一往復するため、押すたびに InsertLeave と InsertEnter が
+" 余分に 1 組発火する。nvim-cmp は InsertEnter を購読していて、そのたびに
+" 補完ソースを全部走らせ直すので、連打するキーでは体感できるラグになる。
+" <C-d> は insert のまま同じだけ字下げを削るので、その往復が起きない。
+inoremap <silent> <S-Tab> <C-d>
 nmap <silent> <Leader>x :q<CR>
 nmap <silent> <Leader>zx :tabc<CR>
 nmap <silent> <Leader><Space>x :bd!<CR>

@@ -137,6 +137,8 @@ Jetpack 'kbwo/list.nvim', {'commit': '0e9a261e6fc64e753c2e41c3b905dabe8079a22a'}
 Jetpack 'kana/vim-textobj-user', {'commit': '41a675ddbeefd6a93664a4dc52f302fe3086a933'}
 Jetpack 'coachshea/vim-textobj-markdown', {'commit': '9cba182b2c30afc982ace0deb1200cc394799799'}
 
+Jetpack 'kbwo/autolist.nvim'
+
 call jetpack#end()
 
 function! LoadConfigurations(directory) abort
