@@ -1,5 +1,33 @@
 local cmp = require("cmp")
 
+-- autolist を <Tab> / <S-Tab> に相乗りさせる。
+--
+-- markdown バッファでキーを横取りせず cmp 側から呼ぶ形にしているのは、
+-- ここでバッファローカルに <Tab> を張ると、その場合だけ cmp の候補選択が
+-- 効かなくなるため。下の select_next / select_prev は元の割り当てそのもので、
+-- 候補ウィンドウが出ていないときは fallback（= cmp が横取りする前の <Tab> /
+-- <S-Tab> の動作）を呼ぶ。autolist が処理しない限り、その経路を通る。
+local select_next = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select })
+local select_prev = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select })
+
+-- autolist に渡すのは、候補ウィンドウが出ておらず、かつカーソルが
+-- リスト項目の前置き（字下げ・マーカー・チェックボックス）にあるときだけ。
+-- 項目の内容を打っている最中やリスト以外の行では偽を返すので、<Tab> は
+-- これまでどおりの動作になる。markdown 以外の filetype でも偽を返す。
+local function autolist_shift(direction)
+	if cmp.visible() then
+		return false
+	end
+	local autolist = require("autolist")
+	if not autolist.at_item_prefix() then
+		return false
+	end
+	if direction > 0 then
+		return autolist.indent()
+	end
+	return autolist.dedent()
+end
+
 cmp.setup({
 	enabled = function()
 		return not vim.g.skkeleton_enabled
@@ -18,8 +46,16 @@ cmp.setup({
 	mapping = cmp.mapping.preset.insert({
 		["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
 		["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
-		["<Tab>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
-		["<S-Tab>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
+		["<Tab>"] = cmp.mapping(function(fallback)
+			if not autolist_shift(1) then
+				select_next(fallback)
+			end
+		end, { "i" }),
+		["<S-Tab>"] = cmp.mapping(function(fallback)
+			if not autolist_shift(-1) then
+				select_prev(fallback)
+			end
+		end, { "i" }),
 		["<C-b>"] = cmp.mapping.scroll_docs(-4),
 		["<C-f>"] = cmp.mapping.scroll_docs(4),
 		["<C-y>"] = cmp.mapping.confirm({

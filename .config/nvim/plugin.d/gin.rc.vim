@@ -52,7 +52,7 @@ augroup GinLogMappings
   autocmd FileType gin-log map <buffer><nowait>ddv <Plug>(gin-action-show:vsplit)
   autocmd FileType gin-log map <buffer><nowait>dds <Plug>(gin-action-show:split)
   autocmd FileType gin-log map <buffer><nowait>ddt <Plug>(gin-action-show:tabedit)
-  autocmd FileType gin-log map <buffer><nowait>ddf :call ShowDeltaDiffCommitFloat()<CR>
+  autocmd FileType gin-log map <buffer><nowait>ddf :call ShowHunkDiffCommitFloat()<CR>
   autocmd FileType gin-log nmap <buffer><nowait>yc <Plug>(gin-action-yank:commit)
   autocmd FileType gin-log nmap <buffer><nowait>ir <Plug>(gin-action-fixup:instant-fixup)
   autocmd FileType gin-log nmap <buffer><nowait>if <Plug>(gin-action-fixup:instant-reword)
@@ -68,7 +68,7 @@ augroup GinStatusMappings
   autocmd FileType gin-status map <buffer><nowait> dds <Plug>(gin-action-diff:smart:split)
   autocmd FileType gin-status map <buffer><nowait> ddv <Plug>(gin-action-diff:smart:vsplit)
   autocmd FileType gin-status map <buffer><nowait> ddt <Plug>(gin-action-diff:smart:tabedit)
-  autocmd FileType gin-status map <buffer><nowait> ddf :call ShowDeltaDiffFloat()<CR>
+  autocmd FileType gin-status map <buffer><nowait> ddf :call ShowHunkDiffFloat()<CR>
   autocmd FileType gin-status map <buffer><nowait> pp <Plug>(gin-action-patch)
   autocmd FileType gin-status map <buffer><nowait> rr :!git reset<CR>
   autocmd FileType gin-status map <buffer><nowait> !! <Plug>(gin-action-chaperon)
@@ -110,8 +110,8 @@ endfunction
 
 nmap gndd :silent call DeleteAllGinBuffers()<CR>
 
-" Common function to create floating window for delta diff
-function! OpenDeltaFloatingWindow(cmd) abort
+" Common function to create floating window for hunk diff
+function! OpenHunkFloatingWindow(cmd) abort
   " Get screen dimensions
   let width = float2nr(&columns * 0.85)
   let height = float2nr(&lines * 0.8)
@@ -139,10 +139,10 @@ function! OpenDeltaFloatingWindow(cmd) abort
   call termopen(a:cmd)
 endfunction
 
-function! ShowDeltaDiffFloat() range abort
+function! ShowHunkDiffFloat() range abort
   " Get git repository root
   let git_root = trim(system('git rev-parse --show-toplevel'))
-  
+
   " Check if in visual mode
   if a:firstline != a:lastline
     " Visual line mode - get all selected lines
@@ -157,41 +157,40 @@ function! ShowDeltaDiffFloat() range abort
         call add(filepaths, full_filepath)
       endif
     endfor
-    
+
     " Build command with all file paths
     if len(filepaths) > 0
-      let diff_cmd = 'git diff HEAD ' . join(map(copy(filepaths), 'shellescape(v:val)'), ' ')
-      let cmd = diff_cmd . ' | delta --side-by-side --paging=never'
-      call OpenDeltaFloatingWindow(cmd)
+      let cmd = 'hunk diff HEAD -- ' . join(map(copy(filepaths), 'shellescape(v:val)'), ' ')
+      call OpenHunkFloatingWindow(cmd)
     endif
   else
     " Single line mode - original behavior
     let line = getline('.')
     " Extract from the 4th character to the end and trim whitespace
     let filepath = trim(line[3:])
-    
+
     " Prepend git root to the filepath
     let full_filepath = git_root . '/' . filepath
-    
-    " Run git diff with delta in the terminal
-    let cmd = 'git diff HEAD ' . shellescape(full_filepath) . ' | delta --side-by-side --paging=never'
-    call OpenDeltaFloatingWindow(cmd)
+
+    " Run hunk diff in the terminal
+    let cmd = 'hunk diff HEAD -- ' . shellescape(full_filepath)
+    call OpenHunkFloatingWindow(cmd)
   endif
 endfunction
 
-function! ShowDeltaDiffCommitFloat() abort
+function! ShowHunkDiffCommitFloat() abort
   " Get the current line
   let line = getline('.')
   " Find the first 7-character continuous string (commit hash)
   let commit = matchstr(line, '\x\{7}')
-  
+
   if empty(commit)
     echo "No commit hash found on this line"
     return
   endif
-  
-  " Run git show with delta in the terminal
-  let cmd = 'git show ' . shellescape(commit) . ' | delta --side-by-side --paging=never'
-  call OpenDeltaFloatingWindow(cmd)
+
+  " Run hunk show in the terminal
+  let cmd = 'hunk show ' . shellescape(commit)
+  call OpenHunkFloatingWindow(cmd)
 endfunction
 
