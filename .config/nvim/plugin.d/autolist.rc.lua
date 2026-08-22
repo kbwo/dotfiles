@@ -41,7 +41,10 @@ vim.api.nvim_create_autocmd('FileType', {
     map('n', '<leader>lr', '<Cmd>AutolistRenumber<CR>', '連番を振り直す')
     map('n', '<leader>lc', '<Cmd>AutolistToggleCheckbox<CR>', 'チェックボックス切り替え')
     map('x', '<leader>lc', ':AutolistToggleCheckbox<CR>', 'チェックボックス切り替え（範囲）')
-    map('n', '<leader>lm', '<Cmd>AutolistCycleMarkers<CR>', 'マーカーの種類を変換')
+    -- マーカーの種類（チェックボックスの有無を含む）を次の種別へ。
+    -- 入れ子は階層ごとに違うマーカーにしたいことがあるので、範囲が 2 通りある。
+    map('n', '<leader>lm', '<Cmd>AutolistCycleMarkersSiblings<CR>', 'マーカー変換（兄弟のみ）')
+    map('n', '<leader>lM', '<Cmd>AutolistCycleMarkersBlock<CR>', 'マーカー変換（ブロック全体）')
 
     -- 字下げだけで階層を書いた平文をリストにする。書き換える範囲を推測しない
     -- 作りなので、normal は 1 行、visual は選択範囲に対して働く。
