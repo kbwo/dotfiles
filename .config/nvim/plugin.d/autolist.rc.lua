@@ -43,6 +43,14 @@ vim.api.nvim_create_autocmd('FileType', {
     map('x', '<leader>lc', ':AutolistToggleCheckbox<CR>', 'チェックボックス切り替え（範囲）')
     map('n', '<leader>lm', '<Cmd>AutolistCycleMarkers<CR>', 'マーカーの種類を変換')
 
+    -- 字下げだけで階層を書いた平文をリストにする。書き換える範囲を推測しない
+    -- 作りなので、normal は 1 行、visual は選択範囲に対して働く。
+    map('n', '<leader>ll', '<Cmd>AutolistMakeList<CR>', 'この行をリストにする')
+    vim.keymap.set('x', '<leader>ll', ':AutolistMakeList<CR>', {
+      buffer = event.buf,
+      desc = 'autolist: 選択範囲をリストにする',
+    })
+
     -- normal モードからのインデント操作。insert 側は cmp 経由の <Tab>。
     map('n', '<leader>l.', '<Cmd>AutolistIndent<CR>', '1 段下げる')
     map('n', '<leader>l,', '<Cmd>AutolistDedent<CR>', '1 段上げる')
