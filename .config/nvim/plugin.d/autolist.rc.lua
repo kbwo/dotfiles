@@ -27,20 +27,35 @@ vim.api.nvim_create_autocmd('FileType', {
       return require('autolist').cr() or '<Plug>delimitMateCR'
     end, { buffer = event.buf, expr = true, remap = true, desc = 'autolist: 改行' })
 
-    -- normal モードの <CR> でチェックボックスを切り替える。チェックボックスを
-    -- 持たない行では toggle_checkbox() が偽を返すので、そのときは <CR> 本来の
+    -- o / O で行を足したときも、改行と同じようにマーカーを置く。下に足した
+    -- ときは番号が 1 つ進み、上に足したときは元の項目の番号を引き継ぐ。
+    -- autolist が扱わない行では nil が返るので、素の o / O をそのまま流す。
+    -- <CR> と違って <Plug> を展開する必要がないため remap は要らない。
+    vim.keymap.set('n', 'o', function()
+      return require('autolist').o() or 'o'
+    end, { buffer = event.buf, expr = true, desc = 'autolist: 下に項目を足す' })
+    vim.keymap.set('n', 'O', function()
+      return require('autolist').shift_o() or 'O'
+    end, { buffer = event.buf, expr = true, desc = 'autolist: 上に項目を足す' })
+
+    -- normal モードの <CR> でチェックボックスを切り替える。
+    -- 直接 toggle_checkbox() を呼ばず base.vim の MemoToggleCheckbox() を通すのは、
+    -- ~/memo 配下では切り替えと同時に終了時刻を行末へ書き足すため。
+    -- チェックボックスを持たない行では偽が返るので、そのときは <CR> 本来の
     -- 動作（次の行の先頭へ）を流す。'n' フラグは再マップしない指定で、これが
     -- ないとこのマッピング自身に戻って無限に回る。
     vim.keymap.set('n', '<CR>', function()
-      if not require('autolist').toggle_checkbox() then
+      local lnum = vim.api.nvim_win_get_cursor(0)[1]
+      if vim.fn.MemoToggleCheckbox(lnum, lnum) == 0 then
         vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<CR>', true, false, true), 'n', false)
       end
     end, { buffer = event.buf, desc = 'autolist: チェックボックス切り替え' })
 
     -- 連番の振り直しは明示操作のときだけ走る（自動整形はしない）。
     map('n', '<leader>lr', '<Cmd>AutolistRenumber<CR>', '連番を振り直す')
-    map('n', '<leader>lc', '<Cmd>AutolistToggleCheckbox<CR>', 'チェックボックス切り替え')
-    map('x', '<leader>lc', ':AutolistToggleCheckbox<CR>', 'チェックボックス切り替え（範囲）')
+    -- こちらも終了時刻の記録を通したいので MemoToggleCheckbox() を呼ぶ。
+    map('n', '<leader>lc', '<Cmd>call MemoToggleCheckbox(line("."), line("."))<CR>', 'チェックボックス切り替え')
+    map('x', '<leader>lc', [[:<C-u>call MemoToggleCheckbox(line("'<"), line("'>"))<CR>]], 'チェックボックス切り替え（範囲）')
     -- マーカーの種類（チェックボックスの有無を含む）を並び順で回す。
     -- 小文字が次の種別、大文字が前の種別。u は同じ階層の兄弟だけ、i は親子も
     -- 含めたブロック全体。入れ子では階層ごとに違うマーカーにしたいことがある
