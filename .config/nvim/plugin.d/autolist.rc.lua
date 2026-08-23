@@ -11,6 +11,32 @@
 
 require('autolist').setup()
 
+-- カーソルのあるリストの最後の行へ移動する。項目を書き足すときに末尾へ下りる
+-- 操作で、`}`（次の空行まで）や `G`（ファイル末尾）では行き過ぎたり足りなかったり
+-- するため。入れ子の項目や、マーカーの無い継続行（項目の続きとして字下げされた
+-- 行）も含めた、ひとつながりのリスト全体の末尾へ飛ぶ。
+--
+-- 「どこまでが 1 つのリストか」の判定は autolist が持っているもの
+-- （autolist.block）をそのまま使い、ここには書かない。コードブロックや引用の
+-- 中での振る舞いを、ほかのリスト操作と食い違わせないため。
+local function goto_list_last_line()
+  local bufnr = vim.api.nvim_get_current_buf()
+  local opts = require('autolist.config').get(bufnr)
+  if not opts then
+    return
+  end
+  local lnum = vim.api.nvim_win_get_cursor(0)[1]
+  local block = require('autolist.block').find(bufnr, lnum, opts)
+  if not block then
+    return
+  end
+  -- 飛ぶ前の位置を jumplist に積んで、<C-o> で戻れるようにする。
+  vim.cmd("normal! m'")
+  vim.api.nvim_win_set_cursor(0, { block.last, 0 })
+  -- 行頭の空白の後ろ（本文の先頭）に置く。G などの行単位の移動と同じ。
+  vim.cmd('normal! ^')
+end
+
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'markdown',
   group = vim.api.nvim_create_augroup('autolist_rc', { clear = true }),
@@ -78,5 +104,8 @@ vim.api.nvim_create_autocmd('FileType', {
     -- normal モードからのインデント操作。insert 側は cmp 経由の <Tab>。
     map('n', '<leader>l.', '<Cmd>AutolistIndent<CR>', '1 段下げる')
     map('n', '<leader>l,', '<Cmd>AutolistDedent<CR>', '1 段上げる')
+
+    -- リストの末尾へ移動。G がファイル末尾へ飛ぶのに合わせて大文字の G を使う。
+    map('n', '<leader>lG', goto_list_last_line, 'リストの最後の行へ移動')
   end,
 })
