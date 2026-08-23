@@ -763,6 +763,13 @@ function! ToggleDoingMemoFloat()
   call s:ToggleMemoFloatImpl(l:path, 0)
 endfunction
 
+" scrap は日付で区切らない書き捨てのメモ。doing list (<A-m>) と違って日ごとの
+" ファイルではないので、前日からの引き継ぎも日付の見出しも要らず、同じフロートに
+" そのまま開くだけ。
+function! ToggleScrapMemoFloat()
+  call s:ToggleMemoFloatImpl('~/memo/scrap.md', 0)
+endfunction
+
 " メモではチェックの切り替えに終了時刻を紐付ける。doing list は「何を終えたか」
 " だけでなく「いつ終えたか」を後から見返すためのものだが、時刻を手で打つのは
 " 続かない。チェックを付けたときに行末へ書き、外したときに消す。
@@ -859,6 +866,9 @@ endfunction
 nmap <A-m> :call ToggleDoingMemoFloat()<CR>
 imap <A-m> <ESC>:call ToggleDoingMemoFloat()<CR>
 tmap <A-m> <C-\>:call ToggleDoingMemoFloat()<CR>
+nmap <A-M> :call ToggleScrapMemoFloat()<CR>
+imap <A-M> <ESC>:call ToggleScrapMemoFloat()<CR>
+tmap <A-M> <C-\>:call ToggleScrapMemoFloat()<CR>
 
 " 各種イベントでファイルの変更をチェック
 autocmd FocusGained,BufEnter,CursorHold,CursorHoldI *
