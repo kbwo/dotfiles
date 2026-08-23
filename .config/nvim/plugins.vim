@@ -26,7 +26,6 @@ Jetpack 'Bakudankun/BackAndForward.vim', {'commit': '09c067217d408b99e8b2b2ccc41
 Jetpack 'nvim-lua/plenary.nvim', {'commit': '74b06c6c75e4eeb3108ec01852001636d85a932b'}
 Jetpack 'Exafunction/codeium.vim', { 'branch': 'main', 'commit': '3c0a4f8a7be75113a6e19be13b7cc37210d6e26a' }
 Jetpack 'echasnovski/mini.diff', {'commit': '117c301374ab8546891e2b34f63885ea83527432'}
-Jetpack 'NvChad/nvim-colorizer.lua', {'commit': '5cfe7fffbd01e17b3c1e14af85d5febdef88bd8c'}
 Jetpack 'rebelot/kanagawa.nvim', {'commit': 'bb85e4bfc8d89b0e62c8fa53ccdd13d12e2f77b3'}
 Jetpack 'smoka7/hop.nvim', {'commit': '707049feaca9ae65abb3696eff9aefc7879e66aa'}
 Jetpack 'yorickpeterse/nvim-window', {'commit': '48e44d492d2adaf9aac72a0f4ff21d6caae1b6a2'}

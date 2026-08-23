@@ -41,12 +41,14 @@ vim.api.nvim_create_autocmd('FileType', {
     -- normal モードの <CR> でチェックボックスを切り替える。
     -- 直接 toggle_checkbox() を呼ばず base.vim の MemoToggleCheckbox() を通すのは、
     -- ~/memo 配下では切り替えと同時に終了時刻を行末へ書き足すため。
-    -- チェックボックスを持たない行では偽が返るので、そのときは <CR> 本来の
-    -- 動作（次の行の先頭へ）を流す。'n' フラグは再マップしない指定で、これが
-    -- ないとこのマッピング自身に戻って無限に回る。
+    -- チェックボックスを持たない行では偽が返るので、そのときは doing list
+    -- (~/memo/doing/) の普通のリスト行なら行末に終了時刻を書き足したうえで、
+    -- いずれにせよ <CR> 本来の動作（次の行の先頭へ）を流す。'n' フラグは
+    -- 再マップしない指定で、これがないとこのマッピング自身に戻って無限に回る。
     vim.keymap.set('n', '<CR>', function()
       local lnum = vim.api.nvim_win_get_cursor(0)[1]
       if vim.fn.MemoToggleCheckbox(lnum, lnum) == 0 then
+        vim.fn.MemoStampDoingListEndTime(lnum)
         vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<CR>', true, false, true), 'n', false)
       end
     end, { buffer = event.buf, desc = 'autolist: チェックボックス切り替え' })
