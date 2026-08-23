@@ -4,11 +4,20 @@ local cmp = require("cmp")
 --
 -- markdown バッファでキーを横取りせず cmp 側から呼ぶ形にしているのは、
 -- ここでバッファローカルに <Tab> を張ると、その場合だけ cmp の候補選択が
--- 効かなくなるため。下の select_next / select_prev は元の割り当てそのもので、
--- 候補ウィンドウが出ていないときは fallback（= cmp が横取りする前の <Tab> /
--- <S-Tab> の動作）を呼ぶ。autolist が処理しない限り、その経路を通る。
-local select_next = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select })
-local select_prev = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select })
+-- 効かなくなるため。下の select_next / select_prev は候補ウィンドウが出ていない
+-- ときは fallback（= cmp が横取りする前の <Tab> / <S-Tab> の動作）を呼ぶので、
+-- autolist が処理しない限り、その経路を通る。
+--
+-- behavior が Insert なのは、<Tab> で候補を選んだ時点で、その候補の文字列を
+-- バッファに実際に書き込ませるため（Select だと候補ウィンドウ上のハイライトが
+-- 動くだけでバッファは変わらない）。これは「選択」であって「確定」ではなく、
+-- LSP の additionalTextEdits の適用・snippet の展開・confirm イベントの発火は
+-- <C-y>（下の cmp.mapping.confirm）を押すまで行われない。
+-- 副作用として、確定せずに挿入モードを抜けると、書き込まれた文字列はバッファに
+-- 残る。打っていた文字列に戻すには候補を一周して未選択状態に戻す必要がある。
+-- <C-n> / <C-p> は従来どおり Select のまま（下の mapping を参照）。
+local select_next = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert })
+local select_prev = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert })
 
 -- autolist に渡すのは、候補ウィンドウが出ておらず、かつカーソルが
 -- リスト項目の前置き（字下げ・マーカー・チェックボックス）にあるときだけ。
@@ -137,6 +146,18 @@ cmp.setup({
 		["<C-y>"] = cmp.mapping.confirm({
 			select = true,
 		}),
+		-- <CR> でも確定できるようにする。<C-y> と違って select = false なのは、
+		-- 候補ウィンドウが出ているだけで何も選んでいないときに先頭の候補を
+		-- 勝手に確定させないため。その場合は fallback を呼んで通常の改行に渡す
+		-- （markdown では autolist によるリストの継続がバッファローカルの <CR>
+		-- として張られており、cmp はそれを fallback として包む）。
+		["<CR>"] = cmp.mapping(function(fallback)
+			if cmp.visible() and cmp.get_selected_entry() then
+				cmp.confirm({ select = false })
+			else
+				fallback()
+			end
+		end, { "i" }),
 	}),
 	-- Installed sources:
 	sources = cmp.config.sources({
