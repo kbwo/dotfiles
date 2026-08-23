@@ -105,7 +105,7 @@ vim.api.nvim_create_autocmd('FileType', {
     map('n', '<leader>l.', '<Cmd>AutolistIndent<CR>', '1 段下げる')
     map('n', '<leader>l,', '<Cmd>AutolistDedent<CR>', '1 段上げる')
 
-    -- リストの末尾へ移動。G がファイル末尾へ飛ぶのに合わせて大文字の G を使う。
-    map('n', '<leader>lG', goto_list_last_line, 'リストの最後の行へ移動')
+    -- リストの末尾へ移動。下向きの移動である j に合わせる。
+    map('n', '<leader>lj', goto_list_last_line, 'リストの最後の行へ移動')
   end,
 })
