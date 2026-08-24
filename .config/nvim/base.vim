@@ -650,8 +650,8 @@ function! GetWeeklyMemoPath()
   return '~/memo/' . s:GetWeekRange() . '.md'
 endfunction
 
-function! GetDoingWeeklyMemoPath()
-  return '~/memo/doing/' . s:GetWeekRange() . '.md'
+function! GetDoingDailyMemoPath()
+  return '~/memo/doing/' . strftime('%Y-%m-%d') . '.md'
 endfunction
 
 nmap <silent><leader>md<Space> :execute 'edit ' . GetMonthlyMemoPath()<CR>
@@ -775,8 +775,44 @@ function! ToggleMemoFloatSimple()
   call s:ToggleMemoFloatImpl(GetWeeklyMemoPath(), 0)
 endfunction
 
+" doing memo は前日までの内容を引き継いで書き進めるため、今日分がまだ無ければ
+" 直近のファイルを複製してから開く。日をまたいで記録が無い期間があっても
+" 引き継げるよう、「1 日前」ではなく「今日より前で最も新しいファイル」を探す。
+" ファイル名は ISO 日付なので辞書順がそのまま時系列順になる。
+" 引き継ぐのは先頭から最初の '***' の行の手前まで (doing list 本体) のみで、
+" それ以降に書き足した日々のメモは複製しない。
+function! s:SeedDoingMemoFromPrevDay(path) abort
+  " expand() は 'wildignore' に一致するパスで空文字を返すため fnamemodify を使う
+  let l:path = fnamemodify(a:path, ':p')
+  if filereadable(l:path)
+    return
+  endif
+  let l:dir = fnamemodify(l:path, ':h')
+  if !isdirectory(l:dir)
+    call mkdir(l:dir, 'p')
+    return
+  endif
+  let l:current = fnamemodify(l:path, ':t')
+  let l:candidates = sort(map(glob(l:dir . '/*.md', 1, 1), 'fnamemodify(v:val, ":t")'))
+  call filter(l:candidates, 'v:val <# l:current')
+  if empty(l:candidates)
+    return
+  endif
+  let l:lines = readfile(l:dir . '/' . l:candidates[-1])
+  let l:separator = match(l:lines, '^\s*\*\*\*\s*$')
+  if l:separator == 0
+    " 先頭行が '***' の場合、[0 : -1] は末尾までを意味してしまうので明示的に空にする
+    let l:lines = []
+  elseif l:separator > 0
+    let l:lines = l:lines[0 : l:separator - 1]
+  endif
+  call writefile(l:lines, l:path)
+endfunction
+
 function! ToggleDoingMemoFloat()
-  call s:ToggleMemoFloatImpl(GetDoingWeeklyMemoPath(), 0)
+  let l:path = GetDoingDailyMemoPath()
+  call s:SeedDoingMemoFromPrevDay(l:path)
+  call s:ToggleMemoFloatImpl(l:path, 0)
 endfunction
 
 nmap <silent><leader>mdf :call ToggleMemoFloat()<CR>
