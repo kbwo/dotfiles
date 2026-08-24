@@ -43,6 +43,11 @@ require("kanagawa").setup({
 			TabLineSel = { bg = "#E6C384", fg = "#3E4452", sp = "#E6C384" },
 			TabLineFill = { bg = "#21252B", fg = "#7F848E", sp = "#21252B" },
 			LspInlayHint = { fg = "#8f784a" },
+			-- markdown のタグ（`#todo` のような `#` で始まる分類用のラベル）。
+			-- 塗る範囲を決めているのは ftplugin/markdown.vim の syntax match。
+			-- lightBlue は kanagawa 自身がどこにも使っていない色なので、他の
+			-- 意味と紛れない。
+			MarkdownTag = { fg = colors.palette.lightBlue },
 			SpellBad = { sp = "NONE", undercurl = false },
 			SpellCap = { sp = "NONE", undercurl = false },
 			SpellRare = { sp = "NONE", undercurl = false },

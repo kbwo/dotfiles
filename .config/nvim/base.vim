@@ -92,8 +92,6 @@ nmap <silent> <Leader>zx :tabc<CR>
 nmap <silent> <Leader><Space>x :bd!<CR>
 nmap <silent><c-w>t :let b = bufnr('%')<CR>:close<CR>:tabnew<CR>:execute 'buffer' b<CR>
 imap <silent> <C-\> <Esc>
-nmap <silent> <A-h> <C-w>h
-nmap <silent> <A-l> <C-w>l
 nmap <silent> <A-n> o<C-o>o***<Esc>o<Esc>o<Esc>
 imap <silent> <A-n> <C-o>o***<Esc>o<Esc>o
 nmap <silent> <A-2> I@<Esc>
@@ -296,10 +294,13 @@ endfunction
 
 command! YankRelativePath call YankRelativePath()
 
-nmap <Leader>yr :YankRelativePath<CR><Leader>mdfGo<ESC>p
-nmap <Leader>yl :call YankRelativePathWithLine()<CR><Leader>mdfGo<ESC>p
-vmap <Leader>yl :call YankRelativePathWithLineRange()<CR><Leader>mdfGo<ESC>p
-nmap <Leader>yt :call YankAllWindowPaths()<CR><Leader>mdfGo<ESC>p
+" yank したパスの貼り付け先は doing list (~/memo/doing/YYYY-MM-DD.md) のフロート。
+" 以前は <Leader>mdf を経由して月次メモに貼っていたが、月次メモのキーごと廃止した
+" ので ToggleDoingMemoFloat() を直接呼ぶ。
+nmap <Leader>yr :YankRelativePath<CR>:call ToggleDoingMemoFloat()<CR>Go<ESC>p
+nmap <Leader>yl :call YankRelativePathWithLine()<CR>:call ToggleDoingMemoFloat()<CR>Go<ESC>p
+vmap <Leader>yl :call YankRelativePathWithLineRange()<CR>:call ToggleDoingMemoFloat()<CR>Go<ESC>p
+nmap <Leader>yt :call YankAllWindowPaths()<CR>:call ToggleDoingMemoFloat()<CR>Go<ESC>p
 nmap <Leader>yyr :call AppendYankRelativePath()<CR>
 nmap <Leader>yyl :call AppendYankRelativePathWithLine()<CR>
 
@@ -609,55 +610,10 @@ nmap <silent><Leader>ml<Space> :Fern ~/memo -reveal=~/memo/private<CR>
 nmap <silent><Leader>mls :Fern ~/memo -reveal=~/memo/private -opener=split<CR>
 nmap <silent><Leader>mlv :Fern ~/memo -reveal=~/memo/private -opener=vsplit<CR>
 nmap <silent><Leader>mlt :Fern ~/memo -reveal=~/memo/private -opener=tabedit<CR>
-let s:memo_dirname_cache = {}
-function! s:GetMemoDirName()
-  let l:cwd = getcwd()
-  if has_key(s:memo_dirname_cache, l:cwd)
-    return s:memo_dirname_cache[l:cwd]
-  endif
-  let l:name = ''
-  for l:remote in ['upstream', 'origin']
-    let l:url = trim(system('git config --get remote.' . l:remote . '.url 2>/dev/null'))
-    if v:shell_error == 0 && !empty(l:url)
-      let l:stripped = substitute(l:url, '\.git$', '', '')
-      let l:name = fnamemodify(l:stripped, ':t')
-      if !empty(l:name)
-        break
-      endif
-    endif
-  endfor
-  if empty(l:name)
-    let l:name = fnamemodify(l:cwd, ':t')
-  endif
-  let s:memo_dirname_cache[l:cwd] = l:name
-  return l:name
-endfunction
-
-function! GetMonthlyMemoPath()
-  let dirname = s:GetMemoDirName()
-  return '~/memo/' . strftime('%Y-%m') . '--' . dirname . '.md'
-endfunction
-
-function! s:GetWeekRange()
-  let l:now = localtime()
-  let l:wday = str2nr(strftime('%u', l:now))
-  let l:monday = l:now - (l:wday - 1) * 86400
-  let l:sunday = l:monday + 6 * 86400
-  return strftime('%Y-%m-%d', l:monday) . '--' . strftime('%Y-%m-%d', l:sunday)
-endfunction
-
-function! GetWeeklyMemoPath()
-  return '~/memo/' . s:GetWeekRange() . '.md'
-endfunction
-
 function! GetDoingDailyMemoPath()
   return '~/memo/doing/' . strftime('%Y-%m-%d') . '.md'
 endfunction
 
-nmap <silent><leader>md<Space> :execute 'edit ' . GetMonthlyMemoPath()<CR>
-nmap <silent><leader>mds :execute 'split ' . GetMonthlyMemoPath()<CR>
-nmap <silent><leader>mdv :execute 'vsplit ' . GetMonthlyMemoPath()<CR>
-nmap <silent><leader>mdt :execute 'tabnew ' . GetMonthlyMemoPath()<CR>
 function! s:ToggleMemoFloatImpl(path, add_today_section)
   let g:_memo_float_path = a:path
   let g:_memo_float_add_today = a:add_today_section
@@ -767,14 +723,6 @@ function! s:ToggleMemoFloatImpl(path, add_today_section)
 EOF
 endfunction
 
-function! ToggleMemoFloat()
-  call s:ToggleMemoFloatImpl(GetMonthlyMemoPath(), 1)
-endfunction
-
-function! ToggleMemoFloatSimple()
-  call s:ToggleMemoFloatImpl(GetWeeklyMemoPath(), 0)
-endfunction
-
 " doing memo は前日までの内容を引き継いで書き進めるため、今日分がまだ無ければ
 " 直近のファイルを複製してから開く。日をまたいで記録が無い期間があっても
 " 引き継げるよう、「1 日前」ではなく「今日より前で最も新しいファイル」を探す。
@@ -815,16 +763,112 @@ function! ToggleDoingMemoFloat()
   call s:ToggleMemoFloatImpl(l:path, 0)
 endfunction
 
-nmap <silent><leader>mdf :call ToggleMemoFloat()<CR>
-nmap <A-m> :call ToggleMemoFloat()<CR>
-imap <A-m> <ESC>:call ToggleMemoFloat()<CR>
-tmap <A-m> <C-\>:call ToggleMemoFloat()<CR>
-nmap <A-M> :call ToggleMemoFloatSimple()<CR>
-imap <A-M> <ESC>:call ToggleMemoFloatSimple()<CR>
-tmap <A-M> <C-\>:call ToggleMemoFloatSimple()<CR>
-nmap <A-H> :call ToggleDoingMemoFloat()<CR>
-imap <A-H> <ESC>:call ToggleDoingMemoFloat()<CR>
-tmap <A-H> <C-\>:call ToggleDoingMemoFloat()<CR>
+" scrap は日付で区切らない書き捨てのメモ。doing list (<A-m>) と違って日ごとの
+" ファイルではないので、前日からの引き継ぎも日付の見出しも要らず、同じフロートに
+" そのまま開くだけ。
+function! ToggleScrapMemoFloat()
+  call s:ToggleMemoFloatImpl('~/memo/scrap.md', 0)
+endfunction
+
+" メモではチェックの切り替えに終了時刻を紐付ける。doing list は「何を終えたか」
+" だけでなく「いつ終えたか」を後から見返すためのものだが、時刻を手で打つのは
+" 続かない。チェックを付けたときに行末へ書き、外したときに消す。
+"
+" 対象を ~/memo 配下に限るのは、ほかの markdown のチェックリスト (手順書や
+" README など) にまで時刻が入ると邪魔になるため。
+let s:memo_root = fnamemodify('~/memo', ':p')
+" doing list を置いているディレクトリ。日付ごとのファイル名を決めている
+" GetDoingDailyMemoPath() が唯一の定義元なので、そこから親ディレクトリを取り出す。
+let s:memo_doing_root = fnamemodify(GetDoingDailyMemoPath(), ':p:h') . '/'
+let s:memo_end_time_pattern = ' (end: \d\{4}-\d\{2}-\d\{2} \d\{2}:\d\{2}:\d\{2})'
+" 行頭から引用記号・リストのマーカー (-, *, +, 1., a) など)・空白と続く形。
+" チェックボックスの有無にかかわらず「リストの行か」を判定するのに使う。
+let s:memo_list_marker_pattern = '^[ \t]*\%(>[ \t]*\)*\%([-*+]\|\d\+[.)]\|\a\+[.)]\)[ \t]\+'
+" マーカーの直後のチェックボックスだけを見る。内容の中の [x] を拾わないよう、
+" 行頭から引用記号・マーカー・空白と続く形に限定する。
+let s:memo_checkbox_pattern = s:memo_list_marker_pattern . '\[\([ xX]\)\]'
+
+function! s:IsMemoBuffer() abort
+  let l:path = expand('%:p')
+  return !empty(l:path) && stridx(l:path, s:memo_root) == 0
+endfunction
+
+function! s:IsDoingMemoBuffer() abort
+  let l:path = expand('%:p')
+  return !empty(l:path) && stridx(l:path, s:memo_doing_root) == 0
+endfunction
+
+" 行末の終了時刻を書き換える。a:stamp が真なら現在時刻を書き、偽なら消す。
+" どちらの場合も先に古い時刻を落とすので、何度呼んでも増えない。
+function! s:ReplaceMemoEndTime(line, stamp) abort
+  let l:updated = substitute(a:line, s:memo_end_time_pattern . '[ \t]*$', '', '')
+  if a:stamp
+    let l:updated .= ' (end: ' . strftime('%Y-%m-%d %H:%M:%S') . ')'
+  endif
+  return l:updated
+endfunction
+
+" チェック済みなら行末に終了時刻を書き、外れていれば消す。
+function! s:StampMemoEndTime(lnum) abort
+  let l:line = getline(a:lnum)
+  let l:box = matchlist(l:line, s:memo_checkbox_pattern)
+  if empty(l:box)
+    return
+  endif
+  let l:updated = s:ReplaceMemoEndTime(l:line, l:box[1] =~? 'x')
+  if l:updated !=# l:line
+    call setline(a:lnum, l:updated)
+  endif
+endfunction
+
+" チェックボックスを持たない普通のリスト行 ('- ...' など) にも終了時刻を書く。
+" doing list では箇条書きのまま済ませてしまう項目も多く、そこにも「いつ終えたか」
+" を残したいため。チェックボックスのある行は s:StampMemoEndTime() が扱うので
+" ここでは除く。書き足すのは行末の時刻だけで、マーカーや本文は変えない。
+"
+" 対象を doing list のディレクトリに限るのは、この操作が normal モードの <CR>
+" (本来は次の行へ移動するだけのキー) に乗っているためで、ほかのメモでリスト行の
+" 上を <CR> で移動しただけで時刻が入るのを避ける。
+"
+" 書き足したかどうかを返す。
+function! MemoStampDoingListEndTime(lnum) abort
+  if !s:IsDoingMemoBuffer()
+    return 0
+  endif
+  let l:line = getline(a:lnum)
+  if l:line !~# s:memo_list_marker_pattern || l:line =~# s:memo_checkbox_pattern
+    return 0
+  endif
+  let l:updated = s:ReplaceMemoEndTime(l:line, 1)
+  if l:updated !=# l:line
+    call setline(a:lnum, l:updated)
+  endif
+  return 1
+endfunction
+
+" autolist のチェック切り替えに、メモなら終了時刻の記録を足したもの。
+" 切り替えが起きたかどうかを返すので、呼び出し側は起きなかったときに
+" そのキー本来の動作へ渡せる。
+function! MemoToggleCheckbox(first, last) abort
+  let l:toggled = 0
+  let l:is_memo = s:IsMemoBuffer()
+  for l:lnum in range(a:first, a:last)
+    if luaeval("require('autolist').toggle_checkbox(_A)", l:lnum)
+      let l:toggled = 1
+      if l:is_memo
+        call s:StampMemoEndTime(l:lnum)
+      endif
+    endif
+  endfor
+  return l:toggled
+endfunction
+
+nmap <A-m> :call ToggleDoingMemoFloat()<CR>
+imap <A-m> <ESC>:call ToggleDoingMemoFloat()<CR>
+tmap <A-m> <C-\>:call ToggleDoingMemoFloat()<CR>
+nmap <A-M> :call ToggleScrapMemoFloat()<CR>
+imap <A-M> <ESC>:call ToggleScrapMemoFloat()<CR>
+tmap <A-M> <C-\>:call ToggleScrapMemoFloat()<CR>
 
 " 各種イベントでファイルの変更をチェック
 autocmd FocusGained,BufEnter,CursorHold,CursorHoldI *
