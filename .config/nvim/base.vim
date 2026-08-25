@@ -18,6 +18,19 @@ function! CloseAllTermBuffers()
     endfor
 endfunction
 
+function! TabMoveToPosition(target) abort
+    " :tabmove {N} moves relative to the pre-move tab order, so plain
+    " `tabmove (target - 1)` is a no-op when target is exactly one position
+    " to the right of the current tab (see :help tabmove). Compensate by
+    " passing the raw target when moving rightward.
+    let current = tabpagenr()
+    if a:target > current
+        execute 'tabmove ' . a:target
+    else
+        execute 'tabmove ' . (a:target - 1)
+    endif
+endfunction
+
 function! CloseTabsAfterCurrent()
     let current_tab = tabpagenr()
     let total_tabs = tabpagenr('$')
@@ -56,14 +69,14 @@ nmap <silent> <Leader>6 :tabnext 6<CR>
 nmap <silent> <Leader>7 :tabnext 7<CR>
 nmap <silent> <Leader>8 :tabnext 8<CR>
 nmap <silent> <Leader>9 :tablast<CR>
-nmap <silent> <Leader>tm1 :tabmove 0<CR>
-nmap <silent> <Leader>tm2 :tabmove 1<CR>
-nmap <silent> <Leader>tm3 :tabmove 2<CR>
-nmap <silent> <Leader>tm4 :tabmove 3<CR>
-nmap <silent> <Leader>tm5 :tabmove 4<CR>
-nmap <silent> <Leader>tm6 :tabmove 5<CR>
-nmap <silent> <Leader>tm7 :tabmove 6<CR>
-nmap <silent> <Leader>tm8 :tabmove 7<CR>
+nmap <silent> <Leader>tm1 :call TabMoveToPosition(1)<CR>
+nmap <silent> <Leader>tm2 :call TabMoveToPosition(2)<CR>
+nmap <silent> <Leader>tm3 :call TabMoveToPosition(3)<CR>
+nmap <silent> <Leader>tm4 :call TabMoveToPosition(4)<CR>
+nmap <silent> <Leader>tm5 :call TabMoveToPosition(5)<CR>
+nmap <silent> <Leader>tm6 :call TabMoveToPosition(6)<CR>
+nmap <silent> <Leader>tm7 :call TabMoveToPosition(7)<CR>
+nmap <silent> <Leader>tm8 :call TabMoveToPosition(8)<CR>
 nmap <silent> <Leader>tm9 :tabmove $<CR>
 nmap <silent> <Leader>te :call CloseTabsAfterCurrent()<CR>
 nmap <silent> <Leader>tq :call CloseTabsAfterCurrent()<CR>
