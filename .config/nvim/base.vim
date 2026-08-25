@@ -777,12 +777,9 @@ endfunction
 " 対象を ~/memo 配下に限るのは、ほかの markdown のチェックリスト (手順書や
 " README など) にまで時刻が入ると邪魔になるため。
 let s:memo_root = fnamemodify('~/memo', ':p')
-" doing list を置いているディレクトリ。日付ごとのファイル名を決めている
-" GetDoingDailyMemoPath() が唯一の定義元なので、そこから親ディレクトリを取り出す。
-let s:memo_doing_root = fnamemodify(GetDoingDailyMemoPath(), ':p:h') . '/'
 let s:memo_end_time_pattern = ' (end: \d\{4}-\d\{2}-\d\{2} \d\{2}:\d\{2}:\d\{2})'
 " 行頭から引用記号・リストのマーカー (-, *, +, 1., a) など)・空白と続く形。
-" チェックボックスの有無にかかわらず「リストの行か」を判定するのに使う。
+" 下のチェックボックスのパターンの前半で、それを読みやすくするために分けてある。
 let s:memo_list_marker_pattern = '^[ \t]*\%(>[ \t]*\)*\%([-*+]\|\d\+[.)]\|\a\+[.)]\)[ \t]\+'
 " マーカーの直後のチェックボックスだけを見る。内容の中の [x] を拾わないよう、
 " 行頭から引用記号・マーカー・空白と続く形に限定する。
@@ -791,11 +788,6 @@ let s:memo_checkbox_pattern = s:memo_list_marker_pattern . '\[\([ xX]\)\]'
 function! s:IsMemoBuffer() abort
   let l:path = expand('%:p')
   return !empty(l:path) && stridx(l:path, s:memo_root) == 0
-endfunction
-
-function! s:IsDoingMemoBuffer() abort
-  let l:path = expand('%:p')
-  return !empty(l:path) && stridx(l:path, s:memo_doing_root) == 0
 endfunction
 
 " 行末の終了時刻を書き換える。a:stamp が真なら現在時刻を書き、偽なら消す。
@@ -826,31 +818,6 @@ function! s:StampMemoEndTime(lnum) abort
   if l:updated !=# l:line
     call setline(a:lnum, l:updated)
   endif
-endfunction
-
-" チェックボックスを持たない普通のリスト行 ('- ...' など) にも終了時刻を書く。
-" doing list では箇条書きのまま済ませてしまう項目も多く、そこにも「いつ終えたか」
-" を残したいため。チェックボックスのある行は s:StampMemoEndTime() が扱うので
-" ここでは除く。書き足すのは行末の時刻だけで、マーカーや本文は変えない。
-"
-" 対象を doing list のディレクトリに限るのは、この操作が normal モードの <CR>
-" (本来は次の行へ移動するだけのキー) に乗っているためで、ほかのメモでリスト行の
-" 上を <CR> で移動しただけで時刻が入るのを避ける。
-"
-" 書き足したかどうかを返す。
-function! MemoStampDoingListEndTime(lnum) abort
-  if !s:IsDoingMemoBuffer()
-    return 0
-  endif
-  let l:line = getline(a:lnum)
-  if l:line !~# s:memo_list_marker_pattern || l:line =~# s:memo_checkbox_pattern
-    return 0
-  endif
-  let l:updated = s:ReplaceMemoEndTime(l:line, 1)
-  if l:updated !=# l:line
-    call setline(a:lnum, l:updated)
-  endif
-  return 1
 endfunction
 
 " autolist のチェック切り替えに、メモなら終了時刻の記録を足したもの。
