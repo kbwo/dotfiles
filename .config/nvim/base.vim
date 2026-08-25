@@ -808,6 +808,13 @@ function! s:ReplaceMemoEndTime(line, stamp) abort
   return l:updated
 endfunction
 
+" 行末の終了時刻を落とした行を返す。時刻の書き方 (end: ...) を知っているのは
+" この上の s:memo_end_time_pattern だけにしたいので、行から時刻を消したい
+" 呼び出し側 (plugin.d/autolist.rc.lua のリスト末尾への複製など) はこれを通す。
+function! MemoClearEndTime(line) abort
+  return s:ReplaceMemoEndTime(a:line, 0)
+endfunction
+
 " チェック済みなら行末に終了時刻を書き、外れていれば消す。
 function! s:StampMemoEndTime(lnum) abort
   let l:line = getline(a:lnum)
