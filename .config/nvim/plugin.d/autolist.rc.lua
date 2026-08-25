@@ -154,8 +154,8 @@ vim.api.nvim_create_autocmd('FileType', {
 
     -- 字下げだけで階層を書いた平文をリストにする。書き換える範囲を推測しない
     -- 作りなので、normal は 1 行、visual は選択範囲に対して働く。
-    map('n', '<leader>ll', '<Cmd>AutolistMakeList<CR>', 'この行をリストにする')
-    vim.keymap.set('x', '<leader>ll', ':AutolistMakeList<CR>', {
+    map('n', '<A-L>', '<Cmd>AutolistMakeList<CR>', 'この行をリストにする')
+    vim.keymap.set('x', '<A-L>', ':AutolistMakeList<CR>', {
       buffer = event.buf,
       desc = 'autolist: 選択範囲をリストにする',
     })
@@ -167,6 +167,6 @@ vim.api.nvim_create_autocmd('FileType', {
     -- リストの末尾へ移動。下向きの移動である j に合わせる。
     map('n', '<leader>lj', goto_list_last_line, 'リストの最後の行へ移動')
     -- この行をリストの末尾へ複製し、元の行にチェックを付ける。コピーなので y。
-    map('n', '<leader>ly', copy_line_to_list_end, 'この行をリストの末尾に複製して元にチェック')
+    map('n', '<leader>ll', copy_line_to_list_end, 'この行をリストの末尾に複製して元にチェック')
   end,
 })
