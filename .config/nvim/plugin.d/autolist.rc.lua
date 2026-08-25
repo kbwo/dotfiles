@@ -51,15 +51,16 @@ local function goto_list_last_line()
   jump_to_line(list.block.last)
 end
 
--- カーソル行をリストの末尾に複製する。doing list で「今日も続ける」項目を、
--- 済んだ行を履歴として上に残したまま下へ持っていくための操作。
+-- カーソル行をリストの末尾に複製し、元の行にはチェックを付ける。doing list で
+-- 「今日のぶんは終わり、続きは明日」という項目を、1 回で済ませるための操作。
+-- 済んだ行は履歴として上に残り、続きが末尾に積まれる。
 --
 -- カーソルは動かさない。複製したあとも元の行のあたりで続きの作業をすることが
 -- 多く、末尾を見たいときは <leader>lj（リストの最後の行へ移動）がある。
 --
 -- 複製する行がチェック済みのチェックボックス項目のときは、末尾に置くほうだけ
 -- チェックを外し、行末の終了時刻 (end: ...) も落とす。これからやり直す項目で
--- あって、済んだ印も終えた時刻も前の行のものだから。元の行はそのまま残す。
+-- あって、済んだ印も終えた時刻も前の行のものだから。
 --
 -- 連番は振り直さない。番号付きのリストでは複製した行と番号が重なるので、
 -- 揃えたいときは <leader>lr（連番の振り直し）を明示的に呼ぶ。
@@ -71,15 +72,30 @@ local function copy_line_to_list_end()
   local lineparse = require('autolist.line')
   local line = vim.api.nvim_buf_get_lines(list.bufnr, list.lnum - 1, list.lnum, false)[1]
   local parsed = lineparse.parse(line, list.opts)
-  if parsed.checkbox and parsed.checkbox ~= list.opts.checkbox.unchecked then
+  local has_checkbox = parsed.checkbox ~= nil
+  local checked = has_checkbox and parsed.checkbox ~= list.opts.checkbox.unchecked
+  if checked then
     parsed.checkbox = list.opts.checkbox.unchecked
     -- 終了時刻の書き方を知っているのは base.vim なので、そこの関数を通して
     -- 落とす。ここにパターンを書き写さない。
     parsed.content = vim.fn.MemoClearEndTime(parsed.content)
     line = lineparse.render(parsed)
   end
+  -- 末尾は複製した行のぶんだけ下にずれるが、カーソル行より下なので、この
+  -- あとの元の行への操作に影響しない。
   local at = list.block.last
   vim.api.nvim_buf_set_lines(list.bufnr, at, at, false, { line })
+
+  -- 元の行を済みにする。<CR> と同じ入り口（base.vim の MemoToggleCheckbox()）
+  -- を通すので、~/memo 配下では行末に終了時刻が入るところまで同じになる。
+  -- 既にチェックの付いている行はそのままにする。ここでやりたいのは切り替えでは
+  -- なくチェックを付けることで、外してしまっては操作の意味が逆になるため。
+  if has_checkbox and not checked then
+    -- 複製とチェックで undo が 2 回に分かれないよう、直前の変更につなぐ。
+    -- undo の直後は undojoin が使えないので、失敗しても先へ進める。
+    pcall(vim.cmd, 'undojoin')
+    vim.fn.MemoToggleCheckbox(list.lnum, list.lnum)
+  end
 end
 
 vim.api.nvim_create_autocmd('FileType', {
@@ -150,7 +166,7 @@ vim.api.nvim_create_autocmd('FileType', {
 
     -- リストの末尾へ移動。下向きの移動である j に合わせる。
     map('n', '<leader>lj', goto_list_last_line, 'リストの最後の行へ移動')
-    -- この行をリストの末尾へ複製する。コピーなので y。
-    map('n', '<leader>ly', copy_line_to_list_end, 'この行をリストの末尾に複製')
+    -- この行をリストの末尾へ複製し、元の行にチェックを付ける。コピーなので y。
+    map('n', '<leader>ly', copy_line_to_list_end, 'この行をリストの末尾に複製して元にチェック')
   end,
 })
