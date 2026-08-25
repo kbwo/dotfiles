@@ -40,6 +40,16 @@ local function jump_to_line(lnum)
   vim.cmd('normal! ^')
 end
 
+-- チェックボックスの切り替えや、行のリスト末尾への複製など、内容を書き換える
+-- 操作のあとに呼ぶ。手で :w する手間を省くため、`:noautocmd w` と同じ動きで
+-- 保存する。autocmd を止めるのは、保存を契機に別の autocmd（フォーマッタなど）
+-- が動いてこの操作自体の結果を書き換えてしまうのを防ぐため。
+-- ファイル名が無いバッファ等で :w が失敗しても、操作自体は既に終わっている
+-- ので pcall で握りつぶし、それ以上のエラー処理はしない。
+local function save_buffer()
+  pcall(vim.cmd, 'noautocmd w')
+end
+
 -- カーソルのあるリストの最後の行へ移動する。項目を書き足すときに末尾へ下りる
 -- 操作で、`}`（次の空行まで）や `G`（ファイル末尾）では行き過ぎたり足りなかったり
 -- するため。
@@ -96,6 +106,8 @@ local function copy_line_to_list_end()
     pcall(vim.cmd, 'undojoin')
     vim.fn.MemoToggleCheckbox(list.lnum, list.lnum)
   end
+
+  save_buffer()
 end
 
 vim.api.nvim_create_autocmd('FileType', {
@@ -135,14 +147,27 @@ vim.api.nvim_create_autocmd('FileType', {
       local lnum = vim.api.nvim_win_get_cursor(0)[1]
       if vim.fn.MemoToggleCheckbox(lnum, lnum) == 0 then
         vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<CR>', true, false, true), 'n', false)
+      else
+        save_buffer()
       end
     end, { buffer = event.buf, desc = 'autolist: チェックボックス切り替え' })
 
     -- 連番の振り直しは明示操作のときだけ走る（自動整形はしない）。
     map('n', '<leader>lr', '<Cmd>AutolistRenumber<CR>', '連番を振り直す')
     -- こちらも終了時刻の記録を通したいので MemoToggleCheckbox() を呼ぶ。
-    map('n', '<leader>lc', '<Cmd>call MemoToggleCheckbox(line("."), line("."))<CR>', 'チェックボックス切り替え')
-    map('x', '<leader>lc', [[:<C-u>call MemoToggleCheckbox(line("'<"), line("'>"))<CR>]], 'チェックボックス切り替え（範囲）')
+    map('n', '<leader>lc', function()
+      local lnum = vim.api.nvim_win_get_cursor(0)[1]
+      if vim.fn.MemoToggleCheckbox(lnum, lnum) ~= 0 then
+        save_buffer()
+      end
+    end, 'チェックボックス切り替え')
+    map('x', '<leader>lc', function()
+      local first = vim.fn.line("'<")
+      local last = vim.fn.line("'>")
+      if vim.fn.MemoToggleCheckbox(first, last) ~= 0 then
+        save_buffer()
+      end
+    end, 'チェックボックス切り替え（範囲）')
     -- マーカーの種類（チェックボックスの有無を含む）を並び順で回す。
     -- 小文字が次の種別、大文字が前の種別。u は同じ階層の兄弟だけ、i は親子も
     -- 含めたブロック全体。入れ子では階層ごとに違うマーカーにしたいことがある
