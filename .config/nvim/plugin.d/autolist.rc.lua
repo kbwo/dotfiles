@@ -11,30 +11,73 @@
 
 require('autolist').setup()
 
--- カーソルのあるリストの最後の行へ移動する。項目を書き足すときに末尾へ下りる
--- 操作で、`}`（次の空行まで）や `G`（ファイル末尾）では行き過ぎたり足りなかったり
--- するため。入れ子の項目や、マーカーの無い継続行（項目の続きとして字下げされた
--- 行）も含めた、ひとつながりのリスト全体の末尾へ飛ぶ。
+-- カーソル行が属するリスト（入れ子の項目や、マーカーの無い継続行＝項目の続き
+-- として字下げされた行も含めた、ひとつながりの範囲）を調べる。markdown でない
+-- ときや、カーソルがリストの行にないときは nil。
 --
 -- 「どこまでが 1 つのリストか」の判定は autolist が持っているもの
 -- （autolist.block）をそのまま使い、ここには書かない。コードブロックや引用の
 -- 中での振る舞いを、ほかのリスト操作と食い違わせないため。
-local function goto_list_last_line()
+local function cursor_list()
   local bufnr = vim.api.nvim_get_current_buf()
   local opts = require('autolist.config').get(bufnr)
   if not opts then
-    return
+    return nil
   end
   local lnum = vim.api.nvim_win_get_cursor(0)[1]
   local block = require('autolist.block').find(bufnr, lnum, opts)
   if not block then
+    return nil
+  end
+  return { bufnr = bufnr, opts = opts, lnum = lnum, block = block }
+end
+
+-- 指定した行へ飛ぶ。飛ぶ前の位置を jumplist に積んで <C-o> で戻れるようにし、
+-- 行頭の空白の後ろ（本文の先頭）にカーソルを置く。G などの行単位の移動と同じ。
+local function jump_to_line(lnum)
+  vim.cmd("normal! m'")
+  vim.api.nvim_win_set_cursor(0, { lnum, 0 })
+  vim.cmd('normal! ^')
+end
+
+-- カーソルのあるリストの最後の行へ移動する。項目を書き足すときに末尾へ下りる
+-- 操作で、`}`（次の空行まで）や `G`（ファイル末尾）では行き過ぎたり足りなかったり
+-- するため。
+local function goto_list_last_line()
+  local list = cursor_list()
+  if not list then
     return
   end
-  -- 飛ぶ前の位置を jumplist に積んで、<C-o> で戻れるようにする。
-  vim.cmd("normal! m'")
-  vim.api.nvim_win_set_cursor(0, { block.last, 0 })
-  -- 行頭の空白の後ろ（本文の先頭）に置く。G などの行単位の移動と同じ。
-  vim.cmd('normal! ^')
+  jump_to_line(list.block.last)
+end
+
+-- カーソル行をリストの末尾に複製して、そこへ移動する。doing list で「今日も
+-- 続ける」項目を、済んだ行を履歴として上に残したまま下へ持っていくための操作。
+--
+-- 複製する行がチェック済みのチェックボックス項目のときは、末尾に置くほうだけ
+-- チェックを外し、行末の終了時刻 (end: ...) も落とす。これからやり直す項目で
+-- あって、済んだ印も終えた時刻も前の行のものだから。元の行はそのまま残す。
+--
+-- 連番は振り直さない。番号付きのリストでは複製した行と番号が重なるので、
+-- 揃えたいときは <leader>lr（連番の振り直し）を明示的に呼ぶ。
+local function copy_line_to_list_end()
+  local list = cursor_list()
+  if not list then
+    return
+  end
+  local lineparse = require('autolist.line')
+  local line = vim.api.nvim_buf_get_lines(list.bufnr, list.lnum - 1, list.lnum, false)[1]
+  local parsed = lineparse.parse(line, list.opts)
+  if parsed.checkbox and parsed.checkbox ~= list.opts.checkbox.unchecked then
+    parsed.checkbox = list.opts.checkbox.unchecked
+    -- 終了時刻の書き方を知っているのは base.vim なので、そこの関数を通して
+    -- 落とす。ここにパターンを書き写さない。
+    parsed.content = vim.fn.MemoClearEndTime(parsed.content)
+    line = lineparse.render(parsed)
+  end
+  local at = list.block.last
+  vim.api.nvim_buf_set_lines(list.bufnr, at, at, false, { line })
+  jump_to_line(at + 1)
 end
 
 vim.api.nvim_create_autocmd('FileType', {
@@ -67,14 +110,12 @@ vim.api.nvim_create_autocmd('FileType', {
     -- normal モードの <CR> でチェックボックスを切り替える。
     -- 直接 toggle_checkbox() を呼ばず base.vim の MemoToggleCheckbox() を通すのは、
     -- ~/memo 配下では切り替えと同時に終了時刻を行末へ書き足すため。
-    -- チェックボックスを持たない行では偽が返るので、そのときは doing list
-    -- (~/memo/doing/) の普通のリスト行なら行末に終了時刻を書き足したうえで、
-    -- いずれにせよ <CR> 本来の動作（次の行の先頭へ）を流す。'n' フラグは
-    -- 再マップしない指定で、これがないとこのマッピング自身に戻って無限に回る。
+    -- チェックボックスを持たない行では偽が返るので、そのときは <CR> 本来の
+    -- 動作（次の行の先頭へ）を流す。'n' フラグは再マップしない指定で、これが
+    -- ないとこのマッピング自身に戻って無限に回る。
     vim.keymap.set('n', '<CR>', function()
       local lnum = vim.api.nvim_win_get_cursor(0)[1]
       if vim.fn.MemoToggleCheckbox(lnum, lnum) == 0 then
-        vim.fn.MemoStampDoingListEndTime(lnum)
         vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<CR>', true, false, true), 'n', false)
       end
     end, { buffer = event.buf, desc = 'autolist: チェックボックス切り替え' })
@@ -107,5 +148,7 @@ vim.api.nvim_create_autocmd('FileType', {
 
     -- リストの末尾へ移動。下向きの移動である j に合わせる。
     map('n', '<leader>lj', goto_list_last_line, 'リストの最後の行へ移動')
+    -- この行をリストの末尾へ複製して移動。コピーなので y。
+    map('n', '<leader>ly', copy_line_to_list_end, 'この行をリストの末尾に複製して移動')
   end,
 })
