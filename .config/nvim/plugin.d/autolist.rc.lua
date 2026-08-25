@@ -51,8 +51,11 @@ local function goto_list_last_line()
   jump_to_line(list.block.last)
 end
 
--- カーソル行をリストの末尾に複製して、そこへ移動する。doing list で「今日も
--- 続ける」項目を、済んだ行を履歴として上に残したまま下へ持っていくための操作。
+-- カーソル行をリストの末尾に複製する。doing list で「今日も続ける」項目を、
+-- 済んだ行を履歴として上に残したまま下へ持っていくための操作。
+--
+-- カーソルは動かさない。複製したあとも元の行のあたりで続きの作業をすることが
+-- 多く、末尾を見たいときは <leader>lj（リストの最後の行へ移動）がある。
 --
 -- 複製する行がチェック済みのチェックボックス項目のときは、末尾に置くほうだけ
 -- チェックを外し、行末の終了時刻 (end: ...) も落とす。これからやり直す項目で
@@ -77,7 +80,6 @@ local function copy_line_to_list_end()
   end
   local at = list.block.last
   vim.api.nvim_buf_set_lines(list.bufnr, at, at, false, { line })
-  jump_to_line(at + 1)
 end
 
 vim.api.nvim_create_autocmd('FileType', {
@@ -148,7 +150,7 @@ vim.api.nvim_create_autocmd('FileType', {
 
     -- リストの末尾へ移動。下向きの移動である j に合わせる。
     map('n', '<leader>lj', goto_list_last_line, 'リストの最後の行へ移動')
-    -- この行をリストの末尾へ複製して移動。コピーなので y。
-    map('n', '<leader>ly', copy_line_to_list_end, 'この行をリストの末尾に複製して移動')
+    -- この行をリストの末尾へ複製する。コピーなので y。
+    map('n', '<leader>ly', copy_line_to_list_end, 'この行をリストの末尾に複製')
   end,
 })
