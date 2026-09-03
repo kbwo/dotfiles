@@ -141,7 +141,17 @@ endfunction
 function! s:git_fern() abort
   call SavePreviousBuffer()
   let git_root = s:fern_find_git_root()
-  execute 'Fern ' . git_root . ' -reveal=% -stay'
+  " fern.vim 内部は fern#util#expand() (=expand()) でパスを解決しており、
+  " 'wildignore' に一致するパス (例: */tmp/* にマッチする scratchpad のパス) を
+  " 渡すと expand() が空文字を返し、結果的にカレントディレクトリにフォールバック
+  " してしまう。:Fern 実行中だけ 'wildignore' を退避してクリアする。
+  let l:wildignore_saved = &wildignore
+  try
+    set wildignore=
+    execute 'Fern ' . git_root . ' -reveal=% -stay'
+  finally
+    let &wildignore = l:wildignore_saved
+  endtry
 endfunction
 
 
