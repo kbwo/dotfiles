@@ -53,6 +53,16 @@ function! CloseTabsAfterCurrent()
     endfor
 endfunction
 
+" 空行と `***` の区切り線からなるブロックをカーソル行の下に挿入する。
+" leading_blank が真のときは区切り線の前にも空行を1行はさむ
+" (Normal モードでは呼び出し元の行と区切り線が隣接しすぎないようにするため)。
+function! InsertSeparatorBlock(leading_blank) abort
+    let lines = a:leading_blank ? ['', '***', '', ''] : ['***', '', '']
+    let target_line = line('.') + len(lines)
+    call append(line('.'), lines)
+    call cursor(target_line, 1)
+endfunction
+
 map <c-p> <Esc>
 inoremap <silent> <c-u> <Nop>
 inoremap <silent> <c-Space> <Nop>
@@ -105,8 +115,10 @@ nmap <silent> <Leader>zx :tabc<CR>
 nmap <silent> <Leader><Space>x :bd!<CR>
 nmap <silent><c-w>t :let b = bufnr('%')<CR>:close<CR>:tabnew<CR>:execute 'buffer' b<CR>
 imap <silent> <C-\> <Esc>
-nmap <silent> <A-n> o<C-o>o***<Esc>o<Esc>o<Esc>
-imap <silent> <A-n> <C-o>o***<Esc>o<Esc>o
+nmap <silent> <A-n> :call InsertSeparatorBlock(1)<CR>
+" <Cmd> はモードを離脱せずにコマンドを実行できるため、<C-o> を使う場合と
+" 違って InsertLeave/InsertEnter が余分に発火しない (98行目のコメント参照)。
+imap <silent> <A-n> <Cmd>call InsertSeparatorBlock(0)<CR>
 nmap <silent> <A-2> I@<Esc>
 imap <silent> <A-2> <C-o>I@
 vmap <silent> <A-2> :normal I@<CR>
