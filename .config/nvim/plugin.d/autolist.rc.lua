@@ -110,6 +110,85 @@ local function copy_line_to_list_end()
   save_buffer()
 end
 
+-- チェックボックスの切り替えだけを行い、終了時刻 (end: ...) は書かない版。
+-- ~/memo 配下では通常の <CR> や <leader>lc が MemoToggleCheckbox()（base.vim）を
+-- 経由して切り替えと同時に終了時刻を記録するが、時刻を残したくない項目
+-- （過去に遡って付けるチェックや、時刻に意味の無い項目）向けに、時刻の記録を
+-- 経由しない切り替えを別に用意する。autolist.toggle_checkbox() を直接呼ぶ。
+local function toggle_checkbox_quiet()
+  local lnum = vim.api.nvim_win_get_cursor(0)[1]
+  if require('autolist').toggle_checkbox(lnum) then
+    save_buffer()
+  end
+end
+
+-- カーソル行が属する項目（自身の継続行や、さらに深い子項目も含めたひとまとまり）
+-- を、同じ階層の兄弟のうち一番後ろへ移動する。優先順位を入れ替えたいときに、
+-- <A-Down> で 1 段ずつ送るのではなく一度で末尾まで動かすための操作。
+--
+-- 何が「同じ階層の兄弟」かの判定は autolist が持っているもの
+-- （autolist.block.runs）をそのまま使う。ここで階層の定義を作り直さないため。
+local function move_line_to_sibling_end()
+  local list = cursor_list()
+  if not list then
+    return
+  end
+  local block = require('autolist.block')
+  block.runs(list.block) -- entries[i].run / .depth を計算させる副作用が目的
+  local entries = list.block.entries
+
+  -- カーソル行が継続行（マーカーの無い、字下げされた続きの行）のときは、
+  -- その行が属する項目本体（直前の、より浅くないマーカー行）まで遡る。
+  -- block は必ずマーカー行から始まるので、この遡りは block の外へは出ない。
+  local idx = list.block.index[list.lnum]
+  while entries[idx].continuation do
+    idx = idx - 1
+  end
+  local cur_entry = entries[idx]
+  local width = cur_entry.item.indent_width
+
+  local run = cur_entry.run
+  if not run or run[#run].lnum == cur_entry.lnum then
+    -- 兄弟がいない、またはすでに兄弟の最後尾にいる。
+    return
+  end
+
+  -- 項目のまとまり（自身の継続行・さらに深い子項目を含む）が終わる行を返す。
+  -- 次に同じか、より浅い項目が現れる手前まで。block.entries は block.first から
+  -- 1 行ずつ連続しているので、見つかった行の 1 つ前がまとまりの終わりになる。
+  local function subtree_last(from_idx, at_width)
+    for i = from_idx + 1, #entries do
+      local e = entries[i]
+      if not e.continuation and e.item.indent_width <= at_width then
+        return entries[i].lnum - 1
+      end
+    end
+    return list.block.last
+  end
+
+  local cur_last = subtree_last(idx, width)
+  local last_sibling = run[#run]
+  local last_idx = list.block.index[last_sibling.lnum]
+  -- 移動先は最後の兄弟の行そのものではなく、その子項目まで含めたまとまりの
+  -- 終わりの後ろ。そうしないと、子を持つ最後の兄弟とその子の間に割り込んでしまう。
+  local dest_last = subtree_last(last_idx, width)
+
+  local bufnr = list.bufnr
+  local lines = vim.api.nvim_buf_get_lines(bufnr, cur_entry.lnum - 1, cur_last, false)
+  vim.api.nvim_buf_set_lines(bufnr, cur_entry.lnum - 1, cur_last, false, {})
+
+  -- 自分のまとまりを削除した分だけ、移動先の行番号は上にずれる。
+  local removed = cur_last - cur_entry.lnum + 1
+  local insert_at = dest_last - removed
+  vim.api.nvim_buf_set_lines(bufnr, insert_at, insert_at, false, lines)
+
+  -- カーソルは、移動した行のまとまりの中での元の相対位置を保つ。
+  local offset = list.lnum - cur_entry.lnum
+  vim.api.nvim_win_set_cursor(0, { insert_at + 1 + offset, 0 })
+
+  save_buffer()
+end
+
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'markdown',
   group = vim.api.nvim_create_augroup('autolist_rc', { clear = true }),
@@ -168,6 +247,8 @@ vim.api.nvim_create_autocmd('FileType', {
         save_buffer()
       end
     end, 'チェックボックス切り替え（範囲）')
+    -- <leader>lc と違い、~/memo 配下でも終了時刻 (end: ...) を書かない。
+    map('n', '<leader>lq', toggle_checkbox_quiet, 'チェックボックス切り替え（終了時刻なし）')
     -- マーカーの種類（チェックボックスの有無を含む）を並び順で回す。
     -- 小文字が次の種別、大文字が前の種別。u は同じ階層の兄弟だけ、i は親子も
     -- 含めたブロック全体。入れ子では階層ごとに違うマーカーにしたいことがある
@@ -193,5 +274,7 @@ vim.api.nvim_create_autocmd('FileType', {
     map('n', '<leader>lj', goto_list_last_line, 'リストの最後の行へ移動')
     -- この行をリストの末尾へ複製し、元の行にチェックを付ける。コピーなので y。
     map('n', '<leader>ll', copy_line_to_list_end, 'この行をリストの末尾に複製して元にチェック')
+    -- この行（が属する項目）を同じ階層の兄弟の最後尾へ移動する。
+    map('n', '<leader>ls', move_line_to_sibling_end, 'この行を兄弟の最後尾へ移動')
   end,
 })
