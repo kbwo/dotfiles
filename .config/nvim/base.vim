@@ -388,6 +388,29 @@ function! s:show_ex_result(cmd)
 endfunction
 command! -nargs=+ -complete=command ShowExResult call s:show_ex_result(<q-args>)
 
+" 指定ディレクトリのカレントブランチ名を返す。取得できなければ空文字。
+" タブ/lualine のブランチ表示はここに集約し、fern.rc.vim (fern バッファへの
+" ブランチ設定) や worktree-tab.rc.vim (タブへの worktree 割り当て) からも
+" 同じ実装を使う。
+function! GitBranchAt(path) abort
+  let cmd = 'git -C ' . shellescape(a:path) . ' rev-parse --abbrev-ref HEAD 2>/dev/null'
+  let branch = trim(system(cmd))
+  return v:shell_error == 0 ? branch : ''
+endfunction
+
+let s:git_branch_cache = {}
+
+" GitBranchAt() をディレクトリ単位でキャッシュする版。タブライン/lualine の
+" 「No Name」タブ (ファイルも fern も開いていない) 向けフォールバック表示は
+" 再描画のたびに呼ばれるため、都度 git プロセスを起動しないようにする。
+" b:git_branch と同様、ブランチを切り替えても自動では更新されない。
+function! CachedGitBranchAt(path) abort
+  if !has_key(s:git_branch_cache, a:path)
+    let s:git_branch_cache[a:path] = GitBranchAt(a:path)
+  endif
+  return s:git_branch_cache[a:path]
+endfunction
+
 function! s:UpdateBufBranch(bufnr)
   let bufname = bufname(a:bufnr)
   let buftype = getbufvar(a:bufnr, '&buftype', '')
@@ -400,12 +423,7 @@ function! s:UpdateBufBranch(bufnr)
     call setbufvar(a:bufnr, 'git_branch', '')
     return
   endif
-  let cmd = 'git -C ' . shellescape(dir) . ' rev-parse --abbrev-ref HEAD 2>/dev/null'
-  let branch = trim(system(cmd))
-  if v:shell_error != 0
-    let branch = ''
-  endif
-  call setbufvar(a:bufnr, 'git_branch', branch)
+  call setbufvar(a:bufnr, 'git_branch', GitBranchAt(dir))
 endfunction
 
 augroup GitBranchCache
@@ -413,7 +431,10 @@ augroup GitBranchCache
   autocmd BufReadPost,BufNewFile,BufFilePost,BufWritePost * call s:UpdateBufBranch(bufnr('%'))
 augroup END
 
-function! GetTabLabel(tabnr)
+" a:hl は呼び出し元 (FileWithParent) がこのタブに使っているハイライト
+" グループ (%#TabLineSel# または %#TabLine#)。worktree バッジの直後に
+" これへ戻すことで、バッジの色だけを目立たせつつ残りは通常のタブ色に戻す。
+function! GetTabLabel(tabnr, hl)
   " Get the last accessed window number in the specified tab
   let winnr = tabpagewinnr(a:tabnr)
   " Get buffer number of that window
@@ -422,8 +443,20 @@ function! GetTabLabel(tabnr)
   let bufname = bufname(bufnr)
 
   let filetype = getbufvar(bufnr, '&filetype', '')
-  let branch = getbufvar(bufnr, 'git_branch', '')
-  let prefix = branch !=# '' ? branch . ':' : ''
+  " ブランチ表示は次の優先順位で決める。
+  " 1. worktree-tab.rc.vim でこのタブに割り当てられた worktree
+  " 2. ウィンドウのバッファに紐づくブランチ (通常ファイルは s:UpdateBufBranch、
+  "    fern は fern.rc.vim が設定)
+  " 3. どちらも無い「No Name」タブ向けに、そのタブの cwd (getcwd(-1, tabnr) は
+  "    タブを切り替えずにそのタブの実効 cwd を取れる) のブランチ
+  " ファイルも fern も開いていないタブでも常に何らかのブランチが分かるように
+  " するためのフォールバックチェーン。
+  let worktree_branch = gettabvar(a:tabnr, 'worktree_branch', '')
+  let branch = worktree_branch !=# '' ? worktree_branch : getbufvar(bufnr, 'git_branch', '')
+  if branch ==# ''
+    let branch = CachedGitBranchAt(getcwd(-1, a:tabnr))
+  endif
+  let prefix = branch !=# '' ? '%#WorktreeTabLabel# ' . branch . ' ' . a:hl : ''
 
   if filetype =~# '^gin'
     return prefix . filetype
@@ -448,16 +481,17 @@ function! FileWithParent()
   for tabnr in range(1, tabpagenr('$'))
     " Change highlight based on whether it's the active tab
     if tabnr == tabpagenr()
-      let s .= '%#TabLineSel#'        " Highlight for active tab
+      let hl = '%#TabLineSel#'        " Highlight for active tab
     else
-      let s .= '%#TabLine#'           " Highlight for inactive tab
+      let hl = '%#TabLine#'           " Highlight for inactive tab
     endif
+    let s .= hl
 
     " Make tab clickable
     let s .= '%' . tabnr . 'T'
 
     " Add tab label
-    let s .= ' ' . GetTabLabel(tabnr) . ' '
+    let s .= ' ' . GetTabLabel(tabnr, hl) . ' '
 
     " Separator between tabs
     let s .= '%#TabLine# | '

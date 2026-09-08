@@ -130,17 +130,26 @@ function! s:fern_find_git_root() abort
     endif
   endif
 
+  return l:result
+endfunction
+
+" mac の Fern コマンドはパス中の空白をエスケープしないと引数が分割されてしまう。
+function! s:escape_fern_path(path) abort
+  let l:result = a:path
   if has('mac') || has('macunix')
     let l:result = substitute(l:result, ' ', '\\ ', 'g')
   endif
-
   return l:result
 endfunction
 
 " ~/.vim/fern-toggle.vim
 function! s:git_fern() abort
   call SavePreviousBuffer()
-  let git_root = s:fern_find_git_root()
+  " worktree-tab.rc.vim でタブに worktree が割り当てられていればそちらを
+  " 優先する。未割り当てなら従来通り git root を自動検出する。
+  let l:tab_worktree = WorktreeTabDir()
+  let l:root_dir = l:tab_worktree !=# '' ? l:tab_worktree : s:fern_find_git_root()
+  let git_root = s:escape_fern_path(l:root_dir)
   " fern.vim 内部は fern#util#expand() (=expand()) でパスを解決しており、
   " 'wildignore' に一致するパス (例: */tmp/* にマッチする scratchpad のパス) を
   " 渡すと expand() が空文字を返し、結果的にカレントディレクトリにフォールバック
@@ -152,6 +161,10 @@ function! s:git_fern() abort
   finally
     let &wildignore = l:wildignore_saved
   endtry
+  " fern はファイルバッファではないため base.vim の BufReadPost 等の
+  " autocmd では b:git_branch が設定されない。ファイルを開いていない間も
+  " タブ/lualine にブランチを表示できるよう、ここで明示的に設定する。
+  call setbufvar(bufnr('%'), 'git_branch', GitBranchAt(l:root_dir))
 endfunction
 
 

@@ -101,8 +101,17 @@ call ddu#custom#patch_local('git:worktree', #{
 autocmd FileType ddu-ff call s:ddu_my_settings()
 
 function! s:ddu_my_settings() abort
-  nnoremap <buffer><silent> <CR>
-        \ <Cmd>call ddu#ui#do_action('itemAction')<CR>
+  " git:worktree (<Leader>gw) だけは <CR> の意味を変える。ソース側の
+  " デフォルトアクション 'open' はグローバルな :cd をしてしまい、新しく
+  " 開いたタブにまでその worktree が引き継がれてしまう。この一覧では常に
+  " 現在のタブだけへの割り当てにする。
+  if get(b:, 'ddu_ui_name', '') ==# 'git:worktree'
+    nnoremap <buffer><silent> <CR>
+          \ <Cmd>call <SID>ddu_set_tab_worktree()<CR>
+  else
+    nnoremap <buffer><silent> <CR>
+          \ <Cmd>call ddu#ui#do_action('itemAction')<CR>
+  endif
   nnoremap <buffer><silent> <Leader>vv
         \ <Cmd>call ddu#ui#do_action('itemAction', {'params': {'command': 'vsplit'}})<CR>
   nnoremap <buffer><silent> <Leader>ss
@@ -123,6 +132,19 @@ function! s:ddu_my_settings() abort
         \ <Cmd>call ddu#ui#do_action('quit')<CR>
 endfunction
 
+" カーソル下の item が指すパスを、現在のタブの worktree として割り当てる。
+" 主に git:worktree ソース (<Leader>gw) の一覧から使う想定。
+function! s:ddu_set_tab_worktree() abort
+  let item = ddu#ui#get_item()
+  let path = get(get(item, 'action', {}), 'path', '')
+  if path ==# ''
+    echoerr 'No path under cursor'
+    return
+  endif
+  call SetTabWorktree(path)
+  call ddu#ui#do_action('quit')
+endfunction
+
 nmap <silent><A-p> :call StartDduNoIgnore()<CR>
 nmap <silent><Leader>pp :call StartDduIgnore()<CR>
 nmap <silent><Leader>pt :call TabFind()<CR>
@@ -132,6 +154,9 @@ nmap <silent><Leader>rw :call RgFindIgnore(expand('<cword>'))<CR>
 vnoremap <Leader>rr :<C-u>call RgFindIgnore(GetVisualSelection())<CR>
 nmap <silent> <Leader>id <Cmd>call ddu#start(#{ name: 'lsp:diagnostic' })<CR>
 nmap <silent> <Leader>gw <Cmd>call ddu#start(#{ name: 'git:worktree' })<CR>
+" git:worktree の一覧の <CR> は s:ddu_my_settings() 内で現在のタブだけへの
+" 割り当て (worktree-tab.rc.vim の SetTabWorktree) に差し替えている。
+nmap <silent> <Leader>gc <Cmd>call ClearTabWorktree()<CR>
 
 function! GetVisualSelection() abort
   let [line_start, column_start] = getpos("'<")[1:2]
@@ -145,18 +170,26 @@ function! GetVisualSelection() abort
   return join(lines, "\n")
 endfunction
 
+" タブに worktree が割り当てられていれば (worktree-tab.rc.vim 参照)、ddu の
+" ファイル探索・grep をそのディレクトリ配下に限定するための sourceOptions
+" を返す。割り当てが無ければ ddu 本来の挙動 (cwd 基準) のため空 dict を返す。
+function! s:ddu_tab_path_opts() abort
+  let dir = WorktreeTabDir()
+  return dir ==# '' ? {} : {'sourceOptions': {'_': {'path': dir}}}
+endfunction
+
 function! StartDduNoIgnore() abort
   if &filetype == 'fern'
       call ReturnToPreviousBuffer()
-      call ddu#start({})
+      call ddu#start(s:ddu_tab_path_opts())
     return
   endif
-  call ddu#start({})
+  call ddu#start(s:ddu_tab_path_opts())
 endfunction
 
 function! StartDduIgnore() abort
   " :Copilot disable
-  :call ddu#start(#{
+  let opts = #{
         \  ui: 'ff',
         \  sources: [
         \    #{
@@ -176,17 +209,26 @@ function! StartDduIgnore() abort
         \       defaultAction: 'open',
         \     },
         \   }
-        \  })
+        \  }
+  let dir = WorktreeTabDir()
+  if dir !=# ''
+    let opts.sourceOptions._.path = dir
+  endif
+  :call ddu#start(opts)
 endfunction
 
 function! RgFindIgnore(text) abort
   let escaped_text = escape(a:text, '()[]{}.*+?^$|\')
-    :call ddu#start({'sources': [{'name': 'rg', 'params': {'input': escaped_text, 'args': ['--smart-case', "--column", "--no-heading", '--hidden', '--glob', '!.git', '--max-columns', '500']}}]})
+  let opts = {'sources': [{'name': 'rg', 'params': {'input': escaped_text, 'args': ['--smart-case', "--column", "--no-heading", '--hidden', '--glob', '!.git', '--max-columns', '500']}}]}
+  call extend(opts, s:ddu_tab_path_opts())
+    :call ddu#start(opts)
 endfunction
 
 function! RgFindNoIgnore(text) abort
   let escaped_text = escape(a:text, '()[]{}.*+?^$|\')
-  :call ddu#start({'sources': [{'name': 'rg', 'params': {'input': escaped_text, 'args': ['--smart-case', "--column", "--no-heading", '--hidden', '--glob', '!.git', '--color', 'never', "--no-ignore"]}}]})
+  let opts = {'sources': [{'name': 'rg', 'params': {'input': escaped_text, 'args': ['--smart-case', "--column", "--no-heading", '--hidden', '--glob', '!.git', '--color', 'never', "--no-ignore"]}}]}
+  call extend(opts, s:ddu_tab_path_opts())
+  :call ddu#start(opts)
 endfunction
 
 command! -range Ainavi :call ddu#start(#{

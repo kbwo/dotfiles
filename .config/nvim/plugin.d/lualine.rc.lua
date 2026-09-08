@@ -34,6 +34,34 @@ local custom_theme = {
 		c = { fg = colors.fg3, bg = colors.bg3 },
 	},
 }
+-- base.vim の GetTabLabel と同じ優先順位でブランチを決める。
+-- 1. タブに割り当てられた worktree (worktree-tab.rc.vim)
+-- 2. 現在のバッファに紐づくブランチ (通常ファイルは base.vim の
+--    s:UpdateBufBranch、fern は fern.rc.vim が設定)
+-- 3. どちらも無い「No Name」バッファ向けに、cwd のブランチ
+--    (base.vim の CachedGitBranchAt でディレクトリ単位にキャッシュ済み)
+local function current_branch()
+	local branch = vim.t.worktree_branch
+	if branch == nil or branch == "" then
+		branch = vim.b.git_branch
+	end
+	if branch == nil or branch == "" then
+		branch = vim.fn.CachedGitBranchAt(vim.fn.getcwd())
+	end
+	if branch == nil or branch == "" then
+		return nil
+	end
+	return branch
+end
+
+local function tab_worktree_branch()
+	local branch = current_branch()
+	if branch == nil or branch == "" then
+		return ""
+	end
+	return " " .. branch .. " "
+end
+
 local function filename_with_parent()
 	-- Get the full path of the current file
 	local filepath = vim.fn.expand("%:p")
@@ -93,7 +121,19 @@ require("lualine").setup({
 				},
 			},
 		},
-		lualine_b = { "branch", "diff", "diagnostics" },
+		lualine_b = {
+			{
+				tab_worktree_branch,
+				color = { fg = colors.fg2, bg = colors.orange, gui = "bold" },
+				cond = function()
+					local branch = current_branch()
+					return branch ~= nil and branch ~= ""
+				end,
+			},
+			"branch",
+			"diff",
+			"diagnostics",
+		},
 		-- lualine_c = {'filename'},
 		lualine_c = { "g:coc_status", "b:coc_current_function" },
 		lualine_x = { "encoding", "fileformat", "filetype" },

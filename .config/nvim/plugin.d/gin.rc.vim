@@ -3,33 +3,43 @@ let g:gin_status_disable_default_mappings = 1
 let g:gin_log_disable_default_mappings = 1
 let g:gin_proxy_editor_opener = "vsplit"
 
-nmap gns<Space> :GinStatus<CR>
-nmap gnss :GinStatus ++opener=split<CR>
-nmap gnsv :GinStatus ++opener=vsplit<CR>
-nmap gnst :GinStatus ++opener=tabedit<CR>
-nmap gnb<Space> :GinBranch<CR>
-nmap gnbs :GinBranch ++opener=split<CR>
-nmap gnbv :GinBranch ++opener=vsplit<CR>
-nmap gnbt :GinBranch ++opener=tabedit<CR>
+" gin.vim の各コマンドは ++worktree=<path> で対象の worktree を明示できる
+" (無指定時は現在のバッファのファイル→無ければ cwd から自動検出する)。
+" worktree-tab.rc.vim でこのタブに worktree が割り当てられていれば、
+" 以下のマッピングはすべてそちらを明示的に指定する。<expr> マッピングに
+" しているのは、割り当ては都度変わり得るためキー実行時に毎回評価したいから。
+function! GinWorktreeOpt() abort
+  let dir = WorktreeTabDir()
+  return dir ==# '' ? '' : ' ++worktree=' . fnameescape(dir)
+endfunction
 
-nmap gnd<Space> :GinDiff<CR>
-nmap gnds :GinDiff ++opener=split<CR>
-nmap gndv :GinDiff ++opener=vsplit<CR>
-nmap gndt :GinDiff ++opener=tabedit<CR>
+nnoremap <expr> gns<Space> ':GinStatus' . GinWorktreeOpt() . "\<CR>"
+nnoremap <expr> gnss ':GinStatus' . GinWorktreeOpt() . ' ++opener=split' . "\<CR>"
+nnoremap <expr> gnsv ':GinStatus' . GinWorktreeOpt() . ' ++opener=vsplit' . "\<CR>"
+nnoremap <expr> gnst ':GinStatus' . GinWorktreeOpt() . ' ++opener=tabedit' . "\<CR>"
+nnoremap <expr> gnb<Space> ':GinBranch' . GinWorktreeOpt() . "\<CR>"
+nnoremap <expr> gnbs ':GinBranch' . GinWorktreeOpt() . ' ++opener=split' . "\<CR>"
+nnoremap <expr> gnbv ':GinBranch' . GinWorktreeOpt() . ' ++opener=vsplit' . "\<CR>"
+nnoremap <expr> gnbt ':GinBranch' . GinWorktreeOpt() . ' ++opener=tabedit' . "\<CR>"
 
-nmap gnc :Gin commit<CR>
-nmap gnh :Gin checkout -b
-nmap gnps :Gin push
-nmap gnpl :Gin pull<CR>
-nmap gnam :Gin commit --amend<CR>
+nnoremap <expr> gnd<Space> ':GinDiff' . GinWorktreeOpt() . "\<CR>"
+nnoremap <expr> gnds ':GinDiff' . GinWorktreeOpt() . ' ++opener=split' . "\<CR>"
+nnoremap <expr> gndv ':GinDiff' . GinWorktreeOpt() . ' ++opener=vsplit' . "\<CR>"
+nnoremap <expr> gndt ':GinDiff' . GinWorktreeOpt() . ' ++opener=tabedit' . "\<CR>"
 
-nmap gnl<Space> :GinLog --graph -n 1000<CR>
-nmap gnlp :GinLog -p -n 100<CR>
-nmap gnls :GinLog --graph -n 1000 ++opener=split<CR>
-nmap gnlv :GinLog --graph -n 1000 ++opener=vsplit<CR>
-nmap gnlt :GinLog --graph -n 1000 ++opener=tabedit<CR>
+nnoremap <expr> gnc ':Gin' . GinWorktreeOpt() . ' commit' . "\<CR>"
+nnoremap <expr> gnh ':Gin' . GinWorktreeOpt() . ' checkout -b'
+nnoremap <expr> gnps ':Gin' . GinWorktreeOpt() . ' push'
+nnoremap <expr> gnpl ':Gin' . GinWorktreeOpt() . ' pull' . "\<CR>"
+nnoremap <expr> gnam ':Gin' . GinWorktreeOpt() . ' commit --amend' . "\<CR>"
 
-nmap gnw :GinBrowse --permalink<CR>
+nnoremap <expr> gnl<Space> ':GinLog' . GinWorktreeOpt() . ' --graph -n 1000' . "\<CR>"
+nnoremap <expr> gnlp ':GinLog' . GinWorktreeOpt() . ' -p -n 100' . "\<CR>"
+nnoremap <expr> gnls ':GinLog' . GinWorktreeOpt() . ' --graph -n 1000 ++opener=split' . "\<CR>"
+nnoremap <expr> gnlv ':GinLog' . GinWorktreeOpt() . ' --graph -n 1000 ++opener=vsplit' . "\<CR>"
+nnoremap <expr> gnlt ':GinLog' . GinWorktreeOpt() . ' --graph -n 1000 ++opener=tabedit' . "\<CR>"
+
+nnoremap <expr> gnw ':GinBrowse' . GinWorktreeOpt() . ' --permalink' . "\<CR>"
 
 let g:gin_log_persistent_args = [
       \ '++emojify',
