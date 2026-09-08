@@ -248,15 +248,12 @@ vim.api.nvim_create_autocmd('FileType', {
       end
     end, 'チェックボックス切り替え（範囲）')
     -- <leader>lc と違い、~/memo 配下でも終了時刻 (end: ...) を書かない。
-    map('n', '<leader>lq', toggle_checkbox_quiet, 'チェックボックス切り替え（終了時刻なし）')
+    map('n', '<leader>lm', toggle_checkbox_quiet, 'チェックボックス切り替え（終了時刻なし）')
     -- マーカーの種類（チェックボックスの有無を含む）を並び順で回す。
     -- 小文字が次の種別、大文字が前の種別。u は同じ階層の兄弟だけ、i は親子も
     -- 含めたブロック全体。入れ子では階層ごとに違うマーカーにしたいことがある
     -- ため、範囲を選べるようにしてある。
     map('n', '<A-u>', '<Cmd>AutolistCycleMarkersSiblings<CR>', '種別を次へ（兄弟のみ）')
-    map('n', '<A-U>', '<Cmd>AutolistCycleMarkersSiblings!<CR>', '種別を前へ（兄弟のみ）')
-    map('n', '<A-i>', '<Cmd>AutolistCycleMarkersBlock<CR>', '種別を次へ（親子も含める）')
-    map('n', '<A-I>', '<Cmd>AutolistCycleMarkersBlock!<CR>', '種別を前へ（親子も含める）')
 
     -- 字下げだけで階層を書いた平文をリストにする。書き換える範囲を推測しない
     -- 作りなので、normal は 1 行、visual は選択範囲に対して働く。
@@ -266,15 +263,9 @@ vim.api.nvim_create_autocmd('FileType', {
       desc = 'autolist: 選択範囲をリストにする',
     })
 
-    -- normal モードからのインデント操作。insert 側は cmp 経由の <Tab>。
-    map('n', '<leader>l.', '<Cmd>AutolistIndent<CR>', '1 段下げる')
-    map('n', '<leader>l,', '<Cmd>AutolistDedent<CR>', '1 段上げる')
-
-    -- リストの末尾へ移動。下向きの移動である j に合わせる。
-    map('n', '<leader>lj', goto_list_last_line, 'リストの最後の行へ移動')
     -- この行をリストの末尾へ複製し、元の行にチェックを付ける。コピーなので y。
     map('n', '<leader>ll', copy_line_to_list_end, 'この行をリストの末尾に複製して元にチェック')
     -- この行（が属する項目）を同じ階層の兄弟の最後尾へ移動する。
-    map('n', '<leader>ls', move_line_to_sibling_end, 'この行を兄弟の最後尾へ移動')
+    map('n', '<leader>lj', move_line_to_sibling_end, 'この行を兄弟の最後尾へ移動')
   end,
 })
