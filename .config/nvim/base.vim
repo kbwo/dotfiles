@@ -468,7 +468,12 @@ function! GetTabLabel(tabnr, hl)
   if branch ==# ''
     let branch = CachedGitBranchAt(getcwd(-1, a:tabnr))
   endif
-  let prefix = branch !=# '' ? '%#WorktreeTabLabel# ' . branch . ' ' . a:hl : ''
+  " アクティブなタブだけ目立つ色 (WorktreeTabLabel) を使い、非アクティブな
+  " タブは控えめな色 (WorktreeTabLabelInactive、いずれも worktree-tab.rc.vim
+  " で定義) にして、常時表示されるバッジがタブライン全体で目立ちすぎない
+  " ようにする。
+  let badge_hl = a:hl ==# '%#TabLineSel#' ? '%#WorktreeTabLabel#' : '%#WorktreeTabLabelInactive#'
+  let prefix = branch !=# '' ? badge_hl . ' ' . branch . ' ' . a:hl : ''
 
   if filetype =~# '^gin'
     return prefix . filetype

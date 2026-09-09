@@ -13,6 +13,10 @@
 " 従来通りの git root 自動検出 / cwd を対象にする。
 
 highlight default WorktreeTabLabel guifg=#1c1c1c guibg=#ffaf00 gui=bold ctermfg=black ctermbg=214
+" 非アクティブなタブ向けの控えめな配色。常時表示されるバッジなので、
+" アクティブなタブだけ目立つ色にし、それ以外はタブラインの地色に近い
+" 落ち着いた色にしてタブライン全体がうるさくならないようにする。
+highlight default WorktreeTabLabelInactive guifg=#a8a8a8 guibg=#3a3a3a gui=NONE ctermfg=248 ctermbg=238
 
 " 現在のタブに worktree ディレクトリを割り当てる。
 function! SetTabWorktree(path) abort
@@ -50,3 +54,39 @@ endfunction
 
 command! -nargs=1 -complete=dir WorktreeTabSet call SetTabWorktree(<q-args>)
 command! WorktreeTabClear call ClearTabWorktree()
+
+" :terminal (:te) は既定でその時点の cwd でシェルを起動するだけで、
+" タブに割り当てた worktree のことを知らない。割り当てがあるときだけ
+" 一時的にウィンドウローカルの cd (:lcd) を worktree 側へ切り替えてから
+" 本来の :terminal を実行し、起動直後に元へ戻す (このウィンドウの実効 cwd
+" 自体は変えたままにしないため)。modifier (:vertical 等) や引数は
+" そのまま素通しする。
+function! s:TerminalInWorktree(mods, bang, args) abort
+  let dir = WorktreeTabDir()
+  let cmd = (a:mods !=# '' ? a:mods . ' ' : '') . 'terminal' . a:bang
+        \ . (a:args !=# '' ? ' ' . a:args : '')
+  if dir ==# ''
+    execute cmd
+    return
+  endif
+  let saved = getcwd(0)
+  execute 'lcd ' . fnameescape(dir)
+  try
+    execute cmd
+  finally
+    execute 'lcd ' . fnameescape(saved)
+  endtry
+endfunction
+
+command! -bar -bang -nargs=* -complete=shellcmd TerminalInWorktree
+      \ call s:TerminalInWorktree(<q-mods>, <q-bang>, <q-args>)
+
+" :terminal のユーザーが打つ主な省略形 (:te 〜 :terminal) をすべて上の
+" コマンドに差し替える。getcmdline() との完全一致だけを見ているのは、
+" コマンド名として単独で打たれたときだけ発動させ、他のコマンドの引数の
+" 中に同じ文字列が現れた場合などの誤爆を避けるため。
+for s:abbr in ['te', 'ter', 'term', 'termi', 'termin', 'termina', 'terminal']
+  execute 'cnoreabbrev <expr> ' . s:abbr
+        \ . " (getcmdtype() ==# ':' && getcmdline() ==# " . string(s:abbr) . ") ? 'TerminalInWorktree' : " . string(s:abbr)
+endfor
+unlet s:abbr
