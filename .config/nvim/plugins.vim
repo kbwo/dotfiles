@@ -55,7 +55,7 @@ Jetpack 'shun/ddu-source-buffer', {'commit': '1238c09bccb1d4814f36d83ef864cbb2b2
 Jetpack 'matsui54/ddu-source-file_external', {'commit': '62b0fb4623ad07d549e8269ef4f51f09cf1b7500'}
 Jetpack 'kbwo/ddu-source-lsp', { 'branch': 'fix/method-support', 'commit': '79f7061d54af6b071f58300cde07bbaa365d5a90' }
 Jetpack 'kamecha/ddu-source-window', {'commit': '308730e870978d4d29b2fea79332b3c3cfd15a8c'}
-Jetpack 'nekowasabi/ddu-source-git-worktree', {'commit': '45bb22e71e383eecd18ff2599f3e70b4d4c995e0'}
+Jetpack 'kbwo/ddu-source-git-worktree', { 'branch': 'fix/detached-worktree-branch-name', 'commit': '88cc6bcc2fdef272f7e7f756826a34e381112d58' }
 
 Jetpack 'jake-stewart/multicursor.nvim', {'commit': '704b99f10a72cc05d370cfeb294ff83412a8ab55'}
 
