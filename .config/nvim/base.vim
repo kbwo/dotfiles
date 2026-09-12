@@ -216,11 +216,22 @@ set fixendofline
 let s:git_root_cache = ''
 let s:git_root_cwd = ''
 
+" worktree-tab.rc.vim でタブに worktree が割り当てられていればそちらを
+" 基準に git root を探し、無ければ従来通り cwd を基準にする。git worktree
+" は本体のリポジトリとは別のディレクトリにあるため、常に cwd (実際の
+" ファイルシステム上のカレントディレクトリ) を基準にしてしまうと、タブに
+" 割り当てた worktree 内のファイルに対しては、cwd 側 (メインリポジトリ)
+" の git root を基準に相対パスを計算しようとしてパスの先頭が一致せず、
+" GetGitRelativePath() の substitute() が何も置換できないまま元の絶対
+" パスをそのまま返してしまっていた。
 function! s:GetGitRoot()
-  let l:cwd = getcwd()
-  if s:git_root_cwd !=# l:cwd
-    let s:git_root_cache = trim(system('git rev-parse --show-toplevel'))
-    let s:git_root_cwd = l:cwd
+  let l:base = WorktreeTabDir()
+  if l:base ==# ''
+    let l:base = getcwd()
+  endif
+  if s:git_root_cwd !=# l:base
+    let s:git_root_cache = trim(system('git -C ' . shellescape(l:base) . ' rev-parse --show-toplevel'))
+    let s:git_root_cwd = l:base
   endif
   return v:shell_error ? '' : s:git_root_cache
 endfunction
@@ -668,6 +679,48 @@ endfunction
 augroup AutoGitCommitPush
     autocmd!
     autocmd VimEnter * call s:StartAutoGit()
+augroup END
+
+" cwd が ~/dotfiles のときだけ、定期的に git pull/commit/push を行う。
+" 上の g:auto_git_dirs (auto_git.sh) と違い、pull がコンフリクトになった
+" 場合は自動では直さず、その時点で pull/commit/push を止める。手動で
+" コンフリクトを解消すると、次の周期で自動的に定期処理を再開する
+" (実装は auto_git_dotfiles.sh 側の is_conflicted() / conflicted フラグ)。
+let g:dotfiles_auto_git_dir = expand('~/dotfiles')
+let g:dotfiles_auto_git_script = g:dotfiles_auto_git_dir . '/auto_git_dotfiles.sh'
+
+function! s:StartDotfilesAutoGit() abort
+    if exists('g:dotfiles_auto_git_job')
+        return
+    endif
+
+    if getcwd() !=# g:dotfiles_auto_git_dir
+        return
+    endif
+
+    if !filereadable(g:dotfiles_auto_git_script)
+        echom "Error: auto_git_dotfiles.sh not found in " . g:dotfiles_auto_git_dir
+        return
+    endif
+
+    let l:cmd = 'bash ' . shellescape(g:dotfiles_auto_git_script) . ' ' . shellescape(g:dotfiles_auto_git_dir)
+
+    let g:dotfiles_auto_git_job = jobstart(l:cmd, {
+        \ 'on_stdout': function('s:HandleOutput'),
+        \ 'on_stderr': function('s:HandleError'),
+        \ 'on_exit': function('s:HandleDotfilesAutoGitExit'),
+        \ })
+    echom "Started auto git script for " . g:dotfiles_auto_git_dir
+endfunction
+
+function! s:HandleDotfilesAutoGitExit(job_id, data, event) abort
+    echom "Dotfiles auto git job finished with code: " . a:data
+    unlet g:dotfiles_auto_git_job
+endfunction
+
+augroup DotfilesAutoGitCommitPush
+    autocmd!
+    autocmd VimEnter * call s:StartDotfilesAutoGit()
 augroup END
 
 nmap <silent><Leader>ml<Space> :Fern ~/memo -reveal=~/memo/private<CR>
