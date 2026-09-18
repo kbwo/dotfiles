@@ -48,6 +48,8 @@ matches:
           format: "%Y-W%V"
   - trigger: ";h;"
     replace: "\n***\n"
+  - trigger: ";i"
+    replace: "今北産業"
   # Random 16-char alphanumeric string: concatenates 4 chunks picked by the
   # native "random" extension (no shell spawn, so it expands instantly).
   # 64 choices x 4 slots = ~16.7M combinations. Not for secrets/passwords.
