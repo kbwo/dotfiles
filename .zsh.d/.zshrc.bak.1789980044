@@ -20,9 +20,3 @@ export SDKMAN_DIR="$HOME/.sdkman"
 
 command -v direnv &>/dev/null && eval "$(direnv hook zsh)"
 eval "$(~/.local/bin/mise activate zsh)" 2>/dev/null
-
-# >>> grok installer >>>
-export PATH="$HOME/.grok/bin:$PATH"
-fpath=(~/.grok/completions/zsh $fpath)
-autoload -Uz compinit && compinit -C
-# <<< grok installer <<<
