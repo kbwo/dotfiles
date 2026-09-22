@@ -48,11 +48,17 @@
       e.stopImmediatePropagation();
 
       void (async () => {
-        // Use .toot .text .content first line if available, otherwise document.title
+        // x.com: use tweetText (newlines → spaces, max 500 chars)
+        // otherwise: .toot .text .content first line if available, else document.title
+        const tweetText =
+          location.hostname === "x.com" &&
+          document.querySelector('[data-testid="tweetText"]');
         const tootContent = document.querySelector(".toot .text .content");
-        const rawTitle = tootContent
-          ? tootContent.innerText.split("\n")[0]
-          : document.title;
+        const rawTitle = tweetText
+          ? [...tweetText.innerText.replace(/\r?\n/g, " ")].slice(0, 500).join("")
+          : tootContent
+            ? tootContent.innerText.split("\n")[0]
+            : document.title;
         // delete `#xxx`, `[xxx]`
         const title = rawTitle
           .replace(/^\(\d+\)\s/, "") // "(数字) "を削除
