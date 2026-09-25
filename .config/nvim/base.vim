@@ -846,6 +846,9 @@ endfunction
 " ファイル名は ISO 日付なので辞書順がそのまま時系列順になる。
 " 引き継ぐのは先頭から最初の '***' の行の手前まで (doing list 本体) のみで、
 " それ以降に書き足した日々のメモは複製しない。
+" さらにその範囲のうち、チェックボックスの行 (s:memo_checkbox_pattern に一致する
+" '- [ ] ...' / '- [x] ...' の形) だけを残す。見出しや素の文章はその日限りの
+" 書き付けで、翌日に持ち越すと doing list が古い文で埋まっていくため。
 function! s:SeedDoingMemoFromPrevDay(path) abort
   " expand() は 'wildignore' に一致するパスで空文字を返すため fnamemodify を使う
   let l:path = fnamemodify(a:path, ':p')
@@ -871,6 +874,7 @@ function! s:SeedDoingMemoFromPrevDay(path) abort
   elseif l:separator > 0
     let l:lines = l:lines[0 : l:separator - 1]
   endif
+  call filter(l:lines, 'v:val =~# s:memo_checkbox_pattern')
   call writefile(l:lines, l:path)
 endfunction
 
