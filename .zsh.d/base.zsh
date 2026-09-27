@@ -109,7 +109,7 @@ colortest() {
 
 export COLORTERM=truecolor
 
-# neovim-remoteとnotiに依存
+# neovim-remoteとnotikunに依存
 # 通知を行う関数
 _notify() {
   local cmd="$1" exit_status="$2" elapsed="$3"
@@ -142,13 +142,13 @@ _notify() {
   }
 
   if _is_nvim_background; then
-    noti --title "$dirname" --message "$message"
+    notikun send --title "$dirname" --message "$message"
   elif _is_tmux_inactive; then
-    noti --title "$dirname" --message "$message"
+    notikun send --title "$dirname" --message "$message"
   elif [[ -n "$NVIM" ]]; then
-    noti --message "$message"
+    notikun send --title "notikun" --message "$message"
   elif (( elapsed > 3 )); then
-    noti --message "$message"
+    notikun send --title "notikun" --message "$message"
   fi
 }
 
@@ -167,7 +167,7 @@ notify_done() {
     message="Unknown: $cwd"
   fi
 
-  noti --title "Done" --message "$message"
+  notikun send --title "Done" --message "$message"
 }
 
 
