@@ -12,14 +12,16 @@
     "use strict";
 
     // <relative-time> (github/relative-time-element) re-renders itself when these attributes change.
+    // sv-SE locale formats as "YYYY-MM-DD HH:mm".
     const attrs = {
         format: "datetime",
         prefix: "",
+        lang: "sv-SE",
         year: "numeric",
-        month: "short",
-        day: "numeric",
-        hour: "numeric",
-        minute: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
     };
 
     const apply = () => {
