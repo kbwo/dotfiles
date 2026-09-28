@@ -17,6 +17,7 @@
         format: "datetime",
         prefix: "",
         lang: "sv-SE",
+        "hour-cycle": "h23",
         year: "numeric",
         month: "2-digit",
         day: "2-digit",
