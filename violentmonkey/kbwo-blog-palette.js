@@ -53,14 +53,16 @@
   if (location.hostname === "grok.com") {
     const hslVars = {
       bg: ["--background-color", "--surface-l1", "--surface-inset", "--muted", "--accent"],
-      card: ["--surface-base", "--surface-elevated", "--thead-bg-color"],
-      code: ["--surface-l2", "--surface-l1-hover"],
+      card: ["--surface-base", "--surface-elevated", "--thead-bg-color", "--wd-composer-bg"],
+      code: ["--surface-l2", "--surface-l1-hover", "--wd-user-bubble"],
       line: ["--surface-l3", "--surface-l2-active", "--border", "--sidebar-border"],
       pale: ["--surface-l4"],
       ink: ["--fg-primary", "--primary", "--surface-invert", "--popover-foreground", "--card-foreground", "--secondary-foreground", "--accent-foreground"],
       mute: ["--fg-secondary", "--secondary", "--muted-foreground", "--sidebar-foreground"],
       faint: ["--fg-tertiary", "--fg-quaternary"],
       link: ["--fg-link"],
+      accent: ["--wd-accent"],
+      accentDark: ["--wd-accent-hover"],
     };
     const colorVars = {
       "--background": rgb(P.bg),
@@ -75,6 +77,7 @@
       "--input-button-background-hover": rgb(P.code),
       "--input-border": rgb(P.line),
       "--card-border": rgb(P.line),
+      "--wd-composer-border": rgb(P.line),
       "--border-l1": rgb(P.ink, 0.08),
       "--border-l2": rgb(P.ink, 0.12),
       "--border-l3": rgb(P.ink, 0.18),
@@ -90,8 +93,9 @@
       ...Object.entries(hslVars).flatMap(([k, names]) => names.map((n) => `${n}: ${hsl(P[k])} !important;`)),
       ...Object.entries(colorVars).map(([n, v]) => `${n}: ${v} !important;`),
     ];
+    // body でも変数を定義し直しているので body にも当てる
     // ponytail: light テーマのみ。dark テーマにも当てるなら html.dark 用の対応表を足す
-    addStyle(`html.light { ${decls.join(" ")} } html.light body { background: ${dots}, ${rgb(P.bg)} !important; }`);
+    addStyle(`html.light, html.light body { ${decls.join(" ")} } html.light body { background: ${dots}, ${rgb(P.bg)} !important; }`);
     return;
   }
 
