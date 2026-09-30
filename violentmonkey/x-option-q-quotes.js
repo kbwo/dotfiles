@@ -50,7 +50,7 @@
       sortButton.click();
       const recent = await waitFor(() =>
         [...document.querySelectorAll('[role="menuitem"]')].find(
-          (m) => m.textContent.trim() === "Recent",
+          (m) => m.textContent.trim() === "Recent" || m.textContent.trim() === "最新",
         ),
       );
       recent?.click();
