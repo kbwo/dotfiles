@@ -32,6 +32,34 @@
     }
   };
 
+  // Amazon の「シェア」ボタンと同じ API を叩いて https://amzn.asia/d/xxx 形式の短縮URLを得る。
+  // 必要なトークンは商品ページの DOM にしか無いため、商品ページ以外では例外になる（呼び出し側でフォールバック）。
+  const amazonShortUrl = async () => {
+    const share = JSON.parse(
+      document.querySelector("[data-ssf-share-icon]").dataset.ssfShareIcon
+    );
+    const res = await fetch(
+      `https://data.amazon.co.jp/api/marketplaces/${share.shareDataAttributes.marketplaceId}/social-share/on-share`,
+      {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          Accept:
+            'application/vnd.com.amazon.api+json; type="social-share.on-share/v1"',
+          "x-api-csrf-token": share.shareAapiCsrfToken,
+          "x-amzn-encrypted-slate-token": document.querySelector(
+            'meta[name="encrypted-slate-token"]'
+          ).content,
+        },
+        body: new URLSearchParams({
+          longUrl: share.url,
+          channel: JSON.stringify({ ref: "", label: "" }),
+        }),
+      }
+    );
+    return (await res.json()).entity.shortUrl.url;
+  };
+
   // capture: true — YouTube 等は内側で stopPropagation するため、document のバブル段では届かない。
   // window のキャプチャで先に拾い、ショートカット時は伝播を止める。
   window.addEventListener(
@@ -79,7 +107,14 @@
           urlObj.searchParams.delete("slide");
         }
 
-        const url = urlObj.toString();
+        let url = urlObj.toString();
+        if (urlObj.hostname === "www.amazon.co.jp") {
+          try {
+            url = await amazonShortUrl();
+          } catch (err) {
+            console.error(err); // ページのURLにフォールバック
+          }
+        }
         if (isC) {
           copy(`[${title}](${url})`);
         } else if (isS) {
