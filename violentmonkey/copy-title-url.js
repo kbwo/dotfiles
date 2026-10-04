@@ -46,6 +46,8 @@
         headers: {
           Accept:
             'application/vnd.com.amazon.api+json; type="social-share.on-share/v1"',
+          // 明示しないと fetch が ";charset=UTF-8" を付け、API が 415 を返す
+          "Content-Type": "application/x-www-form-urlencoded",
           "x-api-csrf-token": share.shareAapiCsrfToken,
           "x-amzn-encrypted-slate-token": document.querySelector(
             'meta[name="encrypted-slate-token"]'
@@ -54,7 +56,7 @@
         body: new URLSearchParams({
           longUrl: share.url,
           channel: JSON.stringify({ ref: "", label: "" }),
-        }),
+        }).toString(),
       }
     );
     return (await res.json()).entity.shortUrl.url;
