@@ -13,9 +13,9 @@ autoload -Uz _zinit
 
 ZDOTDIR="${HOME}/dotfiles/.zsh.d"
 zinit light sindresorhus/pure
-# `memo <text>` でこのシェルの作業メモをプロンプト記号の左に表示する。引数なしで消す。
+# `m <text>` でこのシェルの作業メモをプロンプト記号の左に表示する。引数なしで消す。
 # pure は PROMPT の最後の改行より後ろを保持して再描画するので、ここで先頭に足せば残る。
-memo() { TERM_MEMO=${1:+"%K{208}%F{black}%B ${*//\%/%%} %b%f%k "} }
+m() { TERM_MEMO=${1:+"%K{208}%F{black}%B ${*//\%/%%} %b%f%k "} }
 PROMPT='$TERM_MEMO'$PROMPT
 ABBR_USER_ABBREVIATIONS_FILE="${HOME}/dotfiles/.zsh.d/abbreviations"
 zinit wait lucid light-mode as'null' \
