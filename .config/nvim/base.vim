@@ -138,9 +138,11 @@ nmap <silent> <Leader>e<Space> :e!<CR>
 nmap <silent> <Leader>ya :%y<CR>
 nmap gok O<Esc>j
 tnoremap <silent> <C-\> <C-\><C-n>
-augroup TerminalCtrlC
+augroup TerminalPassthrough
   autocmd!
   autocmd TermOpen * nmap <buffer> <silent> <C-c> i<C-c><C-\>G
+  autocmd TermOpen * nmap <buffer> <silent> <PageUp> i<PageUp><C-\>G
+  autocmd TermOpen * nmap <buffer> <silent> <PageDown> i<PageDown><C-\>G
 augroup END
 command Sov so ~/.config/nvim/init.vim
 command Cdv vsp ~/dotfiles/.config/nvim/init.vim
