@@ -141,8 +141,9 @@ tnoremap <silent> <C-\> <C-\><C-n>
 augroup TerminalPassthrough
   autocmd!
   autocmd TermOpen * nmap <buffer> <silent> <C-c> i<C-c><C-\>G
-  autocmd TermOpen * nmap <buffer> <silent> <PageUp> i<PageUp><C-\>G
-  autocmd TermOpen * nmap <buffer> <silent> <PageDown> i<PageDown><C-\>G
+  " 端末モードを経由すると出入りの再描画でちらつくため、キーのエスケープシーケンスを直接ジョブに送る
+  autocmd TermOpen * nnoremap <buffer> <silent> <PageUp> <Cmd>call chansend(b:terminal_job_id, "\e[5~")<CR>G
+  autocmd TermOpen * nnoremap <buffer> <silent> <PageDown> <Cmd>call chansend(b:terminal_job_id, "\e[6~")<CR>G
 augroup END
 command Sov so ~/.config/nvim/init.vim
 command Cdv vsp ~/dotfiles/.config/nvim/init.vim
