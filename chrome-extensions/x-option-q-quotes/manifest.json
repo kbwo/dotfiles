@@ -3,10 +3,18 @@
   "name": "x-option-q-quotes",
   "version": "0.0.2",
   "description": "Press Option+Q to navigate to current URL + /quotes (sorted by Recent)",
+  "icons": {
+    "128": "icon.png"
+  },
   "content_scripts": [
     {
-      "matches": ["https://x.com/*", "https://twitter.com/*"],
-      "js": ["content.js"],
+      "matches": [
+        "https://x.com/*",
+        "https://twitter.com/*"
+      ],
+      "js": [
+        "content.js"
+      ],
       "run_at": "document_start",
       "all_frames": true
     }

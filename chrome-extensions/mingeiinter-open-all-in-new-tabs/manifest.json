@@ -3,13 +3,20 @@
   "name": "mingeiinter-open-all-in-new-tabs",
   "version": "0.0.1",
   "description": "各 .post-list（日付ごとの記事一覧）に「全ての記事を新しいタブで開く」ボタンを追加する（ミンゲイインターネット）",
+  "icons": {
+    "128": "icon.png"
+  },
   "background": {
     "service_worker": "background.js"
   },
   "content_scripts": [
     {
-      "matches": ["https://mingeiinter.net/posts/*"],
-      "js": ["content.js"],
+      "matches": [
+        "https://mingeiinter.net/posts/*"
+      ],
+      "js": [
+        "content.js"
+      ],
       "run_at": "document_idle",
       "all_frames": true
     }

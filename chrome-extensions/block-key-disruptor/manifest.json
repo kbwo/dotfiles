@@ -3,6 +3,9 @@
   "name": "Block Key Disruptor",
   "version": "1.1",
   "description": "Remove all keydown event listeners set by the website on both window and document objects",
+  "icons": {
+    "128": "icon.png"
+  },
   "content_scripts": [
     {
       "matches": [
@@ -13,7 +16,9 @@
         "https://www.youtube.com/*",
         "https://feedly.com/*"
       ],
-      "js": ["content.js"],
+      "js": [
+        "content.js"
+      ],
       "run_at": "document_start",
       "all_frames": true,
       "world": "MAIN"
