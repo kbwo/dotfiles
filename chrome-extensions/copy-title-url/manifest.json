@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "copy-title-url",
+  "version": "0.0.1",
+  "description": "Ctrl+Alt+C / S / D でページのタイトルと URL をクリップボードにコピーする",
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ]
+}
