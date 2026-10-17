@@ -26,3 +26,6 @@ export PATH="$HOME/.grok/bin:$PATH"
 fpath=(~/.grok/completions/zsh $fpath)
 autoload -Uz compinit && compinit -C
 # <<< grok installer <<<
+
+# moonbit
+export PATH="$HOME/.moon/bin:$PATH"
