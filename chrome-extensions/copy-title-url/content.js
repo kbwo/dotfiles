@@ -1,6 +1,52 @@
 (() => {
   "use strict";
 
+  // ページの CSS の影響を受けないよう Shadow DOM に入れ、popover で top layer（ページのモーダルより手前）に出す
+  let toastTimer;
+  const toast = (title, detail, ok) => {
+    document.getElementById("copy-title-url-toast")?.remove();
+    clearTimeout(toastTimer);
+
+    const host = document.createElement("div");
+    host.id = "copy-title-url-toast";
+    host.popover = "manual";
+    host.style.cssText =
+      "all:initial;position:fixed;inset:auto 24px 24px auto;margin:0;border:0;padding:0;background:transparent;overflow:visible;";
+    const root = host.attachShadow({ mode: "closed" });
+    root.innerHTML = `
+      <style>
+        .t {
+          display: flex; gap: 10px; align-items: flex-start;
+          max-width: 420px; padding: 12px 16px; border-radius: 10px;
+          background: rgba(28, 28, 30, 0.92); color: #fff;
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+          font: 13px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+          opacity: 0; transform: translateY(8px);
+          transition: opacity 0.2s, transform 0.2s;
+        }
+        .t.show { opacity: 1; transform: none; }
+        .icon { flex: none; font-weight: bold; color: ${ok ? "#34c759" : "#ff453a"}; }
+        .title { font-weight: 600; }
+        .detail {
+          margin-top: 2px; color: rgba(255, 255, 255, 0.7);
+          display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+          overflow: hidden; word-break: break-all; white-space: pre-wrap;
+        }
+      </style>
+      <div class="t"><span class="icon">${ok ? "✓" : "✕"}</span><div><div class="title"></div><div class="detail"></div></div></div>`;
+    root.querySelector(".title").textContent = title;
+    root.querySelector(".detail").textContent = detail;
+    document.documentElement.append(host);
+    host.showPopover();
+
+    const box = root.querySelector(".t");
+    requestAnimationFrame(() => box.classList.add("show"));
+    toastTimer = setTimeout(() => {
+      box.classList.remove("show");
+      box.addEventListener("transitionend", () => host.remove(), { once: true });
+    }, 2500);
+  };
+
   const copy = async (text) => {
     try {
       // navigator.clipboard はページ側の制約（フォーカス・ユーザー操作・Permissions Policy）で
@@ -8,10 +54,10 @@
       if (!(await chrome.runtime.sendMessage(text))) {
         throw new Error("execCommand('copy') returned false");
       }
-      alert("copied to clipboard");
+      toast("Copied to clipboard", text, true);
     } catch (e) {
       console.error(e);
-      alert("failed to copy");
+      toast("Failed to copy", String(e), false);
     }
   };
 
@@ -117,7 +163,7 @@
               : `${title} ${url}`;
             copy(newContent);
           } catch (err) {
-            alert(`Failed to read clipboard: ${err}`);
+            toast("Failed to read clipboard", String(err), false);
           }
         }
       })();
