@@ -3,7 +3,11 @@
 
   const copy = async (text) => {
     try {
-      await navigator.clipboard.writeText(text);
+      // navigator.clipboard はページ側の制約（フォーカス・ユーザー操作・Permissions Policy）で
+      // 拒否されることがあるため、拡張の offscreen document でコピーする（background.js 経由）
+      if (!(await chrome.runtime.sendMessage(text))) {
+        throw new Error("execCommand('copy') returned false");
+      }
       alert("copied to clipboard");
     } catch (e) {
       console.error(e);

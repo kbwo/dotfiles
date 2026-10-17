@@ -6,6 +6,10 @@
   "icons": {
     "128": "icon.png"
   },
+  "permissions": ["offscreen", "clipboardWrite"],
+  "background": {
+    "service_worker": "background.js"
+  },
   "content_scripts": [
     {
       "matches": [
