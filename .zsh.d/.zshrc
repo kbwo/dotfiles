@@ -29,3 +29,6 @@ autoload -Uz compinit && compinit -C
 
 # moonbit
 export PATH="$HOME/.moon/bin:$PATH"
+
+# moonbit
+export PATH="$HOME/.moon/bin:$PATH"
