@@ -5,7 +5,13 @@ mkfile() {
 kb() {
    timestamp=$(date +"%Y%m%d%H%M")
 
-   if [ -n "$1" ]; then
+   if [ "$1" = "-n" ]; then
+     if [ -z "$2" ]; then
+       echo "Usage: kb -n <name>"
+       return 1
+     fi
+     new_dir="${KBWO}/$2"
+   elif [ -n "$1" ]; then
      prefix=$1
      new_dir="${KBWO}/${prefix}-${timestamp}"
    else
