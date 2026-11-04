@@ -96,7 +96,7 @@ vmap <silent> j gj
 nmap <silent> k gk
 vmap <silent> k gk
 nmap <silent> R :join<CR>
-nmap <silent> <M-r> :join!<CR>
+nmap <silent> <M-r> :keeppatterns s/\s*\n\s*//e<CR>
 " nmap <silent> <Leader>j :-tabmove<CR>
 " nmap <silent> <Leader>k :+tabmove<CR>
 nmap <silent> Q :call CloseAllTermBuffers()<CR>:execute 'cd' getenv("PWD")<CR>:confirm qa<CR>

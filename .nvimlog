@@ -8,3 +8,4 @@ WRN 2026-10-15T22:37:16.579 c/nvim.9045.0 server_start:199: Failed to start serv
 ERR 2026-10-15T22:37:16.582 c/nvim.9045.0 pty_proc_spawn:186: forkpty failed: Operation not permitted
 WRN 2026-10-15T22:37:22.374 c/nvim.9045.0 server_start:199: Failed to start server: operation not permitted: /tmp/claude-501/nvim.kbwo/34I64M/nvim.89462.0
 ERR 2026-10-15T22:37:22.377 c/nvim.9045.0 pty_proc_spawn:186: forkpty failed: Operation not permitted
+WRN 2026-11-04T11:18:52.159 c/nvim.18402.0 server_start:199: Failed to start server: operation not permitted: /tmp/claude-501/nvim.kbwo/PuMSlt/nvim.20833.0
