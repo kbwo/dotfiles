@@ -183,7 +183,10 @@ endfunction
 " OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 " SOFTWARE.
 function! s:hijack_directory() abort
-  let l:path = fnamemodify(bufname(), ':p')
+  " fnamemodify(bufname(), ':p') は名前のないバッファでカレントディレクトリを返し、
+  " fern を開くたびにこの関数が再帰してしまうため expand() を使う。
+  " '%' の展開は 'wildignore' の影響を受けない。
+  let l:path = expand('%:p')
   if !isdirectory(l:path)
     return
   endif
