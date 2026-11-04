@@ -142,6 +142,62 @@ function! s:escape_fern_path(path) abort
   return l:result
 endfunction
 
+" fern.vim 内部は fern#util#expand() (=expand()) でパスを解決しており、
+" 'wildignore' に一致するパス (例: */tmp/* にマッチする scratchpad のパス) を
+" 渡すと expand() が空文字を返し、結果的にカレントディレクトリにフォールバック
+" してしまう。:Fern 実行中だけ 'wildignore' を退避してクリアする。
+function! s:fern_without_wildignore(cmd) abort
+  let l:wildignore_saved = &wildignore
+  try
+    set wildignore=
+    execute a:cmd
+  finally
+    let &wildignore = l:wildignore_saved
+  endtry
+endfunction
+
+" lambdalisue/vim-fern-hijack 相当。ディレクトリを開いたら netrw の代わりに
+" fern で開く。プラグインのままだと上記の 'wildignore' 問題を回避できないため
+" dotfiles 側で持つ。
+" 以下の s:hijack_directory と augroup fern-hijack は
+" https://github.com/lambdalisue/vim-fern-hijack (commit f65524899231b15528066744e714fb344abf0892)
+" の plugin/fern_hijack.vim を改変したもの。元のライセンス:
+"
+" Copyright 2020 Alisue, hashnote.net
+"
+" Permission is hereby granted, free of charge, to any person obtaining a copy
+" of this software and associated documentation files (the "Software"), to deal
+" in the Software without restriction, including without limitation the rights
+" to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+" copies of the Software, and to permit persons to whom the Software is
+" furnished to do so, subject to the following conditions:
+"
+" The above copyright notice and this permission notice shall be included in all
+" copies or substantial portions of the Software.
+"
+" THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+" IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+" FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+" AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+" LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+" OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+" SOFTWARE.
+function! s:hijack_directory() abort
+  let l:path = fnamemodify(bufname(), ':p')
+  if !isdirectory(l:path)
+    return
+  endif
+  let l:bufnr = bufnr()
+  call s:fern_without_wildignore(printf('keepjumps keepalt Fern %s', fnameescape(l:path)))
+  execute printf('silent! bwipeout %d', l:bufnr)
+endfunction
+
+augroup fern-hijack
+  autocmd!
+  autocmd VimEnter * if exists('#FileExplorer') | execute 'autocmd! FileExplorer *' | endif
+  autocmd BufEnter * ++nested call s:hijack_directory()
+augroup END
+
 " ~/.vim/fern-toggle.vim
 function! s:git_fern() abort
   call SavePreviousBuffer()
@@ -150,17 +206,7 @@ function! s:git_fern() abort
   let l:tab_worktree = WorktreeTabDir()
   let l:root_dir = l:tab_worktree !=# '' ? l:tab_worktree : s:fern_find_git_root()
   let git_root = s:escape_fern_path(l:root_dir)
-  " fern.vim 内部は fern#util#expand() (=expand()) でパスを解決しており、
-  " 'wildignore' に一致するパス (例: */tmp/* にマッチする scratchpad のパス) を
-  " 渡すと expand() が空文字を返し、結果的にカレントディレクトリにフォールバック
-  " してしまう。:Fern 実行中だけ 'wildignore' を退避してクリアする。
-  let l:wildignore_saved = &wildignore
-  try
-    set wildignore=
-    execute 'Fern ' . git_root . ' -reveal=% -stay'
-  finally
-    let &wildignore = l:wildignore_saved
-  endtry
+  call s:fern_without_wildignore('Fern ' . git_root . ' -reveal=% -stay')
   " fern はファイルバッファではないため base.vim の BufReadPost 等の
   " autocmd では b:git_branch が設定されない。ファイルを開いていない間も
   " タブ/lualine にブランチを表示できるよう、ここで明示的に設定する。

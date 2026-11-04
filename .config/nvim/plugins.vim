@@ -21,7 +21,6 @@ Jetpack 'kbwo/vim-gin', { 'branch': 'fix/wworktree', 'commit': 'd93a18d36f027775
 " Jetpack 'lambdalisue/gin.vim'
 Jetpack 'machakann/vim-sandwich', {'commit': '74cf93d58ccc567d8e2310a69860f1b93af19403'}
 Jetpack 'lambdalisue/fern.vim', {'commit': 'b4520a50d8df51969838d35eb07f797e2785b234'}
-Jetpack 'lambdalisue/vim-fern-hijack', {'commit': 'f65524899231b15528066744e714fb344abf0892'}
 Jetpack 'Bakudankun/BackAndForward.vim', {'commit': '09c067217d408b99e8b2b2ccc4170ac32daef934'}
 Jetpack 'nvim-lua/plenary.nvim', {'commit': '74b06c6c75e4eeb3108ec01852001636d85a932b'}
 Jetpack 'Exafunction/codeium.vim', { 'branch': 'main', 'commit': '3c0a4f8a7be75113a6e19be13b7cc37210d6e26a' }
