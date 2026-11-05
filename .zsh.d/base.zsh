@@ -207,6 +207,23 @@ precmd() {
   fi
 }
 
+# 直前のコマンド・出力・開始/終了時刻をクリップボードにコピーする (tmux 内のみ)
+# precmd が出す [start: ... | end: ...] 行を区切りとし、最後の 2 つの区切りの間を取り出す
+_copylast_extract() {
+  awk '
+    /^\[start: .* \| end: .*\]$/ { prev = last; last = NR }
+    { line[NR] = $0 }
+    END { if (!last) exit 1; for (i = prev + 1; i <= last; i++) print line[i] }
+  '
+}
+copylast() {
+  [[ -n "$TMUX" ]] || { echo "copylast: tmux 内でのみ動作します" >&2; return 1; }
+  local out
+  out=$(tmux capture-pane -p -J -S - | _copylast_extract) || { echo "copylast: 直前のコマンドが見つかりません" >&2; return 1; }
+  # C はこのファイル冒頭の OS 別クリップボード alias
+  print -r -- "$out" C
+}
+
 # Ctrl-\ to Ctrl-^
 stty quit '^^'
 # カーソル形状・色を切り替える関数
