@@ -1,2 +1,2 @@
-cmd - 1 : open -a /Applications/Alacritty.app
+cmd - 1 : if [ -d /Applications/Emacs.app ]; then open -a /Applications/Emacs.app; else open -a /Applications/Alacritty.app; fi
 cmd - 2 : open -a /Applications/Vivaldi.app
