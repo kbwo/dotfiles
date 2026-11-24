@@ -29,12 +29,6 @@ Jetpack 'apple/pkl-neovim', {'commit': '6067ca1424d851a3ce93b0429e23e3e13a8ee6e6
 Jetpack 'lukas-reineke/indent-blankline.nvim', {'commit': 'd28a3f70721c79e3c5f6693057ae929f3d9c0a03'}
 Jetpack 'akinsho/toggleterm.nvim', {'commit': '9a88eae817ef395952e08650b3283726786fb5fb'}
 Jetpack 'jedrzejboczar/possession.nvim', {'commit': 'fbea95b16c284727bc8deff2c3780a73efcdaca6'}
-Jetpack 'chenasraf/text-transform.nvim', {'commit': '335b3ad36d8b276b7b56028108d32b1c91f26d76'}
-
-" Jetpack 'neoclide/coc.nvim', {'branch': 'master', 'do': 'npm ci'}
-"
-Jetpack 'kbwo/vim-shareedit', {'commit': 'fa8f369904fa0bf6bc7686b62a83ebb60c6d1553'}
-
 " ddu
 Jetpack 'Shougo/ddu.vim', {'commit': '823f029b9c4fe4df98d2a3209f2a1a35937858a0'}
 Jetpack 'Shougo/ddu-ui-ff', {'commit': '861fd4e2491ab66d486ba97a515d2138418b40fb'}
