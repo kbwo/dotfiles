@@ -172,8 +172,6 @@ cmp.setup({
 		{ name = "nvim_lsp_document_symbol" }, -- display function signatures with current parameter emphasized
 		{ name = "emoji" },                  -- display function signatures with current parameter emphasized
 		{ name = "buffer" },                 -- source current buffer
-		-- { name = "dictionary",              keyword_length = 2 },
-		{ name = "vim-dadbod-completion" },  -- source for math calculation
 		{
 			name = "spell",
 			option = {

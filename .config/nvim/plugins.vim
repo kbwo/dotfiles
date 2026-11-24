@@ -12,27 +12,21 @@ Jetpack 'numToStr/Comment.nvim', {'commit': 'e30b7f2008e52442154b66f7c519bfd2f1e
 Jetpack 'Raimondi/delimitMate', {'commit': 'becbd2d353a2366171852387288ebb4b33a02487'}
 Jetpack 'tpope/vim-dadbod', {'commit': '6d1d41da4873a445c5605f2005ad2c68c99d8770'}
 Jetpack 'kristijanhusak/vim-dadbod-ui', {'commit': '07e92e22114cc5b1ba4938d99897d85b58e20475'}
-Jetpack 'vim-skk/skkeleton'
 Jetpack 'sontungexpt/url-open', {'commit': 'dce2a9bc51e4885ea80ca03da5b4d0f719aaf820'}
 Jetpack 'simeji/winresizer', {'commit': '299076f7f79e2e2f7706b2dfacbb3c074ce53257'}
 Jetpack 'windwp/nvim-ts-autotag', {'commit': '88c1453db4ba7dd24131086fe51fdf74e587d275'}
 Jetpack 'vim-denops/denops.vim', {'commit': '1df7a022d6e9cb3f6a3db43235e0f174ccd79e03'}
 Jetpack 'kbwo/vim-gin', { 'branch': 'fix/wworktree', 'commit': 'd93a18d36f027775ce441e25bd39f5579463f57a'}
-" Jetpack 'lambdalisue/gin.vim'
 Jetpack 'machakann/vim-sandwich', {'commit': '74cf93d58ccc567d8e2310a69860f1b93af19403'}
 Jetpack 'lambdalisue/fern.vim', {'commit': 'b4520a50d8df51969838d35eb07f797e2785b234'}
 Jetpack 'Bakudankun/BackAndForward.vim', {'commit': '09c067217d408b99e8b2b2ccc4170ac32daef934'}
-Jetpack 'nvim-lua/plenary.nvim', {'commit': '74b06c6c75e4eeb3108ec01852001636d85a932b'}
-Jetpack 'Exafunction/codeium.vim', { 'branch': 'main', 'commit': '3c0a4f8a7be75113a6e19be13b7cc37210d6e26a' }
 Jetpack 'echasnovski/mini.diff', {'commit': '117c301374ab8546891e2b34f63885ea83527432'}
 Jetpack 'rebelot/kanagawa.nvim', {'commit': 'bb85e4bfc8d89b0e62c8fa53ccdd13d12e2f77b3'}
 Jetpack 'smoka7/hop.nvim', {'commit': '707049feaca9ae65abb3696eff9aefc7879e66aa'}
 Jetpack 'yorickpeterse/nvim-window', {'commit': '48e44d492d2adaf9aac72a0f4ff21d6caae1b6a2'}
 Jetpack 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate', 'branch': 'master', 'commit': 'cf12346a3414fa1b06af75c79faebe7f76df080a'}
 Jetpack 'apple/pkl-neovim', {'commit': '6067ca1424d851a3ce93b0429e23e3e13a8ee6e6'}
-" Jetpack 'shellRaining/hlchunk.nvim'
 Jetpack 'lukas-reineke/indent-blankline.nvim', {'commit': 'd28a3f70721c79e3c5f6693057ae929f3d9c0a03'}
-Jetpack 'andrewferrier/debugprint.nvim', {'commit': '54c74749fb299bafbae818f775243be776663420'}
 Jetpack 'akinsho/toggleterm.nvim', {'commit': '9a88eae817ef395952e08650b3283726786fb5fb'}
 Jetpack 'jedrzejboczar/possession.nvim', {'commit': 'fbea95b16c284727bc8deff2c3780a73efcdaca6'}
 Jetpack 'chenasraf/text-transform.nvim', {'commit': '335b3ad36d8b276b7b56028108d32b1c91f26d76'}
@@ -42,7 +36,6 @@ Jetpack 'chenasraf/text-transform.nvim', {'commit': '335b3ad36d8b276b7b56028108d
 Jetpack 'kbwo/vim-shareedit', {'commit': 'fa8f369904fa0bf6bc7686b62a83ebb60c6d1553'}
 
 " ddu
-" Jetpack 'kbwo/ddu-source-coc'
 Jetpack 'Shougo/ddu.vim', {'commit': '823f029b9c4fe4df98d2a3209f2a1a35937858a0'}
 Jetpack 'Shougo/ddu-ui-ff', {'commit': '861fd4e2491ab66d486ba97a515d2138418b40fb'}
 Jetpack 'Shougo/ddu-source-file_rec', {'commit': '81fb15d9fa49e36de528a784ef0e1655a137d273'}
