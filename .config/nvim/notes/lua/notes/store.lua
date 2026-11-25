@@ -250,8 +250,9 @@ local function lower_text(page)
 end
 
 --- The pages holding every word of `query` and none of its "-word"s, pages whose title has
---- one of the words first, then the most recently updated; at most 100 (dev server `search`).
-function M.search(query, pages)
+--- one of the words first, then the most recently updated; at most `limit`, 100 unless given
+--- (dev server `search`).
+function M.search(query, pages, limit)
   local words, excludes = {}, {}
   for term in vim.fn.tolower(query):gmatch("%S+") do
     if term:sub(1, 1) == "-" then
@@ -295,7 +296,7 @@ function M.search(query, pages)
     end
     return a.updated > b.updated
   end)
-  return vim.list_slice(found, 1, 100)
+  return vim.list_slice(found, 1, limit or 100)
 end
 
 -- ===== links between pages =====

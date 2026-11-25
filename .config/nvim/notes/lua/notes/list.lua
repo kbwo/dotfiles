@@ -181,6 +181,16 @@ local function sections(st, pages, today)
   local mine = vim.tbl_filter(function(p)
     return p.store == st.store
   end, pages)
+  -- The filter (`/`): only the pages the search finds, with its rules (store.search), on their days as ever.
+  if st.filter then
+    local found = {}
+    for _, p in ipairs(store.search(st.filter, mine, math.huge)) do
+      found[p.rel] = true
+    end
+    mine = vim.tbl_filter(function(p)
+      return found[p.rel]
+    end, mine)
+  end
   local out = {}
   local pinned = vim.tbl_filter(function(p)
     return p.pin > 0
@@ -273,6 +283,7 @@ local function render(st)
   end
   local other = st.store == "remote" and "local" or "remote"
   lines[1] = (" %s  %d pages    Tab: %s %d    並び: %s"):format(st.store:upper(), counts[st.store], other, counts[other], st.sort == "created" and "Created" or "Modified")
+    .. (st.filter and st.mode == "list" and ("    検索: %s"):format(st.filter) or "")
   st.band = st.store == "local" and "NotesBandLocal" or "NotesBandRemote"
   -- The keys, each with what it does: the key in the accent, so that it is found at a glance.
   local function help(keys)
@@ -285,7 +296,7 @@ local function render(st)
     end
     lines[#lines + 1] = table.concat(parts)
   end
-  help({ { "hjkl", "移動" }, { "<CR>", "開く" }, { "f", "文字で開く" }, { "Tab", "remote/local" }, { "/", "検索" }, { "c", "新規" }, { "s", "並び" } })
+  help({ { "hjkl", "移動" }, { "<CR>", "開く" }, { "f", "文字で開く" }, { "Tab", "remote/local" }, { "/", "絞り込み" }, { "g/", "検索" }, { "c", "新規" }, { "s", "並び" } })
   help({ { "x", "closed" }, { "p", "pin" }, { "t", "date" }, { "v", "公開/非公開" }, { "m", "マージ" }, { "D", "削除" } })
 
   for _, sec in ipairs(secs) do
@@ -516,6 +527,43 @@ function actions.search()
   end
 end
 
+-- The filter's words, or nil for none.
+local function filter_of(text)
+  text = parser.trim(text or "")
+  return text ~= "" and text or nil
+end
+
+local function set_filter(st, text)
+  st.filter = filter_of(text)
+  st.shown_days = DAYS_PER_LOAD
+  render(st)
+  select(st, 1)
+end
+
+--- `/`: narrow the cards to the pages the words find, again on every key typed. Enter keeps
+--- the filter (shown in the band) until Esc in the list clears it; Esc while typing clears it too.
+function actions.filter(st)
+  local group = vim.api.nvim_create_augroup("notes_list_filter", { clear = true })
+  vim.api.nvim_create_autocmd("CmdlineChanged", {
+    group = group,
+    pattern = "@", -- input()'s command line
+    callback = function()
+      set_filter(st, vim.fn.getcmdline())
+      vim.cmd.redraw()
+    end,
+  })
+  local ok, q = pcall(vim.fn.input, { prompt = "絞り込み: ", default = st.filter or "", cancelreturn = false })
+  vim.api.nvim_del_augroup_by_id(group)
+  set_filter(st, (ok and q ~= false) and q or nil)
+end
+
+--- Esc in the list: the filter cleared, the whole list back.
+function actions.clear_filter(st)
+  if st.filter then
+    set_filter(st, nil)
+  end
+end
+
 function actions.sort(st)
   st.sort = st.sort == "updated" and "created" or "updated"
   render(st)
@@ -688,7 +736,9 @@ local function setup_buffer(st)
   map("<Leader>vv", actions.open_right)
   map("f", actions.label_open)
   map("<Tab>", actions.toggle_store)
-  map("/", actions.search)
+  map("/", actions.filter)
+  map("g/", actions.search)
+  map("<Esc>", actions.clear_filter)
   map("c", actions.new)
   map("s", actions.sort)
   map("x", actions.closed)
