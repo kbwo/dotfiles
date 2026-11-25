@@ -15,14 +15,17 @@ local ns = vim.api.nvim_create_namespace("notes_list")
 local ns_sel = vim.api.nvim_create_namespace("notes_list_selected")
 local ns_label = vim.api.nvim_create_namespace("notes_list_labels")
 
-local CARD_W, GAP, INDENT, CARD_H = 30, 2, 2, 4
+-- A card: its title on up to TITLE_ROWS rows, the page's first lines on the rows left, and
+-- the badges on the last row (TITLE_ROWS as stderr-blog's src/styles/cosense-cards.css
+-- `.page-list-item .title` clamps it).
+local CARD_W, GAP, INDENT, CARD_H, TITLE_ROWS = 45, 2, 2, 5, 3
 local DAYS_PER_LOAD = 30
 local LABEL_CHARS = "asdfghjklqwertyuiopzxcvbnm"
 local WEEKDAYS = { "日", "月", "火", "水", "木", "金", "土" }
 
 local states = {} -- buf -> state of each list buffer
 
-local function fit(s, w)
+function M._fit(s, w)
   s = s:gsub("[\t\r\n]", " ")
   if vim.fn.strdisplaywidth(s) > w then
     local out, n = {}, 0
@@ -37,6 +40,61 @@ local function fit(s, w)
   end
   return s .. string.rep(" ", w - vim.fn.strdisplaywidth(s))
 end
+local fit = M._fit
+
+--- `s` broken into rows at most `w` cells wide, at most `max_rows` of them, the last ending
+--- in "…" when the rest does not fit. A run of Latin letters, digits and the like breaks
+--- only at a space, as a browser breaks it, unless it is wider than a row by itself; any
+--- other character (Japanese) may end a row.
+function M._wrap(s, w, max_rows)
+  s = s:gsub("[\t\r\n]", " ")
+  local units = {}
+  for _, ch in ipairs(vim.fn.split(s, "\\zs")) do
+    local last = units[#units]
+    if ch:match("^[%w%p]$") and last and last:match("^[%w%p]+$") then
+      units[#units] = last .. ch
+    else
+      units[#units + 1] = ch
+    end
+  end
+  local rows, row, n = {}, {}, 0
+  local function push()
+    rows[#rows + 1] = table.concat(row)
+    row, n = {}, 0
+  end
+  local function add(unit)
+    local uw = vim.fn.strdisplaywidth(unit)
+    if n == 0 and unit == " " then
+      return -- a row does not start with the space it was broken at
+    end
+    if n + uw > w then
+      if uw > w then
+        -- A word wider than a row: break it where the row ends.
+        for _, ch in ipairs(vim.fn.split(unit, "\\zs")) do
+          add(ch)
+        end
+        return
+      end
+      push()
+      if unit == " " then
+        return
+      end
+    end
+    row[#row + 1], n = unit, n + uw
+  end
+  for _, unit in ipairs(units) do
+    add(unit)
+  end
+  if n > 0 then
+    push()
+  end
+  if #rows > max_rows then
+    local rest = table.concat(vim.list_slice(rows, max_rows), " ")
+    rows = vim.list_slice(rows, 1, max_rows)
+    rows[max_rows] = vim.trim(M._fit(rest, w))
+  end
+  return rows
+end
 
 local function ymd(t)
   return os.date("%Y-%m-%d", t)
@@ -48,13 +106,13 @@ local function day_heading(day)
   return ("%s (%s)"):format(day, WEEKDAYS[w])
 end
 
--- A card's two text lines: the page's first lines without the page marks, notation removed.
-local function card_lines(page)
+-- A card's `n` text lines: the page's first lines without the page marks, notation removed.
+local function card_lines(page, n)
   local out = {}
   for _, d in ipairs(page.descriptions or {}) do
     if not marks.is_mark(d) then
       out[#out + 1] = parser.nodes_to_text(parser.parse_line(d))
-      if #out == 2 then
+      if #out == n then
         break
       end
     end
@@ -236,20 +294,26 @@ local function render(st)
       for j = i, last_j do
         local card = sec.cards[j]
         local page = card.page
-        local text = card_lines(page)
-        local cells = { page.title, text[1] or "", text[2] or "", badges(card, today) }
+        local title = M._wrap(page.title, CARD_W - 2, TITLE_ROWS)
+        local text = card_lines(page, CARD_H - 1 - #title)
+        local cells = {}
+        for r = 1, CARD_H - 1 do
+          cells[r] = r <= #title and title[r] or text[r - #title] or ""
+        end
+        cells[CARD_H] = badges(card, today)
         local col = #row[1]
         for r = 1, CARD_H do
           local start = #row[r]
           local body = fit(cells[r], CARD_W - 2)
           row[r] = row[r] .. "▎ " .. body
           local bar = #"▎ "
+          local is_title, is_badges = r <= #title, r == CARD_H
           local base
           if page.closed then
-            base = r == 1 and "NotesCardClosedTitle" or "NotesCardClosed"
+            base = is_title and "NotesCardClosedTitle" or "NotesCardClosed"
           else
-            base = r == 1 and "NotesCardTitle" or r == 4 and "NotesCardBadge" or "NotesCard"
-            if r == 4 and page.date and page.date <= today then
+            base = is_title and "NotesCardTitle" or is_badges and "NotesCardBadge" or "NotesCard"
+            if is_badges and page.date and page.date <= today then
               base = "NotesCardDue"
             end
           end

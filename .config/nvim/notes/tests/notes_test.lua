@@ -102,6 +102,20 @@ local band = vim.api.nvim_buf_get_extmarks(st.buf, -1, { 0, 0 }, { 0, -1 }, { de
 check("the band is colored across the width", vim.iter(band):any(function(m)
   return m[4].line_hl_group == "NotesBandRemote"
 end))
+local wrap = list._wrap
+check("a title wraps at spaces between Latin words", vim.deep_equal(wrap("Building a Tiny Task Runner in Lua", 20, 3), { "Building a Tiny Task", "Runner in Lua" }), wrap("Building a Tiny Task Runner in Lua", 20, 3))
+check("Japanese wraps anywhere", vim.deep_equal(wrap("あいうえおかきくけこ", 10, 3), { "あいうえお", "かきくけこ" }), wrap("あいうえおかきくけこ", 10, 3))
+check("a word wider than a row is broken", vim.deep_equal(wrap("abcdefghij", 4, 3), { "abcd", "efgh", "ij" }), wrap("abcdefghij", 4, 3))
+local long = wrap(("長い"):rep(30), 10, 3)
+check("at most 3 rows, the last ending in …", #long == 3 and long[3]:find("…$") ~= nil and vim.fn.strdisplaywidth(long[3]) <= 10, long)
+local card_rows = {}
+for i, l in ipairs(text) do
+  if l:find("日本語のとても長いタイトル", 1, true) then
+    card_rows = { l, text[i + 1] }
+    break
+  end
+end
+check("a long title goes on to the next row instead of being cut", card_rows[1] and not card_rows[1]:find("…", 1, true) and (card_rows[1] .. card_rows[2]):gsub("[ ▎]", ""):find("日本語のとても長いタイトルが入っているページ", 1, true) ~= nil, card_rows)
 local closed_hl = vim.api.nvim_get_hl(0, { name = "NotesCardClosed" })
 local card_hl = vim.api.nvim_get_hl(0, { name = "NotesCard" })
 check("a card not closed stands on a ground of its own; a closed one's text is dimmed but not as far as its card", closed_hl.bg ~= card_hl.bg and closed_hl.fg ~= card_hl.fg and closed_hl.fg ~= closed_hl.bg, { closed_hl, card_hl })
