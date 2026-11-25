@@ -27,7 +27,6 @@ Jetpack 'catppuccin/nvim', {'as': 'catppuccin', 'commit': 'edefef779ab08ce1a4a40
 Jetpack 'smoka7/hop.nvim', {'commit': '707049feaca9ae65abb3696eff9aefc7879e66aa'}
 Jetpack 'yorickpeterse/nvim-window', {'commit': '48e44d492d2adaf9aac72a0f4ff21d6caae1b6a2'}
 Jetpack 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate', 'branch': 'master', 'commit': 'cf12346a3414fa1b06af75c79faebe7f76df080a'}
-Jetpack 'apple/pkl-neovim', {'commit': '6067ca1424d851a3ce93b0429e23e3e13a8ee6e6'}
 Jetpack 'lukas-reineke/indent-blankline.nvim', {'commit': 'd28a3f70721c79e3c5f6693057ae929f3d9c0a03'}
 Jetpack 'akinsho/toggleterm.nvim', {'commit': '9a88eae817ef395952e08650b3283726786fb5fb'}
 Jetpack 'jedrzejboczar/possession.nvim', {'commit': 'fbea95b16c284727bc8deff2c3780a73efcdaca6'}
