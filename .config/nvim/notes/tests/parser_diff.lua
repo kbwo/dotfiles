@@ -1,7 +1,8 @@
--- The Lua port of Cosense notation (lua/notes/parser.lua) against the parser it
--- ports (stderr-blog's src/lib/cosense/parser.mjs), on every line of every page
--- under a directory: the links found and where, each page's title, first lines
--- and images. Exits non-zero, listing the first differences, when they disagree.
+-- The Lua ports against the stderr-blog code they port, on every page under a
+-- directory: Cosense notation (lua/notes/parser.lua against src/lib/cosense/parser.mjs:
+-- the links found and where, each page's links, title, first lines and images) and
+-- the filename a page gets when published with today's date (lua/notes/filename.lua
+-- against src/lib/post-filename.mjs). Exits non-zero, listing the first differences.
 --
 -- usage: nvim -l tests/parser_diff.lua <stderr-blog repo> [pages dir]
 local here = vim.fs.dirname(vim.fs.normalize(arg[0]))
@@ -35,6 +36,12 @@ for line in result.stdout:gmatch("[^\n]+") do
   local page_links = parser.links_of(text)
   if not vim.deep_equal(page_links, want.pageLinks) then
     fail(want.file, "page links", want.pageLinks, page_links)
+  end
+  -- Publishing with today as the created date: the new name, or nil when the URL would move
+  -- (post-filename.mjs `postFileWithDate`, ported in lua/notes/filename.lua).
+  local dated = require("notes.filename").with_date(want.file:match("[^/]*$"), "2100-01-01", want.title)
+  if dated ~= (want.datedName ~= vim.NIL and want.datedName or nil) then
+    fail(want.file, "name when published with today's date", want.datedName, dated)
   end
   local summary = parser.summary(text)
   if summary.title ~= want.title then

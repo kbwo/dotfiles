@@ -17,7 +17,11 @@ local CUT_MARK = "…"
 --- The filename without its directory and extension.
 function M.stem(path)
   local base = path:match("[^/]*$")
-  return (base:gsub("%.[tT][xX][tT]$", ""):gsub("%.[mM][dD]$", ""))
+  local stripped, n = base:gsub("%.[tT][xX][tT]$", "")
+  if n == 0 then
+    stripped = base:gsub("%.[mM][dD]$", "")
+  end
+  return stripped
 end
 
 --- A filename stem's leading date ("YYYY-MM-DD" or nil) and the title part after it.
@@ -94,16 +98,27 @@ function M.for_title(rel, title)
   return dir .. prefix .. fit_title(prefix, safe) .. M.EXT
 end
 
+-- The text the site's URL for a page file is made from (post-filename.mjs `slugForName`, before
+-- `slugify`): a title starting with a date when the file has a leading date too, else the title part.
+local function slug_source(name, authored)
+  local parsed = M.parse(M.stem(name))
+  authored = parser.trim(authored or "")
+  if parsed.date and authored:match("^%d%d%d%d%-%d%d%-%d%d") and (#authored == 10 or authored:sub(11, 11):match("[ _%-]")) then
+    return authored
+  end
+  return parsed.title ~= "" and parsed.title or parser.trim(M.stem(name))
+end
+
 --- The same page with `date` as its leading date (its created date): directory and title part kept.
---- nil when that could move the page's URL, which happens only for a file without a leading date.
-function M.with_date(rel, date)
+--- nil when the URL could move (post-filename.mjs `postFileWithDate`). The URL is compared by the
+--- text it is made from: the same text makes the same URL. Two different texts that would make the
+--- same URL are refused too, since slugify's Unicode letter classes have no Vim equivalent.
+function M.with_date(rel, date, authored)
   local dir = rel:match("^(.*/)") or ""
   local parsed = M.parse(M.stem(rel))
   local prefix = date .. " "
-  local moved = dir .. prefix .. fit_title(prefix, parsed.title) .. M.EXT
-  -- ponytail: without a leading date the URL could move; refused outright rather than porting
-  -- post-filename.mjs's slugify (Unicode letter classes) to compare the two URLs exactly.
-  return parsed.date and moved or nil
+  local moved = dir .. prefix .. fit_title(prefix, parsed.title ~= "" and parsed.title or parser.trim(M.stem(rel))) .. M.EXT
+  return slug_source(moved, authored) == slug_source(rel, authored) and moved or nil
 end
 
 --- `wanted`, or "<name> (2).txt", "(3)", ... — the first that `exists` says is free (or is `except`).

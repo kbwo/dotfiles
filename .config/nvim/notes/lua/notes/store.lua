@@ -635,7 +635,7 @@ function M.set_visibility(page, make_private, touch_created, pages)
   end
   local name = page.rel:match("[^/]*$")
   if not make_private and touch_created then
-    local dated = filename.with_date(name, os.date("%Y-%m-%d"))
+    local dated = filename.with_date(name, os.date("%Y-%m-%d"), page.title)
     if not dated then
       return nil, "作成日を変えると URL が変わるため、公開を中止しました"
     end

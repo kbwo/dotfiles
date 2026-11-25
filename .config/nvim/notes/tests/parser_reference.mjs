@@ -7,6 +7,9 @@ import { join, relative } from "node:path";
 
 const [repo, pagesDir] = process.argv.slice(2);
 const { parsePage, analyzePage, imageSourcesOf } = await import(join(repo, "src/lib/cosense/parser.mjs"));
+const { postFileWithDate } = await import(join(repo, "src/lib/post-filename.mjs"));
+// The day publishing would make the created date: any day after every page's.
+const TODAY = new Date(2100, 0, 1);
 
 const bytes = (s) => Buffer.byteLength(s, "utf8");
 const walk = (d) => readdirSync(d).flatMap((n) => (statSync(join(d, n)).isDirectory() ? walk(join(d, n)) : n.endsWith(".txt") ? [join(d, n)] : []));
@@ -31,5 +34,6 @@ for (const file of walk(pagesDir)) {
   const text = readFileSync(file, "utf8");
   const links = parsePage(text).map((line) => linksInLine(line.nodes, line.text));
   const { title, descriptions, links: pageLinks } = analyzePage(text);
-  process.stdout.write(JSON.stringify({ file: relative(pagesDir, file), links, pageLinks, title, descriptions, images: imageSourcesOf(text) }) + "\n");
+  const name = file.split("/").pop();
+  process.stdout.write(JSON.stringify({ file: relative(pagesDir, file), links, pageLinks, title, descriptions, images: imageSourcesOf(text), datedName: postFileWithDate(name, TODAY, title) }) + "\n");
 }
