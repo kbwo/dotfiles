@@ -324,6 +324,97 @@ local function links_of(page)
   return parser.links_of(M.text_of(page.rel))
 end
 
+-- Every page's links, for link completion: parsing all pages takes seconds, so they are
+-- kept here and in a file across sessions, keyed by each file's mtime and size, and
+-- (re)built in the background a few pages at a time.
+local LINKS_FILE = vim.fn.stdpath("cache") .. "/notes/links.json"
+local links_cache = nil -- rel -> { mtime, size, links }
+local links_building = nil -- callbacks waiting for the build under way
+
+local function load_links_cache()
+  if links_cache then
+    return
+  end
+  links_cache = {}
+  local f = io.open(LINKS_FILE, "r")
+  if f then
+    local ok, data = pcall(vim.json.decode, f:read("*a"))
+    f:close()
+    if ok and type(data) == "table" then
+      links_cache = data
+    end
+  end
+end
+
+local function save_links_cache()
+  vim.fn.mkdir(vim.fs.dirname(LINKS_FILE), "p")
+  local f = io.open(LINKS_FILE, "w")
+  if f then
+    f:write(vim.json.encode(links_cache))
+    f:close()
+  end
+end
+
+--- Call `done(links)` with every page's links (rel -> list of link names) once they are known.
+--- Pages whose file changed since they were last read are parsed again, a few between
+--- redraws, so that a first build does not hold up typing.
+function M.page_links(pages, done)
+  load_links_cache()
+  if links_building then
+    links_building[#links_building + 1] = done
+    return
+  end
+  links_building = { done }
+  local stale = {}
+  local seen = {}
+  for _, p in ipairs(pages) do
+    seen[p.rel] = true
+    local stat = vim.uv.fs_stat(M.abs(p.rel))
+    local c = links_cache[p.rel]
+    if stat and (not c or c.mtime ~= stat.mtime.sec or c.size ~= stat.size) then
+      stale[#stale + 1] = { rel = p.rel, mtime = stat.mtime.sec, size = stat.size }
+    end
+  end
+  for rel in pairs(links_cache) do
+    if not seen[rel] then
+      links_cache[rel] = nil
+    end
+  end
+  local function finish()
+    if #stale > 0 then
+      save_links_cache()
+    end
+    local out = {}
+    for rel, c in pairs(links_cache) do
+      out[rel] = c.links
+    end
+    local waiting = links_building
+    links_building = nil
+    for _, cb in ipairs(waiting) do
+      cb(out)
+    end
+  end
+  local i = 1
+  local function step()
+    local stop = math.min(i + 19, #stale)
+    for k = i, stop do
+      local s = stale[k]
+      links_cache[s.rel] = { mtime = s.mtime, size = s.size, links = parser.links_of(read(M.abs(s.rel)) or "") }
+    end
+    i = stop + 1
+    if i <= #stale then
+      vim.defer_fn(step, 0)
+    else
+      finish()
+    end
+  end
+  if #stale == 0 then
+    finish()
+  else
+    step()
+  end
+end
+
 --- The pages that link to `title`, other than the page `except` (a rel).
 function M.referrers(title, except, pages)
   local lc = parser.to_title_lc(title)
