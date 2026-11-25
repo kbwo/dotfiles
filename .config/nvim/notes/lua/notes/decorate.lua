@@ -296,8 +296,9 @@ function M.attach(buf)
       M.render(buf)
     end)
   end
-  vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI", "BufEnter" }, { buffer = buf, callback = later })
-  vim.api.nvim_create_autocmd("BufWritePost", {
+  vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI" }, { buffer = buf, callback = later })
+  -- Pages may have been made, renamed or deleted since (in the list, by a save elsewhere).
+  vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost" }, {
     buffer = buf,
     callback = function()
       M.forget_titles()

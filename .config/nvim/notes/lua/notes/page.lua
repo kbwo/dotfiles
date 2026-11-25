@@ -57,6 +57,7 @@ local function after_write(buf)
     now = rel
   end
   vim.b[buf].notes_title = title
+  require("notes.complete").forget() -- its titles and links may have changed
   M.show_band(buf) -- the file may have a new name
   if old_title and parser.to_title_lc(old_title) ~= parser.to_title_lc(title) then
     local referrers = store.referrers(old_title, now)
@@ -77,8 +78,8 @@ end
 
 -- ===== under the cursor =====
 
--- The node of the cursor's line under the cursor, in a line that carries notation.
-local function node_under_cursor()
+--- The node of the cursor's line under the cursor, in a line that carries notation.
+function M.node_under_cursor()
   local lnum, col = unpack(vim.api.nvim_win_get_cursor(0))
   local lines = parser.parse_page((buffer_text(0):gsub("\n$", "")))
   local found
@@ -92,7 +93,7 @@ end
 
 --- <C-CR>: open the page a link or tag names (starting it when there is none), or the image.
 function M.follow()
-  local node = node_under_cursor()
+  local node = M.node_under_cursor()
   if not node then
     return
   end
@@ -298,6 +299,9 @@ function M.attach(buf)
     end,
   })
   vim.b[buf].notes_attached = true
+  require("notes.decorate").attach(buf)
+  require("notes.edit").attach(buf)
+  require("notes.complete").prepare()
   local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
   -- A file that does not exist yet has no title to rename from.
   vim.b[buf].notes_title = vim.uv.fs_stat(vim.api.nvim_buf_get_name(buf)) and parser.title_of(table.concat(lines, "\n")) or nil

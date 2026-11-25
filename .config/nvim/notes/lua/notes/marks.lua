@@ -27,6 +27,21 @@ function M.is_closed(line)
   return line:match("^%s*closed:%s*$") ~= nil or line:match("^%s*closed%([^()]*%):%s*$") ~= nil
 end
 
+--- A check line's mark ("todo:", "done:" or "done(…time…):" after the indentation, a port of
+--- stderr-blog's src/lib/cosense/check-line.mjs `checkOf`): { at, finish (byte offsets, finish
+--- exclusive), checked }, or nil.
+function M.check_of(line)
+  local ws = line:match("^%s*")
+  local rest = line:sub(#ws + 1)
+  local mark = rest:match("^todo:") or rest:match("^done%([^()]*%):") or rest:match("^done:")
+  return mark and { at = #ws, finish = #ws + #mark, checked = mark ~= "todo:" } or nil
+end
+
+--- The mark a line gets when (un)checked now (check-line.mjs `checkMark`).
+function M.check_mark(checked)
+  return checked and ("done(" .. os.date("%Y-%m-%d %H:%M:%S") .. "):") or "todo:"
+end
+
 function M.is_mark(line)
   return M.date_of(line) ~= nil or M.is_closed(line)
 end

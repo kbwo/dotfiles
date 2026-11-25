@@ -37,6 +37,18 @@ local function autolist_shift(direction)
 	return autolist.dedent()
 end
 
+-- notes のページ（notes/lua/notes/edit.lua）では、候補ウィンドウが出ていないときの
+-- <Tab> / <S-Tab> で、カーソルがどこにあっても行を 1 段深く / 浅くする。
+-- autolist と同じ理由で、バッファローカルのキーではなくここから呼ぶ。
+-- ページ以外では偽を返す。
+local function notes_shift(direction)
+	if cmp.visible() then
+		return false
+	end
+	local ok, edit = pcall(require, "notes.edit")
+	return ok and edit.shift(direction)
+end
+
 -- markdown のタグ（`#todo` のように `#` で始まる分類用のラベル）を補完する
 -- ための cmp ソース。候補は「いま開いているバッファの中に実際に書かれている
 -- タグ」だけで、ほかのファイルは走査しない。
@@ -132,12 +144,12 @@ cmp.setup({
 		["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
 		["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
 		["<Tab>"] = cmp.mapping(function(fallback)
-			if not autolist_shift(1) then
+			if not autolist_shift(1) and not notes_shift(1) then
 				select_next(fallback)
 			end
 		end, { "i" }),
 		["<S-Tab>"] = cmp.mapping(function(fallback)
-			if not autolist_shift(-1) then
+			if not autolist_shift(-1) and not notes_shift(-1) then
 				select_prev(fallback)
 			end
 		end, { "i" }),

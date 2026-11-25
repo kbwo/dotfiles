@@ -8,6 +8,7 @@ vim.opt.rtp:prepend(vim.fs.dirname(here))
 vim.o.columns, vim.o.lines = 140, 50
 vim.o.swapfile, vim.o.shada = false, ""
 vim.g.mapleader = " "
+vim.cmd("filetype on")
 
 local root = vim.fn.tempname()
 local store = require("notes.store")
@@ -261,6 +262,164 @@ vim.api.nvim_win_set_cursor(0, { 2, #"[B] と [" + 1 })
 require("notes.page").follow()
 check("<C-CR> on a link with no page starts one with that title, unsaved", vim.api.nvim_buf_get_lines(0, 0, 1, false)[1] == "共通" and not vim.uv.fs_stat(vim.api.nvim_buf_get_name(0)), vim.api.nvim_buf_get_name(0))
 vim.cmd("enew!")
+
+-- ===== how a page looks =====
+
+local function page_buffer(rel, lines)
+  write(rel, table.concat(lines, "\n") .. "\n")
+  vim.cmd.edit(vim.fn.fnameescape(root .. "/pages/" .. rel))
+  require("notes.decorate").forget_titles()
+  require("notes.decorate").render(0)
+  return vim.api.nvim_get_current_buf()
+end
+local decorate_ns = vim.api.nvim_create_namespace("notes_decorate")
+local function marks_on(row)
+  return vim.api.nvim_buf_get_extmarks(0, decorate_ns, { row, 0 }, { row, -1 }, { details = true })
+end
+local function find_mark(row, pred)
+  for _, mk in ipairs(marks_on(row)) do
+    if pred(mk[4], mk[3]) then
+      return mk
+    end
+  end
+end
+
+page_buffer("private/2026-11-15 見た目.txt", { "見た目", " [A] と [まだ無い] と [* 太字]", "  二段目", "> 引用", " 1. 番号", "code:x.lua", " local a = 1", "[https://example.com 公式]" })
+check("a page gets filetype notes", vim.bo.filetype == "notes", vim.bo.filetype)
+check("the title is drawn as a title", find_mark(0, function(d)
+  return d.hl_group == "NotesTitle"
+end) ~= nil)
+check("a link's [ is concealed", find_mark(1, function(d, col)
+  return d.conceal == "" and col == 1
+end) ~= nil)
+check("a link to a page is NotesLink, to none NotesLinkMissing", find_mark(1, function(d)
+  return d.hl_group == "NotesLink"
+end) ~= nil and find_mark(1, function(d)
+  return d.hl_group == "NotesLinkMissing"
+end) ~= nil)
+check("[* ] is strong", find_mark(1, function(d)
+  return d.hl_group == "NotesStrong"
+end) ~= nil)
+local function dots(row)
+  local out = {}
+  for _, mk in ipairs(marks_on(row)) do
+    if mk[4].virt_text then
+      out[#out + 1] = mk[4].virt_text[1][1]
+    end
+  end
+  return out
+end
+check("each indentation character two cells wide, the deepest with a dot", vim.deep_equal(dots(2), { " ", "•" }), dots(2))
+check("a numbered line's dot is a dash", vim.deep_equal(dots(4), { "–" }), dots(4))
+check("a URL link shows its title only", find_mark(7, function(d, col)
+  return d.conceal == "" and col == 0
+end) ~= nil and find_mark(7, function(d)
+  return d.hl_group == "NotesUrl"
+end) ~= nil)
+check("the window conceals off the cursor's line and wraps", vim.wo.conceallevel == 2 and vim.wo.concealcursor == "" and vim.wo.wrap and vim.wo.linebreak and vim.wo.breakindent)
+if pcall(vim.treesitter.language.add, "lua") then
+  check("a code block is coloured by treesitter", find_mark(6, function(d)
+    return d.hl_group and d.hl_group:find("%.lua$")
+  end) ~= nil, marks_on(6))
+end
+
+-- ===== writing =====
+
+local edit = require("notes.edit")
+local function enter_at(lines, row, col)
+  local e = edit.enter_edit(lines, row, col)
+  local line = lines[row]
+  return line:sub(1, e.from) .. e.text .. line:sub(e.to + 1)
+end
+check("Enter keeps the indentation", enter_at({ "t", "  item" }, 2, 6) == "  item\n  ")
+check("Enter at a line's start inserts a line break only", enter_at({ "t", "  item" }, 2, 0) == "\n  item")
+check("Enter on an empty indented line leaves the outline", enter_at({ "t", "  " }, 2, 2) == "\n")
+check("Enter after a code: line goes one deeper", enter_at({ "t", " code:x.js" }, 2, 10) == " code:x.js\n  ")
+check("Enter on a check line starts another", enter_at({ "t", " todo:a" }, 2, 7) == " todo:a\n todo:")
+check("Enter on a bare check mark takes it away", enter_at({ "t", " todo:" }, 2, 6) == " ")
+
+local buf = page_buffer("private/2026-11-15 書く.txt", { "書く", "a", "\tb", "c", "" })
+edit.shift_lines(2, 2, 1, 1)
+edit.shift_lines(4, 4, 1, 1)
+check("one step deeper: with the line above's character, else a space", vim.deep_equal(vim.api.nvim_buf_get_lines(buf, 1, 4, false), { " a", "\tb", "\tc" }), vim.api.nvim_buf_get_lines(buf, 1, 4, false))
+edit.shift_lines(2, 4, -1, 1)
+check("one step shallower, over several lines", vim.deep_equal(vim.api.nvim_buf_get_lines(buf, 1, 4, false), { "a", "b", "c" }), vim.api.nvim_buf_get_lines(buf, 1, 4, false))
+vim.api.nvim_win_set_cursor(0, { 2, 0 })
+vim.cmd("normal 2>>")
+check(">> takes a count", vim.deep_equal(vim.api.nvim_buf_get_lines(buf, 1, 3, false), { " a", " b" }), vim.api.nvim_buf_get_lines(buf, 1, 3, false))
+
+vim.api.nvim_win_set_cursor(0, { 4, 0 })
+edit.toggle_check()
+local c1 = vim.api.nvim_get_current_line()
+edit.toggle_check()
+local c2 = vim.api.nvim_get_current_line()
+edit.toggle_check()
+local c3 = vim.api.nvim_get_current_line()
+check("the check key: todo:, done(time):, nothing", c1 == "todo:c" and c2:match("^done%(%d+%-%d+%-%d+ %d+:%d+:%d+%):c$") ~= nil and c3 == "c", { c1, c2, c3 })
+
+buf = page_buffer("private/2026-11-15 コード.txt", { "コード", " code:a.sh", "  echo 1", "   echo 2", " 後ろ", "$ ls -la" })
+vim.api.nvim_win_set_cursor(0, { 3, 0 })
+vim.cmd('normal "ayic')
+vim.wait(50)
+check("yic: the body without the block's indentation", vim.fn.getreg("a") == "echo 1\n echo 2\n" and vim.fn.getregtype("a") == "V", vim.fn.getreg("a"))
+vim.cmd('normal "byac')
+check("yac: the code: line and the body as they are", vim.fn.getreg("b") == " code:a.sh\n  echo 1\n   echo 2\n", vim.fn.getreg("b"))
+vim.api.nvim_win_set_cursor(0, { 6, 0 })
+vim.cmd('normal "cyic')
+vim.wait(50)
+check("yic on a command line: the command", vim.fn.getreg("c") == "ls -la", vim.fn.getreg("c"))
+vim.api.nvim_win_set_cursor(0, { 3, 0 })
+vim.cmd("normal dic")
+check("dic: the body lines go", vim.deep_equal(vim.api.nvim_buf_get_lines(buf, 1, 3, false), { " code:a.sh", " 後ろ" }), vim.api.nvim_buf_get_lines(buf, 0, -1, false))
+
+buf = page_buffer("private/2026-11-15 貼る.txt", { "貼る", "", "" })
+vim.api.nvim_win_set_cursor(0, { 2, 0 })
+vim.fn.setreg("a", { "# 見出し", "- 項目" }, "l")
+vim.cmd('normal "ap')
+check("p converts Markdown", vim.deep_equal(vim.api.nvim_buf_get_lines(buf, 2, 4, false), { "[**** 見出し]", " 項目" }), vim.api.nvim_buf_get_lines(buf, 0, -1, false))
+check("p leaves the register as it was", vim.fn.getreg("a") == "# 見出し\n- 項目\n")
+
+-- ===== link completion =====
+
+local complete = require("notes.complete")
+local parsed = parser.parse_page("t\nこれは [Neo と", { inline = false })[2]
+local ctx = complete.context_at("これは [Neo と", #"これは [Neo", parsed)
+check("completion: the bracket being typed", ctx and ctx.kind == "link" and ctx.query == "Neo と" and ctx.from == #"これは ", ctx)
+ctx = complete.context_at("a #ta", 5, parsed)
+check("completion: the tag being typed", ctx and ctx.kind == "tag" and ctx.query == "ta", ctx)
+local never = function()
+  return 0
+end
+local ranked = complete.rank({
+  { title = "Neovim の設定", updated = 1, linked_at = 1 },
+  { title = "Neovim", updated = 2, linked_at = 0 },
+  { title = "neovim plugin", updated = 3, linked_at = 5 },
+  { title = "Nevim typo", updated = 4, linked_at = 9 },
+}, "neovim", "link", "今のページ", never)
+check("completion: every word first, the most recently linked first; one-edit matches after", vim.deep_equal(vim.tbl_map(function(t)
+  return t.title
+end, ranked), { "neovim plugin", "Neovim の設定", "Neovim", "Nevim typo" }), ranked)
+
+-- ===== the preview =====
+
+page_buffer("private/2026-11-15 プレビュー.txt", { "プレビュー", "[A] を見る" })
+vim.api.nvim_win_set_cursor(0, { 2, 1 })
+edit.preview()
+local floats = vim.tbl_filter(function(w)
+  return vim.api.nvim_win_get_config(w).relative ~= ""
+end, vim.api.nvim_list_wins())
+check("<Space>nv: the linked page's first lines in a floating window", #floats == 1 and vim.api.nvim_buf_get_lines(vim.api.nvim_win_get_buf(floats[1]), 0, 1, false)[1] == "A", floats)
+vim.cmd("enew!")
+
+-- ===== local's ground =====
+
+local theme = require("notes.theme")
+vim.api.nvim_set_hl(0, "Normal", { fg = "#dcd7ba", bg = "#1f1f28" })
+theme.set_local(true)
+local local_bg = vim.api.nvim_get_hl(0, { name = "Normal" }).bg
+theme.set_local(false)
+check("local: the ground is blue-green, and back after", local_bg == 0x16302e and vim.api.nvim_get_hl(0, { name = "Normal" }).bg == 0x1f1f28, local_bg)
+vim.fn.delete(store.links_file())
 
 -- ===== git =====
 

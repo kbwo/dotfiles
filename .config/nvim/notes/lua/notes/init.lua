@@ -37,12 +37,23 @@ function M.setup()
   end, { desc = "クリップボードの URL を、そのページのタイトル付きで貼る" })
   vim.keymap.set("n", "<Leader>nl", "<Cmd>Notes<CR>", { desc = "メモの一覧" })
 
+  require("notes.edit").setup()
+  require("notes.complete").setup()
+
   -- Pages are attached however they were opened: through ~/notes/pages or the directory it links to.
-  local patterns = { store.pages_dir() .. "/*.txt" }
+  local dirs = { store.pages_dir() }
   local real = vim.uv.fs_realpath(store.pages_dir())
   if real and real ~= store.pages_dir() then
-    patterns[#patterns + 1] = real .. "/*.txt"
+    dirs[#dirs + 1] = real
   end
+  local patterns, filetypes = {}, {}
+  for _, dir in ipairs(dirs) do
+    patterns[#patterns + 1] = dir .. "/*.txt"
+    -- Above the *.txt extension, which would make it text.
+    -- vim.filetype anchors the pattern to the whole path itself.
+    filetypes[vim.pesc(dir) .. "/.*%.txt"] = { "notes", { priority = math.huge } }
+  end
+  vim.filetype.add({ pattern = filetypes })
   vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
     group = vim.api.nvim_create_augroup("notes_pages", { clear = true }),
     pattern = patterns,

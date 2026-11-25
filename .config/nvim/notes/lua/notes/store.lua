@@ -327,16 +327,21 @@ end
 -- Every page's links, for link completion: parsing all pages takes seconds, so they are
 -- kept here and in a file across sessions, keyed by each file's mtime and size, and
 -- (re)built in the background a few pages at a time.
-local LINKS_FILE = vim.fn.stdpath("cache") .. "/notes/links.json"
 local links_cache = nil -- rel -> { mtime, size, links }
 local links_building = nil -- callbacks waiting for the build under way
+
+--- Where the links are kept: one file per pages directory, so that another root (the tests') leaves it alone.
+function M.links_file()
+  return ("%s/notes/links-%s.json"):format(vim.fn.stdpath("cache"), vim.fn.sha256(M.pages_dir()):sub(1, 16))
+end
+local links_file = M.links_file
 
 local function load_links_cache()
   if links_cache then
     return
   end
   links_cache = {}
-  local f = io.open(LINKS_FILE, "r")
+  local f = io.open(links_file(), "r")
   if f then
     local ok, data = pcall(vim.json.decode, f:read("*a"))
     f:close()
@@ -347,8 +352,9 @@ local function load_links_cache()
 end
 
 local function save_links_cache()
-  vim.fn.mkdir(vim.fs.dirname(LINKS_FILE), "p")
-  local f = io.open(LINKS_FILE, "w")
+  -- Only a cache: when it cannot be written, the links are parsed again next session.
+  pcall(vim.fn.mkdir, vim.fs.dirname(links_file()), "p")
+  local f = io.open(links_file(), "w")
   if f then
     f:write(vim.json.encode(links_cache))
     f:close()
