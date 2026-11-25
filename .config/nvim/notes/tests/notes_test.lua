@@ -326,6 +326,21 @@ end) ~= nil and find_mark(0, function(d)
 end) ~= nil)
 local rule_hl = vim.api.nvim_get_hl(0, { name = "NotesTitleRule", link = false })
 check("the rule is drawn in a colour of its own, not the ground's", rule_hl.fg ~= nil and rule_hl.fg ~= vim.api.nvim_get_hl(0, { name = "Normal" }).bg, rule_hl)
+page_buffer("private/2026-11-15 見出しの線.txt", { "見出しの線", "[*** 大]", " [** 字下げ]", "前 [** 途中] 後", "[* 太字]" })
+local function heading_rule(row)
+  local mk = find_mark(row, function(d)
+    return d.virt_lines ~= nil
+  end)
+  return mk and mk[4].virt_lines[1]
+end
+local under, under_indented = heading_rule(1), heading_rule(2)
+check("a heading has a rule under it, none above, from where it starts", under and under[1][1] == "" and under[2][2] == "NotesHeadingRule" and under_indented and under_indented[1][1] == "  " and not find_mark(1, function(d)
+  return d.virt_lines_above
+end), { under, under_indented })
+check("no rule under a line only part of which is a heading, nor under bold", heading_rule(3) == nil and heading_rule(4) == nil, { heading_rule(3), heading_rule(4) })
+local heading_rule_hl = vim.api.nvim_get_hl(0, { name = "NotesHeadingRule", link = false })
+check("the heading's rule has a colour apart from the title's rule", heading_rule_hl.fg ~= nil and heading_rule_hl.fg ~= rule_hl.fg, heading_rule_hl)
+page_buffer("private/2026-11-15 見た目.txt", { "見た目", " [A] と [まだ無い] と [* 太字]", "  二段目", "> 引用", " 1. 番号", "code:x.lua", " local a = 1", "[https://example.com 公式]" })
 check("a link's [ is concealed", find_mark(1, function(d, col)
   return d.conceal == "" and col == 1
 end) ~= nil)

@@ -594,22 +594,28 @@ function M.heading_stars(node)
   return stars >= 2 and stars or 0
 end
 
---- The lines that are a heading and nothing else (indentation and trailing spaces aside), for
---- the outline: { lnum, col, stars, name }, col the byte offset of the heading's [.
+--- A line of parse_page that is a heading and nothing else (indentation and trailing spaces
+--- aside): { col, stars, node }, col the byte offset of the heading's [; nil for any other line.
 --- The title line, code blocks and tables are not notation that can be a heading.
+function M.line_heading(line)
+  local nodes, col = line.nodes, 0
+  if #nodes == 1 and nodes[1].type == "indent" then
+    col, nodes = #nodes[1].prefix, nodes[1].children
+  end
+  if #nodes == 2 and nodes[2].type == "text" and vim.trim(nodes[2].raw) == "" then
+    nodes = { nodes[1] }
+  end
+  local stars = not line.table_block and #nodes == 1 and M.heading_stars(nodes[1]) or 0
+  return stars > 0 and { col = col, stars = stars, node = nodes[1] } or nil
+end
+
+--- A page's headings, for the outline: { lnum, col, stars, name }.
 function M.headings(page_text)
   local out = {}
   for lnum, line in ipairs(M.parse_page(page_text)) do
-    local nodes, col = line.nodes, 0
-    if #nodes == 1 and nodes[1].type == "indent" then
-      col, nodes = #nodes[1].prefix, nodes[1].children
-    end
-    if #nodes == 2 and nodes[2].type == "text" and vim.trim(nodes[2].raw) == "" then
-      nodes = { nodes[1] }
-    end
-    local stars = not line.table_block and #nodes == 1 and M.heading_stars(nodes[1]) or 0
-    if stars > 0 then
-      out[#out + 1] = { lnum = lnum, col = col, stars = stars, name = M.trim(M.nodes_to_text(nodes[1].children)) }
+    local h = M.line_heading(line)
+    if h then
+      out[#out + 1] = { lnum = lnum, col = h.col, stars = h.stars, name = M.trim(M.nodes_to_text(h.node.children)) }
     end
   end
   return out

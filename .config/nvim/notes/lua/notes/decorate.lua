@@ -413,6 +413,13 @@ function M.render(buf)
       hl(buf, row, at + 1, len, "NotesCode")
     else
       walk(buf, row, line.nodes, 0, line, vim.tbl_extend("force", ctx, { quote = quote_line(line.nodes) }))
+      local heading = parser.line_heading(line)
+      if heading then
+        -- A rule under a heading as under the title, from where the heading starts (each
+        -- indentation character is drawn two cells wide, by indent_marks).
+        local from = (" "):rep(2 * vim.fn.strchars(line.text:sub(1, heading.col)))
+        pcall(vim.api.nvim_buf_set_extmark, buf, ns, row, 0, { virt_lines = { { { from }, { ("─"):rep(300), "NotesHeadingRule" } } } })
+      end
     end
   end
   M.place_swaps(buf, true)

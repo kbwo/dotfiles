@@ -47,6 +47,7 @@ local function palette_of(c)
       bar = c.blue,
       warn = c.peach,
       heading = c.yellow,
+      heading_rule = c.sky,
       comment = c.overlay0,
       remote = c.peach,
       public = c.green,
@@ -71,6 +72,7 @@ local function palette()
       bar = t.syn.fun,
       warn = t.diag.warning,
       heading = t.syn.identifier,
+      heading_rule = t.syn.special1,
       comment = t.syn.comment,
       remote = t.diag.warning,
       public = t.syn.string,
@@ -78,7 +80,7 @@ local function palette()
     }
   end
   -- Another colorscheme: kanagawa wave's colors.
-  return { bg = "#1f1f28", card = "#2a2a37", fg = "#dcd7ba", dim = "#c8c093", bar = "#7e9cd8", warn = "#ff9e3b", heading = "#e6c384", comment = "#727169", remote = "#ff9e3b", ["local"] = "#7e9cd8", public = "#98bb6c" }
+  return { bg = "#1f1f28", card = "#2a2a37", fg = "#dcd7ba", dim = "#c8c093", bar = "#7e9cd8", warn = "#ff9e3b", heading = "#e6c384", heading_rule = "#7fb4ca", comment = "#727169", remote = "#ff9e3b", ["local"] = "#7e9cd8", public = "#98bb6c" }
 end
 
 local page_highlights, build_local -- defined below
@@ -126,6 +128,8 @@ local function paint(ns, p)
   hl("NotesQuoteBar", { fg = p.comment })
   -- The rule at a page's title, in the accent (kanagawa's WinSeparator, used before, is the ground's colour, all but unseen).
   hl("NotesTitleRule", { fg = p.warn })
+  -- The rule under a heading, a light blue of its own, apart from the title's accent and the heading's yellow.
+  hl("NotesHeadingRule", { fg = p.heading_rule })
   -- An item's dot (and a quote's or numbered line's dash) in the accent, to be found at a glance.
   hl("NotesIndentDot", { fg = p.warn })
   -- A code block and inline code on a ground tinted towards the blue (.cs-code-line, .cs-code).
