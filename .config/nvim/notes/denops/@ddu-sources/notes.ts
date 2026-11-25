@@ -1,6 +1,7 @@
 // ddu source for the notes under ~/notes: what to list comes from the Lua side
 // (lua/notes/ddu.lua `items`), which owns the search and the pages.
-//   params.mode "search": pages matching the input, one item each (set the source volatile)
+//   params.mode "search": pages matching the input, one item each (set the source volatile);
+//     action "reveal" shows the chosen page's card in the list, or with params.command opens it so
 //   params.mode "titles": every page but params.except, by title; action "merge" merges into it
 import type { ActionArguments, Actions, Item } from "jsr:@shougo/ddu-vim@~11.0.0/types";
 import { ActionFlags } from "jsr:@shougo/ddu-vim@~11.0.0/types";
@@ -16,6 +17,18 @@ export class Source extends BaseSource<Params, ActionData> {
   override kind = "file";
 
   override actions: Actions<Params> = {
+    reveal: async ({ denops, items, actionParams }: ActionArguments<Params>) => {
+      const action = items[0]?.action as ActionData | undefined;
+      if (action?.path) {
+        const command = (actionParams as { command?: string } | undefined)?.command ?? "";
+        await denops.call(
+          "luaeval",
+          "require('notes.ddu').reveal_picked(_A[1], _A[2], _A[3])",
+          [action.path, action.lineNr ?? 0, command],
+        );
+      }
+      return ActionFlags.None;
+    },
     merge: async ({ denops, items }: ActionArguments<Params>) => {
       const path = (items[0]?.action as ActionData | undefined)?.path;
       if (path) {

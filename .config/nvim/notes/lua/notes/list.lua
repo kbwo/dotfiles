@@ -120,6 +120,13 @@ local function card_lines(page, n)
   return out
 end
 
+-- A published page's badge, drawn as a filled label (spaces inside the fill).
+local PUBLIC_LABEL = " public "
+
+function M._is_public(page)
+  return page.store == "remote" and page.private == false
+end
+
 local function badges(card, today)
   local page, out = card.page, {}
   if page.date then
@@ -132,8 +139,8 @@ local function badges(card, today)
   if page.pin and page.pin > 0 then
     out[#out + 1] = "pin"
   end
-  if page.store == "remote" and page.private == false then
-    out[#out + 1] = "public"
+  if M._is_public(page) then
+    out[#out + 1] = PUBLIC_LABEL
   end
   if page.closed then
     out[#out + 1] = "closed"
@@ -317,8 +324,16 @@ local function render(st)
               base = "NotesCardDue"
             end
           end
+          local public = M._is_public(page)
+          if public and is_title then
+            base = "NotesCardPublicTitle"
+          end
           hls[#hls + 1] = { top + r - 1, start, start + bar, page.closed and "NotesCardClosedBar" or "NotesCardBar" }
           hls[#hls + 1] = { top + r - 1, start + bar, start + bar + #body, base }
+          local label_at = public and is_badges and body:find(PUBLIC_LABEL, 1, true)
+          if label_at then
+            hls[#hls + 1] = { top + r - 1, start + bar + label_at - 1, start + bar + label_at - 1 + #PUBLIC_LABEL, "NotesCardPublicLabel", 150 }
+          end
           if j < last_j then
             row[r] = row[r] .. string.rep(" ", GAP)
           end
@@ -342,7 +357,7 @@ local function render(st)
   vim.api.nvim_buf_clear_namespace(buf, ns, 0, -1)
   vim.api.nvim_buf_set_extmark(buf, ns, 0, 0, { line_hl_group = st.band })
   for _, h in ipairs(hls) do
-    pcall(vim.api.nvim_buf_set_extmark, buf, ns, h[1], h[2], { end_col = h[3], hl_group = h[4] })
+    pcall(vim.api.nvim_buf_set_extmark, buf, ns, h[1], h[2], { end_col = h[3], hl_group = h[4], priority = h[5] })
   end
   st.cards = cards
 end
@@ -761,6 +776,50 @@ local function show(st)
   -- The cursor line's band shows the row the cursor is on, as in a page.
   vim.wo[win].wrap, vim.wo[win].number, vim.wo[win].relativenumber, vim.wo[win].cursorline = false, false, false, true
   vim.wo[win].signcolumn, vim.wo[win].list = "no", false
+end
+
+--- A page chosen in the search: the list, in the current window, turned to the page's side
+--- (remote / local) with its card selected and in view; the upper card when the page is
+--- under two days. When the card is on a day not loaded yet, more days are loaded until it
+--- shows if `load_more`, else nothing is changed. Returns whether the card was found.
+function M.reveal(rel, load_more)
+  local page
+  for _, p in ipairs(store.pages()) do
+    if p.rel == rel then
+      page = p
+    end
+  end
+  if not page then
+    return false
+  end
+  local st = list_buffer()
+  local before = { mode = st.mode, store = st.store, shown_days = st.shown_days }
+  st.mode = "list"
+  if page.store ~= st.store then
+    st.store, st.shown_days = page.store, DAYS_PER_LOAD
+  end
+  local function index()
+    render(st)
+    for i, c in ipairs(st.cards) do
+      if c.page.rel == rel then
+        return i
+      end
+    end
+  end
+  local i = index()
+  while not i and load_more and st.more do
+    st.shown_days = st.shown_days + DAYS_PER_LOAD
+    i = index()
+  end
+  if not i then
+    st.mode, st.store, st.shown_days = before.mode, before.store, before.shown_days
+    render(st)
+    return false
+  end
+  show(st)
+  select(st, i)
+  require("notes.theme").refresh() -- the window's colours follow the side
+  return true
 end
 
 --- The list of pages, in the current window.

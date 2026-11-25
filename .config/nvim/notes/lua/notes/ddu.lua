@@ -60,8 +60,33 @@ function M.search(query)
     input = query or "",
     sources = { { name = "notes", params = { mode = "search" } } },
     -- The source does the matching and the order itself, on every change of the input.
-    sourceOptions = { notes = { volatile = true, matchers = {}, sorters = {}, converters = {} } },
+    -- <CR> shows the chosen page's card in the list ("reveal").
+    sourceOptions = { notes = { volatile = true, matchers = {}, sorters = {}, converters = {}, defaultAction = "reveal" } },
   })
+end
+
+-- Whether a chosen page's card on a day the list has not loaded yet is loaded (true), or the page is opened instead.
+M.REVEAL_LOADS_MORE = true
+
+--- The source's "reveal" action: the chosen page's card in the list. Given a `command` (the
+--- ddu buffer's <Leader>vv / ss / tt pass vsplit / split / tabnew), the page is opened with
+--- it at the matching line instead, as the file kind's open does.
+function M.reveal_picked(path, lnum, command)
+  vim.schedule(function()
+    local function open(cmd)
+      vim.cmd(("%s %s"):format(cmd, vim.fn.fnameescape(path)))
+      if lnum and lnum > 0 then
+        pcall(vim.api.nvim_win_set_cursor, 0, { lnum, 0 })
+      end
+    end
+    if command and command ~= "" then
+      return open(command)
+    end
+    local rel = store.rel_of(path)
+    if not (rel and require("notes.list").reveal(rel, M.REVEAL_LOADS_MORE)) then
+      open("edit")
+    end
+  end)
 end
 
 --- `m` in the list: choose, in ddu, the page to merge `page` into.

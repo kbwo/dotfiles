@@ -49,6 +49,7 @@ local function palette_of(c)
       heading = c.yellow,
       comment = c.overlay0,
       remote = c.peach,
+      public = c.green,
       ["local"] = c.blue,
     }
 end
@@ -72,11 +73,12 @@ local function palette()
       heading = t.syn.identifier,
       comment = t.syn.comment,
       remote = t.diag.warning,
+      public = t.syn.string,
       ["local"] = t.syn.fun,
     }
   end
   -- Another colorscheme: kanagawa wave's colors.
-  return { bg = "#1f1f28", card = "#2a2a37", fg = "#dcd7ba", dim = "#c8c093", bar = "#7e9cd8", warn = "#ff9e3b", heading = "#e6c384", comment = "#727169", remote = "#ff9e3b", ["local"] = "#7e9cd8" }
+  return { bg = "#1f1f28", card = "#2a2a37", fg = "#dcd7ba", dim = "#c8c093", bar = "#7e9cd8", warn = "#ff9e3b", heading = "#e6c384", comment = "#727169", remote = "#ff9e3b", ["local"] = "#7e9cd8", public = "#98bb6c" }
 end
 
 local page_highlights, build_local -- defined below
@@ -99,6 +101,9 @@ local function paint(ns, p)
   hl("NotesCardClosedTitle", { fg = blend(p.fg, p.card, 0.3), bg = p.card, bold = true })
   hl("NotesCardClosedBar", { fg = blend(p.bar, p.card, 0.45), bg = p.card })
   hl("NotesCardSelected", { fg = p.warn, bg = live, bold = true })
+  -- A published page: its title rows filled green, closed or not, and "public" a green label.
+  hl("NotesCardPublicTitle", { fg = p.bg, bg = p.public, bold = true })
+  hl("NotesCardPublicLabel", { fg = p.bg, bg = p.public, bold = true })
   if p.cursorline then
     hl("CursorLine", { bg = p.cursorline })
   end

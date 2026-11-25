@@ -97,6 +97,18 @@ check("a page is under the day it was created and the day it was last updated", 
 check("the day it was only updated on says so", joined:find("↻ 更新") ~= nil)
 check("a closed page is listed", joined:find("閉じた") ~= nil)
 check("a published page is marked public", joined:find("public") ~= nil)
+local function groups_on(pattern)
+  local out = {}
+  for i, l in ipairs(text) do
+    if l:find(pattern, 1, true) then
+      for _, mk in ipairs(vim.api.nvim_buf_get_extmarks(st.buf, -1, { i - 1, 0 }, { i - 1, -1 }, { details = true })) do
+        out[mk[4].hl_group or ""] = true
+      end
+    end
+  end
+  return out
+end
+check("a published page: its title rows filled green, public a green label", groups_on("公開ページ").NotesCardPublicTitle and groups_on(" public ").NotesCardPublicLabel, { groups_on("公開ページ"), groups_on(" public ") })
 check("the band says which store this is", text[1]:find("^ REMOTE ") ~= nil, text[1])
 local band = vim.api.nvim_buf_get_extmarks(st.buf, -1, { 0, 0 }, { 0, -1 }, { details = true })
 check("the band is colored across the width", vim.iter(band):any(function(m)
@@ -511,6 +523,22 @@ vim.api.nvim_win_close(float, true)
 vim.cmd("only")
 theme.refresh()
 check("back in a remote window alone: the cursor as before", true)
+
+-- Search's choice shown in the list: the card selected, the list turned to the page's side.
+vim.cmd("only")
+list.open()
+local rst = list._state()
+local found = list.reveal("private/2026-11-15 遠く.txt", true)
+check("reveal: the chosen page's card is selected", found and rst.cards[rst.cur].page.rel == "private/2026-11-15 遠く.txt" and vim.api.nvim_get_current_buf() == rst.buf, rst.cards[rst.cur] and rst.cards[rst.cur].page.rel)
+found = list.reveal("private/local/2026-11-15 手元.txt", true)
+check("reveal: a local page turns the list to local", found and rst.store == "local" and rst.cards[rst.cur].page.rel == "private/local/2026-11-15 手元.txt", rst.store)
+check("reveal: a page that is not there changes nothing", list.reveal("private/無い.txt", true) == false and rst.store == "local")
+require("notes.ddu").reveal_picked(root .. "/pages/private/2026-11-15 遠く.txt", 2, "vsplit")
+vim.wait(100)
+check("reveal with a command (<Leader>vv in ddu): the page opened at the line instead", #vim.api.nvim_tabpage_list_wins(0) == 2 and vim.api.nvim_buf_get_name(0):find("遠く%.txt$") ~= nil and vim.api.nvim_win_get_cursor(0)[1] == 2, vim.api.nvim_buf_get_name(0))
+vim.cmd("only")
+list.open()
+list._state().store = "remote"
 
 -- <Leader>vv in the list: the page on the right, the right window used again next time.
 list.open()
