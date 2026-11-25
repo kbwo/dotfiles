@@ -306,8 +306,8 @@ check("a page gets filetype notes", vim.bo.filetype == "notes", vim.bo.filetype)
 check("the title is drawn as a title", find_mark(0, function(d)
   return d.hl_group == "NotesTitle"
 end) ~= nil)
-check("the title has room above it and a rule under it", find_mark(0, function(d)
-  return d.virt_lines_above and d.virt_lines
+check("the title stands between a rule above it and a rule under it", find_mark(0, function(d)
+  return d.virt_lines_above and d.virt_lines and d.virt_lines[1][1][1]:find("^─") ~= nil
 end) ~= nil and find_mark(0, function(d)
   return not d.virt_lines_above and d.virt_lines and d.virt_lines[1][1][1]:find("^─") ~= nil
 end) ~= nil)
