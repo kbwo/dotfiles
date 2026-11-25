@@ -289,16 +289,52 @@ end
 
 -- ===== Lines =====
 
-local LEADING_WS = pat("^@WS@*")
-local ALL_WS = pat("^@WS@*$")
+-- JavaScript's \s beyond ASCII, as UTF-8 (the classification below runs on
+-- every line of every page when the list is built, so it stays in plain Lua).
+local WIDE_SPACES = {}
+for _, cp in ipairs({ 0xa0, 0x1680, 0x2000, 0x2001, 0x2002, 0x2003, 0x2004, 0x2005, 0x2006, 0x2007, 0x2008, 0x2009, 0x200a, 0x2028, 0x2029, 0x202f, 0x205f, 0x3000, 0xfeff }) do
+  WIDE_SPACES[vim.fn.nr2char(cp)] = true
+end
+
+--- The length in bytes of the whitespace character at byte `i`, or nil.
+local function space_at(s, i)
+  local b = s:byte(i)
+  if not b then
+    return nil
+  end
+  if b == 32 or (b >= 9 and b <= 13) then
+    return 1
+  end
+  if b >= 0xC2 then
+    for len = 2, 3 do
+      if WIDE_SPACES[s:sub(i, i + len - 1)] then
+        return len
+      end
+    end
+  end
+  return nil
+end
+
+--- How a line starts: its indentation in characters, and the byte after it.
+local function leading_space(line)
+  local i, n = 1, 0
+  while true do
+    local len = space_at(line, i)
+    if not len then
+      return n, i
+    end
+    i, n = i + len, n + 1
+  end
+end
 
 --- The indentation of a line, in characters.
 function M.count_indent(line)
-  return vim.fn.strchars(vim.fn.matchstr(line, LEADING_WS))
+  return (leading_space(line))
 end
 
 function M.is_empty_line(line)
-  return vim.fn.match(line, ALL_WS) == 0
+  local _, after = leading_space(line)
+  return after > #line
 end
 
 --- JavaScript's String.prototype.trim.
@@ -323,6 +359,10 @@ local CODE_START = pat("^@WS@*code:(.+)$")
 local TABLE_START = pat("^@WS@*table:(.+)$")
 
 local function code_block_start(line)
+  local _, after = leading_space(line)
+  if line:sub(after, after + 4) ~= "code:" then
+    return nil
+  end
   local m = vim.fn.matchlist(line, CODE_START_NAMED)
   if #m == 0 then
     m = vim.fn.matchlist(line, CODE_START)
@@ -335,18 +375,15 @@ local function code_block_start(line)
   return lang ~= "" and { filename = filename, lang = vim.fn.tolower(lang) } or nil
 end
 
-local CLI = pat("^@WS@*([%$]) (.+)")
-local HELPFEEL = pat("^@WS@*(\\?) (.+)")
-local NUMBER_LIST = pat("^@WS@*(\\d+)\\. ")
-local HORIZONTAL_RULE = pat("^-{3,}@WS@*$")
-
---- Every line of a page, classified, with the inline notation parsed where it applies:
+--- Every line of a page, classified, with the inline notation parsed where it applies
+--- (unless `opts.inline == false`, for callers that only need the classification):
 --- { text, indent, nodes, title?, code_block?, table_block?, cli?, helpfeel?, horizontal_rule? }
-function M.parse_page(page_text)
+function M.parse_page(page_text, opts)
   local texts = vim.split(page_text, "\n", { plain = true })
   local lines = {}
   for i, t in ipairs(texts) do
-    lines[i] = { text = t, indent = M.count_indent(t), nodes = {} }
+    local indent, after = leading_space(t)
+    lines[i] = { text = t, indent = indent, after = after, nodes = {} }
   end
   lines[1].title = true
 
@@ -365,7 +402,8 @@ function M.parse_page(page_text)
 
   i = 2
   while i <= #lines do
-    if vim.fn.match(texts[i], TABLE_START) == 0 then
+    local line = lines[i]
+    if texts[i]:sub(line.after, line.after + 5) == "table:" and vim.fn.match(texts[i], TABLE_START) == 0 then
       local last = block_end(texts, i)
       for j = i, last do
         lines[j].table_block = { start = j == i, ["end"] = j == last }
@@ -377,16 +415,22 @@ function M.parse_page(page_text)
 
   for _, line in ipairs(lines) do
     if not line.title then
-      line.cli = vim.fn.match(line.text, CLI) == 0 or nil
-      line.helpfeel = vim.fn.match(line.text, HELPFEEL) == 0 or nil
-      line.number_list = vim.fn.match(line.text, NUMBER_LIST) == 0 or nil
-      line.horizontal_rule = vim.fn.match(line.text, HORIZONTAL_RULE) == 0 or nil
+      -- `^\s*([%$]) (.+)`, `^\s*(\?) (.+)`, `^\s*(\d+)\. `, `^-{3,}\s*$`
+      local rest = line.text:sub(line.after)
+      line.cli = rest:match("^[%%$] .") and true or nil
+      line.helpfeel = rest:match("^%? .") and true or nil
+      line.number_list = rest:match("^%d+%. ") and true or nil
+      local dashes = line.text:match("^%-%-%-+")
+      line.horizontal_rule = dashes and M.is_empty_line(line.text:sub(#dashes + 1)) or nil
     end
+    line.after = nil
   end
 
-  for _, line in ipairs(lines) do
-    if not line.title and not line.code_block and not line.cli and not line.helpfeel then
-      line.nodes = M.parse_line(line.text)
+  if not opts or opts.inline ~= false then
+    for _, line in ipairs(lines) do
+      if not line.title and not line.code_block and not line.cli and not line.helpfeel then
+        line.nodes = M.parse_line(line.text)
+      end
     end
   end
   return lines
@@ -467,45 +511,42 @@ function M.title_of(page_text)
   return "Untitled"
 end
 
---- `s` cut to `n` UTF-16 units, as JavaScript's slice(0, n) cuts it.
+--- `s` cut to `n` UTF-16 units, as JavaScript's slice(0, n) cuts it. Counted per
+--- code point from the bytes: Vim's own character splitting joins composing
+--- characters (an emoji's variation selector) to the one before.
 local function utf16_slice(s, n)
-  if vim.fn.strutf16len(s) <= n then
-    return s
-  end
-  local out, used = {}, 0
-  for _, ch in ipairs(vim.fn.split(s, "\\zs")) do
-    local w = #ch == 4 and 2 or 1
+  local used, i = 0, 1
+  while i <= #s do
+    local b = s:byte(i)
+    local len = b < 0x80 and 1 or b < 0xE0 and 2 or b < 0xF0 and 3 or 4
+    local w = len == 4 and 2 or 1
     if used + w > n then
-      break
+      return s:sub(1, i - 1)
     end
-    out[#out + 1], used = ch, used + w
+    used, i = used + w, i + len
   end
-  return table.concat(out)
+  return s
 end
 
---- A page's opening lines and first image, as the list's cards show them (parser.mjs `analyzePage`).
+--- A page's title and opening lines, as the list's cards show them (parser.mjs `analyzePage`'s
+--- `title` and `descriptions`). Only the lines' kinds are needed, not their inline notation,
+--- which keeps it fast enough to run over every page.
 function M.summary(page_text)
-  local descriptions, image = {}, nil
-  for _, line in ipairs(M.parse_page(page_text)) do
-    if not line.title and not (line.code_block and line.code_block.start) then
-      if #descriptions < 5 and not M.is_empty_line(line.text) and not line.horizontal_rule then
-        local t = M.trim(line.text)
-        if line.code_block or line.cli or line.helpfeel then
-          descriptions[#descriptions + 1] = "`" .. utf16_slice(t:gsub("`", "\\`"), 198) .. "`"
-        else
-          descriptions[#descriptions + 1] = utf16_slice(t, 200)
-        end
-      end
-      if not image and not line.table_block then
-        M.each_node(line.nodes, function(node)
-          if not image and (node.type == "image" or node.type == "strongImage") then
-            image = node.src
-          end
-        end)
+  local descriptions = {}
+  for _, line in ipairs(M.parse_page(page_text, { inline = false })) do
+    if #descriptions == 5 then
+      break
+    end
+    if not line.title and not (line.code_block and line.code_block.start) and not M.is_empty_line(line.text) and not line.horizontal_rule then
+      local t = M.trim(line.text)
+      if line.code_block or line.cli or line.helpfeel then
+        descriptions[#descriptions + 1] = "`" .. utf16_slice((t:gsub("`", "\\`")), 198) .. "`"
+      else
+        descriptions[#descriptions + 1] = utf16_slice(t, 200)
       end
     end
   end
-  return { title = M.title_of(page_text), descriptions = descriptions, image = image }
+  return { title = M.title_of(page_text), descriptions = descriptions }
 end
 
 --- The page links of one line, with where each is: { page, start, finish } (byte offsets, finish exclusive).

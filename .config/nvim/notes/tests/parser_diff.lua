@@ -39,9 +39,6 @@ for line in result.stdout:gmatch("[^\n]+") do
   if not vim.deep_equal(summary.descriptions, want.descriptions) then
     fail(want.file, "descriptions", want.descriptions, summary.descriptions)
   end
-  if summary.image ~= (want.image ~= vim.NIL and want.image or nil) then
-    fail(want.file, "first image", want.image, summary.image)
-  end
   if not vim.deep_equal(parser.image_sources(text), want.images) then
     fail(want.file, "images", want.images, parser.image_sources(text))
   end
