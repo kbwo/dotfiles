@@ -30,6 +30,6 @@ function linksInLine(nodes, text) {
 for (const file of walk(pagesDir)) {
   const text = readFileSync(file, "utf8");
   const links = parsePage(text).map((line) => linksInLine(line.nodes, line.text));
-  const { title, descriptions } = analyzePage(text);
-  process.stdout.write(JSON.stringify({ file: relative(pagesDir, file), links, title, descriptions, images: imageSourcesOf(text) }) + "\n");
+  const { title, descriptions, links: pageLinks } = analyzePage(text);
+  process.stdout.write(JSON.stringify({ file: relative(pagesDir, file), links, pageLinks, title, descriptions, images: imageSourcesOf(text) }) + "\n");
 }

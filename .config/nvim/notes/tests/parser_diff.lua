@@ -32,6 +32,10 @@ for line in result.stdout:gmatch("[^\n]+") do
       fail(want.file, ("links of line %d: %s"):format(i, parsed.text), want.links[i], got)
     end
   end
+  local page_links = parser.links_of(text)
+  if not vim.deep_equal(page_links, want.pageLinks) then
+    fail(want.file, "page links", want.pageLinks, page_links)
+  end
   local summary = parser.summary(text)
   if summary.title ~= want.title then
     fail(want.file, "title", want.title, summary.title)

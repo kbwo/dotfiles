@@ -153,6 +153,21 @@ function M.refresh_history(changed, force)
   end)
 end
 
+--- Wait (up to 5 s) for the git history when it has never been read: without it every page
+--- would first be dated by its file, which a fresh checkout makes one and the same day.
+function M.ensure_history()
+  if history or not git.repo_of(M.pages_dir()) then
+    return
+  end
+  local done = false
+  M.refresh_history(function()
+    done = true
+  end, true)
+  vim.wait(5000, function()
+    return done
+  end, 20)
+end
+
 --- Every page: { rel, title, descriptions, date, closed, private, store, created, updated, pin }.
 --- Files are read only when they changed since the last call.
 function M.pages()
@@ -596,11 +611,16 @@ function M.duplicate(page, pages)
   return M.create(table.concat(lines, "\n"), page.store), title
 end
 
+--- Add `text` at the end of the page `rel`.
+function M.append(rel, text)
+  write_page(rel, normalize(M.text_of(rel)) .. text)
+end
+
 --- Append the body of `page` to `into` and delete `page`.
 function M.merge(page, into)
   local source = vim.split(M.text_of(page.rel), "\n", { plain = true })
   table.remove(source, 1)
-  write_page(into.rel, normalize(M.text_of(into.rel)) .. table.concat(source, "\n"))
+  M.append(into.rel, table.concat(source, "\n"))
   M.delete(page.rel)
 end
 

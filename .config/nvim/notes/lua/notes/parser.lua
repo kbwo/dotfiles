@@ -509,14 +509,14 @@ function M.to_title_lc(title)
   return vim.fn.tolower((title:gsub(" ", "_")))
 end
 
-local LINE_BREAK = "[\r\n\226\128\168\226\128\169]" -- CR, LF, U+2028, U+2029 as UTF-8
-
 --- Whether a string can be a page title, and therefore a link target.
 function M.is_valid_title(title)
   return type(title) == "string"
     and #title >= 1
     and vim.fn.strutf16len(title) <= 240
-    and not title:find(LINE_BREAK)
+    and not title:find("[\r\n]")
+    and not title:find("\u{2028}", 1, true)
+    and not title:find("\u{2029}", 1, true)
     and not title:match("^[./]+$")
     and not title:find("[%[%]]")
     and vim.fn.match(title, pat("\\.icon@WS@*$")) < 0
