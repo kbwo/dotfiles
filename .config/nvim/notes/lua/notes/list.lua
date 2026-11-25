@@ -209,8 +209,19 @@ local function render(st)
   local other = st.store == "remote" and "local" or "remote"
   lines[1] = (" %s  %d pages    Tab: %s %d    並び: %s"):format(st.store:upper(), counts[st.store], other, counts[other], st.sort == "created" and "Created" or "Modified")
   st.band = st.store == "local" and "NotesBandLocal" or "NotesBandRemote"
-  add("hjkl 移動  <CR> 開く  f 文字で開く  Tab remote/local  / 検索  c 新規  s 並び", "NotesHelp")
-  add("x closed  p pin  t date  v 公開/非公開  m マージ  D 削除", "NotesHelp")
+  -- The keys, each with what it does: the key in the accent, so that it is found at a glance.
+  local function help(keys)
+    local parts = {}
+    for _, kv in ipairs(keys) do
+      local start = #table.concat(parts)
+      parts[#parts + 1] = kv[1] .. " " .. kv[2] .. "  "
+      hls[#hls + 1] = { #lines, start, start + #kv[1], "NotesHelpKey" }
+      hls[#hls + 1] = { #lines, start + #kv[1], start + #parts[#parts], "NotesHelp" }
+    end
+    lines[#lines + 1] = table.concat(parts)
+  end
+  help({ { "hjkl", "移動" }, { "<CR>", "開く" }, { "f", "文字で開く" }, { "Tab", "remote/local" }, { "/", "検索" }, { "c", "新規" }, { "s", "並び" } })
+  help({ { "x", "closed" }, { "p", "pin" }, { "t", "date" }, { "v", "公開/非公開" }, { "m", "マージ" }, { "D", "削除" } })
 
   for _, sec in ipairs(secs) do
     add("")
