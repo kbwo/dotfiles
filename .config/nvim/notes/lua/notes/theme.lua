@@ -123,6 +123,8 @@ function M.apply_highlights()
   -- A quote: a grey bar, its text quieter than the page's (.cs-quote-line, .cs-quote).
   hl("NotesQuote", { fg = p.dim })
   hl("NotesQuoteBar", { fg = p.comment })
+  -- The rule under a page's title, in the same grey (kanagawa's WinSeparator is the ground's colour, all but unseen).
+  hl("NotesTitleRule", { fg = p.comment })
   -- A code block and inline code on a ground tinted towards the blue (.cs-code-line, .cs-code).
   hl("NotesCodeGround", { bg = blend(p.bg, p.bar, 0.22) })
   hl("NotesCodeHeader", { fg = p.dim, bold = true })
@@ -138,7 +140,6 @@ local function page_highlights()
     vim.api.nvim_set_hl(0, name, { link = to, default = true })
   end
   link("NotesTitle", "Title")
-  link("NotesTitleRule", "WinSeparator")
   link("NotesLink", "Function")
   link("NotesLinkMissing", "DiagnosticWarn")
   link("NotesUrl", "@markup.link.url")

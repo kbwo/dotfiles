@@ -311,6 +311,8 @@ check("the title has room above it and a rule under it", find_mark(0, function(d
 end) ~= nil and find_mark(0, function(d)
   return not d.virt_lines_above and d.virt_lines and d.virt_lines[1][1][1]:find("^─") ~= nil
 end) ~= nil)
+local rule_hl = vim.api.nvim_get_hl(0, { name = "NotesTitleRule", link = false })
+check("the rule is drawn in a colour of its own, not the ground's", rule_hl.fg ~= nil and rule_hl.fg ~= vim.api.nvim_get_hl(0, { name = "Normal" }).bg, rule_hl)
 check("a link's [ is concealed", find_mark(1, function(d, col)
   return d.conceal == "" and col == 1
 end) ~= nil)
