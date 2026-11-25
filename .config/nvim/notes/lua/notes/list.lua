@@ -635,19 +635,25 @@ local function setup_buffer(st)
       store.pull(again)
     end,
   })
-  -- The card under the cursor follows the cursor; near the end, the next days are loaded.
+  -- The selected card follows the cursor, however it moved (gg, G, <C-f>, a search): the card
+  -- under it, or, on a heading or a blank line, the nearest one, so that hjkl go on from there.
+  -- Near the end, the next days are loaded.
   vim.api.nvim_create_autocmd("CursorMoved", {
     group = group,
     buffer = buf,
     callback = function()
-      local line = vim.fn.line(".")
+      local line, col = vim.fn.line("."), vim.fn.col(".") - 1
+      local best, bd = nil, math.huge
       for i, c in ipairs(st.cards) do
-        if line >= c.line and line < c.line + CARD_H and vim.fn.col(".") > c.col and vim.fn.col(".") <= c.col + #"▎ " + CARD_W + GAP then
-          if i ~= st.cur then
-            select(st, i, false)
-          end
-          break
+        local rows = line < c.line and c.line - line or line >= c.line + CARD_H and line - (c.line + CARD_H - 1) or 0
+        local cols = col < c.col and c.col - col or col >= c.col + CARD_W + GAP and col - (c.col + CARD_W + GAP - 1) or 0
+        local d = rows * 1000 + cols
+        if d < bd then
+          best, bd = i, d
         end
+      end
+      if best and best ~= st.cur then
+        select(st, best, false)
       end
       if st.mode == "list" and st.more and line > vim.api.nvim_buf_line_count(buf) - CARD_H * 3 then
         st.shown_days = st.shown_days + DAYS_PER_LOAD

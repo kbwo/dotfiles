@@ -100,6 +100,17 @@ check("j moves to a card below", st.cards[st.cur].line > first.line, { st.cur })
 list._move(st, -1, 0)
 check("k moves back up", st.cards[st.cur].line == first.line)
 
+-- After the cursor jumps (G, <C-f>, ...) onto a heading or a blank line, j/k go on from there.
+local last = st.cards[#st.cards]
+vim.api.nvim_win_set_cursor(0, { vim.api.nvim_buf_line_count(st.buf), 0 })
+vim.api.nvim_exec_autocmds("CursorMoved", { buffer = st.buf })
+check("G: the selection follows to the nearest card", st.cards[st.cur].line == last.line, { st.cur, #st.cards })
+vim.api.nvim_win_set_cursor(0, { 1, 0 })
+vim.api.nvim_exec_autocmds("CursorMoved", { buffer = st.buf })
+check("gg: the selection follows to the first card", st.cur == 1, { st.cur })
+list._move(st, 1, 0)
+check("gg then j: the next row down from the top, not back where the cursor was", st.cards[st.cur].line > st.cards[1].line and st.cards[st.cur].line < last.line, { st.cur })
+
 -- ===== loading more days =====
 
 for i = 1, 40 do
