@@ -1,11 +1,13 @@
 -- The card list: one buffer showing the notes as cards under the days they were
 -- created and last updated on, after the pinned pages and the pages whose
 -- "date:" has come, as stderr-blog's editor lists them (tools/cosense/views/list.js).
--- The same buffer shows search results and a page's related pages.
+-- The same buffer shows a page's related pages. Search and choosing a page to merge
+-- into are ddu lists (lua/notes/ddu.lua).
 
 local parser = require("notes.parser")
 local marks = require("notes.marks")
 local store = require("notes.store")
+local theme = require("notes.theme")
 
 local M = {}
 
@@ -18,24 +20,7 @@ local DAYS_PER_LOAD = 30
 local LABEL_CHARS = "asdfghjklqwertyuiopzxcvbnm"
 local WEEKDAYS = { "日", "月", "火", "水", "木", "金", "土" }
 
-local function set_highlights()
-  local hl = function(name, opts)
-    opts.default = true
-    vim.api.nvim_set_hl(0, name, opts)
-  end
-  hl("NotesCard", { fg = "#a6a69c", bg = "#2a2a37" })
-  hl("NotesCardBar", { fg = "#7e9cd8", bg = "#2a2a37" })
-  hl("NotesCardTitle", { fg = "#dcd7ba", bg = "#2a2a37", bold = true })
-  hl("NotesCardBadge", { fg = "#727169", bg = "#2a2a37" })
-  hl("NotesCardDue", { fg = "#ffa066", bg = "#2a2a37" })
-  hl("NotesCardClosed", { fg = "#54546d", bg = "#232330" })
-  hl("NotesCardSelected", { fg = "#ffa066", bg = "#2a2a37", bold = true })
-  hl("NotesHeading", { fg = "#e6c384", bold = true })
-  hl("NotesTab", { fg = "#727169" })
-  hl("NotesTabSelected", { fg = "#1f1f28", bg = "#e46876", bold = true })
-  hl("NotesHelp", { fg = "#727169" })
-  hl("NotesLabel", { fg = "#1f1f28", bg = "#ffa066", bold = true })
-end
+local states = {} -- buf -> state of each list buffer
 
 local function fit(s, w)
   s = s:gsub("[\t\r\n]", " ")
@@ -101,14 +86,6 @@ end
 -- ===== what the list shows =====
 
 local function sections(st, pages, today)
-  if st.mode == "search" then
-    local results = store.search(st.query, pages)
-    local cards = {}
-    for _, p in ipairs(results) do
-      cards[#cards + 1] = { page = p }
-    end
-    return { { heading = ("検索: %s  %d 件"):format(st.query, #results), cards = cards } }, false
-  end
   if st.mode == "related" then
     local r = store.related(st.related_of, pages)
     local out = {}
@@ -224,19 +201,14 @@ local function render(st)
     end
   end
 
-  -- the tabs
+  -- The band: which store this is, across the whole width, in its color.
   local counts = { remote = 0, ["local"] = 0 }
   for _, p in ipairs(st.pages) do
     counts[p.store] = counts[p.store] + 1
   end
-  local tabs, at = {}, 0
-  for _, s in ipairs({ "remote", "local" }) do
-    local label = (" %s %d "):format(s, counts[s])
-    hls[#hls + 1] = { 0, at, at + #label, (st.mode == "list" and s == st.store) and "NotesTabSelected" or "NotesTab" }
-    tabs[#tabs + 1] = label
-    at = at + #label + 2
-  end
-  lines[1] = table.concat(tabs, "  ") .. ((st.sort == "created") and "    並び: Created" or "    並び: Modified")
+  local other = st.store == "remote" and "local" or "remote"
+  lines[1] = (" %s  %d pages    Tab: %s %d    並び: %s"):format(st.store:upper(), counts[st.store], other, counts[other], st.sort == "created" and "Created" or "Modified")
+  st.band = st.store == "local" and "NotesBandLocal" or "NotesBandRemote"
   add("hjkl 移動  <CR> 開く  f 文字で開く  Tab remote/local  / 検索  c 新規  s 並び", "NotesHelp")
   add("x closed  p pin  t date  v 公開/非公開  m マージ  D 削除", "NotesHelp")
 
@@ -261,11 +233,16 @@ local function render(st)
           local body = fit(cells[r], CARD_W - 2)
           row[r] = row[r] .. "▎ " .. body
           local bar = #"▎ "
-          local base = page.closed and "NotesCardClosed" or (r == 1 and "NotesCardTitle" or r == 4 and "NotesCardBadge" or "NotesCard")
-          if r == 4 and page.date and page.date <= today and not page.closed then
-            base = "NotesCardDue"
+          local base
+          if page.closed then
+            base = r == 1 and "NotesCardClosedTitle" or "NotesCardClosed"
+          else
+            base = r == 1 and "NotesCardTitle" or r == 4 and "NotesCardBadge" or "NotesCard"
+            if r == 4 and page.date and page.date <= today then
+              base = "NotesCardDue"
+            end
           end
-          hls[#hls + 1] = { top + r - 1, start, start + bar, page.closed and "NotesCardClosed" or "NotesCardBar" }
+          hls[#hls + 1] = { top + r - 1, start, start + bar, page.closed and "NotesCardClosedBar" or "NotesCardBar" }
           hls[#hls + 1] = { top + r - 1, start + bar, start + bar + #body, base }
           if j < last_j then
             row[r] = row[r] .. string.rep(" ", GAP)
@@ -288,6 +265,7 @@ local function render(st)
   vim.bo[buf].modifiable = false
   vim.bo[buf].modified = false
   vim.api.nvim_buf_clear_namespace(buf, ns, 0, -1)
+  vim.api.nvim_buf_set_extmark(buf, ns, 0, 0, { line_hl_group = st.band })
   for _, h in ipairs(hls) do
     pcall(vim.api.nvim_buf_set_extmark, buf, ns, h[1], h[2], { end_col = h[3], hl_group = h[4] })
   end
@@ -390,18 +368,6 @@ local function ask_title(prompt, default)
   return title ~= "" and title or nil
 end
 
-function M.complete_titles(arglead)
-  local lead = vim.fn.tolower(arglead)
-  local out = {}
-  for _, p in ipairs(store.pages()) do
-    if vim.fn.tolower(p.title):find(lead, 1, true) then
-      out[#out + 1] = p.title
-    end
-  end
-  table.sort(out)
-  return out
-end
-
 local function confirm(question)
   return vim.fn.confirm(question, "&Yes\n&No", 2) == 1
 end
@@ -430,19 +396,16 @@ function actions.toggle_store(st)
   st.mode = "list"
   st.store = st.store == "remote" and "local" or "remote"
   st.shown_days = DAYS_PER_LOAD
+  theme.set_local(st.store == "local")
   render(st)
   select(st, 1)
 end
 
-function actions.search(st)
-  local ok, q = pcall(vim.fn.input, { prompt = "検索（空で一覧に戻る）: ", default = st.mode == "search" and st.query or "", cancelreturn = false })
-  if not ok or q == false then
-    return
+function actions.search()
+  local ok, q = pcall(vim.fn.input, { prompt = "検索: ", cancelreturn = false })
+  if ok and q ~= false then
+    require("notes.ddu").search(parser.trim(q))
   end
-  q = parser.trim(q)
-  st.mode, st.query = q == "" and "list" or "search", q
-  render(st)
-  select(st, 1)
 end
 
 function actions.sort(st)
@@ -531,23 +494,28 @@ function actions.merge(st)
   if not page or page.missing then
     return
   end
-  local ok, title = pcall(vim.fn.input, { prompt = ("「%s」をマージする先のページ: "):format(page.title), completion = "customlist,v:lua.require'notes.list'.complete_titles", cancelreturn = "" })
-  title = ok and parser.trim(title) or ""
-  if title == "" then
-    return
-  end
-  local into = store.find(title, st.pages)
-  if not into then
-    return warn(("「%s」というページはありません"):format(title))
-  end
-  if into.rel == page.rel then
-    return warn("同じページにはマージできません")
+  require("notes.ddu").pick_merge_target(page)
+end
+
+--- The second half of `m`: `page` merged into the page at `into_path`, chosen in ddu.
+function M.merge_into(page, into_path)
+  local into_rel = store.rel_of(into_path)
+  local into = into_rel and vim.iter(store.pages()):find(function(p)
+    return p.rel == into_rel
+  end)
+  if not into or into.rel == page.rel then
+    return warn("マージ先のページが見つかりません")
   end
   if not confirm(("「%s」の本文を「%s」の末尾に足して、「%s」を削除しますか？"):format(page.title, into.title, page.title)) then
     return
   end
   store.merge(page, into)
-  after_change(st)
+  store.schedule_sync()
+  for _, st in pairs(states) do
+    if vim.api.nvim_buf_is_valid(st.buf) and vim.fn.bufwinid(st.buf) ~= -1 then
+      redraw(st)
+    end
+  end
 end
 
 -- Labels on the cards in the window; the card whose label is typed is opened.
@@ -587,8 +555,6 @@ function actions.label_open(st)
 end
 
 -- ===== the buffer =====
-
-local states = {} -- buf -> state
 
 local function setup_buffer(st)
   local buf = st.buf
@@ -692,7 +658,6 @@ local function list_buffer()
 end
 
 local function show(st)
-  set_highlights()
   local win = vim.api.nvim_get_current_win()
   if vim.api.nvim_win_get_buf(win) == st.buf then
     redraw(st)
@@ -725,6 +690,12 @@ function M.open_related(page)
 end
 
 -- For tests.
+--- Whether the list in `buf` is showing the local pages.
+function M.shows_local(buf)
+  local st = states[buf]
+  return st ~= nil and st.mode == "list" and st.store == "local"
+end
+
 M._state = function()
   local st = list_buffer()
   return st

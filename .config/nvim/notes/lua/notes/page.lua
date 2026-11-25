@@ -57,6 +57,7 @@ local function after_write(buf)
     now = rel
   end
   vim.b[buf].notes_title = title
+  M.show_band(buf) -- the file may have a new name
   if old_title and parser.to_title_lc(old_title) ~= parser.to_title_lc(title) then
     local referrers = store.referrers(old_title, now)
     if #referrers > 0 and vim.fn.confirm(("「%s」は %d ページからリンクされています。リンクを「%s」に書き換えますか？"):format(old_title, #referrers, title), "&Yes\n&No", 1) == 1 then
@@ -265,10 +266,37 @@ end
 
 -- ===== setup =====
 
+--- Whether the page in `buf` is a local one (kept on this machine only).
+function M.is_local(buf)
+  local rel = rel_of_buf(buf)
+  return rel ~= nil and require("notes.filename").store_of(rel) == "local"
+end
+
+--- The band at the top of a page's window: REMOTE / LOCAL in its color, published or not, the file.
+function M.show_band(buf)
+  local rel = rel_of_buf(buf)
+  local win = vim.fn.bufwinid(buf)
+  if not rel or win == -1 then
+    return
+  end
+  local fname = require("notes.filename")
+  local is_local = fname.store_of(rel) == "local"
+  local text = (" %s  %s  %s"):format(is_local and "LOCAL" or "REMOTE", fname.is_private(rel) and "private" or "public", rel)
+  vim.api.nvim_win_call(win, function()
+    vim.opt_local.winbar = ("%%#%s#%s%%=%%*"):format(is_local and "NotesBandLocal" or "NotesBandRemote", text:gsub("%%", "%%%%"))
+  end)
+end
+
 function M.attach(buf)
   if vim.b[buf].notes_attached then
     return
   end
+  vim.api.nvim_create_autocmd("BufWinEnter", {
+    buffer = buf,
+    callback = function()
+      M.show_band(buf)
+    end,
+  })
   vim.b[buf].notes_attached = true
   local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
   -- A file that does not exist yet has no title to rename from.

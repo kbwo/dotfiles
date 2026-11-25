@@ -6,6 +6,20 @@ local M = {}
 
 function M.setup()
   local store = require("notes.store")
+  local theme = require("notes.theme")
+  theme.setup()
+  -- lotus while a local note or the local list is in front. Windows of other kinds (ddu,
+  -- help, a terminal) leave the colors as they are, so that picking from a local list does not flash.
+  vim.api.nvim_create_autocmd("BufEnter", {
+    group = vim.api.nvim_create_augroup("notes_theme_switch", { clear = true }),
+    callback = function(ev)
+      if vim.bo[ev.buf].filetype == "notes-list" then
+        theme.set_local(require("notes.list").shows_local(ev.buf))
+      elseif vim.bo[ev.buf].buftype == "" then
+        theme.set_local(require("notes.page").is_local(ev.buf))
+      end
+    end,
+  })
   vim.api.nvim_create_user_command("Notes", function()
     require("notes.list").open()
   end, { desc = "メモの一覧" })

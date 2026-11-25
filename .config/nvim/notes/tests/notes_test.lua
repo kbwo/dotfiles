@@ -93,6 +93,14 @@ check("a page is under the day it was created and the day it was last updated", 
 check("the day it was only updated on says so", joined:find("↻ 更新") ~= nil)
 check("a closed page is listed", joined:find("閉じた") ~= nil)
 check("a published page is marked public", joined:find("public") ~= nil)
+check("the band says which store this is", text[1]:find("^ REMOTE ") ~= nil, text[1])
+local band = vim.api.nvim_buf_get_extmarks(st.buf, -1, { 0, 0 }, { 0, -1 }, { details = true })
+check("the band is colored across the width", vim.iter(band):any(function(m)
+  return m[4].line_hl_group == "NotesBandRemote"
+end))
+local closed_hl = vim.api.nvim_get_hl(0, { name = "NotesCardClosed" })
+local card_hl = vim.api.nvim_get_hl(0, { name = "NotesCard" })
+check("a closed card is on the same card color, its text dimmed but not as far as the card", closed_hl.bg == card_hl.bg and closed_hl.fg ~= card_hl.fg and closed_hl.fg ~= card_hl.bg)
 
 local first = st.cards[st.cur]
 list._move(st, 1, 0)
@@ -207,8 +215,17 @@ check("v again: back to private/, images too", rel == "private/2026-11-12 画像
 local today_rel = store.set_visibility(page("画像あり"), false, true, store.pages())
 check("v with today as created date: the date is replaced, the title part stays", today_rel == os.date("%Y-%m-%d") .. " 画像あり.txt", today_rel)
 
-store.merge(page("short_2"), page("short"))
+local ddu = require("notes.ddu")
+local titles = ddu.items({ mode = "titles", except = page("short_2").rel })
+check("m: the merge target list has every page but the one being merged", #titles == #store.pages() - 1 and not vim.iter(titles):any(function(i)
+  return i.word == "short_2"
+end))
+answers = { 1 } -- yes, merge
+list.merge_into(page("short_2"), store.abs(page("short").rel))
 check("m: the body is appended and the page deleted", page("short_2") == nil and select(2, read(page("short").rel):gsub("body", "")) == 2, read(page("short").rel))
+
+local hits = ddu.items({ mode = "search", input = "short" })
+check("/: ddu lists one item per page, the title-match first, opening at the matching line", hits[1] and hits[1].word:find("^short") and hits[1].action.path == store.abs(page("short").rel), hits[1])
 
 store.delete(page("short").rel)
 check("D: deleted", page("short") == nil)
