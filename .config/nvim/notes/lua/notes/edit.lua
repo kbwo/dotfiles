@@ -404,9 +404,20 @@ function M.window_options()
   vim.opt_local.list = false
 end
 
+-- The room decorate.lua puts above the title is a virtual line above the first line, which
+-- Neovim shows only while the window's 'topfill' says so, and moving to the top (gg, k)
+-- sets that to 0. Whenever the window shows the first line, it is set to show the room.
+local function show_room_above_title()
+  local view = vim.fn.winsaveview()
+  if view.topline == 1 and view.topfill == 0 then
+    vim.fn.winrestview({ topfill = 1 })
+  end
+end
+
 function M.attach(buf)
   vim.bo[buf].tabstop = 1 -- each indentation character is drawn two cells wide by decorate.lua
   vim.api.nvim_create_autocmd("BufWinEnter", { buffer = buf, callback = M.window_options })
+  vim.api.nvim_create_autocmd({ "BufWinEnter", "WinScrolled", "CursorMoved" }, { buffer = buf, callback = show_room_above_title })
   if vim.api.nvim_get_current_buf() == buf then
     M.window_options()
   end

@@ -281,6 +281,9 @@ function M.render(buf)
     local len = #line.text
     if line.title then
       hl(buf, row, 0, len, "NotesTitle")
+      -- A terminal cannot draw the title larger: room above it and a rule under it instead.
+      pcall(vim.api.nvim_buf_set_extmark, buf, ns, 0, 0, { virt_lines_above = true, virt_lines = { { { " ", "" } } } })
+      pcall(vim.api.nvim_buf_set_extmark, buf, ns, 0, 0, { virt_lines = { { { ("─"):rep(300), "NotesTitleRule" } } } })
     elseif line.code_block or line.table_block then
       local key = line.code_block and "code_block" or "table_block"
       if line[key].start then

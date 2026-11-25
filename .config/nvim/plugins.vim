@@ -22,6 +22,8 @@ Jetpack 'lambdalisue/fern.vim', {'commit': 'b4520a50d8df51969838d35eb07f797e2785
 Jetpack 'Bakudankun/BackAndForward.vim', {'commit': '09c067217d408b99e8b2b2ccc4170ac32daef934'}
 Jetpack 'echasnovski/mini.diff', {'commit': '117c301374ab8546891e2b34f63885ea83527432'}
 Jetpack 'rebelot/kanagawa.nvim', {'commit': 'bb85e4bfc8d89b0e62c8fa53ccdd13d12e2f77b3'}
+" local のメモ（notes/lua/notes/theme.lua）を開いているあいだの配色（latte）
+Jetpack 'catppuccin/nvim', {'as': 'catppuccin', 'commit': 'edefef779ab08ce1a4a404713e3012b0d202bd35'}
 Jetpack 'smoka7/hop.nvim', {'commit': '707049feaca9ae65abb3696eff9aefc7879e66aa'}
 Jetpack 'yorickpeterse/nvim-window', {'commit': '48e44d492d2adaf9aac72a0f4ff21d6caae1b6a2'}
 Jetpack 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate', 'branch': 'master', 'commit': 'cf12346a3414fa1b06af75c79faebe7f76df080a'}
