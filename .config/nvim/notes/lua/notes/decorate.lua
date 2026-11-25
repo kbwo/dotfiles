@@ -123,8 +123,8 @@ local function walk(buf, row, nodes, offset, line, ctx)
       hide(buf, row, s, from)
       hide(buf, row, to, e)
       -- A heading: as many bars as its *s, standing in for the size a terminal cannot change.
-      local stars = t == "deco" and select(2, node.deco:gsub("%*", "")) or 0
-      if stars >= 2 then
+      local stars = parser.heading_stars(node)
+      if stars > 0 then
         pcall(vim.api.nvim_buf_set_extmark, buf, ns, row, s, { virt_text = { { ("▌"):rep(stars) .. " ", "NotesHeading" } }, virt_text_pos = "inline", right_gravity = false })
       end
       for _, g in ipairs(t == "strong" and { "NotesStrong" } or deco_groups(node.deco)) do

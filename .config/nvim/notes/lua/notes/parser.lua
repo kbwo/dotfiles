@@ -587,6 +587,34 @@ function M.summary(page_text)
   return { title = M.title_of(page_text), descriptions = descriptions }
 end
 
+--- How many *s make a deco node a heading's size, or 0 when it is not one: [** ] and up are,
+--- [* ] is only bold.
+function M.heading_stars(node)
+  local stars = node.type == "deco" and select(2, node.deco:gsub("%*", "")) or 0
+  return stars >= 2 and stars or 0
+end
+
+--- The lines that are a heading and nothing else (indentation and trailing spaces aside), for
+--- the outline: { lnum, col, stars, name }, col the byte offset of the heading's [.
+--- The title line, code blocks and tables are not notation that can be a heading.
+function M.headings(page_text)
+  local out = {}
+  for lnum, line in ipairs(M.parse_page(page_text)) do
+    local nodes, col = line.nodes, 0
+    if #nodes == 1 and nodes[1].type == "indent" then
+      col, nodes = #nodes[1].prefix, nodes[1].children
+    end
+    if #nodes == 2 and nodes[2].type == "text" and vim.trim(nodes[2].raw) == "" then
+      nodes = { nodes[1] }
+    end
+    local stars = not line.table_block and #nodes == 1 and M.heading_stars(nodes[1]) or 0
+    if stars > 0 then
+      out[#out + 1] = { lnum = lnum, col = col, stars = stars, name = M.trim(M.nodes_to_text(nodes[1].children)) }
+    end
+  end
+  return out
+end
+
 --- The page links of one line, with where each is: { page, start, finish } (byte offsets, finish exclusive).
 --- Links to other Cosense projects are left out: no page here answers them.
 function M.links_in_line(nodes)

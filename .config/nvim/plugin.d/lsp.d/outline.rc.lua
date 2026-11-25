@@ -20,7 +20,7 @@ require("aerial").setup({
 		"Struct",
 		"Variable"
 	},
-	backends = { "treesitter", "lsp", "markdown", "asciidoc", "man" },
+	backends = { "treesitter", "lsp", "markdown", "notes", "asciidoc", "man" },
 	keymaps = {
 		["?"] = false,
 		["g?"] = "actions.show_help",
