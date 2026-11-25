@@ -830,8 +830,8 @@ local function show(st)
     vim.api.nvim_win_set_buf(win, st.buf) -- BufEnter draws it
   end
   -- The cursor line's band shows the row the cursor is on, as in a page.
-  vim.wo[win].wrap, vim.wo[win].number, vim.wo[win].relativenumber, vim.wo[win].cursorline = false, false, false, true
-  vim.wo[win].signcolumn, vim.wo[win].list = "no", false
+  vim.wo[win][0].wrap, vim.wo[win][0].number, vim.wo[win][0].relativenumber, vim.wo[win][0].cursorline = false, false, false, true
+  vim.wo[win][0].signcolumn, vim.wo[win][0].list = "no", false
 end
 
 --- A page chosen in the search: the list, in the current window, turned to the page's side

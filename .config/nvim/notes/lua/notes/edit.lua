@@ -384,10 +384,10 @@ function M.preview()
     close_events = { "CursorMoved", "CursorMovedI", "InsertEnter", "BufLeave" },
   })
   vim.bo[buf].tabstop = 1
-  vim.wo[win].conceallevel = 2
-  vim.wo[win].concealcursor = ""
-  vim.wo[win].linebreak = true
-  vim.wo[win].breakindent = true
+  vim.wo[win][0].conceallevel = 2
+  vim.wo[win][0].concealcursor = ""
+  vim.wo[win][0].linebreak = true
+  vim.wo[win][0].breakindent = true
   require("notes.decorate").render(buf)
 end
 

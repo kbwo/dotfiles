@@ -71,6 +71,7 @@ meta.set_pin(m, parser.to_title_lc("ピン"), true)
 meta.write(root .. "/pages", m)
 
 list.open()
+check("the list sets its window options for its window only", vim.go.wrap and not vim.wo.wrap, { vim.go.wrap, vim.wo.wrap })
 local st = list._state()
 local text = vim.api.nvim_buf_get_lines(st.buf, 0, -1, false)
 local function index_of(line)
