@@ -465,10 +465,13 @@ theme.set_local(false)
 check("local: without its colorscheme, the one in use stays", shown == "default" and vim.g.colors_name == "default", shown)
 -- A colorscheme standing in for it: switched to, and back from.
 theme.LOCAL_COLORSCHEME = "blue"
+local guicursor = vim.o.guicursor
 theme.set_local(true)
 shown = vim.g.colors_name
+local local_guicursor = vim.o.guicursor
 theme.set_local(false)
 check("local: its colorscheme while local is in front, the one before after", shown == "blue" and vim.g.colors_name == "default", { shown, vim.g.colors_name })
+check("local: the cursor's box in NotesCursor, the cursor as before after", local_guicursor:find("a:NotesCursor$") ~= nil and vim.o.guicursor == guicursor, { local_guicursor, vim.o.guicursor })
 vim.fn.delete(store.links_file())
 
 -- ===== git =====

@@ -103,6 +103,9 @@ function M.apply_highlights()
   if p.cursorline then
     hl("CursorLine", { bg = p.cursorline })
   end
+  -- The cursor's box while local is in front (M.set_local): the text's color with the
+  -- ground's on it. The terminal's own, near white, vanishes on latte's ground.
+  hl("NotesCursor", { fg = p.bg, bg = p.fg })
   hl("NotesHeading", { fg = p.heading, bold = true })
   hl("NotesHelp", { fg = p.dim })
   hl("NotesHelpKey", { fg = p.warn, bold = true })
@@ -157,6 +160,7 @@ end
 M.LOCAL_COLORSCHEME = "catppuccin-latte"
 
 local saved_colorscheme = nil -- the colorscheme to go back to, while local's is on
+local saved_guicursor = nil -- 'guicursor' from before local's cursor color was added
 local warned = false
 
 -- The name `:colorscheme` takes to load the one in use now again.
@@ -183,9 +187,16 @@ function M.set_local(is_local)
       return
     end
     saved_colorscheme = before
+    -- The cursor's box in NotesCursor, every mode's shape kept; the terminal's color is back when this goes.
+    saved_guicursor = vim.o.guicursor
+    vim.o.guicursor = vim.o.guicursor .. ",a:NotesCursor"
   elseif not is_local and saved_colorscheme then
     local back = saved_colorscheme
     saved_colorscheme = nil
+    if saved_guicursor then
+      vim.o.guicursor = saved_guicursor
+      saved_guicursor = nil
+    end
     if back then
       pcall(vim.cmd.colorscheme, back)
     end

@@ -675,7 +675,8 @@ local function show(st)
   else
     vim.api.nvim_win_set_buf(win, st.buf) -- BufEnter draws it
   end
-  vim.wo[win].wrap, vim.wo[win].number, vim.wo[win].relativenumber, vim.wo[win].cursorline = false, false, false, false
+  -- The cursor line's band shows the row the cursor is on, as in a page.
+  vim.wo[win].wrap, vim.wo[win].number, vim.wo[win].relativenumber, vim.wo[win].cursorline = false, false, false, true
   vim.wo[win].signcolumn, vim.wo[win].list = "no", false
 end
 
