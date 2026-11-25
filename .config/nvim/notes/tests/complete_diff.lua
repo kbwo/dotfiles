@@ -44,14 +44,11 @@ assert(result.code == 0, result.stderr)
 local want = vim.split(vim.trim(result.stdout), "\n", { plain = true })
 assert(#want == #cases, ("suggest.js answered %d of %d cases"):format(#want, #cases))
 
-local never = function()
-  return 0
-end
 local failures = {}
 for i, c in ipairs(cases) do
   local got = vim.tbl_map(function(t)
     return t.title
-  end, complete.rank(titles, c.query, c.kind, titles[1].title, never))
+  end, complete.rank(titles, c.query, c.kind, titles[1].title))
   local expected = vim.json.decode(want[i])
   if not vim.deep_equal(got, expected) and #failures < 10 then
     failures[#failures + 1] = ("%s %q\n  suggest.js: %s\n  lua:        %s"):format(c.kind, c.query, vim.inspect(expected), vim.inspect(got))

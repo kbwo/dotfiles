@@ -392,15 +392,12 @@ ctx = complete.context_at("[Neo vim] と", #"[Neo", parsed)
 check("completion: a bracket closed after the cursor is the whole of it", ctx and ctx.query == "Neo vim" and ctx.to == #"[Neo vim]", ctx)
 ctx = complete.context_at("a #ta", 5, parsed)
 check("completion: the tag being typed", ctx and ctx.kind == "tag" and ctx.query == "ta", ctx)
-local never = function()
-  return 0
-end
 local ranked = complete.rank({
   { title = "Neovim の設定", updated = 1, linked_at = 1 },
   { title = "Neovim", updated = 2, linked_at = 0 },
   { title = "neovim plugin", updated = 3, linked_at = 5 },
   { title = "Nevim typo", updated = 4, linked_at = 9 },
-}, "neovim", "link", "今のページ", never)
+}, "neovim", "link", "今のページ")
 check("completion: every word first, the most recently linked first; one-edit matches after; not the title typed", vim.deep_equal(vim.tbl_map(function(t)
   return t.title
 end, ranked), { "neovim plugin", "Neovim の設定", "Nevim typo" }), ranked)

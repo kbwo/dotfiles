@@ -87,9 +87,10 @@ end
 
 --- Titles matching `query`, best first: those containing every word, then (for a query of
 --- 3+ characters with few of those) the ones matching with one edit allowed. Within each,
---- the names most recently written as links first, then the last visited, then the
---- shortest, then the most recently updated.
-function M.rank(titles, query, kind, current_title, visited_at)
+--- the names most recently written as links first, then the shortest, then the most
+--- recently updated. suggest.js also orders by when this browser last opened each page,
+--- which is left out here: the order is the same whichever Neovim opened what.
+function M.rank(titles, query, kind, current_title)
   local words = {}
   for _, w in ipairs(vim.split(query, kind == "tag" and "_+" or "%s+")) do
     w = norm(w)
@@ -105,9 +106,6 @@ function M.rank(titles, query, kind, current_title, visited_at)
         return la < lb
       end
       return a.updated > b.updated
-    end)
-    stable_sort(list, function(a, b)
-      return visited_at(a.title) > visited_at(b.title)
     end)
     stable_sort(list, function(a, b)
       return (a.linked_at or 0) > (b.linked_at or 0)
@@ -156,12 +154,12 @@ end
 
 -- ===== the candidates (store.js `allTitles`) =====
 
-local cached = nil -- { titles, visited } until a page is saved
+local cached = nil -- the candidates, until a page is saved
 
---- Call `done(titles, visited_at)`.
+--- Call `done(titles)`.
 local function candidates(done)
   if cached then
-    return done(cached.titles, cached.visited)
+    return done(cached)
   end
   local pages = store.pages()
   store.page_links(pages, function(links)
@@ -187,24 +185,8 @@ local function candidates(done)
         end
       end
     end
-    -- When each page was last opened: Neovim's own record of the files it edited, newest first.
-    local title_of = {}
-    for _, p in ipairs(pages) do
-      title_of[vim.fs.normalize(vim.fn.resolve(store.abs(p.rel)))] = p.title
-    end
-    local rank = {}
-    local old = vim.v.oldfiles
-    for i, f in ipairs(old) do
-      local t = title_of[vim.fs.normalize(vim.fn.resolve(vim.fn.expand(f)))]
-      if t and not rank[t] then
-        rank[t] = #old - i + 1
-      end
-    end
-    local visited = function(title)
-      return rank[title] or 0
-    end
-    cached = { titles = titles, visited = visited }
-    done(titles, visited)
+    cached = titles
+    done(titles)
   end)
 end
 
@@ -249,9 +231,9 @@ function source:complete(params, callback)
     return callback({ items = {}, isIncomplete = true })
   end
   local typed = params.context.cursor_before_line:sub(params.offset)
-  candidates(function(titles, visited)
+  candidates(function(titles)
     local items = {}
-    for i, t in ipairs(M.rank(titles, ctx.query, ctx.kind, parser.title_of(table.concat(lines, "\n")), visited)) do
+    for i, t in ipairs(M.rank(titles, ctx.query, ctx.kind, parser.title_of(table.concat(lines, "\n")))) do
       items[#items + 1] = {
         label = t.title,
         -- Everything offered matches what was typed: the choice is rankTitles', not nvim-cmp's.
