@@ -123,8 +123,8 @@ function M.apply_highlights()
   -- A quote: a grey bar, its text quieter than the page's (.cs-quote-line, .cs-quote).
   hl("NotesQuote", { fg = p.dim })
   hl("NotesQuoteBar", { fg = p.comment })
-  -- The rule under a page's title, in the same grey (kanagawa's WinSeparator is the ground's colour, all but unseen).
-  hl("NotesTitleRule", { fg = p.comment })
+  -- The rule at a page's title, in the accent (kanagawa's WinSeparator, used before, is the ground's colour, all but unseen).
+  hl("NotesTitleRule", { fg = p.warn })
   -- A code block and inline code on a ground tinted towards the blue (.cs-code-line, .cs-code).
   hl("NotesCodeGround", { bg = blend(p.bg, p.bar, 0.22) })
   hl("NotesCodeHeader", { fg = p.dim, bold = true })
