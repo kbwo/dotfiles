@@ -49,6 +49,10 @@ local function palette()
     return {
       bg = c.base,
       card = c.mantle,
+      -- A card not closed: the ground towards the blue, so that local's cards are tinted too.
+      live_card = blend(c.base, c.blue, 0.13),
+      -- catppuccin's own cursor line (mantle lightened) is all but the ground's color.
+      cursorline = c.surface1,
       fg = c.text,
       dim = c.subtext0,
       bar = c.blue,
@@ -83,17 +87,22 @@ function M.apply_highlights()
   local hl = function(name, opts)
     vim.api.nvim_set_hl(0, name, opts)
   end
-  local badge = blend(p.dim, p.card, 0.4)
-  hl("NotesCard", { fg = p.dim, bg = p.card })
-  hl("NotesCardBar", { fg = p.bar, bg = p.card })
-  hl("NotesCardTitle", { fg = p.fg, bg = p.card, bold = true })
-  hl("NotesCardBadge", { fg = badge, bg = p.card })
-  hl("NotesCardDue", { fg = p.warn, bg = p.card })
-  -- A closed page: one step dimmer than an open one, on the same card.
+  -- A card not closed stands out from the ground (13% towards the text), a closed one keeps
+  -- the plain card's ground with its text one step dimmer, so the two part at a glance.
+  local live = p.live_card or blend(p.bg, p.fg, 0.13)
+  local badge = blend(p.dim, live, 0.4)
+  hl("NotesCard", { fg = p.dim, bg = live })
+  hl("NotesCardBar", { fg = p.bar, bg = live })
+  hl("NotesCardTitle", { fg = p.fg, bg = live, bold = true })
+  hl("NotesCardBadge", { fg = badge, bg = live })
+  hl("NotesCardDue", { fg = p.warn, bg = live })
   hl("NotesCardClosed", { fg = blend(p.dim, p.card, 0.3), bg = p.card })
   hl("NotesCardClosedTitle", { fg = blend(p.fg, p.card, 0.3), bg = p.card, bold = true })
   hl("NotesCardClosedBar", { fg = blend(p.bar, p.card, 0.45), bg = p.card })
-  hl("NotesCardSelected", { fg = p.warn, bg = p.card, bold = true })
+  hl("NotesCardSelected", { fg = p.warn, bg = live, bold = true })
+  if p.cursorline then
+    hl("CursorLine", { bg = p.cursorline })
+  end
   hl("NotesHeading", { fg = p.heading, bold = true })
   hl("NotesHelp", { fg = p.dim })
   hl("NotesHelpKey", { fg = p.warn, bold = true })

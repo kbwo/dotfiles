@@ -104,7 +104,7 @@ check("the band is colored across the width", vim.iter(band):any(function(m)
 end))
 local closed_hl = vim.api.nvim_get_hl(0, { name = "NotesCardClosed" })
 local card_hl = vim.api.nvim_get_hl(0, { name = "NotesCard" })
-check("a closed card is on the same card color, its text dimmed but not as far as the card", closed_hl.bg == card_hl.bg and closed_hl.fg ~= card_hl.fg and closed_hl.fg ~= card_hl.bg)
+check("a card not closed stands on a ground of its own; a closed one's text is dimmed but not as far as its card", closed_hl.bg ~= card_hl.bg and closed_hl.fg ~= card_hl.fg and closed_hl.fg ~= closed_hl.bg, { closed_hl, card_hl })
 
 local first = st.cards[st.cur]
 list._move(st, 1, 0)
