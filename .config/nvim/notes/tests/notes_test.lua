@@ -292,6 +292,11 @@ check("a page gets filetype notes", vim.bo.filetype == "notes", vim.bo.filetype)
 check("the title is drawn as a title", find_mark(0, function(d)
   return d.hl_group == "NotesTitle"
 end) ~= nil)
+check("the title has room above it and a rule under it", find_mark(0, function(d)
+  return d.virt_lines_above and d.virt_lines
+end) ~= nil and find_mark(0, function(d)
+  return not d.virt_lines_above and d.virt_lines and d.virt_lines[1][1][1]:find("^─") ~= nil
+end) ~= nil)
 check("a link's [ is concealed", find_mark(1, function(d, col)
   return d.conceal == "" and col == 1
 end) ~= nil)
@@ -424,12 +429,19 @@ vim.cmd("enew!")
 
 -- ===== local's ground =====
 
+-- catppuccin is not on this test's runtimepath: local's colorscheme is missing, and nothing changes.
 local theme = require("notes.theme")
-vim.api.nvim_set_hl(0, "Normal", { fg = "#dcd7ba", bg = "#1f1f28" })
+vim.cmd.colorscheme("default")
 theme.set_local(true)
-local local_bg = vim.api.nvim_get_hl(0, { name = "Normal" }).bg
+local shown = vim.g.colors_name
 theme.set_local(false)
-check("local: the ground is blue-green, and back after", local_bg == 0x16302e and vim.api.nvim_get_hl(0, { name = "Normal" }).bg == 0x1f1f28, local_bg)
+check("local: without its colorscheme, the one in use stays", shown == "default" and vim.g.colors_name == "default", shown)
+-- A colorscheme standing in for it: switched to, and back from.
+theme.LOCAL_COLORSCHEME = "blue"
+theme.set_local(true)
+shown = vim.g.colors_name
+theme.set_local(false)
+check("local: its colorscheme while local is in front, the one before after", shown == "blue" and vim.g.colors_name == "default", { shown, vim.g.colors_name })
 vim.fn.delete(store.links_file())
 
 -- ===== git =====
