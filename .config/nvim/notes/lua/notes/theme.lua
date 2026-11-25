@@ -1,6 +1,6 @@
--- The notes' colors: the card list's highlight groups, made from the colorscheme in use
--- so that they suit a dark and a light one alike, and the switch to kanagawa's light
--- theme (lotus) while a local note or the local list is in front, so that local
+-- The notes' colors: the card list's and the page's highlight groups, made from the
+-- colorscheme in use so that they suit a dark and a light one alike, and a ground of
+-- another color while a local note or the local list is in front, so that local
 -- (kept on this machine only) is never mistaken for remote.
 
 local M = {}
@@ -76,32 +76,87 @@ function M.apply_highlights()
   hl("NotesBandLocal", { fg = p.bg, bg = p["local"], bold = true })
 end
 
--- ===== lotus while local is in front =====
+-- ===== the page's notation (decorate.lua) =====
 
-local saved_theme = nil -- the kanagawa theme to go back to
+local function page_highlights()
+  local link = function(name, to)
+    vim.api.nvim_set_hl(0, name, { link = to, default = true })
+  end
+  link("NotesTitle", "Title")
+  link("NotesLink", "Function")
+  link("NotesLinkMissing", "DiagnosticWarn")
+  link("NotesUrl", "@markup.link.url")
+  link("NotesImage", "@markup.link.url")
+  link("NotesHeading", "@markup.heading")
+  link("NotesStrong", "@markup.strong")
+  link("NotesItalic", "@markup.italic")
+  link("NotesStrike", "@markup.strikethrough")
+  link("NotesUnderline", "@markup.underline")
+  link("NotesCode", "@markup.raw")
+  link("NotesQuote", "@markup.quote")
+  link("NotesPrefix", "Special")
+  link("NotesBlockStart", "Special")
+  link("NotesIndentDot", "Delimiter")
+end
 
---- Show lotus while `is_local`, and the theme from before when not. Only under kanagawa.
+-- ===== local's ground =====
+
+-- The ground while local is in front: wave's own colors on a deep blue-green, as far
+-- from the remote ground's bluish grey as a dark ground goes.
+local LOCAL_BG = "#16302e"
+-- The groups that make up a window's ground: the text's, the gutter's and the part
+-- below the last line. Floating windows and the status line keep their own.
+local GROUND = { "Normal", "NormalNC", "LineNr", "CursorLineNr", "SignColumn", "FoldColumn", "EndOfBuffer" }
+
+local showing_local = false
+local saved = {} -- group -> its definition before local's ground was put on
+
+local function put_local_ground()
+  saved = {}
+  for _, name in ipairs(GROUND) do
+    local def = vim.api.nvim_get_hl(0, { name = name, link = false })
+    saved[name] = def
+    local new = vim.tbl_extend("force", def, { bg = LOCAL_BG })
+    if name == "EndOfBuffer" then
+      new.fg = LOCAL_BG -- kanagawa hides the ~ by drawing them in the ground's color
+    end
+    vim.api.nvim_set_hl(0, name, new)
+  end
+end
+
+local function take_local_ground_off()
+  for name, def in pairs(saved) do
+    vim.api.nvim_set_hl(0, name, def)
+  end
+  saved = {}
+end
+
+--- Put local's ground on while `is_local`, and take it off when not.
 function M.set_local(is_local)
-  local ok, kanagawa = pcall(require, "kanagawa")
-  if not ok or vim.g.colors_name ~= "kanagawa" then
+  if is_local == showing_local then
     return
   end
-  local current = kanagawa._CURRENT_THEME
-  if is_local and current ~= "lotus" then
-    saved_theme = current
-    vim.cmd.colorscheme("kanagawa-lotus")
-  elseif not is_local and current == "lotus" and saved_theme then
-    local back = saved_theme
-    saved_theme = nil
-    vim.cmd.colorscheme("kanagawa-" .. back)
+  showing_local = is_local
+  if is_local then
+    put_local_ground()
+  else
+    take_local_ground_off()
   end
 end
 
 function M.setup()
   M.apply_highlights()
+  page_highlights()
   vim.api.nvim_create_autocmd("ColorScheme", {
     group = vim.api.nvim_create_augroup("notes_theme", { clear = true }),
-    callback = M.apply_highlights,
+    callback = function()
+      M.apply_highlights()
+      page_highlights()
+      -- A new colorscheme replaced the ground; put local's on it again.
+      if showing_local then
+        put_local_ground()
+      end
+    end,
   })
 end
 

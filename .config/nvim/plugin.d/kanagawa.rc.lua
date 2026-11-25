@@ -13,8 +13,8 @@ require("kanagawa").setup({
 		},
 	},
 	overrides = function(colors)
-		-- These colors are for the dark themes. lotus (the light one, shown for local
-		-- notes: notes/lua/notes/theme.lua) keeps its own.
+		-- These colors are for the dark themes. lotus (the light one, with background=light)
+		-- keeps its own.
 		if require("kanagawa")._CURRENT_THEME == "lotus" then
 			return {}
 		end
