@@ -56,7 +56,7 @@ dynamic_padding = true
 option_as_alt = "Both"
 
 [window.padding]
-x = 4
+x = 8
 y = 4
 
 [[keyboard.bindings]]
