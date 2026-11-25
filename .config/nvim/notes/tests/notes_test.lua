@@ -486,6 +486,23 @@ local local_guicursor = vim.o.guicursor
 theme.set_local(false)
 check("local: its colorscheme while local is in front, the one before after", shown == "blue" and vim.g.colors_name == "default", { shown, vim.g.colors_name })
 check("local: the cursor's box in NotesCursor, the cursor as before after", local_guicursor:find("a:NotesCursor$") ~= nil and vim.o.guicursor == guicursor, { local_guicursor, vim.o.guicursor })
+
+-- Entering a local page switches from inside BufEnter: ColorScheme must still fire, or the
+-- notes' colors are lost with the old colorscheme's.
+write("private/local/2026-11-15 手元.txt", "手元\n本文\n")
+local fired = 0
+vim.api.nvim_create_autocmd("ColorScheme", { callback = function()
+  fired = fired + 1
+end })
+vim.cmd.edit(vim.fn.fnameescape(root .. "/pages/private/local/2026-11-15 手元.txt"))
+check("local page: its colorscheme, ColorScheme fired, the notes' colors kept", vim.g.colors_name == "blue" and fired > 0 and vim.api.nvim_get_hl(0, { name = "NotesCard" }).bg ~= nil, { vim.g.colors_name, fired })
+local memo = vim.fn.bufadd(root .. "/memo.md")
+vim.fn.bufload(memo)
+local float = vim.api.nvim_open_win(memo, true, { relative = "editor", row = 1, col = 1, width = 20, height = 3 })
+check("a floating window over a local page leaves the colors alone", vim.g.colors_name == "blue", vim.g.colors_name)
+vim.api.nvim_win_close(float, true)
+vim.cmd("enew!")
+check("an ordinary file: back to the colorscheme from before", vim.g.colors_name == "default", vim.g.colors_name)
 vim.fn.delete(store.links_file())
 
 -- ===== git =====
