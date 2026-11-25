@@ -303,6 +303,15 @@ end) ~= nil)
 check("[* ] is strong", find_mark(1, function(d)
   return d.hl_group == "NotesStrong"
 end) ~= nil)
+page_buffer("private/2026-11-15 見出し.txt", { "見出し", "[*** 大きい]", "[** 小さい]" })
+check("a heading gets as many bars as its *s", find_mark(1, function(d)
+  return d.virt_text and d.virt_text[1][1] == "▌▌▌ "
+end) ~= nil and find_mark(2, function(d)
+  return d.virt_text and d.virt_text[1][1] == "▌▌ "
+end) ~= nil and find_mark(1, function(d)
+  return d.hl_group == "NotesHeading"
+end) ~= nil)
+page_buffer("private/2026-11-15 見た目.txt", { "見た目", " [A] と [まだ無い] と [* 太字]", "  二段目", "> 引用", " 1. 番号", "code:x.lua", " local a = 1", "[https://example.com 公式]" })
 local function dots(row)
   local out = {}
   for _, mk in ipairs(marks_on(row)) do

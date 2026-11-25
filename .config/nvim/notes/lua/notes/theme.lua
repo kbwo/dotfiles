@@ -87,7 +87,7 @@ local function page_highlights()
   link("NotesLinkMissing", "DiagnosticWarn")
   link("NotesUrl", "@markup.link.url")
   link("NotesImage", "@markup.link.url")
-  link("NotesHeading", "@markup.heading")
+  -- A heading ([** ] and deeper) is NotesHeading, the list's day headings' yellow above.
   link("NotesStrong", "@markup.strong")
   link("NotesItalic", "@markup.italic")
   link("NotesStrike", "@markup.strikethrough")
