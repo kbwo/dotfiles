@@ -125,6 +125,8 @@ function M.apply_highlights()
   hl("NotesQuoteBar", { fg = p.comment })
   -- The rule at a page's title, in the accent (kanagawa's WinSeparator, used before, is the ground's colour, all but unseen).
   hl("NotesTitleRule", { fg = p.warn })
+  -- An item's dot (and a quote's or numbered line's dash) in the accent, to be found at a glance.
+  hl("NotesIndentDot", { fg = p.warn })
   -- A code block and inline code on a ground tinted towards the blue (.cs-code-line, .cs-code).
   hl("NotesCodeGround", { bg = blend(p.bg, p.bar, 0.22) })
   hl("NotesCodeHeader", { fg = p.dim, bold = true })
@@ -152,7 +154,6 @@ local function page_highlights()
   link("NotesCode", "@markup.raw")
   link("NotesPrefix", "Special")
   link("NotesBlockStart", "Special")
-  link("NotesIndentDot", "Delimiter")
 end
 
 -- ===== a light colorscheme while local is in front =====

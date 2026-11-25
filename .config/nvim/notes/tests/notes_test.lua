@@ -342,7 +342,7 @@ local function dots(row)
   end
   return out
 end
-check("each indentation character two cells wide, the deepest with a dot", vim.deep_equal(dots(2), { " ", "•" }), dots(2))
+check("each indentation character two cells wide, the deepest with a dot", vim.deep_equal(dots(2), { " ", "●" }), dots(2))
 check("a numbered line's dot is a dash", vim.deep_equal(dots(4), { "–" }), dots(4))
 check("a URL link shows its title only", find_mark(7, function(d, col)
   return d.conceal == "" and col == 0

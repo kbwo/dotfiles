@@ -52,6 +52,9 @@ local function hide(buf, row, from, to)
   end
 end
 
+-- An item's dot: large, as the small "•" was hard to see among the text.
+local DOT = "●"
+
 --- Each of the first `count` characters of `text` (its indentation) two cells wide, the last with `dot`.
 local function indent_marks(buf, row, text, count, dot)
   for i = 0, count - 1 do
@@ -106,7 +109,7 @@ local function walk(buf, row, nodes, offset, line, ctx)
       end
     elseif t == "indent" then
       -- A check line's box and a page mark's label stand where the dot would.
-      local dot = not ctx.no_dot and ((line.number_list or ctx.quote) and "–" or "•") or nil
+      local dot = not ctx.no_dot and ((line.number_list or ctx.quote) and "–" or DOT) or nil
       indent_marks(buf, row, line.text, vim.fn.strchars(node.prefix), dot)
       walk(buf, row, node.children, s + #node.prefix, line, ctx)
     elseif t == "quote" then
@@ -370,9 +373,10 @@ function M.render(buf)
       end
     elseif line.title then
       hl(buf, row, 0, len, "NotesTitle")
-      -- A terminal cannot draw the title larger: room above it and a rule under it instead.
-      pcall(vim.api.nvim_buf_set_extmark, buf, ns, 0, 0, { virt_lines_above = true, virt_lines = { { { " ", "" } } } })
-      pcall(vim.api.nvim_buf_set_extmark, buf, ns, 0, 0, { virt_lines = { { { ("─"):rep(300), "NotesTitleRule" } } } })
+      -- A terminal cannot draw the title larger: it stands between two rules instead.
+      local rule = { { { ("─"):rep(300), "NotesTitleRule" } } }
+      pcall(vim.api.nvim_buf_set_extmark, buf, ns, 0, 0, { virt_lines_above = true, virt_lines = rule })
+      pcall(vim.api.nvim_buf_set_extmark, buf, ns, 0, 0, { virt_lines = rule })
     elseif line.code_block or line.table_block then
       local key = line.code_block and "code_block" or "table_block"
       if line.code_block then
@@ -380,7 +384,7 @@ function M.render(buf)
         pcall(vim.api.nvim_buf_set_extmark, buf, ns, row, 0, { line_hl_group = "NotesCodeGround" })
       end
       if line[key].start then
-        indent_marks(buf, row, line.text, line.indent, "•")
+        indent_marks(buf, row, line.text, line.indent, DOT)
         local at = vim.str_byteindex(line.text, "utf-32", line.indent, false)
         if line.code_block then
           -- code:main.ts — the file's name only, as a header, off the cursor's line.
@@ -403,7 +407,7 @@ function M.render(buf)
         end
       end
     elseif line.cli or line.helpfeel then
-      indent_marks(buf, row, line.text, line.indent, "•")
+      indent_marks(buf, row, line.text, line.indent, DOT)
       local at = vim.str_byteindex(line.text, "utf-32", line.indent, false)
       hl(buf, row, at, at + 1, "NotesPrefix")
       hl(buf, row, at + 1, len, "NotesCode")
