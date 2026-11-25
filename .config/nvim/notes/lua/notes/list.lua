@@ -278,7 +278,7 @@ local function render(st)
     end
     lines[#lines + 1] = table.concat(parts)
   end
-  help({ { "hjkl", "移動" }, { "<CR>", "開く" }, { "<Space>vv", "右に開く" }, { "f", "文字で開く" }, { "Tab", "remote/local" }, { "/", "検索" }, { "c", "新規" }, { "s", "並び" } })
+  help({ { "hjkl", "移動" }, { "<CR>", "開く" }, { "f", "文字で開く" }, { "Tab", "remote/local" }, { "/", "検索" }, { "c", "新規" }, { "s", "並び" } })
   help({ { "x", "closed" }, { "p", "pin" }, { "t", "date" }, { "v", "公開/非公開" }, { "m", "マージ" }, { "D", "削除" } })
 
   for _, sec in ipairs(secs) do
