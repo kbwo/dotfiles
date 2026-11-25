@@ -69,9 +69,11 @@ local function fuzzy_includes(haystack, needle)
   return false
 end
 
+-- JavaScript's Array.prototype.sort is stable; table.sort is not.
 local function stable_sort(list, less)
+  local index = {}
   for i, v in ipairs(list) do
-    v._i = i
+    index[v] = i
   end
   table.sort(list, function(a, b)
     if less(a, b) then
@@ -79,7 +81,7 @@ local function stable_sort(list, less)
     elseif less(b, a) then
       return false
     end
-    return a._i < b._i
+    return index[a] < index[b]
   end)
 end
 

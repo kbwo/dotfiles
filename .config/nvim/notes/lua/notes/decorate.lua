@@ -242,13 +242,35 @@ local function block_start(lines, i, key)
   return i
 end
 
+-- A line's inline notation by its text: a keystroke changes one line, and parsing
+-- every line again made a long page slow to type in. Emptied when it grows large.
+local parsed_lines, parsed_count = {}, 0
+
+local function parse_page(text)
+  local lines = parser.parse_page(text, { inline = false })
+  for _, line in ipairs(lines) do
+    if not line.title and not line.code_block and not line.cli and not line.helpfeel then
+      local nodes = parsed_lines[line.text]
+      if not nodes then
+        if parsed_count > 20000 then
+          parsed_lines, parsed_count = {}, 0
+        end
+        nodes = parser.parse_line(line.text)
+        parsed_lines[line.text], parsed_count = nodes, parsed_count + 1
+      end
+      line.nodes = nodes
+    end
+  end
+  return lines
+end
+
 function M.render(buf)
   if not vim.api.nvim_buf_is_valid(buf) then
     return
   end
   vim.api.nvim_buf_clear_namespace(buf, ns, 0, -1)
   local text = table.concat(vim.api.nvim_buf_get_lines(buf, 0, -1, false), "\n")
-  local lines = parser.parse_page(text)
+  local lines = parse_page(text)
   for i, line in ipairs(lines) do
     local row = i - 1
     local len = #line.text

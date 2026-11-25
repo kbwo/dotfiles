@@ -7,6 +7,9 @@ local here = vim.fs.dirname(vim.fs.normalize(arg[0]))
 vim.opt.rtp:prepend(vim.fs.dirname(here))
 vim.o.columns, vim.o.lines = 140, 50
 vim.o.swapfile, vim.o.shada = false, ""
+-- No "3 lines yanked": headless Neovim 0.11.6 crashes printing one in a window with a
+-- winbar and wrapped lines (a page's), which a terminal UI does not.
+vim.o.report = 10000
 vim.g.mapleader = " "
 vim.cmd("filetype on")
 
@@ -384,7 +387,9 @@ check("p leaves the register as it was", vim.fn.getreg("a") == "# 見出し\n- �
 local complete = require("notes.complete")
 local parsed = parser.parse_page("t\nこれは [Neo と", { inline = false })[2]
 local ctx = complete.context_at("これは [Neo と", #"これは [Neo", parsed)
-check("completion: the bracket being typed", ctx and ctx.kind == "link" and ctx.query == "Neo と" and ctx.from == #"これは ", ctx)
+check("completion: the bracket being typed", ctx and ctx.kind == "link" and ctx.query == "Neo" and ctx.from == #"これは " and ctx.to == #"これは [Neo", ctx)
+ctx = complete.context_at("[Neo vim] と", #"[Neo", parsed)
+check("completion: a bracket closed after the cursor is the whole of it", ctx and ctx.query == "Neo vim" and ctx.to == #"[Neo vim]", ctx)
 ctx = complete.context_at("a #ta", 5, parsed)
 check("completion: the tag being typed", ctx and ctx.kind == "tag" and ctx.query == "ta", ctx)
 local never = function()
@@ -396,9 +401,9 @@ local ranked = complete.rank({
   { title = "neovim plugin", updated = 3, linked_at = 5 },
   { title = "Nevim typo", updated = 4, linked_at = 9 },
 }, "neovim", "link", "今のページ", never)
-check("completion: every word first, the most recently linked first; one-edit matches after", vim.deep_equal(vim.tbl_map(function(t)
+check("completion: every word first, the most recently linked first; one-edit matches after; not the title typed", vim.deep_equal(vim.tbl_map(function(t)
   return t.title
-end, ranked), { "neovim plugin", "Neovim の設定", "Neovim", "Nevim typo" }), ranked)
+end, ranked), { "neovim plugin", "Neovim の設定", "Nevim typo" }), ranked)
 
 -- ===== the preview =====
 
