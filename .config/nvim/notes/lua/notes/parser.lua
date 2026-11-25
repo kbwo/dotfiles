@@ -57,12 +57,32 @@ local function nonempty(s)
   return s ~= "" and s or nil
 end
 
+-- What a piece must contain for the rule to match it, read off the rule's first
+-- token, so that a piece without it is passed over without running the regex.
+-- Purely a shortcut: a rule that names nothing is always run.
+local function required_text(source)
+  if source:match("^\\%[") then
+    return "["
+  elseif source:sub(1, 1) == "`" then
+    return "`"
+  elseif source:find("^%(https") then
+    return "http"
+  elseif source:find("^%(%^|") then
+    return "#"
+  elseif source:find("^%^%(\\>") then
+    return ">"
+  end
+end
+
 local function rule(source, ignorecase, build)
-  return { pat = pat(source, ignorecase), build = build }
+  return { pat = pat(source, ignorecase), build = build, needs = required_text(source) }
 end
 
 -- One rule over one string piece: every match split out as nodes (parser.mjs `rule`).
 local function apply_to_string(r, str)
+  if r.needs and not str:find(r.needs, 1, true) then
+    return { text(str) }
+  end
   local out, last, pos = {}, 0, 0
   while pos <= #str do
     local found = vim.fn.matchstrpos(str, r.pat, pos)
@@ -451,13 +471,16 @@ function M.each_node(nodes, visit, offset)
 end
 
 --- What a reader sees of parsed nodes: the text with its notation removed (parser.mjs `nodesToText`).
-function M.nodes_to_text(nodes)
+--- `tag_names` writes `#tag` as `tag`, as Cosense does when it makes a title.
+function M.nodes_to_text(nodes, tag_names)
   local out = {}
   for _, n in ipairs(nodes) do
     local t
     if n.children then
-      t = M.nodes_to_text(n.children)
-    elseif n.type == "text" or n.type == "url" or n.type == "hashTag" then
+      t = M.nodes_to_text(n.children, tag_names)
+    elseif n.type == "hashTag" then
+      t = tag_names and n.page or n.raw
+    elseif n.type == "text" or n.type == "url" then
       t = n.raw
     elseif n.type == "code" or n.type == "blank" then
       t = n.content
@@ -509,6 +532,21 @@ function M.title_of(page_text)
     end
   end
   return "Untitled"
+end
+
+--- The title of a page split off from `lines`: the first line that, read without its
+--- notation and cleaned up, is a valid title, so `[foo] bar` gives "foo bar" (parser.mjs `splitTitleOf`).
+function M.split_title_of(lines)
+  for _, line_text in ipairs(lines) do
+    -- Parsed as a body line: a leading dummy line keeps it from being read as a title.
+    local line = M.parse_page("\n" .. line_text)[2]
+    local seen = #line.nodes > 0 and M.nodes_to_text(line.nodes, true) or line.text
+    seen = seen:gsub("[%[%]]", ""):gsub("https?://", "")
+    local title = M.trim(vim.fn.substitute(seen, pat("\\.icon@WS@*$"), "", ""))
+    if M.is_valid_title(title) then
+      return title
+    end
+  end
 end
 
 --- `s` cut to `n` UTF-16 units, as JavaScript's slice(0, n) cuts it. Counted per
