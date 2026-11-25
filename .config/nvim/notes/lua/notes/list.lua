@@ -548,8 +548,14 @@ function actions.filter(st)
     group = group,
     pattern = "@", -- input()'s command line
     callback = function()
-      set_filter(st, vim.fn.getcmdline())
-      vim.cmd.redraw()
+      -- Not here: the command line holds a text lock while this runs, so the list is redrawn just after.
+      local text = vim.fn.getcmdline()
+      vim.schedule(function()
+        if vim.fn.getcmdtype() == "@" then
+          set_filter(st, text)
+          vim.cmd.redraw()
+        end
+      end)
     end,
   })
   local ok, q = pcall(vim.fn.input, { prompt = "絞り込み: ", default = st.filter or "", cancelreturn = false })

@@ -296,7 +296,8 @@ function M.search(query, pages, limit)
     end
     return a.updated > b.updated
   end)
-  return vim.list_slice(found, 1, limit or 100)
+  -- vim.list_slice counts up to its end however few there are: no further than there are.
+  return vim.list_slice(found, 1, math.min(limit or 100, #found))
 end
 
 -- ===== links between pages =====

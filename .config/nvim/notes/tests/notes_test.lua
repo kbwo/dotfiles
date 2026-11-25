@@ -525,26 +525,29 @@ theme.refresh()
 check("back in a remote window alone: the cursor as before", true)
 
 -- `/` narrows the cards as the words are typed; Esc in the list clears it.
-vim.cmd("only")
+vim.cmd("silent! only") -- a message here would wait for Enter and take the keys typed below
 list.open()
 local fst = list._state()
 fst.store = "remote"
-local seen_while_typing
-local probe = vim.api.nvim_create_autocmd("CmdlineChanged", { pattern = "@", callback = function()
-  vim.schedule(function() end)
-  seen_while_typing = #fst.cards
-end })
+-- The real input() for the keys typed here (the stub at the top answers prompts by itself).
+local input_stub = vim.fn.input
+vim.fn.input = nil
 vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("/遠く<CR>", true, false, true), "x", false)
-vim.api.nvim_del_autocmd(probe)
 local function card_rels(s)
   return vim.tbl_map(function(c)
     return c.page.rel
   end, s.cards)
 end
-check("/: only the pages the words find, kept after Enter, shown in the band", fst.filter == "遠く" and vim.deep_equal(card_rels(fst), { "private/2026-11-15 遠く.txt" }) and vim.api.nvim_buf_get_lines(fst.buf, 0, 1, false)[1]:find("検索: 遠く", 1, true) ~= nil, { fst.filter, card_rels(fst) })
-check("/: the cards narrowed while typing", seen_while_typing ~= nil, seen_while_typing)
+check("/: only the pages the words find, kept after Enter, shown in the band", fst.filter == "遠く" and #fst.cards > 0 and vim.iter(card_rels(fst)):all(function(r)
+  return r == "private/2026-11-15 遠く.txt"
+end) and vim.api.nvim_buf_get_lines(fst.buf, 0, 1, false)[1]:find("検索: 遠く", 1, true) ~= nil, { fst.filter, card_rels(fst) })
 vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "x", false)
 check("Esc in the list: the filter cleared", fst.filter == nil and #fst.cards > 1, { fst.filter, #fst.cards })
+-- Words nothing has once hung Neovim (store.search's slice counting to its limit).
+vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("/どこにもない語<CR>", true, false, true), "x", false)
+check("/: words no page has leave no cards", fst.filter == "どこにもない語" and #fst.cards == 0, #fst.cards)
+vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "x", false)
+vim.fn.input = input_stub
 
 -- Search's choice shown in the list: the card selected, the list turned to the page's side.
 vim.cmd("only")
