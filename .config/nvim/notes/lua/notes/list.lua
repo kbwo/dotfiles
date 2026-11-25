@@ -238,7 +238,7 @@ local function render(st)
   end
   lines[1] = table.concat(tabs, "  ") .. ((st.sort == "created") and "    並び: Created" or "    並び: Modified")
   add("hjkl 移動  <CR> 開く  f 文字で開く  Tab remote/local  / 検索  c 新規  s 並び", "NotesHelp")
-  add("x closed  p pin  t date  v 公開/非公開  y 複製  m 統合  D 削除", "NotesHelp")
+  add("x closed  p pin  t date  v 公開/非公開  m マージ  D 削除", "NotesHelp")
 
   for _, sec in ipairs(secs) do
     add("")
@@ -294,14 +294,6 @@ local function render(st)
   st.cards = cards
 end
 
-local function card_of(st, rel)
-  for i, c in ipairs(st.cards) do
-    if c.page.rel == rel then
-      return i
-    end
-  end
-end
-
 local function select(st, i, move_cursor)
   st.cur = math.max(1, math.min(i or 1, #st.cards))
   vim.api.nvim_buf_clear_namespace(st.buf, ns_sel, 0, -1)
@@ -320,11 +312,35 @@ local function select(st, i, move_cursor)
   end
 end
 
---- Draw again, keeping the selected card if it is still there.
+--- The card at, or nearest to, a position in the buffer (1-based line, 0-based byte column).
+local function nearest_card(st, line, col)
+  local best, bd = nil, math.huge
+  for i, c in ipairs(st.cards) do
+    local rows = line < c.line and c.line - line or line >= c.line + CARD_H and line - (c.line + CARD_H - 1) or 0
+    local cols = col < c.col and c.col - col or col >= c.col + CARD_W + GAP and col - (c.col + CARD_W + GAP - 1) or 0
+    local d = rows * 1000 + cols
+    if d < bd then
+      best, bd = i, d
+    end
+  end
+  return best
+end
+
+--- Draw again where the list was: the window keeps its scroll position and cursor, and the card
+--- there is selected. A card that moved (closed, pinned, dated, edited) is not followed, since
+--- following it would carry the view off to wherever it went.
 local function redraw(st)
-  local rel = st.cards and st.cards[st.cur] and st.cards[st.cur].page.rel
+  local win = vim.fn.bufwinid(st.buf)
+  local view = win ~= -1 and vim.api.nvim_win_call(win, vim.fn.winsaveview) or nil
   render(st)
-  select(st, rel and card_of(st, rel) or st.cur)
+  if not view then
+    return select(st, st.cur, false)
+  end
+  vim.api.nvim_win_call(win, function()
+    vim.fn.winrestview(view)
+  end)
+  local cursor = vim.api.nvim_win_get_cursor(win)
+  select(st, nearest_card(st, cursor[1], cursor[2]) or 1, false)
 end
 
 -- The card nearest the cursor in direction (dr, dc): rows first, then columns.
@@ -510,22 +526,12 @@ function actions.delete(st)
   after_change(st)
 end
 
-function actions.duplicate(st)
-  local page = current(st)
-  if not page or page.missing then
-    return
-  end
-  local _, title = store.duplicate(page, st.pages)
-  vim.notify(("notes: 「%s」を作りました"):format(title))
-  after_change(st)
-end
-
 function actions.merge(st)
   local page = current(st)
   if not page or page.missing then
     return
   end
-  local ok, title = pcall(vim.fn.input, { prompt = ("「%s」を統合する先のページ: "):format(page.title), completion = "customlist,v:lua.require'notes.list'.complete_titles", cancelreturn = "" })
+  local ok, title = pcall(vim.fn.input, { prompt = ("「%s」をマージする先のページ: "):format(page.title), completion = "customlist,v:lua.require'notes.list'.complete_titles", cancelreturn = "" })
   title = ok and parser.trim(title) or ""
   if title == "" then
     return
@@ -535,7 +541,7 @@ function actions.merge(st)
     return warn(("「%s」というページはありません"):format(title))
   end
   if into.rel == page.rel then
-    return warn("同じページには統合できません")
+    return warn("同じページにはマージできません")
   end
   if not confirm(("「%s」の本文を「%s」の末尾に足して、「%s」を削除しますか？"):format(page.title, into.title, page.title)) then
     return
@@ -615,7 +621,6 @@ local function setup_buffer(st)
   map("t", actions.date)
   map("v", actions.visibility)
   map("D", actions.delete)
-  map("y", actions.duplicate)
   map("m", actions.merge)
 
   local group = vim.api.nvim_create_augroup("notes_list_" .. buf, { clear = true })
@@ -642,16 +647,8 @@ local function setup_buffer(st)
     group = group,
     buffer = buf,
     callback = function()
-      local line, col = vim.fn.line("."), vim.fn.col(".") - 1
-      local best, bd = nil, math.huge
-      for i, c in ipairs(st.cards) do
-        local rows = line < c.line and c.line - line or line >= c.line + CARD_H and line - (c.line + CARD_H - 1) or 0
-        local cols = col < c.col and c.col - col or col >= c.col + CARD_W + GAP and col - (c.col + CARD_W + GAP - 1) or 0
-        local d = rows * 1000 + cols
-        if d < bd then
-          best, bd = i, d
-        end
-      end
+      local line = vim.fn.line(".")
+      local best = nearest_card(st, line, vim.fn.col(".") - 1)
       if best and best ~= st.cur then
         select(st, best, false)
       end

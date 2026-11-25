@@ -1,6 +1,6 @@
 -- The notes on disk: the index of every page (what the list shows), search,
 -- related pages, and the operations on a page that touch files (create, rename,
--- delete, duplicate, merge, publish, pin, the page marks, images).
+-- delete, merge, publish, pin, the page marks, images).
 --
 -- Layout, under the root (~/notes):
 --   pages/                the pages, one txt each; pages/private/ is never published,
@@ -593,22 +593,6 @@ function M.delete(rel)
     vim.api.nvim_buf_delete(buf, { force = true })
   end
   assert(vim.uv.fs_unlink(M.abs(rel)))
-end
-
---- A copy of the page titled "<title>_2" (or the next free number), private, in the same store.
-function M.duplicate(page, pages)
-  local lines = vim.split(M.text_of(page.rel), "\n", { plain = true })
-  local taken = {}
-  for _, p in ipairs(pages) do
-    taken[parser.to_title_lc(p.title)] = true
-  end
-  local i, title = 2, nil
-  repeat
-    title = ("%s_%d"):format(lines[1], i)
-    i = i + 1
-  until not taken[parser.to_title_lc(title)]
-  lines[1] = title
-  return M.create(table.concat(lines, "\n"), page.store), title
 end
 
 --- Add `text` at the end of the page `rel`.

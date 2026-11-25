@@ -67,7 +67,7 @@ local function after_write(buf)
   -- A title opens one page only: a second page of the same title is reachable from the list alone.
   for _, p in ipairs(store.pages()) do
     if p.rel ~= now and parser.to_title_lc(p.title) == parser.to_title_lc(title) then
-      warn(("同じタイトルのページがあります（%s）。一覧の m で統合できます"):format(p.rel))
+      warn(("同じタイトルのページがあります（%s）。一覧の m でマージできます"):format(p.rel))
       break
     end
   end

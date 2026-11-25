@@ -133,6 +133,20 @@ vim.api.nvim_win_set_cursor(0, { vim.api.nvim_buf_line_count(st.buf) - 2, 0 })
 vim.api.nvim_exec_autocmds("CursorMoved", { buffer = st.buf })
 check("going to the end loads the next days", headings() > 30, headings())
 
+-- x on a page under 今日まで: it moves to its created day, and the view stays where it was.
+for i, c in ipairs(st.cards) do
+  if c.page.title == "公開ページ" then
+    vim.api.nvim_win_set_cursor(0, { c.line, c.col })
+    vim.api.nvim_exec_autocmds("CursorMoved", { buffer = st.buf })
+    break
+  end
+end
+local before_view = vim.fn.winsaveview()
+list._actions.closed(st)
+local after_view = vim.fn.winsaveview()
+check("x: the page is closed", store.find("公開ページ").closed)
+check("x: the view stays where it was, not carried to the page's day", after_view.topline == before_view.topline and after_view.lnum == before_view.lnum, { before_view, after_view })
+
 -- ===== search =====
 
 local results = store.search("本文", store.pages())
@@ -180,8 +194,7 @@ store.edit_marks(page("short"), function(lines)
 end)
 check("t: a date line", page("short").date == "2026-12-01" and read(page("short").rel):find("^short\ndate:2026%-12%-01\n") ~= nil, read(page("short").rel))
 
-local _, dup = store.duplicate(page("short"), store.pages())
-check("y: a duplicate titled _2", dup == "short_2" and page("short_2") ~= nil and page("short_2").private)
+write("private/2026-11-14 short_2.txt", "short_2\nbody\n")
 
 vim.fn.mkdir(root .. "/pages/private/img", "p")
 vim.fn.writefile({ "png" }, root .. "/pages/private/img/shot.png", "b")
