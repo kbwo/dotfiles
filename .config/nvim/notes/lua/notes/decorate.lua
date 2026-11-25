@@ -7,6 +7,7 @@
 -- the cursor's line too. Code blocks are coloured by treesitter.
 
 local parser = require("notes.parser")
+local marks = require("notes.marks")
 
 local M = {}
 
@@ -104,11 +105,14 @@ local function walk(buf, row, nodes, offset, line, ctx)
         walk(buf, row, node.children, s + #node.prefix, line, ctx)
       end
     elseif t == "indent" then
-      local dot = (line.number_list or ctx.quote) and "–" or "•"
+      -- A check line's box and a page mark's label stand where the dot would.
+      local dot = not ctx.no_dot and ((line.number_list or ctx.quote) and "–" or "•") or nil
       indent_marks(buf, row, line.text, vim.fn.strchars(node.prefix), dot)
       walk(buf, row, node.children, s + #node.prefix, line, ctx)
     elseif t == "quote" then
+      -- The > gives way to a grey bar off the cursor's line, as the site's blockquote has.
       hide(buf, row, s, s + #node.prefix)
+      ctx.swaps[#ctx.swaps + 1] = { row = row, col = s, chunks = { { "▎ ", "NotesQuoteBar" } } }
       hl(buf, row, s + #node.prefix, e, "NotesQuote")
       walk(buf, row, node.children, s + #node.prefix, line, ctx)
     elseif t == "deco" or t == "strong" then
@@ -126,6 +130,7 @@ local function walk(buf, row, nodes, offset, line, ctx)
       walk(buf, row, node.children, from, line, ctx)
     elseif t == "code" then
       bracketed("NotesCode", 1, 1)
+      hl(buf, row, s + 1, e - 1, "NotesCodeGround")
     elseif t == "formula" then
       bracketed("NotesCode", 3, 1)
     elseif t == "blank" then
@@ -269,26 +274,121 @@ local function parse_page(text)
   return lines
 end
 
+-- ===== what stands in for a line's marks off the cursor's line =====
+
+-- A page mark's label, a check line's box and a quote's bar are text put in (inline
+-- virtual text), which conceal cannot take away on the cursor's line as it does the
+-- marks themselves. They are kept per buffer and put on every line but the cursor's,
+-- again whenever the cursor moves.
+local swap_ns = vim.api.nvim_create_namespace("notes_decorate_swaps")
+local swaps = {} -- buf -> { { row, col, chunks } }
+local placed_for = {} -- buf -> the cursor row the swaps were last placed around
+
+--- Put the swaps on every line but the cursor's; `force` even when that row has not changed.
+function M.place_swaps(buf, force)
+  buf = buf == 0 and vim.api.nvim_get_current_buf() or buf
+  if not vim.api.nvim_buf_is_valid(buf) then
+    return
+  end
+  local cursor_row = vim.api.nvim_get_current_buf() == buf and (vim.api.nvim_win_get_cursor(0)[1] - 1) or -1
+  if not force and placed_for[buf] == cursor_row then
+    return
+  end
+  placed_for[buf] = cursor_row
+  vim.api.nvim_buf_clear_namespace(buf, swap_ns, 0, -1)
+  for _, s in ipairs(swaps[buf] or {}) do
+    if s.row ~= cursor_row then
+      pcall(vim.api.nvim_buf_set_extmark, buf, swap_ns, s.row, s.col, { virt_text = s.chunks, virt_text_pos = "inline", right_gravity = false })
+    end
+  end
+end
+
+local function weekday(day)
+  local y, m, d = day:match("(%d+)-(%d+)-(%d+)")
+  return ({ "日", "月", "火", "水", "木", "金", "土" })[tonumber(os.date("%w", os.time({ year = tonumber(y), month = tonumber(m), day = tonumber(d), hour = 12 }))) + 1]
+end
+
+-- How far a day is from today (page-marks.mjs `relativeDay`).
+local function relative_day(day)
+  local function at_noon(s)
+    local y, m, d = s:match("(%d+)-(%d+)-(%d+)")
+    return os.time({ year = tonumber(y), month = tonumber(m), day = tonumber(d), hour = 12 })
+  end
+  local days = math.floor((at_noon(day) - at_noon(os.date("%Y-%m-%d"))) / 86400 + 0.5)
+  return days == 0 and "今日" or days < 0 and (-days .. "日前") or ("あと" .. days .. "日")
+end
+
+--- A page mark's label, as checkbox.js `pageMarkAt` writes it: { text, due }, or nil.
+function M.mark_label(text)
+  local day = marks.date_of(text)
+  if day then
+    return { text = ("%s (%s) · %s"):format(day, weekday(day), relative_day(day)), due = day <= os.date("%Y-%m-%d") }
+  end
+  if marks.is_closed(text) then
+    local time = text:match("closed%(([^()]*)%):")
+    return { text = (time and time ~= "") and ("closed · " .. time) or "closed", due = false }
+  end
+end
+
 function M.render(buf)
+  buf = buf == 0 and vim.api.nvim_get_current_buf() or buf
   if not vim.api.nvim_buf_is_valid(buf) then
     return
   end
   vim.api.nvim_buf_clear_namespace(buf, ns, 0, -1)
   local text = table.concat(vim.api.nvim_buf_get_lines(buf, 0, -1, false), "\n")
   local lines = parse_page(text)
+  local found = {}
+  swaps[buf] = found
   for i, line in ipairs(lines) do
     local row = i - 1
     local len = #line.text
-    if line.title then
+    local ctx = { swaps = found }
+    local label = not line.title and not line.code_block and not line.table_block and M.mark_label(line.text)
+    local check = not line.title and not line.code_block and not line.table_block and row > 0 and marks.check_of(line.text)
+    if label then
+      -- date:… / closed: — the whole line a label, filled once its day has come.
+      local at = #line.text:match("^%s*")
+      indent_marks(buf, row, line.text, line.indent, nil)
+      hide(buf, row, at, len)
+      hl(buf, row, at, len, "NotesMark")
+      found[#found + 1] = { row = row, col = at, chunks = { { " " .. label.text .. " ", label.due and "NotesMarkDue" or "NotesMarkLabel" } } }
+    elseif check then
+      -- todo: / done(…): — a box where the dot would be; a checked line fainter, its time after it.
+      ctx.no_dot = true
+      walk(buf, row, line.nodes, 0, line, vim.tbl_extend("force", ctx, { quote = quote_line(line.nodes) }))
+      hide(buf, row, check.at, check.finish)
+      hl(buf, row, check.at, check.finish, "NotesCheckMark")
+      local chunks = { { check.checked and "☑ " or "☐ ", "NotesCheckBox" } }
+      local time = check.checked and line.text:sub(check.at + 1, check.finish):match("^done%((%d+%-%d+%-%d+ %d+:%d+)")
+      if check.checked then
+        hl(buf, row, check.finish, len, "NotesChecked")
+      end
+      found[#found + 1] = { row = row, col = check.at, chunks = chunks }
+      if time then
+        found[#found + 1] = { row = row, col = len, chunks = { { "  " .. time, "NotesCheckTime" } } }
+      end
+    elseif line.title then
       hl(buf, row, 0, len, "NotesTitle")
       -- A terminal cannot draw the title larger: room above it and a rule under it instead.
       pcall(vim.api.nvim_buf_set_extmark, buf, ns, 0, 0, { virt_lines_above = true, virt_lines = { { { " ", "" } } } })
       pcall(vim.api.nvim_buf_set_extmark, buf, ns, 0, 0, { virt_lines = { { { ("─"):rep(300), "NotesTitleRule" } } } })
     elseif line.code_block or line.table_block then
       local key = line.code_block and "code_block" or "table_block"
+      if line.code_block then
+        -- A code block on a ground of its own, across the window (decorate.js `.cs-code-line`).
+        pcall(vim.api.nvim_buf_set_extmark, buf, ns, row, 0, { line_hl_group = "NotesCodeGround" })
+      end
       if line[key].start then
         indent_marks(buf, row, line.text, line.indent, "•")
-        hl(buf, row, vim.str_byteindex(line.text, "utf-32", line.indent, false), len, "NotesBlockStart")
+        local at = vim.str_byteindex(line.text, "utf-32", line.indent, false)
+        if line.code_block then
+          -- code:main.ts — the file's name only, as a header, off the cursor's line.
+          hide(buf, row, at, at + #"code:")
+          hl(buf, row, at + #"code:", len, "NotesCodeHeader")
+        else
+          hl(buf, row, at, len, "NotesBlockStart")
+        end
         if line.code_block then
           local last = i
           while lines[last + 1] and lines[last + 1].code_block and not lines[last + 1].code_block.start do
@@ -308,9 +408,10 @@ function M.render(buf)
       hl(buf, row, at, at + 1, "NotesPrefix")
       hl(buf, row, at + 1, len, "NotesCode")
     else
-      walk(buf, row, line.nodes, 0, line, { quote = quote_line(line.nodes) })
+      walk(buf, row, line.nodes, 0, line, vim.tbl_extend("force", ctx, { quote = quote_line(line.nodes) }))
     end
   end
+  M.place_swaps(buf, true)
 end
 
 --- Keep `buf` decorated as it changes.
@@ -327,6 +428,19 @@ function M.attach(buf)
     end)
   end
   vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI" }, { buffer = buf, callback = later })
+  vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI", "BufLeave" }, {
+    buffer = buf,
+    callback = function(ev)
+      -- Leaving: no cursor line any more, so every line shows its swaps.
+      if ev.event == "BufLeave" then
+        vim.schedule(function()
+          M.place_swaps(buf)
+        end)
+      else
+        M.place_swaps(buf)
+      end
+    end,
+  })
   -- Pages may have been made, renamed or deleted since (in the list, by a save elsewhere).
   vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost" }, {
     buffer = buf,

@@ -340,6 +340,33 @@ if pcall(vim.treesitter.language.add, "lua") then
   end) ~= nil, marks_on(6))
 end
 
+local decorate = require("notes.decorate")
+local function in_days(n)
+  return os.date("%Y-%m-%d", os.time() + n * 86400)
+end
+local label = decorate.mark_label("date:" .. in_days(3))
+check("date: a label with the weekday and how far off", label and label.text:find("^%d+%-%d+%-%d+ %(..-%) · あと3日$") ~= nil and not label.due, label)
+label = decorate.mark_label("date:" .. in_days(-2))
+check("date: a label filled once its day has come", label and label.text:find("2日前$") ~= nil and label.due, label)
+label = decorate.mark_label("closed(2026-11-20 10:00:00):")
+check("closed: a label with when", label and label.text == "closed · 2026-11-20 10:00:00", label)
+
+page_buffer("private/2026-11-15 印.txt", { "印", "date:2026-11-28", " todo:牛乳", " done(2026-11-25 10:00:00):卵", "> 引用", "最後" })
+local swap_ns = vim.api.nvim_create_namespace("notes_decorate_swaps")
+local function swapped(row)
+  local out = {}
+  for _, mk in ipairs(vim.api.nvim_buf_get_extmarks(0, swap_ns, { row, 0 }, { row, -1 }, { details = true })) do
+    out[#out + 1] = mk[4].virt_text[1][1]
+  end
+  return table.concat(out, "|")
+end
+vim.api.nvim_win_set_cursor(0, { 6, 0 })
+decorate.place_swaps(0, true)
+check("off the cursor's line: the label, the boxes with a checked line's time, the quote's bar", swapped(1):find("2026%-11%-28") and swapped(2) == "☐ " and swapped(3) == "☑ |  2026-11-25 10:00" and swapped(4) == "▎ ", { swapped(1), swapped(2), swapped(3), swapped(4) })
+vim.api.nvim_win_set_cursor(0, { 3, 0 })
+decorate.place_swaps(0)
+check("on the cursor's line: the line as written", swapped(2) == "" and swapped(3) ~= "", { swapped(2), swapped(3) })
+
 -- ===== writing =====
 
 local edit = require("notes.edit")

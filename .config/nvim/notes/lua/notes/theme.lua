@@ -97,6 +97,23 @@ function M.apply_highlights()
   hl("NotesHeading", { fg = p.heading, bold = true })
   hl("NotesHelp", { fg = p.dim })
   hl("NotesHelpKey", { fg = p.warn, bold = true })
+
+  -- A page's marks and blocks (decorate.lua), after stderr-blog's src/styles/cosense-editor.css.
+  -- date:… / closed: as a label: the accent on a pale of it, filled once its day has come (.cs-page-mark).
+  hl("NotesMark", { fg = p.warn, bold = true })
+  hl("NotesMarkLabel", { fg = p.warn, bg = blend(p.warn, p.bg, 0.8), bold = true })
+  hl("NotesMarkDue", { fg = p.bg, bg = p.warn, bold = true })
+  -- A check line: the box in the accent, a checked line's text fainter, not struck through (.cs-check, .cs-checked).
+  hl("NotesCheckBox", { fg = p.warn, bold = true })
+  hl("NotesCheckMark", { fg = p.warn })
+  hl("NotesChecked", { fg = blend(p.fg, p.bg, 0.45) })
+  hl("NotesCheckTime", { fg = p.comment })
+  -- A quote: a grey bar, its text quieter than the page's (.cs-quote-line, .cs-quote).
+  hl("NotesQuote", { fg = p.dim })
+  hl("NotesQuoteBar", { fg = p.comment })
+  -- A code block and inline code on a ground tinted towards the blue (.cs-code-line, .cs-code).
+  hl("NotesCodeGround", { bg = blend(p.bg, p.bar, 0.22) })
+  hl("NotesCodeHeader", { fg = p.dim, bold = true })
   hl("NotesLabel", { fg = p.bg, bg = p.warn, bold = true })
   hl("NotesBandRemote", { fg = p.bg, bg = p.remote, bold = true })
   hl("NotesBandLocal", { fg = p.bg, bg = p["local"], bold = true })
@@ -120,7 +137,6 @@ local function page_highlights()
   link("NotesStrike", "@markup.strikethrough")
   link("NotesUnderline", "@markup.underline")
   link("NotesCode", "@markup.raw")
-  link("NotesQuote", "@markup.quote")
   link("NotesPrefix", "Special")
   link("NotesBlockStart", "Special")
   link("NotesIndentDot", "Delimiter")
