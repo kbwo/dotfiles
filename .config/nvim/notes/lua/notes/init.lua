@@ -6,27 +6,7 @@ local M = {}
 
 function M.setup()
   local store = require("notes.store")
-  local theme = require("notes.theme")
-  theme.setup()
-  -- Local's colorscheme while a local note or the local list is in front. Windows of other
-  -- kinds (ddu, help, a terminal) and floating windows (a memo opened over the list) leave
-  -- the colors as they are, so that what is opened over a local list does not flash.
-  vim.api.nvim_create_autocmd("BufEnter", {
-    group = vim.api.nvim_create_augroup("notes_theme_switch", { clear = true }),
-    -- The colorscheme changed here must fire ColorScheme, which redraws the notes' own
-    -- colors (theme.lua) and every other plugin's: an autocmd fires others only when nested.
-    nested = true,
-    callback = function(ev)
-      if vim.api.nvim_win_get_config(0).relative ~= "" then
-        return
-      end
-      if vim.bo[ev.buf].filetype == "notes-list" then
-        theme.set_local(require("notes.list").shows_local(ev.buf))
-      elseif vim.bo[ev.buf].buftype == "" then
-        theme.set_local(require("notes.page").is_local(ev.buf))
-      end
-    end,
-  })
+  require("notes.theme").setup() -- the colours, local's windows' included
   vim.api.nvim_create_user_command("Notes", function()
     require("notes.list").open()
   end, { desc = "メモの一覧" })

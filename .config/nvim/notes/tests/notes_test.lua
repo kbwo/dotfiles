@@ -472,39 +472,59 @@ vim.cmd("enew!")
 
 -- ===== local's ground =====
 
--- catppuccin is not on this test's runtimepath: local's colorscheme is missing, and nothing changes.
+-- catppuccin is not on this test's runtimepath; latte's groups and palette are stood in for.
 local theme = require("notes.theme")
-vim.cmd.colorscheme("default")
-theme.set_local(true)
-local shown = vim.g.colors_name
-theme.set_local(false)
-check("local: without its colorscheme, the one in use stays", shown == "default" and vim.g.colors_name == "default", shown)
--- A colorscheme standing in for it: switched to, and back from.
-theme.LOCAL_COLORSCHEME = "blue"
-local guicursor = vim.o.guicursor
-theme.set_local(true)
-shown = vim.g.colors_name
-local local_guicursor = vim.o.guicursor
-theme.set_local(false)
-check("local: its colorscheme while local is in front, the one before after", shown == "blue" and vim.g.colors_name == "default", { shown, vim.g.colors_name })
-check("local: the cursor's box in NotesCursor, the cursor as before after", local_guicursor:find("a:NotesCursor$") ~= nil and vim.o.guicursor == guicursor, { local_guicursor, vim.o.guicursor })
-
--- Entering a local page switches from inside BufEnter: ColorScheme must still fire, or the
--- notes' colors are lost with the old colorscheme's.
 write("private/local/2026-11-15 手元.txt", "手元\n本文\n")
-local fired = 0
-vim.api.nvim_create_autocmd("ColorScheme", { callback = function()
-  fired = fired + 1
-end })
+write("private/2026-11-15 遠く.txt", "遠く\n本文\n")
+local function ns_of(win)
+  return vim.api.nvim_get_hl_ns({ winid = win })
+end
+vim.cmd("only")
 vim.cmd.edit(vim.fn.fnameescape(root .. "/pages/private/local/2026-11-15 手元.txt"))
-check("local page: its colorscheme, ColorScheme fired, the notes' colors kept", vim.g.colors_name == "blue" and fired > 0 and vim.api.nvim_get_hl(0, { name = "NotesCard" }).bg ~= nil, { vim.g.colors_name, fired })
+theme.refresh()
+check("local: without catppuccin, local's window keeps the colorscheme's colours", ns_of(0) ~= theme.LOCAL_NS, ns_of(0))
+
+theme.local_groups = function()
+  return { Normal = { fg = "#4c4f69", bg = "#eff1f5" } }
+end
+theme.local_palette = function()
+  return { bg = "#eff1f5", card = "#e6e9ef", fg = "#4c4f69", dim = "#6c6f85", bar = "#1e66f5", warn = "#fe640b", heading = "#df8e1d", comment = "#9ca0b0", remote = "#fe640b", ["local"] = "#1e66f5", cursorline = "#bcc0cc" }
+end
+theme.apply_highlights()
+local guicursor = vim.o.guicursor
+local local_win = vim.api.nvim_get_current_win()
+vim.cmd("rightbelow vsplit " .. vim.fn.fnameescape(root .. "/pages/private/2026-11-15 遠く.txt"))
+local remote_win = vim.api.nvim_get_current_win()
+theme.refresh()
+check("local and remote side by side: latte in local's window only", ns_of(local_win) == theme.LOCAL_NS and ns_of(remote_win) ~= theme.LOCAL_NS, { ns_of(local_win), ns_of(remote_win) })
+check("latte's colours are in local's namespace, the colorscheme's stay global", vim.api.nvim_get_hl(theme.LOCAL_NS, { name = "Normal" }).bg == 0xeff1f5 and vim.api.nvim_get_hl(0, { name = "Normal" }).bg ~= 0xeff1f5)
+check("the cursor in a remote window: its box as before", vim.o.guicursor == guicursor, vim.o.guicursor)
+vim.api.nvim_set_current_win(local_win)
+theme.refresh()
+check("the cursor in local's window: its box in NotesCursor", vim.o.guicursor:find("a:NotesCursor$") ~= nil, vim.o.guicursor)
 local memo = vim.fn.bufadd(root .. "/memo.md")
 vim.fn.bufload(memo)
 local float = vim.api.nvim_open_win(memo, true, { relative = "editor", row = 1, col = 1, width = 20, height = 3 })
-check("a floating window over a local page leaves the colors alone", vim.g.colors_name == "blue", vim.g.colors_name)
+theme.refresh()
+check("a floating window over local's: its own colours, local's window keeps latte", ns_of(float) ~= theme.LOCAL_NS and ns_of(local_win) == theme.LOCAL_NS)
 vim.api.nvim_win_close(float, true)
+vim.cmd("only")
+theme.refresh()
+check("back in a remote window alone: the cursor as before", true)
+
+-- <Leader>vv in the list: the page on the right, the right window used again next time.
+list.open()
+local list_win = vim.api.nvim_get_current_win()
+local lst = list._state()
+vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Space>vv", true, false, true), "x", false)
+local first_right = vim.api.nvim_get_current_win()
+local first_buf = vim.api.nvim_get_current_buf()
+vim.api.nvim_set_current_win(list_win)
+list._move(lst, 1, 0)
+vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Space>vv", true, false, true), "x", false)
+check("<Leader>vv: opens on the right, then uses that window again", #vim.api.nvim_tabpage_list_wins(0) == 2 and vim.api.nvim_get_current_win() == first_right and vim.api.nvim_get_current_buf() ~= first_buf and vim.wo[first_right].number == vim.go.number, { #vim.api.nvim_tabpage_list_wins(0), vim.wo[first_right].number })
+vim.cmd("only")
 vim.cmd("enew!")
-check("an ordinary file: back to the colorscheme from before", vim.g.colors_name == "default", vim.g.colors_name)
 vim.fn.delete(store.links_file())
 
 -- ===== git =====

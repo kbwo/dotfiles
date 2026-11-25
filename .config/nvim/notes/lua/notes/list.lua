@@ -278,7 +278,7 @@ local function render(st)
     end
     lines[#lines + 1] = table.concat(parts)
   end
-  help({ { "hjkl", "移動" }, { "<CR>", "開く" }, { "f", "文字で開く" }, { "Tab", "remote/local" }, { "/", "検索" }, { "c", "新規" }, { "s", "並び" } })
+  help({ { "hjkl", "移動" }, { "<CR>", "開く" }, { "<Space>vv", "右に開く" }, { "f", "文字で開く" }, { "Tab", "remote/local" }, { "/", "検索" }, { "c", "新規" }, { "s", "並び" } })
   help({ { "x", "closed" }, { "p", "pin" }, { "t", "date" }, { "v", "公開/非公開" }, { "m", "マージ" }, { "D", "削除" } })
 
   for _, sec in ipairs(secs) do
@@ -460,6 +460,24 @@ function actions.open(st)
   end
 end
 
+--- <Leader>vv: open the page in the window to the list's right, splitting one off when there
+--- is none, so that the list stays on the left and pages are opened one after another on the right.
+function actions.open_right(st)
+  local page = current(st)
+  if not page then
+    return
+  end
+  local right = vim.fn.winnr("l")
+  if right ~= vim.fn.winnr() then
+    vim.api.nvim_set_current_win(vim.fn.win_getid(right))
+  else
+    vim.cmd("rightbelow vsplit")
+    -- A split copies the list's window options (see `show`); the page's window gets the usual ones.
+    vim.cmd("setlocal wrap< number< relativenumber< cursorline< signcolumn< list<")
+  end
+  open_page(page)
+end
+
 function actions.new(st)
   local title = ask_title("新しいページのタイトル: ")
   if title then
@@ -471,9 +489,9 @@ function actions.toggle_store(st)
   st.mode = "list"
   st.store = st.store == "remote" and "local" or "remote"
   st.shown_days = DAYS_PER_LOAD
-  theme.set_local(st.store == "local")
   render(st)
   select(st, 1)
+  theme.refresh() -- this window's colours follow the tab
 end
 
 function actions.search()
@@ -652,6 +670,7 @@ local function setup_buffer(st)
     move(st, 0, -1)
   end)
   map("<CR>", actions.open)
+  map("<Leader>vv", actions.open_right)
   map("f", actions.label_open)
   map("<Tab>", actions.toggle_store)
   map("/", actions.search)

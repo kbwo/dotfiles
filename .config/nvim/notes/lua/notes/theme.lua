@@ -1,7 +1,7 @@
 -- The notes' colors: the card list's and the page's highlight groups, made from the
--- colorscheme in use so that they suit a dark and a light one alike, and a light
--- colorscheme while a local note or the local list is in front, so that local
--- (kept on this machine only) is never mistaken for remote.
+-- colorscheme in use so that they suit a dark and a light one alike, and a light scheme
+-- in the windows showing a local note or the local list, so that local (kept on this
+-- machine only) is never mistaken for remote.
 
 local M = {}
 
@@ -33,20 +33,9 @@ local function kanagawa_theme()
   return require("kanagawa.colors").setup({ theme = kanagawa._CURRENT_THEME, colors = kanagawa.config.colors }).theme
 end
 
--- catppuccin's colors for the flavour loaded now (catppuccin-latte while local is in front), or nil.
-local function catppuccin_palette()
-  local flavour = (vim.g.colors_name or ""):match("^catppuccin%-(%a+)$")
-  local ok, palettes = pcall(require, "catppuccin.palettes")
-  if not flavour or not ok then
-    return nil
-  end
-  return palettes.get_palette(flavour)
-end
-
-local function palette()
-  local c = catppuccin_palette()
-  if c then
-    return {
+-- The notes' colours from a catppuccin palette (latte for local's windows).
+local function palette_of(c)
+  return {
       bg = c.base,
       card = c.mantle,
       -- A card not closed: the ground towards the blue, so that local's cards are tinted too.
@@ -62,6 +51,14 @@ local function palette()
       remote = c.peach,
       ["local"] = c.blue,
     }
+end
+
+-- The colorscheme in use: catppuccin's own flavour, kanagawa's theme, or kanagawa wave's colours.
+local function palette()
+  local flavour = (vim.g.colors_name or ""):match("^catppuccin%-(%a+)$")
+  local ok, palettes = pcall(require, "catppuccin.palettes")
+  if flavour and ok then
+    return palette_of(palettes.get_palette(flavour))
   end
   local t = kanagawa_theme()
   if t then
@@ -82,10 +79,12 @@ local function palette()
   return { bg = "#1f1f28", card = "#2a2a37", fg = "#dcd7ba", dim = "#c8c093", bar = "#7e9cd8", warn = "#ff9e3b", heading = "#e6c384", comment = "#727169", remote = "#ff9e3b", ["local"] = "#7e9cd8" }
 end
 
-function M.apply_highlights()
-  local p = palette()
+local page_highlights, build_local -- defined below
+
+--- The notes' groups in namespace `ns` (0: everywhere), from palette `p`.
+local function paint(ns, p)
   local hl = function(name, opts)
-    vim.api.nvim_set_hl(0, name, opts)
+    vim.api.nvim_set_hl(ns, name, opts)
   end
   -- A card not closed stands out from the ground (13% towards the text), a closed one keeps
   -- the plain card's ground with its text one step dimmer, so the two part at a glance.
@@ -103,9 +102,6 @@ function M.apply_highlights()
   if p.cursorline then
     hl("CursorLine", { bg = p.cursorline })
   end
-  -- The cursor's box while local is in front (M.set_local): the text's color with the
-  -- ground's on it. The terminal's own, near white, vanishes on latte's ground.
-  hl("NotesCursor", { fg = p.bg, bg = p.fg })
   hl("NotesHeading", { fg = p.heading, bold = true })
   hl("NotesHelp", { fg = p.dim })
   hl("NotesHelpKey", { fg = p.warn, bold = true })
@@ -135,11 +131,18 @@ function M.apply_highlights()
   hl("NotesBandLocal", { fg = p.bg, bg = p["local"], bold = true })
 end
 
+--- The notes' colours for the colorscheme in use, and local's windows' for latte.
+function M.apply_highlights()
+  paint(0, palette())
+  page_highlights(0)
+  build_local()
+end
+
 -- ===== the page's notation (decorate.lua) =====
 
-local function page_highlights()
+page_highlights = function(ns)
   local link = function(name, to)
-    vim.api.nvim_set_hl(0, name, { link = to, default = true })
+    vim.api.nvim_set_hl(ns, name, { link = to, default = true })
   end
   link("NotesTitle", "Title")
   link("NotesLink", "Function")
@@ -156,63 +159,102 @@ local function page_highlights()
   link("NotesBlockStart", "Special")
 end
 
--- ===== a light colorscheme while local is in front =====
+-- ===== local's windows in a light scheme =====
 
--- Light where remote is dark, so that the two cannot be mistaken at a glance.
-M.LOCAL_COLORSCHEME = "catppuccin-latte"
+-- A window showing a local page or the local list is drawn in catppuccin's latte, light
+-- where remote is dark, through a highlight namespace of its own (nvim_win_set_hl_ns), so
+-- that local and remote side by side keep their own colours and nothing else changes when
+-- one is entered. The colorscheme itself stays as it is.
+M.LOCAL_NS = vim.api.nvim_create_namespace("notes_local_colours")
 
-local saved_colorscheme = nil -- the colorscheme to go back to, while local's is on
-local saved_guicursor = nil -- 'guicursor' from before local's cursor color was added
-local warned = false
-
--- The name `:colorscheme` takes to load the one in use now again.
-local function current_colorscheme()
-  local name = vim.g.colors_name
-  if name == "kanagawa" then
-    local ok, kanagawa = pcall(require, "kanagawa")
-    if ok and kanagawa._CURRENT_THEME then
-      return "kanagawa-" .. kanagawa._CURRENT_THEME
-    end
+--- latte's highlight groups, as catppuccin's own compiler writes them
+--- (catppuccin/lib/compiler.lua `compile`), or nil without catppuccin.
+function M.local_groups()
+  local ok, mapper = pcall(require, "catppuccin.lib.mapper")
+  if not ok then
+    return nil
   end
-  return name
+  local theme = mapper.apply("latte")
+  local groups = vim.tbl_deep_extend("keep", theme.custom_highlights, theme.integrations, theme.syntax, theme.editor)
+  for _, spec in pairs(groups) do
+    for _, style in ipairs(spec.style or {}) do
+      spec[style] = true
+    end
+    spec.style = nil
+  end
+  return groups
 end
 
---- Show local's colorscheme while `is_local`, and the one from before when not.
-function M.set_local(is_local)
-  if is_local and not saved_colorscheme then
-    local before = current_colorscheme()
-    if not pcall(vim.cmd.colorscheme, M.LOCAL_COLORSCHEME) then
-      if not warned then
-        warned = true
-        vim.notify(("notes: 配色 %s がありません（:JetpackSync で入ります）"):format(M.LOCAL_COLORSCHEME), vim.log.levels.WARN)
-      end
-      return
-    end
-    saved_colorscheme = before
-    -- The cursor's box in NotesCursor, every mode's shape kept; the terminal's color is back when this goes.
-    saved_guicursor = vim.o.guicursor
-    vim.o.guicursor = vim.o.guicursor .. ",a:NotesCursor"
-  elseif not is_local and saved_colorscheme then
-    local back = saved_colorscheme
-    saved_colorscheme = nil
-    if saved_guicursor then
-      vim.o.guicursor = saved_guicursor
-      saved_guicursor = nil
-    end
-    if back then
-      pcall(vim.cmd.colorscheme, back)
-    end
+--- The notes' colours from latte's palette, or nil without catppuccin.
+function M.local_palette()
+  local ok, palettes = pcall(require, "catppuccin.palettes")
+  return ok and palette_of(palettes.get_palette("latte")) or nil
+end
+
+local has_local = false
+
+build_local = function()
+  local groups, p = M.local_groups(), M.local_palette()
+  has_local = groups ~= nil and p ~= nil
+  if not has_local then
+    return
+  end
+  for name, spec in pairs(groups) do
+    vim.api.nvim_set_hl(M.LOCAL_NS, name, spec)
+  end
+  page_highlights(M.LOCAL_NS)
+  paint(M.LOCAL_NS, p)
+  -- The cursor's box is one for the whole screen ('guicursor' is global): latte's text colour
+  -- with its ground on it, used only while the cursor is in a local window (M.refresh). The
+  -- terminal's own, near white, vanishes on latte's ground.
+  vim.api.nvim_set_hl(0, "NotesCursor", { fg = p.bg, bg = p.fg })
+end
+
+local warned = false
+local base_guicursor = nil -- 'guicursor' without local's cursor colour, while that is added
+
+--- Whether window `win` shows local: a local page, or the list on its local tab.
+local function shows_local(win)
+  local buf = vim.api.nvim_win_get_buf(win)
+  if vim.bo[buf].filetype == "notes-list" then
+    return require("notes.list").shows_local(buf)
+  end
+  return vim.bo[buf].buftype == "" and require("notes.page").is_local(buf)
+end
+
+--- Give every window its colours (latte for local's, the colorscheme's for the rest) and the
+--- cursor its box colour for the window it is in.
+function M.refresh()
+  local any_local = false
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    local is_local = has_local and shows_local(win)
+    any_local = any_local or is_local
+    vim.api.nvim_win_set_hl_ns(win, is_local and M.LOCAL_NS or 0)
+  end
+  if not has_local and not warned and vim.iter(vim.api.nvim_list_wins()):any(shows_local) then
+    warned = true
+    vim.notify("notes: 配色 catppuccin がありません（:JetpackSync で入ります）", vim.log.levels.WARN)
+  end
+  local in_local = has_local and shows_local(vim.api.nvim_get_current_win())
+  if in_local and not base_guicursor then
+    base_guicursor = vim.o.guicursor
+    vim.o.guicursor = base_guicursor .. ",a:NotesCursor"
+  elseif not in_local and base_guicursor then
+    vim.o.guicursor = base_guicursor
+    base_guicursor = nil
   end
 end
 
 function M.setup()
   M.apply_highlights()
-  page_highlights()
   vim.api.nvim_create_autocmd("ColorScheme", {
     group = vim.api.nvim_create_augroup("notes_theme", { clear = true }),
+    callback = M.apply_highlights,
+  })
+  vim.api.nvim_create_autocmd({ "BufWinEnter", "WinEnter", "BufEnter", "WinClosed" }, {
+    group = vim.api.nvim_create_augroup("notes_theme_windows", { clear = true }),
     callback = function()
-      M.apply_highlights()
-      page_highlights()
+      vim.schedule(M.refresh) -- after the window has its buffer, and a closed one is gone
     end,
   })
 end
