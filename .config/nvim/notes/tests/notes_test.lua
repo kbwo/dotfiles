@@ -581,6 +581,53 @@ vim.cmd("only")
 vim.cmd("enew!")
 vim.fn.delete(store.links_file())
 
+-- ===== the outline =====
+
+local outline_page = table.concat({
+  "[**** タイトルではない]", -- the title line is never a heading
+  "[**** 大 [リンク] 見出し]",
+  " [** 字下げ]  ",
+  "前 [** 途中] 後",
+  "[* 太字]",
+  "[**/ 斜体の見出し]",
+  "code:a.txt",
+  " [** コードの中]",
+  "table:t",
+  " [** 表の中]",
+  "[*** 中]",
+  "[** 小]",
+}, "\n")
+check("outline: whole-line [** ] and up, outside code and tables", vim.deep_equal(vim.tbl_map(function(h)
+  return { h.lnum, h.col, h.stars, h.name }
+end, parser.headings(outline_page)), {
+  { 2, 0, 4, "大 リンク 見出し" },
+  { 3, 1, 2, "字下げ" },
+  { 6, 0, 2, "斜体の見出し" },
+  { 11, 0, 3, "中" },
+  { 12, 0, 2, "小" },
+}), parser.headings(outline_page))
+
+-- aerial's backend, when aerial is where Jetpack puts it.
+local aerial_dir = vim.fn.expand("~/.vim/jetpack/pack/jetpack/opt/aerial.nvim")
+if vim.uv.fs_stat(aerial_dir) then
+  vim.opt.rtp:append(aerial_dir)
+  require("aerial").setup({ backends = { "notes" }, filter_kind = false, lazy_load = false })
+  page_buffer("private/2026-11-20 目次.txt", vim.split(outline_page, "\n"))
+  require("aerial.backends.notes").fetch_symbols_sync(0)
+  local symbols = require("aerial.data").get_or_create(0).items
+  local function tree(items)
+    return vim.tbl_map(function(i)
+      return { i.name, i.children and tree(i.children) or nil }
+    end, items or {})
+  end
+  local want = { { "大 リンク 見出し", { { "字下げ" }, { "斜体の見出し" }, { "中", { { "小" } } } } } }
+  check("outline: aerial nests the smaller headings under the larger", vim.deep_equal(tree(symbols), want), tree(symbols))
+  check("outline: a heading's range runs to the next at its level", symbols[1].end_lnum == 12 and symbols[1].children[3].lnum == 11, symbols[1])
+  vim.cmd("enew!")
+else
+  print("skip outline: aerial.nvim is not installed")
+end
+
 -- ===== git =====
 
 local git = require("notes.git")
