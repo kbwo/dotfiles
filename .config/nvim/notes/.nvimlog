@@ -1,0 +1,4 @@
+WRN 2026-11-25T22:32:24.421 c/nvim.77656.0 server_start:199: Failed to start server: operation not permitted: /tmp/claude-501/nvim.kbwo/ZJsp4a/nvim.91204.0
+WRN 2026-11-25T22:32:41.377 c/nvim.77656.0 server_start:199: Failed to start server: operation not permitted: /tmp/claude-501/nvim.kbwo/ND8Sus/nvim.91685.0
+WRN 2026-11-25T22:32:56.442 c/nvim.77656.0 server_start:199: Failed to start server: operation not permitted: /tmp/claude-501/nvim.kbwo/i8MYtA/nvim.93152.0
+WRN 2026-11-25T22:32:57.634 c/nvim.77656.0 server_start:199: Failed to start server: operation not permitted: /tmp/claude-501/nvim.kbwo/w74WC2/nvim.93578.0
