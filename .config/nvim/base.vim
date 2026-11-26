@@ -601,7 +601,7 @@ endfunction
 
 command! -nargs=1 -complete=customlist,TargetBranchCompletion YankGitHubURL call YankGitHubURL(<f-args>)
 
-nmap <Leader>w :noa w<CR>
+nmap <Leader>w :w<CR>
 
 
 function! s:OpenByCursor()

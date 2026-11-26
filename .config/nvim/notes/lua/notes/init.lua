@@ -55,6 +55,7 @@ end
 --- and keymaps beside the new ones. Pages with unsaved changes are left as they are.
 function M.reopen_pages()
   local skipped = {}
+  local from = vim.api.nvim_get_current_win()
   for _, buf in ipairs(vim.api.nvim_list_bufs()) do
     if vim.api.nvim_buf_is_loaded(buf) and vim.bo[buf].filetype == "notes" then
       local name = vim.api.nvim_buf_get_name(buf)
@@ -66,24 +67,32 @@ function M.reopen_pages()
         local tmp = vim.api.nvim_create_buf(false, true)
         for _, win in ipairs(wins) do
           cursors[win] = vim.api.nvim_win_get_cursor(win)
-          vim.api.nvim_win_set_buf(win, tmp)
+          vim.api.nvim_win_call(win, function()
+            vim.cmd("noautocmd buffer " .. tmp) -- a step of the reopening, not a buffer to react to
+          end)
         end
         vim.api.nvim_buf_delete(buf, {})
         if #wins == 0 then
           vim.bo[vim.fn.bufadd(name)].buflisted = true -- loaded, and so attached, when next entered
         else
-          vim.api.nvim_win_call(wins[1], function()
-            vim.cmd.edit(vim.fn.fnameescape(name))
-          end)
-          local new = vim.api.nvim_win_get_buf(wins[1])
+          -- The page is opened from its window made current, not through nvim_win_call: BufWinEnter
+          -- autocmds look the current window up in the current tab's layout (windows.nvim does),
+          -- and nvim_win_call on a window in another tab leaves them a layout without it.
+          vim.api.nvim_set_current_win(wins[1])
+          vim.cmd.edit(vim.fn.fnameescape(name))
+          local new = vim.api.nvim_get_current_buf()
           for _, win in ipairs(wins) do
-            vim.api.nvim_win_set_buf(win, new)
+            vim.api.nvim_set_current_win(win)
+            vim.cmd.buffer(new)
             pcall(vim.api.nvim_win_set_cursor, win, cursors[win])
           end
         end
         vim.api.nvim_buf_delete(tmp, { force = true })
       end
     end
+  end
+  if vim.api.nvim_win_is_valid(from) then
+    vim.api.nvim_set_current_win(from)
   end
   if #skipped > 0 then
     vim.notify("保存していないので開き直しませんでした: " .. table.concat(skipped, ", "), vim.log.levels.WARN)
