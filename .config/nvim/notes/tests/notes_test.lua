@@ -377,7 +377,7 @@ check("a URL link shows its title only", find_mark(7, function(d, col)
 end) ~= nil and find_mark(7, function(d)
   return d.hl_group == "NotesUrl"
 end) ~= nil)
-check("the window conceals off the cursor's line and wraps", vim.wo.conceallevel == 2 and vim.wo.concealcursor == "" and vim.wo.wrap and vim.wo.linebreak and vim.wo.breakindent)
+check("the window conceals off the cursor's line and wraps", vim.wo.conceallevel == 2 and vim.wo.concealcursor == "" and vim.wo.wrap and not vim.wo.linebreak and vim.wo.breakindent)
 if pcall(vim.treesitter.language.add, "lua") then
   check("a code block is coloured by treesitter", find_mark(6, function(d)
     return d.hl_group and d.hl_group:find("%.lua$")

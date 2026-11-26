@@ -383,18 +383,20 @@ function M.preview()
   vim.bo[buf].tabstop = 1
   vim.wo[win][0].conceallevel = 2
   vim.wo[win][0].concealcursor = ""
-  vim.wo[win][0].linebreak = true
+  vim.wo[win][0].linebreak = false
   vim.wo[win][0].breakindent = true
   require("notes.decorate").render(buf)
 end
 
 -- ===== putting it on a page =====
 
---- The window settings a page is read with: long lines wrapped at words and hung at
---- their indentation, the notation concealed off the cursor's line.
+--- The window settings a page is read with: long lines wrapped at the window's edge and
+--- hung at their indentation, the notation concealed off the cursor's line.
+--- linebreak stays off: 'breakat' takes ASCII only, so in Japanese text it breaks early
+--- at the last half-width space instead of at 、 or 。.
 function M.window_options()
   vim.opt_local.wrap = true
-  vim.opt_local.linebreak = true
+  vim.opt_local.linebreak = false
   vim.opt_local.breakindent = true
   vim.opt_local.conceallevel = 2
   vim.opt_local.concealcursor = ""
