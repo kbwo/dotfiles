@@ -464,7 +464,19 @@ buf = page_buffer("private/2026-11-15 貼る.txt", { "貼る", "", "" })
 vim.api.nvim_win_set_cursor(0, { 2, 0 })
 vim.fn.setreg("a", { "# 見出し", "- 項目" }, "l")
 vim.cmd('normal "ap')
-check("p converts Markdown", vim.deep_equal(vim.api.nvim_buf_get_lines(buf, 2, 4, false), { "[**** 見出し]", " 項目" }), vim.api.nvim_buf_get_lines(buf, 0, -1, false))
+check("p converts Markdown's list, and keeps its # heading", vim.deep_equal(vim.api.nvim_buf_get_lines(buf, 2, 4, false), { "# 見出し", " 項目" }), vim.api.nvim_buf_get_lines(buf, 0, -1, false))
+
+-- A ``` fence (the site's extension): yic takes the body without the fence's indentation
+-- and without its closing line; Enter after the opening line adds no indent of its own.
+buf = page_buffer("private/2026-11-15 囲み.txt", { "囲み", " ```sh", "   echo 1", "  echo 2", " ```", "後ろ" })
+vim.api.nvim_win_set_cursor(0, { 3, 0 })
+vim.cmd('normal "dyic')
+vim.wait(50)
+check("yic in a fence: the body, its indentation and the closing line left out", vim.fn.getreg("d") == "  echo 1\n echo 2\n", vim.fn.getreg("d"))
+vim.cmd("normal dic")
+check("dic in a fence: the body lines go, the closing line stays", vim.deep_equal(vim.api.nvim_buf_get_lines(buf, 1, 3, false), { " ```sh", " ```" }), vim.api.nvim_buf_get_lines(buf, 0, -1, false))
+check("Enter after a ``` line stays at its indentation", enter_at({ "t", " ```sh" }, 2, 7) == " ```sh\n ")
+check("# lines are headings, ### too", #parser.headings("t\n# 大\n## 中\n### 小\n#tag\n```\n# コード\n```") == 3)
 check("p leaves the register as it was", vim.fn.getreg("a") == "# 見出し\n- 項目\n")
 
 -- ===== link completion =====

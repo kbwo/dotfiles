@@ -1,4 +1,4 @@
--- aerial's backend for notes pages: their headings ([** ] and up) as the outline, a heading
+-- aerial's backend for notes pages: their headings ([** ] and up, and Markdown's # lines) as the outline, a heading
 -- with more *s holding the smaller ones under it. aerial finds a backend by requiring
 -- aerial.backends.<name>, hence this module's place.
 local backend_util = require("aerial.backends.util")
