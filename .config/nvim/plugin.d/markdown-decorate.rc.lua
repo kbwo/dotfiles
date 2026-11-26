@@ -34,7 +34,7 @@ local function hl(buf, r1, c1, r2, c2, group, priority)
   pcall(vim.api.nvim_buf_set_extmark, buf, ns, r1, c1, { end_row = r2, end_col = c2, hl_group = group, priority = priority })
 end
 
--- 見出しの大きさを表す ▌ の本数。notes が `#` 見出しを読むときと同じ（notes/lua/notes/parser.lua の line_nodes）。
+-- 見出しの ▌ の本数。`#` の数と同じ（notes の中の `#` 見出しも同じ。notes/lua/notes/decorate.lua の walk）。
 local function heading_bars(node)
   local marker = node:child(0)
   local t = marker and marker:type() or ""
@@ -44,7 +44,7 @@ local function heading_bars(node)
     local underline = node:child(node:child_count() - 1)
     level = underline and underline:type() == "setext_h1_underline" and 1 or 2
   end
-  return math.max(4 - level, 1)
+  return level
 end
 
 local function render(buf)

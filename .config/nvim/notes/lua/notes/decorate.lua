@@ -122,10 +122,13 @@ local function walk(buf, row, nodes, offset, line, ctx)
       local from, to = s + #node.prefix, e - #node.suffix
       hide(buf, row, s, from)
       hide(buf, row, to, e)
-      -- A heading: as many bars as its *s, standing in for the size a terminal cannot change.
+      -- A heading: bars standing in for the size a terminal cannot change, fewer the larger it
+      -- is, as a Markdown heading has fewer #s: [***** ] one, each * less one more; a Markdown
+      -- heading as many as its #s.
       local stars = parser.heading_stars(node)
       if stars > 0 then
-        pcall(vim.api.nvim_buf_set_extmark, buf, ns, row, s, { virt_text = { { ("▌"):rep(stars) .. " ", "NotesHeading" } }, virt_text_pos = "inline", right_gravity = false })
+        local bars = node.markdown and #node.prefix:match("^#+") or math.max(6 - stars, 1)
+        pcall(vim.api.nvim_buf_set_extmark, buf, ns, row, s, { virt_text = { { ("▌"):rep(bars) .. " ", "NotesHeading" } }, virt_text_pos = "inline", right_gravity = false })
       end
       for _, g in ipairs(t == "strong" and { "NotesStrong" } or deco_groups(node.deco)) do
         hl(buf, row, from, to, g)
