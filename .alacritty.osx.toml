@@ -48,7 +48,6 @@ size = 11
 
 [font.normal]
 family = "Hack"
-style = "Bold"
 
 [window]
 decorations = "Buttonless"
