@@ -296,7 +296,7 @@ local function render(st)
     end
     lines[#lines + 1] = table.concat(parts)
   end
-  help({ { "hjkl", "移動" }, { "<CR>", "開く" }, { "f", "文字で開く" }, { "Tab", "remote/local" }, { "/", "絞り込み" }, { "g/", "検索" }, { "c", "新規" }, { "s", "並び" } })
+  help({ { "hjkl/wb", "移動" }, { "<CR>", "開く" }, { "f", "文字で開く" }, { "Tab", "remote/local" }, { "/", "絞り込み" }, { "g/", "検索" }, { "c", "新規" }, { "s", "並び" } })
   help({ { "x", "closed" }, { "p", "pin" }, { "t", "date" }, { "v", "公開/非公開" }, { "m", "マージ" }, { "D", "削除" } })
 
   for _, sec in ipairs(secs) do
@@ -737,12 +737,16 @@ local function setup_buffer(st)
   map("k", function()
     move(st, -1, 0)
   end)
-  map("l", function()
-    move(st, 0, 1)
-  end)
-  map("h", function()
-    move(st, 0, -1)
-  end)
+  for _, lhs in ipairs({ "l", "w" }) do
+    map(lhs, function()
+      move(st, 0, 1)
+    end)
+  end
+  for _, lhs in ipairs({ "h", "b" }) do
+    map(lhs, function()
+      move(st, 0, -1)
+    end)
+  end
   map("<CR>", actions.open)
   map("<Leader>vv", actions.open_right)
   map("f", actions.label_open)
