@@ -50,4 +50,44 @@ function M.setup()
   })
 end
 
+--- Open the pages again so that code reloaded by :Sov decorates them. A page's buffer is
+--- wiped first, because `:edit` alone would keep the old code's buffer-local autocmds
+--- and keymaps beside the new ones. Pages with unsaved changes are left as they are.
+function M.reopen_pages()
+  local skipped = {}
+  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+    if vim.api.nvim_buf_is_loaded(buf) and vim.bo[buf].filetype == "notes" then
+      local name = vim.api.nvim_buf_get_name(buf)
+      if vim.bo[buf].modified then
+        skipped[#skipped + 1] = vim.fn.fnamemodify(name, ":t")
+      else
+        local wins, cursors = vim.fn.win_findbuf(buf), {}
+        -- Windows showing the page hold a scratch buffer meanwhile, so wiping it does not close them.
+        local tmp = vim.api.nvim_create_buf(false, true)
+        for _, win in ipairs(wins) do
+          cursors[win] = vim.api.nvim_win_get_cursor(win)
+          vim.api.nvim_win_set_buf(win, tmp)
+        end
+        vim.api.nvim_buf_delete(buf, {})
+        if #wins == 0 then
+          vim.bo[vim.fn.bufadd(name)].buflisted = true -- loaded, and so attached, when next entered
+        else
+          vim.api.nvim_win_call(wins[1], function()
+            vim.cmd.edit(vim.fn.fnameescape(name))
+          end)
+          local new = vim.api.nvim_win_get_buf(wins[1])
+          for _, win in ipairs(wins) do
+            vim.api.nvim_win_set_buf(win, new)
+            pcall(vim.api.nvim_win_set_cursor, win, cursors[win])
+          end
+        end
+        vim.api.nvim_buf_delete(tmp, { force = true })
+      end
+    end
+  end
+  if #skipped > 0 then
+    vim.notify("保存していないので開き直しませんでした: " .. table.concat(skipped, ", "), vim.log.levels.WARN)
+  end
+end
+
 return M

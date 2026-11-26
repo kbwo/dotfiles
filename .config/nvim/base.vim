@@ -145,7 +145,8 @@ augroup TerminalPassthrough
   autocmd TermOpen * nnoremap <buffer> <silent> <PageUp> <Cmd>call chansend(b:terminal_job_id, "\e[5~")<CR>G
   autocmd TermOpen * nnoremap <buffer> <silent> <PageDown> <Cmd>call chansend(b:terminal_job_id, "\e[6~")<CR>G
 augroup END
-command Sov so ~/.config/nvim/init.vim
+" denops は読み込んだ TypeScript（notes の ddu の一覧など）をサーバーが持ち続けるので、再起動して読み直させる
+command Sov so ~/.config/nvim/init.vim | if exists('g:loaded_denops') | call denops#server#restart() | endif
 command Cdv vsp ~/dotfiles/.config/nvim/init.vim
 
 " base
