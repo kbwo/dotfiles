@@ -112,18 +112,18 @@ local function looks_like_markdown(lines)
   return some
 end
 
+-- A "# " heading and a ``` fence are kept as they are: the parser reads both (parser.lua,
+-- the site's extension), and a fence's body is code.
 local function strip_markdown(lines)
   local out = {}
   local fence = false
   for i, line in ipairs(lines) do
-    local fenced = vim.fn.matchlist(line, vre("^(\\s*)```\\s*(\\S*)"))
-    if #fenced > 0 then
-      if not fence then
-        out[#out + 1] = fenced[2] .. "code:" .. (fenced[3] ~= "" and fenced[3] or "txt")
-      end
+    local fence_line = test(line, "^\\s*```")
+    if fence_line then
       fence = not fence
-    elseif fence then
-      out[#out + 1] = " " .. line
+    end
+    if fence_line or fence or test(line, "^#{1,6} ") then
+      out[#out + 1] = line
     elseif test(line, "^\\s*\\|.*\\|\\s*$") then
       if not test(line, "^\\s*\\|[[:space:]:|-]+\\|\\s*$") then -- the |---| separator row
         if not test(lines[i - 1] or "", "^\\s*\\|") then
@@ -137,18 +137,13 @@ local function strip_markdown(lines)
         out[#out + 1] = " " .. table.concat(cells, "\t")
       end
     else
-      local heading = vim.fn.matchlist(line, vre("^(#{1,6}) (.*)$"))
-      if #heading > 0 then
-        out[#out + 1] = ("[%s %s]"):format(("*"):rep(math.max(1, 5 - #heading[2])), heading[3])
-      else
-        local item = vim.fn.matchlist(line, vre("^(\\s*)%([-*+]|\\d+\\.) (.*)$"))
-        local body = #item > 0 and ((" "):rep(math.floor(#item[2] / 2) + 1) .. item[3]) or line
-        body = vim.fn.substitute(body, vre("!\\[[^\\]]*\\]\\((\\S{-1,})\\)"), "[\\1]", "g")
-        body = vim.fn.substitute(body, vre("\\[([^\\]]+)\\]\\((\\S{-1,})\\)"), "[\\1 \\2]", "g")
-        body = vim.fn.substitute(body, vre("\\*\\*([^*]+)\\*\\*"), "[* \\1]", "g")
-        body = vim.fn.substitute(body, vre("\\~\\~([^~]+)\\~\\~"), "[- \\1]", "g")
-        out[#out + 1] = body
-      end
+      local item = vim.fn.matchlist(line, vre("^(\\s*)%([-*+]|\\d+\\.) (.*)$"))
+      local body = #item > 0 and ((" "):rep(math.floor(#item[2] / 2) + 1) .. item[3]) or line
+      body = vim.fn.substitute(body, vre("!\\[[^\\]]*\\]\\((\\S{-1,})\\)"), "[\\1]", "g")
+      body = vim.fn.substitute(body, vre("\\[([^\\]]+)\\]\\((\\S{-1,})\\)"), "[\\1 \\2]", "g")
+      body = vim.fn.substitute(body, vre("\\*\\*([^*]+)\\*\\*"), "[* \\1]", "g")
+      body = vim.fn.substitute(body, vre("\\~\\~([^~]+)\\~\\~"), "[- \\1]", "g")
+      out[#out + 1] = body
     end
   end
   return out
@@ -202,7 +197,9 @@ function M.transform(lines, lnum, col, text)
     while start > 1 and not page[start][key].start do
       start = start - 1
     end
-    return table.concat(pasted, "\n" .. (" "):rep(page[start].indent + 1))
+    -- A fence's ends at its closing line, but its pasted lines are aligned with the fence all the same.
+    local deeper = (parsed.code_block and parsed.code_block.fence) and 0 or 1
+    return table.concat(pasted, "\n" .. (" "):rep(page[start].indent + deeper))
   end
   if code or parsed.title then
     return table.concat(pasted, "\n")

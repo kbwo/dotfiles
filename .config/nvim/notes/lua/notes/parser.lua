@@ -395,6 +395,52 @@ local function code_block_start(line)
   return lang ~= "" and { filename = filename, lang = vim.fn.tolower(lang) } or nil
 end
 
+-- Not Cosense's (parser.mjs `detectFenceStart`): Markdown's fenced code block, "```lang" or
+-- "```lang:file name", at any indentation, ending at the next line that is only "```" (at
+-- any indentation) or with the page.
+local FENCE_OPEN = pat("^@WS@*```([^`]*)$")
+
+local function is_fence_close(line)
+  return M.trim(line) == "```"
+end
+
+local function fence_start(line)
+  local m = vim.fn.matchlist(line, FENCE_OPEN)
+  if #m == 0 then
+    return nil
+  end
+  local name, file = m[2]:match("^([^:]*):(.*)$")
+  name, file = M.trim(name or m[2]), file and M.trim(file)
+  -- With nothing after "```", the file name is "": the block has no name to show.
+  local filename = (file and file ~= "") and file or name
+  local lang = name ~= "" and name or (filename:match("([^.]*)$") or "")
+  return { filename = filename, lang = vim.fn.tolower(lang ~= "" and lang or "text"), fence = true }
+end
+
+local function fence_end(texts, start)
+  for i = start + 1, #texts do
+    if is_fence_close(texts[i]) then
+      return i
+    end
+  end
+  return #texts
+end
+
+--- The code block whose first line is `start` (parser.mjs `codeBlockAt`): its last line,
+--- and its body as code, one string per line, without the block's indentation and
+--- without a fence's closing line.
+function M.code_block_at(lines, start)
+  local last = start
+  while lines[last + 1] and lines[last + 1].code_block and not lines[last + 1].code_block.start do
+    last = last + 1
+  end
+  local body = {}
+  for i = start + 1, lines[last].code_block.close and last - 1 or last do
+    body[#body + 1] = vim.fn.strcharpart(lines[i].text, lines[i].code_block.from)
+  end
+  return { last = last, body = body }
+end
+
 --- Every line of a page, classified, with the inline notation parsed where it applies
 --- (unless `opts.inline == false`, for callers that only need the classification):
 --- { text, indent, nodes, title?, code_block?, table_block?, cli?, helpfeel?, horizontal_rule? }
@@ -407,13 +453,28 @@ function M.parse_page(page_text, opts)
   end
   lines[1].title = true
 
+  -- One pass for both kinds of code block, so that whichever starts first holds the
+  -- other's start line as code. `from`: the characters before the line's code.
   local i = 2
   while i <= #lines do
-    local found = code_block_start(texts[i])
+    local cosense = code_block_start(texts[i])
+    local found = cosense or fence_start(texts[i])
     if found then
-      local last = block_end(texts, i)
+      local last = cosense and block_end(texts, i) or fence_end(texts, i)
+      -- A Cosense block's body is one deeper than its code: line; a fence's body loses up
+      -- to the fence's own indentation, as in Markdown.
+      local indent = lines[i].indent + (cosense and 1 or 0)
       for j = i, last do
-        lines[j].code_block = { filename = found.filename, lang = found.lang, start = j == i, ["end"] = j == last }
+        lines[j].code_block = {
+          filename = found.filename,
+          lang = found.lang,
+          fence = found.fence,
+          indent = indent,
+          from = cosense and indent or math.min(indent, lines[j].indent),
+          start = j == i,
+          ["end"] = j == last,
+          close = (not cosense and j > i and j == last and is_fence_close(texts[j])) or nil,
+        }
       end
       i = last
     end
@@ -423,7 +484,7 @@ function M.parse_page(page_text, opts)
   i = 2
   while i <= #lines do
     local line = lines[i]
-    if texts[i]:sub(line.after, line.after + 5) == "table:" and vim.fn.match(texts[i], TABLE_START) == 0 then
+    if not (line.code_block and line.code_block.fence) and texts[i]:sub(line.after, line.after + 5) == "table:" and vim.fn.match(texts[i], TABLE_START) == 0 then
       local last = block_end(texts, i)
       for j = i, last do
         lines[j].table_block = { start = j == i, ["end"] = j == last }
@@ -441,7 +502,7 @@ function M.parse_page(page_text, opts)
       line.helpfeel = rest:match("^%? .") and true or nil
       line.number_list = rest:match("^%d+%. ") and true or nil
       local dashes = line.text:match("^%-%-%-+")
-      line.horizontal_rule = dashes and M.is_empty_line(line.text:sub(#dashes + 1)) or nil
+      line.horizontal_rule = dashes and not line.code_block and M.is_empty_line(line.text:sub(#dashes + 1)) or nil
     end
     line.after = nil
   end
@@ -449,11 +510,39 @@ function M.parse_page(page_text, opts)
   if not opts or opts.inline ~= false then
     for _, line in ipairs(lines) do
       if not line.title and not line.code_block and not line.cli and not line.helpfeel then
-        line.nodes = M.parse_line(line.text)
+        line.nodes = M.line_nodes(line.text)
       end
     end
   end
   return lines
+end
+
+-- Not Cosense's (parser.mjs `markdownHeading`): an unindented "# text" / "## text" /
+-- "### text" (and up) is read as the bold line of the same size, "#" as [*** ], "##" as
+-- [** ], "###" and up as [* ] -- a deco node marked `markdown`, which heading_stars takes
+-- for a heading whatever its size.
+local MD_HEADING = pat("^(\\#+) +\\ze@NS@")
+
+--- A body line's inline nodes (not the title's, nor a code block's): parse_line, but a
+--- Markdown heading as one deco node.
+function M.line_nodes(line)
+  local m = line:sub(1, 1) == "#" and vim.fn.matchlist(line, MD_HEADING) or {}
+  if #m == 0 then
+    return M.parse_line(line)
+  end
+  local prefix = m[1]
+  local stars = math.max(4 - #m[2], 1)
+  return {
+    {
+      type = "deco",
+      raw = line,
+      prefix = prefix,
+      suffix = "",
+      deco = ("*"):rep(stars),
+      markdown = true,
+      children = M.parse_line(line:sub(#prefix + 1)),
+    },
+  }
 end
 
 -- ===== Nodes =====
@@ -588,9 +677,12 @@ function M.summary(page_text)
 end
 
 --- How many *s make a deco node a heading's size, or 0 when it is not one: [** ] and up are,
---- [* ] is only bold.
+--- [* ] is only bold; a Markdown heading ("#" .. "###" and up, line_nodes) always is.
 function M.heading_stars(node)
   local stars = node.type == "deco" and select(2, node.deco:gsub("%*", "")) or 0
+  if node.markdown then
+    return stars
+  end
   return stars >= 2 and stars or 0
 end
 

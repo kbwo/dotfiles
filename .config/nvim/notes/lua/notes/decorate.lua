@@ -218,21 +218,17 @@ local function tokens(lang, code)
   return out
 end
 
--- Colour the body of the code block whose `code:` line is `start` (1-based), lines `start + 1 .. last`.
-local function code_block(buf, lines, start, last)
+-- Colour the body of the code block whose first line is `start` (1-based).
+local function code_block(buf, lines, start)
   local block = lines[start].code_block
   local lang = ts_lang(block)
-  if not lang or last <= start then
+  local body = parser.code_block_at(lines, start).body
+  if not lang or #body == 0 then
     return
   end
-  local cut = lines[start].indent + 1
-  local body = {}
-  for i = start + 1, last do
-    body[#body + 1] = vim.fn.strcharpart(lines[i].text, cut)
-  end
   local offsets = {}
-  for i = start + 1, last do
-    offsets[#offsets + 1] = #lines[i].text - #body[i - start]
+  for r, code in ipairs(body) do
+    offsets[r] = #lines[start + r].text - #code
   end
   for _, tk in ipairs(tokens(lang, table.concat(body, "\n"))) do
     local r1, c1, r2, c2, group = unpack(tk)
@@ -268,7 +264,7 @@ local function parse_page(text)
         if parsed_count > 20000 then
           parsed_lines, parsed_count = {}, 0
         end
-        nodes = parser.parse_line(line.text)
+        nodes = parser.line_nodes(line.text)
         parsed_lines[line.text], parsed_count = nodes, parsed_count + 1
       end
       line.nodes = nodes
@@ -386,7 +382,10 @@ function M.render(buf)
       if line[key].start then
         indent_marks(buf, row, line.text, line.indent, DOT)
         local at = vim.str_byteindex(line.text, "utf-32", line.indent, false)
-        if line.code_block then
+        if line.code_block and line.code_block.fence then
+          -- ```lang: the line as it is, as a header (and its closing ``` the same, below).
+          hl(buf, row, at, len, "NotesCodeHeader")
+        elseif line.code_block then
           -- code:main.ts — the file's name only, as a header, off the cursor's line.
           hide(buf, row, at, at + #"code:")
           hl(buf, row, at + #"code:", len, "NotesCodeHeader")
@@ -394,11 +393,14 @@ function M.render(buf)
           hl(buf, row, at, len, "NotesBlockStart")
         end
         if line.code_block then
-          local last = i
-          while lines[last + 1] and lines[last + 1].code_block and not lines[last + 1].code_block.start do
-            last = last + 1
-          end
-          code_block(buf, lines, i, last)
+          code_block(buf, lines, i)
+        end
+      elseif line.code_block and line.code_block.fence then
+        -- A fence's body line keeps the indentation its code does not have.
+        indent_marks(buf, row, line.text, line.code_block.from, nil)
+        if line.code_block.close then
+          local at = vim.str_byteindex(line.text, "utf-32", line.code_block.from, false)
+          hl(buf, row, at, len, "NotesCodeHeader")
         end
       else
         indent_marks(buf, row, line.text, lines[block_start(lines, i, key)].indent + 1, nil)

@@ -50,7 +50,8 @@ function M.enter_edit(lines, row, col)
   end
   local parsed = parsed_line(lines, row)
   local block = parsed.code_block or parsed.table_block
-  if block and block.start and col == #line then
+  -- Into the block, one deeper than its code: / table: line (a fence's body needs no indent of its own).
+  if block and block.start and not block.fence and col == #line then
     return { from = col, to = col, text = "\n" .. indent .. " " }
   end
   -- An indented line with nothing on it: Enter leaves the outline.
@@ -204,14 +205,13 @@ local function block_at(row)
   local page = parser.parse_page(table.concat(page_lines(), "\n"), { inline = false })
   local line = page[row]
   if line.code_block then
-    local start, last = row, row
+    local start = row
     while start > 1 and not page[start].code_block.start do
       start = start - 1
     end
-    while page[last + 1] and page[last + 1].code_block and not page[last + 1].code_block.start do
-      last = last + 1
-    end
-    return { kind = "code", start = start, last = last }
+    local at = parser.code_block_at(page, start)
+    -- The body ends before a fence's closing line; the outer block takes that line too.
+    return { kind = "code", start = start, last = at.last, body_last = start + #at.body, body = at.body, fence = page[start].code_block.fence }
   end
   if line.cli then
     local at = line.text:find("[%$%%] ")
@@ -228,10 +228,11 @@ function M.select(inner)
   end
   if b.kind == "code" then
     local first = inner and b.start + 1 or b.start
-    if first > b.last then
+    local last = inner and b.body_last or b.last
+    if first > last then
       return
     end
-    vim.cmd(("normal! %dGV%dG"):format(first, b.last))
+    vim.cmd(("normal! %dGV%dG"):format(first, last))
   elseif inner then
     vim.api.nvim_win_set_cursor(0, { b.row, b.from })
     vim.cmd("normal! vg_")
@@ -242,12 +243,7 @@ end
 
 -- yic: the body without the block's indentation (decorate.js `codeBlockAt`, what the copy button copies).
 local function yank_body(b, register)
-  local lines = page_lines()
-  local cut = parser.count_indent(lines[b.start]) + 1
-  local body = {}
-  for r = b.start + 1, b.last do
-    body[#body + 1] = vim.fn.strcharpart(lines[r], cut)
-  end
+  local body = b.body
   if #body == 0 then
     return
   end
@@ -257,10 +253,11 @@ local function yank_body(b, register)
   end
 end
 
--- cic: the body replaced by one empty line a step deeper than the code: line, to type in.
+-- cic: the body replaced by one empty line a step deeper than the code: line (as deep as a
+-- fence's ```), to type in.
 local function change_body(b)
-  local indent = indent_of(vim.api.nvim_buf_get_lines(0, b.start - 1, b.start, false)[1]) .. " "
-  vim.api.nvim_buf_set_lines(0, b.start, b.last, false, { indent })
+  local indent = indent_of(vim.api.nvim_buf_get_lines(0, b.start - 1, b.start, false)[1]) .. (b.fence and "" or " ")
+  vim.api.nvim_buf_set_lines(0, b.start, b.body_last, false, { indent })
   vim.api.nvim_win_set_cursor(0, { b.start + 1, #indent })
   vim.cmd("startinsert!")
 end
