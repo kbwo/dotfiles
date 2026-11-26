@@ -320,8 +320,12 @@ local function render(st)
         end
         cells[CARD_H] = badges(card, today)
         local col = #row[1]
+        -- Each row's own byte start: the cards to the left hold multibyte text padded by display
+        -- width, so the rows of one card do not start at the same byte.
+        local starts = {}
         for r = 1, CARD_H do
           local start = #row[r]
+          starts[r] = start
           local body = fit(cells[r], CARD_W - 2)
           row[r] = row[r] .. "▎ " .. body
           local bar = #"▎ "
@@ -349,7 +353,7 @@ local function render(st)
             row[r] = row[r] .. string.rep(" ", GAP)
           end
         end
-        cards[#cards + 1] = { page = page, line = top + 1, col = col }
+        cards[#cards + 1] = { page = page, line = top + 1, col = col, starts = starts }
       end
       vim.list_extend(lines, row)
       lines[#lines + 1] = ""
@@ -381,7 +385,8 @@ local function select(st, i, move_cursor)
     return
   end
   for r = 0, CARD_H - 1 do
-    vim.api.nvim_buf_set_extmark(st.buf, ns_sel, c.line - 1 + r, c.col, { end_col = c.col + #"▎", hl_group = "NotesCardSelected", priority = 200 })
+    local s = c.starts[r + 1]
+    vim.api.nvim_buf_set_extmark(st.buf, ns_sel, c.line - 1 + r, s, { end_col = s + #"▎", hl_group = "NotesCardSelected", priority = 200 })
   end
   if move_cursor ~= false then
     local win = vim.fn.bufwinid(st.buf)
@@ -912,5 +917,7 @@ M._state = function()
 end
 M._actions = actions
 M._move = move
+M._select = select
+M._CARD_H = CARD_H
 
 return M

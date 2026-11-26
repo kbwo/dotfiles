@@ -686,6 +686,35 @@ check("git: when each page was last committed", h and h.last["content/pages/2026
 vim.fn.delete(origin, "rf")
 vim.fn.delete(clone, "rf")
 
+-- ===== a card to the right of one with Japanese text =====
+
+-- Its rows start at different bytes (the left card's rows are padded to the same width, not
+-- the same bytes), and the selection mark goes on each row's own bar.
+write("private/2099-01-01 左の日本語.txt", "左の日本語\nbody\n", day_time("2099-01-01") + 60)
+write("private/2099-01-01 right.txt", "right\nbody\n", day_time("2099-01-01"))
+vim.cmd("only")
+list.open()
+st = list._state()
+local misplaced = {}
+local ns_sel = vim.api.nvim_create_namespace("notes_list_selected")
+local side_by_side = false
+for i, c in ipairs(st.cards) do
+  side_by_side = side_by_side or (c.page.title == "right" and c.col > 2)
+  local ok, err = pcall(list._select, st, i, false)
+  local marks = vim.api.nvim_buf_get_extmarks(st.buf, ns_sel, 0, -1, {})
+  if not ok or #marks ~= list._CARD_H then
+    misplaced[#misplaced + 1] = { c.page.title, err, #marks }
+  end
+  for _, m in ipairs(marks) do
+    local l = vim.api.nvim_buf_get_lines(st.buf, m[2], m[2] + 1, false)[1]
+    if l:sub(m[3] + 1, m[3] + #"▎") ~= "▎" then
+      misplaced[#misplaced + 1] = { c.page.title, m[2] - c.line + 1 }
+    end
+  end
+end
+check("the two cards of one day stand side by side", side_by_side)
+check("every card can be selected, and its mark is on its bar on every row", #misplaced == 0, misplaced)
+
 print(failures == 0 and "all passed" or (failures .. " failed"))
 vim.fn.delete(root, "rf")
 os.exit(failures == 0 and 0 or 1)
