@@ -152,7 +152,8 @@ command Cdv vsp ~/dotfiles/.config/nvim/init.vim
 " base
 set shell=/bin/zsh
 set encoding=utf-8
-set fileencoding=utf-8
+" set だと今のバッファーにも書き込むので、:Sov を modifiable でないバッファー（一覧など）で実行すると E21 になる
+setglobal fileencoding=utf-8
 set fileencodings=utf-8
 set ambiwidth=single
 set bomb
